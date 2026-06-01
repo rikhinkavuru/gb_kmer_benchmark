@@ -1,0 +1,11 @@
+# OPTIONAL extra [coords] -- fuzzy/alignment coordinate recovery for Upgrade 6 (extend the
+# TSS coordinate refutation to nt_enhancers). CPU-only. Isolated to localization/ tooling;
+# the diagnostic pipeline does NOT import these.
+#
+# Install:  uv pip install --python <venv> -r requirements-coords.txt
+mappy>=2.28          # minimap2 Python binding (CPU alignment to GRCh38)
+
+# uShuffle (dinucleotide-preserving shuffling, Upgrade 5) -- pure-Python Altschul-Erikson is
+# implemented in-repo (src/upgrades/shuffled_neg/), so no external uShuffle dependency is
+# required; this line documents the canonical source if a C implementation is preferred:
+#   ushuffle  (https://github.com/guma44/ushuffle  or  pip install ushuffle)

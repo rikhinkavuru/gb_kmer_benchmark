@@ -1,0 +1,17 @@
+# Upgrades -- CORE requirements (CPU-only, torch-free). Mirrors requirements.txt pins
+# (Python 3.14.5, macOS/arm64) plus matplotlib for the figure scripts. The diagnostic
+# pipeline and every upgrade EXCEPT the FM probe run with only these installed.
+numpy==2.4.6
+scipy==1.17.1
+scikit-learn==1.8.0
+lightgbm==4.6.0
+genomic_benchmarks==1.0.0
+pandas==3.0.3
+pyjaspar==4.0.0
+biopython==1.87
+datasets==4.8.5
+matplotlib==3.10.9
+
+# Optional extras live in separate files so torch never enters the core pipeline:
+#   requirements-fm.txt      ([fm]     Upgrade 1: frozen FM feature extraction)
+#   requirements-coords.txt  ([coords] Upgrade 6: fuzzy coordinate mapping)

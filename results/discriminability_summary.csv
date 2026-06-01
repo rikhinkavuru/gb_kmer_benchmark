@@ -1,0 +1,10 @@
+dataset,collection,contrast,bench_mcc,max_motif_auroc,best_TF,best_TF_dir,motif_richness,n_curated_TF
+demo_human_or_worm,vertebrates,worm_vs_human,0.915,0.5548,TBP,pos,0.21,26
+human_ensembl_regulatory,vertebrates,promoter_vs_rest,0.9067,0.6913,SP2,pos,0.53,26
+human_nontata_promoters,vertebrates,positive_vs_negative,0.8737,0.7513,SP2,pos,0.352,26
+demo_coding_vs_intergenomic_seqs,vertebrates,intergenomic_seqs_vs_coding_seqs,0.8002,0.7176,TBP,pos,0.197,26
+dummy_mouse_enhancers_ensembl,vertebrates,positive_vs_negative,0.622,0.7567,KLF5,pos,1.787,26
+human_enhancers_ensembl,vertebrates,positive_vs_negative,0.5934,0.6306,TBP,neg,0.334,26
+human_enhancers_cohn,vertebrates,positive_vs_negative,0.4612,0.6687,TBP,neg,0.565,26
+drosophila_enhancers_stark,insects,positive_vs_negative,0.4452,0.5683,twi,pos,1.986,7
+human_ocr_ensembl,vertebrates,positive_vs_negative,0.4213,0.5728,BATF3,pos,0.377,26

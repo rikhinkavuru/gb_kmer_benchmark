@@ -1,0 +1,15 @@
+architecture,dataset,role,pooling,head,arm,test_effect_auroc,ci,significant
+HyenaDNA-tiny-16k,human_enhancers_cohn,contaminated,sep,lgbm,gc_match,-0.0481,"[-0.053,-0.043]",True
+HyenaDNA-tiny-16k,human_enhancers_cohn,contaminated,sep,lr,gc_match,-0.0502,"[-0.056,-0.045]",True
+HyenaDNA-tiny-16k,nt_enhancers,contaminated,sep,lgbm,gc_match,-0.0793,"[-0.107,-0.056]",True
+HyenaDNA-tiny-16k,nt_enhancers,contaminated,sep,lr,gc_match,-0.0971,"[-0.128,-0.067]",True
+HyenaDNA-tiny-16k,drosophila_enhancers_stark,clean control,sep,lgbm,gc_match,0.0055,"[-0.003,0.014]",False
+HyenaDNA-tiny-16k,drosophila_enhancers_stark,clean control,sep,lr,gc_match,0.004,"[-0.004,0.013]",False
+DNABERT-2-117M,human_enhancers_cohn,contaminated,mean,lgbm,gc_match,-0.0467,"[-0.051,-0.042]",True
+DNABERT-2-117M,human_enhancers_cohn,contaminated,mean,lr,gc_match,-0.0486,"[-0.053,-0.044]",True
+DNABERT-2-117M,human_enhancers_cohn,contaminated,cls,lgbm,gc_match,-0.0465,"[-0.052,-0.042]",True
+DNABERT-2-117M,human_enhancers_cohn,contaminated,cls,lr,gc_match,-0.0472,"[-0.052,-0.043]",True
+DNABERT-2-117M,nt_enhancers,contaminated,mean,lgbm,gc_match,-0.072,"[-0.100,-0.049]",True
+DNABERT-2-117M,nt_enhancers,contaminated,mean,lr,gc_match,-0.0939,"[-0.126,-0.065]",True
+DNABERT-2-117M,nt_enhancers,contaminated,cls,lgbm,gc_match,-0.0771,"[-0.106,-0.051]",True
+DNABERT-2-117M,nt_enhancers,contaminated,cls,lr,gc_match,-0.0921,"[-0.125,-0.063]",True

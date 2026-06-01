@@ -1,0 +1,19 @@
+# OPTIONAL extra [fm] -- frozen genomic-FM feature extraction for Upgrade 1 ONLY.
+# torch is used for FORWARD PASSES ONLY (no fine-tuning, no GPU). It is isolated to
+# src/upgrades/fm_probe/extract_embeddings.py, which runs as a SEPARATE process from the
+# LightGBM head-training (the two OpenMP runtimes segfault if co-resident on macOS).
+# The diagnostic pipeline does NOT import any of these.
+#
+# Install:  uv pip install --python <venv> -r requirements-fm.txt
+# Verified working on Python 3.14.5 / macOS arm64 (cp314 torch wheels exist).
+torch==2.12.0
+transformers==5.9.0
+einops==0.8.2
+# (transformers pulls tokenizers==0.22.2, safetensors==0.7.0; HyenaDNA needs trust_remote_code)
+#
+# DNABERT-2 (Depth 1, second FM architecture: zhihan1996/DNABERT-2-117M) needs NO additional
+# packages -- torch + transformers + einops above cover it. Its MosaicBERT remote code declares a
+# GPU-only `triton` dependency that has no macOS/arm64 wheel; extract_embeddings_dnabert.py loads it
+# on CPU via a documented, reproducible workaround (bypass transformers' static import check -- the
+# model's own try/except falls back to standard attention; build via from_config; bert.-strip the
+# checkpoint; set pad_token_id). Do NOT `pip install triton`.

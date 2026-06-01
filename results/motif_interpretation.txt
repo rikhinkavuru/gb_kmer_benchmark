@@ -1,0 +1,47 @@
+============================================================================================
+BOUNDARY ANALYSIS  --  per-TF motif enrichment of important k-mers vs benchmark MCC
+============================================================================================
+Hypothesis: SOLVED tasks rely on a few strong local TF motifs (many FDR-enriched TFs,
+high explained fraction); FAILED tasks have diffuse / non-local signal (few enriched TFs).
+
+dataset                          k    mcc enrTF   maxz  expl  top enriched TFs                   coll
+-----------------------------------------------------------------------------------------------------
+demo_human_or_worm               4  0.915     2    4.4   20%  IRF6; IRF9                         vert
+human_ensembl_regulatory         5  0.907    94    4.9   70%  ETS2; ETV2; E2F6                   vert
+human_nontata_promoters          6  0.874   125    7.6   68%  SP1; SP2; SP4                      vert
+demo_coding_vs_intergenomic_seqs 5  0.800    62    5.3   40%  MEF2A; Hmga1; ZFP42                vert
+dummy_mouse_enhancers_ensembl    3  0.622     0    2.9    0%  -                                  vert
+human_enhancers_ensembl          6  0.593   265    6.3   68%  PBX2; MEIS2; FOXC1                 vert
+human_enhancers_cohn             5  0.461    11    5.8   56%  ZNF157; ZFP42; ZNF354A             vert
+drosophila_enhancers_stark       5  0.445    47    6.8   54%  dl; dl; Dif                        inse
+human_ocr_ensembl                6  0.421   243    6.6   66%  TGIF2; PHOX2B; TGIF1               vert
+
+enrTF = # TFs with BH-FDR<0.05 positive enrichment;  maxz = strongest TF enrichment z;
+expl = fraction of top-50 k-mers matching an enriched TF at >= 1.5 bits/pos.
+
+Spearman rho (benchmark MCC vs motif correspondence):
+  all datasets       (n=9): n_enriched_TF: rho=-0.23 (p=0.55) | frac_top_explained: rho=-0.01 (p=0.98) | max_enrich_z: rho=-0.48 (p=0.19)
+  regulatory only    (n=5): n_enriched_TF: rho=-0.20 (p=0.75) | frac_top_explained: rho=+0.87 (p=0.05) | max_enrich_z: rho=-0.30 (p=0.62)
+
+Core contrast (regulatory tasks):
+  SOLVED (nontata, ensembl_regulatory)     mean enriched_TF=109.5  mean explained= 69%  mean mcc=0.890
+  FAILED (cohn, enhancers_ensembl, ocr)    mean enriched_TF=173.0  mean explained= 63%  mean mcc=0.492
+  CONTROL (demo: composition-driven)       mean enriched_TF= 32.0  mean explained= 30%  mean mcc=0.858
+
+Sanity check -- enriched TFs in human_nontata_promoters (canonical promoter elements):
+  [no ] TATA-box (TBP)     -
+  [YES] GC-box / Sp1-KLF   SP1(z=7.6), SP2(z=7.2), SP4(z=7.2), KLF7(z=7.1), KLF12(z=7.1)
+  [no ] CCAAT (NF-Y/CEBP)  -
+  Expectation: this is the NON-TATA promoter set, so TBP/TATA absence is the biologically
+  correct (specificity) result; GC-box/Sp1-KLF is the expected strong positive.
+
+Interpretation:
+  * A high enriched-TF count / explained fraction means the model's most discriminative
+    k-mers really are the cores of specific TF motifs; few/none means diffuse or
+    compositional signal rather than single-motif-local.
+  * The demo sets (human_or_worm, coding_vs_intergenomic) are composition-driven tasks,
+    not TF-motif tasks -- high MCC with low motif enrichment there is expected and supports
+    the refined claim: correspondence tracks whether the TASK is motif-local, not solvability.
+  * Reported straight: enrichment uses an analytic (normal-approx) permutation null with
+    BH-FDR; n is small per-dataset; the background is uniform over k-mers (not GC-matched);
+    datasets use different k (each k is scored against its own PWM-score matrix).

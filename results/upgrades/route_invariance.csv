@@ -1,0 +1,16 @@
+task,k,mechanism_route,lr_mcc,lgbm_mcc,fm_mcc,lr_tier,lgbm_tier,fm_tier
+human_nontata_promoters,6,solved-motif,0.7446,0.8737,,solved,solved,
+human_ensembl_regulatory,5,solved-motif,0.4294,0.9067,,hard,solved,
+human_enhancers_cohn,5,contamination,0.4693,0.4612,0.421,hard,hard,hard
+human_enhancers_ensembl,6,contamination,0.562,0.5934,,partial,partial,
+human_ocr_ensembl,6,shared-motif,0.4058,0.4213,,hard,hard,
+drosophila_enhancers_stark,4,shared-motif,0.4031,0.3983,0.3455,hard,hard,hard
+dummy_mouse_enhancers_ensembl,6,shared-motif,0.5154,0.5291,,partial,partial,
+demo_coding_vs_intergenomic_seqs,5,solved-composition,0.7897,0.8002,,solved,solved,
+demo_human_or_worm,5,solved-composition,0.8995,0.9141,,solved,solved,
+nt_promoter_all,4,solved-motif,0.8508,0.8878,,solved,solved,
+nt_promoter_tata,4,solved-motif,0.8421,0.8463,,solved,solved,
+nt_promoter_no_tata,4,solved-motif,0.8511,0.8867,,solved,solved,
+nt_enhancers,4,contamination,0.4374,0.5137,0.5458,hard,partial,partial
+nt_enhancers_types,6,shared-motif,0.3668,0.4761,,hard,hard,
+nt_splice_sites_all,5,positional,0.2077,0.2435,,hard,hard,

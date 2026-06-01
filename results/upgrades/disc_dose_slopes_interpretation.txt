@@ -1,0 +1,25 @@
+================================================================================================
+DEPTH 5 -- PER-MOTIF SLOPE INVARIANCE of the discriminability dose-response
+================================================================================================
+Per-motif OLS slope of benchmark MCC on dialed motif-only AUROC d, with 1000-resample
+percentile bootstrap CI (resampling unit = one (seed,dose) row, seed 42) + Spearman(d,MCC).
+
+motif       IC    n    slope  95% CI                  Spearman
+------------------------------------------------------------------------------------------------
+SP1       14.2   45   +1.971  [+1.874,+2.067]      +0.942
+MYC       11.0   45   +2.019  [+1.896,+2.143]      +0.916
+TBP        8.8   45   +1.958  [+1.780,+2.132]      +0.892
+POOLED    --    135   +1.994  [+1.924,+2.059]      +0.924
+------------------------------------------------------------------------------------------------
+Overlap check (do the per-motif slope CIs agree?):
+  SP1   CI [+1.874,+2.067] overlaps pooled [+1.924,+2.059] ... True
+  MYC   CI [+1.896,+2.143] overlaps pooled [+1.924,+2.059] ... True
+  TBP   CI [+1.780,+2.132] overlaps pooled [+1.924,+2.059] ... True
+  all three per-motif CIs overlap EACH OTHER pairwise ............. True
+  all three per-motif CIs overlap the POOLED slope CI ............. True
+  => dose-response slope is MOTIF-INVARIANT ................... True
+
+Reading: the discriminability -> learnability slope (~+2.0) reproduces for three TFs spanning
+8.8-14.2 bits of information content, with overlapping CIs -- so it is a property of the task
+structure (motif present more in positives => benchmark learns it), not an artifact of any one
+motif's identity or IC. Seed 42; read-only over disc_dose.csv; no benchmark refitting.

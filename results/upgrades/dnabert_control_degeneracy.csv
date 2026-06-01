@@ -1,0 +1,2 @@
+dataset,shuffled_neg_gc_identical_to_pos,gcmatch_retention_on_shuffled_control,n_pos,degenerate
+human_enhancers_cohn,True,1.0,3474,True

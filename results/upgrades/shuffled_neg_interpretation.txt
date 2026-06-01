@@ -1,0 +1,26 @@
+====================================================================================================
+SHUFFLED-NEGATIVE CONTROL -- does the TATA/GC artifact vanish with composition-matched negatives?
+====================================================================================================
+dataset                     arm             TATA AUROC  GC AUROC  kmer MCC
+--------------------------------------------------------------------------
+human_enhancers_cohn        original_neg         0.371     0.737     0.461
+human_enhancers_cohn        shuffled_neg         0.551     0.500     0.769
+nt_enhancers                original_neg         0.393     0.822     0.514
+nt_enhancers                shuffled_neg         0.507     0.500     0.545
+drosophila_enhancers_stark  original_neg         0.539     0.487     0.398
+drosophila_enhancers_stark  shuffled_neg         0.749     0.500     0.922
+
+Verdict (per dataset): with dinucleotide-preserving shuffled negatives, GC AUROC -> 0.5 by
+construction (identical composition) and the TATA motif-only AUROC should collapse to ~0.5
+if the TATA enrichment was a property of random-genomic negatives, not the positive class.
+  human_enhancers_cohn: TATA AUROC 0.371 -> 0.551; GC AUROC 0.737 -> 0.500; kmer MCC 0.461 -> 0.769 (artifact removed by composition matching).
+  nt_enhancers: TATA AUROC 0.393 -> 0.507; GC AUROC 0.822 -> 0.500; kmer MCC 0.514 -> 0.545 (artifact removed by composition matching).
+  drosophila_enhancers_stark: TATA AUROC 0.539 -> 0.749; GC AUROC 0.487 -> 0.500; kmer MCC 0.398 -> 0.922 (TATA did not move to 0.5).
+
+Reading: the shuffled-negative benchmark has, by construction, NO mono/dinucleotide
+composition gap. If the artifact (TATA/GC separation) vanishes there while it is present
+against the real random-genomic negatives, the artifact is a property of the NEGATIVE-
+SAMPLING PROTOCOL. Residual k-mer MCC on the shuffled arm = higher-order (motif) structure
+that survives dinucleotide matching. Dinucleotide preservation is verified exactly. Seed 42.
+TODO (optional external): an enhancer benchmark with composition-matched/shuffled negatives
+(e.g. DeepSTARR-derived) would show the artifact absent there too; source documented in README.

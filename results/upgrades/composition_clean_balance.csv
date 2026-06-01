@@ -1,0 +1,4 @@
+dataset,n_features,max_abs_smd_before,mean_abs_smd_before,max_abs_smd_after,mean_abs_smd_after
+human_enhancers_cohn,20,1.0074,0.487,0.0595,0.0225
+nt_enhancers,20,1.5552,0.6703,0.2858,0.1338
+drosophila_enhancers_stark,20,0.2637,0.119,0.054,0.0305

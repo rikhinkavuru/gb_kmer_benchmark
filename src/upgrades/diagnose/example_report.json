@@ -1,0 +1,39 @@
+{
+  "n": 300,
+  "n_classes": 2,
+  "k": 5,
+  "binary": true,
+  "learnability": {
+    "mcc": 1.0,
+    "mcc_ci": [
+      1.0,
+      1.0
+    ],
+    "auroc": 1.0,
+    "n_test": 75
+  },
+  "route2_positional": {
+    "delta_mcc": 0.0,
+    "delta_ci": [
+      0.0,
+      0.0
+    ],
+    "significant": false
+  },
+  "route1_motif": {
+    "max_pos_motif_auroc": 0.9904,
+    "best_TF": "SP1",
+    "motif_richness": 0.234
+  },
+  "route3_negatives": {
+    "tata_pos_rate": 0.0667,
+    "tata_neg_rate": 0.08,
+    "tata_neg_excess": 0.0133,
+    "tata_motif_auroc": 0.4937,
+    "gc_auroc": 0.7084,
+    "cleaned_tata_auroc": 0.4998,
+    "cleaning_moves_to_chance": true,
+    "frac_neg_removed": 0.0133
+  },
+  "verdict": "SOLVED (class-specific motif discriminability)"
+}

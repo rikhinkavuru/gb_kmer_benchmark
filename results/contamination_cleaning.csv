@@ -1,0 +1,4 @@
+dataset,role,best_k,tata_bits,pos_TATA_rate,frac_neg_removed,n_removed,n_total_orig,n_total_cleaned,orig_TATA_auroc,orig_TATA_ci,cleaned_TATA_auroc,cleaned_TATA_ci,orig_mcc,orig_mcc_ci,cleaned_mcc,cleaned_mcc_ci,orig_auroc,orig_auroc_ci,cleaned_auroc,cleaned_auroc_ci
+human_enhancers_cohn,contaminated,5,1.3,0.3518,0.2223,3089,27791,24702,0.3708,"[0.365,0.376]",0.4355,"[0.429,0.442]",0.4612,"[0.441,0.482]",0.4069,"[0.384,0.431]",0.8046,"[0.795,0.814]",0.7832,"[0.771,0.795]"
+nt_enhancers,contaminated,4,1.3,0.102,0.2078,1597,15368,13771,0.3927,"[0.386,0.399]",0.485,"[0.480,0.491]",0.5137,"[0.428,0.601]",0.4594,"[0.370,0.553]",0.8497,"[0.809,0.887]",0.8279,"[0.788,0.870]"
+drosophila_enhancers_stark,clean control,4,1.3,0.9728,0.0,0,6914,6914,0.539,"[0.525,0.552]",0.539,"[0.525,0.552]",0.3983,"[0.355,0.442]",0.3983,"[0.356,0.441]",0.7631,"[0.741,0.786]",0.7631,"[0.741,0.786]"

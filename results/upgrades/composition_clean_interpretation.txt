@@ -1,0 +1,36 @@
+====================================================================================================
+UPGRADE 2 -- COMPOSITION-EQUALIZED CLEANING: causal test of the compositional shortcut
+====================================================================================================
+dataset                     arm               kept%  TATA AUROC  GC AUROC  compMCC  kmerMCC residual
+----------------------------------------------------------------------------------------------------
+human_enhancers_cohn        original        100.0%       0.371     0.737    0.410    0.461   +0.051
+human_enhancers_cohn        comp_equalized    4.5%       0.500     0.500    0.000    0.064   +0.064
+human_enhancers_cohn        gc_match         66.2%       0.426     0.645    0.314    0.360   +0.046
+human_enhancers_cohn        tata_flag        77.8%       0.435     0.712    0.365    0.407   +0.042
+nt_enhancers                original        100.0%       0.393     0.822    0.522    0.514   -0.008
+nt_enhancers                comp_equalized    4.9%       0.494     0.540    0.101    0.000   -0.101
+nt_enhancers                gc_match         48.3%       0.462     0.681    0.171    0.195   +0.024
+nt_enhancers                tata_flag        79.2%       0.485     0.795    0.423    0.459   +0.036
+drosophila_enhancers_stark  original        100.0%       0.539     0.487    0.253    0.398   +0.145
+drosophila_enhancers_stark  comp_equalized   42.9%       0.506     0.524    0.049    0.177   +0.128
+drosophila_enhancers_stark  gc_match         84.5%       0.522     0.506    0.174    0.350   +0.177
+drosophila_enhancers_stark  tata_flag       100.0%       0.539     0.487    0.253    0.398   +0.145
+
+TATA/GC AUROC = does the motif/GC measure separate pos>neg (0.5 = no separation).
+compMCC = composition-only baseline (LightGBM on 4 mono + 16 dinuc freqs); kmerMCC = the
+k-mer+LightGBM benchmark; residual = kmerMCC - compMCC (signal beyond composition).
+
+Balance (comp_equalized arm), standardized mean diff over the 20 composition features:
+  human_enhancers_cohn         max|SMD| 1.007 -> 0.059   mean|SMD| 0.487 -> 0.022
+  nt_enhancers                 max|SMD| 1.555 -> 0.286   mean|SMD| 0.670 -> 0.134
+  drosophila_enhancers_stark   max|SMD| 0.264 -> 0.054   mean|SMD| 0.119 -> 0.030
+
+Verdict (per contaminated dataset):
+  human_enhancers_cohn [contaminated]: TATA 0.371->0.500 (collapses), GC 0.737->0.500 (collapses); residual MCC on equalized split = +0.064 (signal survives composition).
+  nt_enhancers [contaminated]: TATA 0.393->0.494 (collapses), GC 0.822->0.540 (collapses); residual MCC on equalized split = -0.101 (no residual above composition).
+  drosophila_enhancers_stark [clean control]: TATA 0.539->0.506 (collapses), GC 0.487->0.524 (no collapse); residual MCC on equalized split = +0.128 (signal survives composition).
+
+CAVEAT: equalized cleaning changes the test set, so the benchmark MCC is NOT a paired
+comparison across arms; the TATA/GC AUROC collapse (and the residual-vs-composition gap on
+the equalized split) are the causal readouts. Positives are identical across all arms.
+Method: LR propensity on 20-d composition, 20-bin proportional match, seed 42.

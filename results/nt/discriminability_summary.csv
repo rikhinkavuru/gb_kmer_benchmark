@@ -1,0 +1,7 @@
+dataset,collection,contrast,bench_mcc,max_motif_auroc,best_TF,best_TF_dir,motif_richness,n_curated_TF
+nt_promoter_all,vertebrates,1_vs_0,0.8878,0.6756,KLF5,pos,0.404,26
+nt_promoter_no_tata,vertebrates,1_vs_0,0.8867,0.6741,KLF5,pos,0.412,26
+nt_promoter_tata,vertebrates,1_vs_0,0.8589,0.6512,KLF5,pos,0.389,26
+nt_enhancers,vertebrates,1_vs_0,0.5332,0.6795,TBP,neg,0.187,26
+nt_enhancers_types,vertebrates,0_vs_rest,0.4818,0.6749,TBP,pos,0.187,26
+nt_splice_sites_all,vertebrates,0_vs_rest,0.278,0.5216,HAND2,pos,0.425,26

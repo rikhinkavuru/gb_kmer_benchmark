@@ -1,0 +1,12 @@
+task,suite,max_pos_motif_auroc,actual_mcc,loto_pred_mcc,abs_error
+nt_enhancers,NucTransformer,0.5449,0.5137,0.3885,0.1252
+drosophila_enhancers_stark,GenomicBench,0.5683,0.3983,0.507,0.1087
+human_ocr_ensembl,GenomicBench,0.5728,0.4213,0.5144,0.0931
+human_enhancers_ensembl,GenomicBench,0.5902,0.5934,0.5343,0.0591
+human_enhancers_cohn,GenomicBench,0.5948,0.4612,0.5686,0.1074
+nt_promoter_tata,NucTransformer,0.6512,0.8463,0.6862,0.1601
+nt_promoter_no_tata,NucTransformer,0.6741,0.8867,0.7432,0.1435
+nt_enhancers_types,NucTransformer,0.6749,0.4761,0.8058,0.3297
+nt_promoter_all,NucTransformer,0.6756,0.8878,0.7471,0.1407
+human_ensembl_regulatory,GenomicBench,0.6913,0.9067,0.7863,0.1204
+human_nontata_promoters,GenomicBench,0.7513,0.8737,1.0253,0.1516

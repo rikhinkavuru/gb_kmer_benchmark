@@ -1,0 +1,21 @@
+================================================================================================
+CONTAMINATION CLEANING -- causal test (remove excess TATA-bearing negatives)
+================================================================================================
+dataset                       role           neg removed    TATA AUROC orig->clean     MCC orig->clean
+------------------------------------------------------------------------------------------------------
+human_enhancers_cohn          contaminated        22.2%      0.371 -> 0.435         0.461 -> 0.407   
+nt_enhancers                  contaminated        20.8%      0.393 -> 0.485         0.514 -> 0.459   
+drosophila_enhancers_stark    clean control        0.0%      0.539 -> 0.539         0.398 -> 0.398   
+
+TATA AUROC = does TATA-hit-count separate the classes (pos>neg). <0.5 = neg-enriched
+(the contamination artifact); ~0.5 after cleaning = artifact removed. Full CIs in the CSV.
+
+Verdict:
+  human_enhancers_cohn: removed 22.2% of negatives; TATA AUROC 0.371->0.435 (moved toward 0.5 -- artifact removed); MCC 0.461->0.407.
+  nt_enhancers: removed 20.8% of negatives; TATA AUROC 0.393->0.485 (moved toward 0.5 -- artifact removed); MCC 0.514->0.459.
+  drosophila_enhancers_stark (CONTROL): removed 0.0% of negatives; TATA AUROC 0.539->0.539, MCC 0.398->0.398 -- should barely change.
+
+Reading: if the contaminated datasets' TATA AUROC collapses toward 0.5 after removing a
+modest fraction of negatives, while the clean control loses ~nothing and barely moves, the
+TATA enrichment WAS the contaminant (causal). MCC is reported straight (test set changes, so
+it is not a paired comparison). Cleaned splits are in cleaned_splits/. Seed=42.

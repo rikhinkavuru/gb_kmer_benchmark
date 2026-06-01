@@ -1,0 +1,7 @@
+dataset,role,classifier,full_auroc,full_auroc_ci,comp_only_auroc,comp_only_auroc_ci,comp_fraction,comp_fraction_lo,comp_fraction_hi,n_test
+human_enhancers_cohn,contaminated,kmer,0.804649,"[0.7946,0.8136]",0.778695,"[0.7676,0.7889]",0.914807,0.891857,0.937275,6948
+human_enhancers_cohn,contaminated,fm,0.790439,"[0.7804,0.7996]",0.778695,"[0.7676,0.7889]",0.959564,0.932987,0.986035,6948
+nt_enhancers,contaminated,kmer,0.849675,"[0.8119,0.8890]",0.824475,"[0.7842,0.8667]",0.927933,0.860415,0.991761,400
+nt_enhancers,contaminated,fm,0.81815,"[0.7768,0.8614]",0.824475,"[0.7842,0.8667]",1.019881,0.940591,1.112601,400
+drosophila_enhancers_stark,clean control,kmer,0.763135,"[0.7429,0.7862]",0.683007,"[0.6591,0.7076]",0.695486,0.609578,0.775615,1730
+drosophila_enhancers_stark,clean control,fm,0.727693,"[0.7040,0.7498]",0.683007,"[0.6591,0.7076]",0.803745,0.704197,0.921204,1730

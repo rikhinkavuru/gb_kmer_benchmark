@@ -1,0 +1,6 @@
+task,suite,route,k,n_bins,feat_dim_spectrum,feat_dim_positional,spectrum_mcc,spectrum_ci,positional_mcc,positional_ci,delta_mcc,delta_ci,delta_excludes_0
+nt_splice_sites_all,NucTransformer,POSITIONAL,5,8,1024,9216,0.2435,"[0.217,0.271]",0.8676,"[0.853,0.882]",0.6241,"[0.594,0.651]",True
+nt_promoter_no_tata,NucTransformer,motif-local control,4,8,256,2304,0.8867,"[0.874,0.899]",0.8962,"[0.884,0.908]",0.0096,"[0.002,0.017]",True
+nt_enhancers,NucTransformer,contamination/shared-motif control,4,8,256,2304,0.5137,"[0.434,0.602]",0.5184,"[0.436,0.611]",0.0047,"[-0.032,0.040]",False
+human_nontata_promoters,GenomicBench,motif-local control (GB),6,8,4096,36864,0.8737,"[0.863,0.883]",0.8636,"[0.853,0.873]",-0.0101,"[-0.016,-0.003]",True
+human_enhancers_cohn,GenomicBench,contamination/shared-motif control (GB),5,8,1024,9216,0.4612,"[0.441,0.482]",0.4485,"[0.427,0.469]",-0.0127,"[-0.027,0.001]",False

@@ -1,0 +1,39 @@
+====================================================================================================
+CROSS-SUITE REPLICATION  --  benchmark learnability vs positive-direction motif discriminability
+====================================================================================================
+suite         task                              cls    MCC MCC 95% CI       pos-motif AUROC best TF    TATAexc  contamination
+-----------------------------------------------------------------------------------------------------------------------------
+GenomicBench  demo_human_or_worm                  2  0.915 [0.910,0.920]              0.555 TBP              -  
+GenomicBench  human_ensembl_regulatory            3  0.907 [0.904,0.910]              0.691 SP2              -  
+GenomicBench  human_nontata_promoters             2  0.874 [0.865,0.883]              0.751 SP2              -  
+GenomicBench  demo_coding_vs_intergenomic_seqs    2  0.800 [0.793,0.808]              0.718 TBP              -  
+GenomicBench  dummy_mouse_enhancers_ensembl       2  0.622 [0.520,0.727]              0.757 KLF5             -  
+GenomicBench  human_enhancers_ensembl             2  0.593 [0.585,0.602]              0.590 KLF5        +10.8%  CONTAMINATED-neg-TATA (weak)
+GenomicBench  human_enhancers_cohn                2  0.461 [0.440,0.482]              0.595 KLF5        +22.7%  CONTAMINATED-neg-TATA (strong)
+GenomicBench  drosophila_enhancers_stark          2  0.445 [0.405,0.485]              0.568 twi          -3.4%  TATA-in-positives (expected; assay control)
+GenomicBench  human_ocr_ensembl                   2  0.421 [0.412,0.430]              0.573 BATF3        +9.0%  clean/ambiguous
+NucTransforme nt_promoter_all                     2  0.888 [0.877,0.899]              0.676 KLF5         +2.5%  neg-TATA CONFOUNDED (pos class is promoter/TATA-depleted; not contamination)
+NucTransforme nt_promoter_no_tata                 2  0.887 [0.873,0.899]              0.674 KLF5         +6.4%  neg-TATA CONFOUNDED (pos class is promoter/TATA-depleted; not contamination)
+NucTransforme nt_promoter_tata                    2  0.859 [0.818,0.898]              0.651 KLF5        -17.8%  TATA-in-positives (expected; assay control)
+NucTransforme nt_enhancers                        2  0.533 [0.450,0.617]              0.545 KLF5        +20.9%  CONTAMINATED-neg-TATA (strong)
+NucTransforme nt_enhancers_types                  3  0.482 [0.429,0.535]              0.675 TBP              -  
+NucTransforme nt_splice_sites_all                 3  0.278 [0.251,0.306]              0.522 HAND2            -  
+
+--- REPLICATION TEST 1: does motif discriminability predict learnability? ---
+Spearman(benchmark MCC, max positive-direction motif-only AUROC):
+  GenomicBench             (n=9): rho=+0.22  p=0.58
+  GenomicBench (TF-motif tasks only) (n=6): rho=+0.83  p=0.04
+  NucTransformer           (n=6): rho=+0.66  p=0.16
+  NucTransformer (TF-motif tasks only) (n=5): rho=+0.40  p=0.50
+  POOLED both suites       (n=15): rho=+0.46  p=0.08
+  POOLED, TF-motif only    (n=11): rho=+0.73  p=0.01
+
+--- REPLICATION TEST 2: is negative-set TATA contamination broader than GB? ---
+  GenomicBench           human_enhancers_ensembl          CONTAMINATED-neg-TATA (weak) (neg TATA excess +10.8%)
+  GenomicBench           human_enhancers_cohn             CONTAMINATED-neg-TATA (strong) (neg TATA excess +22.7%)
+  NucTransformer         nt_enhancers                     CONTAMINATED-neg-TATA (strong) (neg TATA excess +20.9%)
+  positive controls (TATA correctly concentrated in positives, validating the assay):
+    GenomicBench           drosophila_enhancers_stark
+    NucTransformer         nt_promoter_tata
+
+Verdict is interpreted in the accompanying message / README; nulls reported straight.

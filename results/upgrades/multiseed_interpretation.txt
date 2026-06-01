@@ -1,0 +1,18 @@
+============================================================================================
+MULTI-SEED ROBUSTNESS (bootstrap-train; LightGBM)
+============================================================================================
+task                          route                      MCC mean+/-SD       [min,max]  tier
+--------------------------------------------------------------------------------------------
+human_nontata_promoters       solved (promoter)          0.836+/-0.004 [0.833,0.841]  STABLE:solved
+nt_promoter_tata              solved (TATA-promoter)     0.845+/-0.011 [0.834,0.862]  STABLE:solved
+demo_human_or_worm            solved (composition)       0.911+/-0.001 [0.910,0.912]  STABLE:solved
+human_enhancers_cohn          hard (contamination)       0.444+/-0.006 [0.439,0.454]  STABLE:hard
+nt_enhancers                  hard (contamination)       0.498+/-0.013 [0.477,0.510]  VARIES
+human_ocr_ensembl             hard (shared-motif)        0.411+/-0.002 [0.409,0.414]  STABLE:hard
+drosophila_enhancers_stark    hard (control)             0.377+/-0.013 [0.357,0.393]  STABLE:hard
+nt_splice_sites_all           hard (positional)          0.241+/-0.006 [0.238,0.251]  STABLE:hard
+
+Tier (solved>=0.7 / partial>=0.5 / hard) stable across 5 seeds for 7/8 tasks; max MCC SD = 0.013.
+Reading: small SD and a fully-stable tier assignment mean the benchmark numbers and the
+solved-vs-hard route classification are seed-invariant; training randomness (bootstrap
+resampling) does not move tasks across routes. Seeds [42, 43, 44, 45, 46].

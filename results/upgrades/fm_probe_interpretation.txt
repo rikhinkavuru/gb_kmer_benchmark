@@ -1,0 +1,40 @@
+====================================================================================================
+UPGRADE 1 -- FROZEN FM-PROBE (HyenaDNA-tiny-16k-d128) : enhancer score vs cleaning arm
+====================================================================================================
+dataset                     arm              n_test     MCC MCC 95% CI        AUROC AUROC 95% CI    
+----------------------------------------------------------------------------------------------------
+human_enhancers_cohn        original           6948   0.421 [0.401,0.441]     0.790 [0.780,0.800]   
+human_enhancers_cohn        tata_flag          6149   0.374 [0.350,0.398]     0.767 [0.755,0.780]   
+human_enhancers_cohn        gc_match           5800   0.338 [0.314,0.363]     0.742 [0.730,0.755]   
+human_enhancers_cohn        comp_equalized     3702   0.144 [0.064,0.209]     0.638 [0.600,0.677]   
+nt_enhancers                original            400   0.546 [0.465,0.629]     0.818 [0.777,0.861]   
+nt_enhancers                tata_flag           351   0.407 [0.314,0.495]     0.777 [0.726,0.823]   
+nt_enhancers                gc_match            303   0.257 [0.143,0.373]     0.717 [0.658,0.776]   
+nt_enhancers                comp_equalized      236   0.218 [-0.025,0.372]    0.733 [0.632,0.823]   
+drosophila_enhancers_stark  original           1730   0.345 [0.302,0.385]     0.728 [0.704,0.750]   
+drosophila_enhancers_stark  tata_flag          1730   0.345 [0.302,0.389]     0.728 [0.704,0.751]   
+drosophila_enhancers_stark  gc_match           1592   0.284 [0.236,0.331]     0.686 [0.661,0.713]   
+drosophila_enhancers_stark  comp_equalized     1082   0.208 [0.134,0.280]     0.638 [0.594,0.683]   
+
+Headline (mean-pool, LightGBM head) -- original -> cleaned delta:
+  human_enhancers_cohn [contaminated]: original MCC=0.421 AUROC=0.790
+      -> tata_flag       MCC=0.374 (Δ-0.047)  AUROC=0.767 (Δ-0.023)  n_test=6149
+      -> gc_match        MCC=0.338 (Δ-0.083)  AUROC=0.742 (Δ-0.048)  n_test=5800
+      -> comp_equalized  MCC=0.144 (Δ-0.277)  AUROC=0.638 (Δ-0.152)  n_test=3702
+  nt_enhancers [contaminated]: original MCC=0.546 AUROC=0.818
+      -> tata_flag       MCC=0.407 (Δ-0.138)  AUROC=0.777 (Δ-0.041)  n_test=351
+      -> gc_match        MCC=0.257 (Δ-0.289)  AUROC=0.717 (Δ-0.101)  n_test=303
+      -> comp_equalized  MCC=0.218 (Δ-0.328)  AUROC=0.733 (Δ-0.085)  n_test=236
+  drosophila_enhancers_stark [clean control]: original MCC=0.345 AUROC=0.728
+      -> tata_flag       MCC=0.345 (Δ+0.000)  AUROC=0.728 (Δ+0.000)  n_test=1730
+      -> gc_match        MCC=0.284 (Δ-0.062)  AUROC=0.686 (Δ-0.041)  n_test=1592
+      -> comp_equalized  MCC=0.208 (Δ-0.138)  AUROC=0.638 (Δ-0.090)  n_test=1082
+
+Reading: if the FROZEN pretrained genomic FM loses enhancer MCC/AUROC when the
+composition artifact is removed (cohn, nt_enhancers) while the clean control
+(drosophila) barely moves, then a pretrained model -- not just our k-mer classifier --
+was exploiting the composition shortcut. Deltas are UNPAIRED (cleaned test sets are
+smaller); the comp_equalized arm retains few negatives so its MCC is underpowered --
+read with the Upgrade-2 TATA/GC AUROC collapse. Mean-pool + [SEP], LR + LightGBM heads,
+all poolings/heads in fm_probe.csv. No PyTorch in the diagnostic pipeline; PyTorch used
+only for this frozen FM feature extraction. Seed 42, 1000-resample bootstrap.

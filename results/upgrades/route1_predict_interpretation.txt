@@ -1,0 +1,25 @@
+================================================================================================
+ROUTE 1 PREDICTIVE TEST -- leave-one-task-out: predict benchmark MCC from motif discriminability
+================================================================================================
+n = 11 TF-motif tasks (both suites). Predictor: OLS line MCC ~ max positive motif-only AUROC.
+Full-data fit: MCC = +2.608 * d + -0.997   Spearman(d,MCC)=+0.736 (p=0.0098)
+LEAVE-ONE-TASK-OUT held-out:  R^2 = +0.439  [-0.269,+0.701]   MAE = 0.140  [0.108,0.180]
+
+task                        suite               d  actual MCC  LOTO pred   |err|
+--------------------------------------------------------------------------------
+nt_enhancers                NucTransformer  0.545       0.514      0.389   0.125
+drosophila_enhancers_stark  GenomicBench    0.568       0.398      0.507   0.109
+human_ocr_ensembl           GenomicBench    0.573       0.421      0.514   0.093
+human_enhancers_ensembl     GenomicBench    0.590       0.593      0.534   0.059
+human_enhancers_cohn        GenomicBench    0.595       0.461      0.569   0.107
+nt_promoter_tata            NucTransformer  0.651       0.846      0.686   0.160
+nt_promoter_no_tata         NucTransformer  0.674       0.887      0.743   0.143
+nt_enhancers_types          NucTransformer  0.675       0.476      0.806   0.330
+nt_promoter_all             NucTransformer  0.676       0.888      0.747   0.141
+human_ensembl_regulatory    GenomicBench    0.691       0.907      0.786   0.120
+human_nontata_promoters     GenomicBench    0.751       0.874      1.025   0.152
+
+Reading: a positive held-out R^2 means motif discriminability PREDICTS learnability on tasks
+the line never saw -- Route 1 is predictive, not merely correlational. A modest R^2 with low
+MAE is reported straight; outliers (e.g. multiclass enhancer-types, or a highly-solved task
+with moderate single-motif AUROC) are visible in the per-task errors. Seed 42.

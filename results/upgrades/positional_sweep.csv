@@ -1,0 +1,16 @@
+task,suite,route,k,n_bins,spectrum_mcc,positional_mcc,delta_mcc,delta_ci,delta_excludes_0,n_test
+human_nontata_promoters,GB,fixed-position promoter,6,8,0.856,0.8403,-0.0157,"[-0.023,-0.008]",True,9034
+human_enhancers_cohn,GB,non-positional (control),5,8,0.4574,0.4543,-0.0031,"[-0.017,0.011]",False,6948
+human_enhancers_ensembl,GB,non-positional (control),6,8,0.5234,0.5511,0.0277,"[0.019,0.036]",True,20000
+human_ocr_ensembl,GB,non-positional (control),6,8,0.3711,0.3973,0.0262,"[0.015,0.038]",True,20000
+human_ensembl_regulatory,GB,non-positional (control),5,8,0.8924,0.8894,-0.003,"[-0.006,-0.000]",True,19999
+drosophila_enhancers_stark,GB,non-positional (control),4,8,0.3983,0.3996,0.0012,"[-0.037,0.040]",False,1730
+dummy_mouse_enhancers_ensembl,GB,non-positional (control),6,8,0.5291,0.5304,0.0013,"[-0.054,0.053]",False,242
+demo_coding_vs_intergenomic_seqs,GB,non-positional (control),5,8,0.7829,0.7795,-0.0035,"[-0.008,0.001]",False,20000
+demo_human_or_worm,GB,non-positional (control),5,8,0.9009,0.8988,-0.0021,"[-0.005,0.001]",False,20000
+nt_promoter_all,NT,non-positional (control),4,8,0.8711,0.8804,0.0093,"[0.001,0.016]",True,5920
+nt_promoter_tata,NT,fixed-position promoter,4,8,0.8463,0.8657,0.0194,"[-0.000,0.041]",False,621
+nt_promoter_no_tata,NT,non-positional (control),4,8,0.8698,0.8809,0.0111,"[0.003,0.019]",True,5299
+nt_enhancers,NT,non-positional (control),4,8,0.5137,0.5184,0.0047,"[-0.033,0.043]",False,400
+nt_enhancers_types,NT,non-positional (control),6,8,0.4761,0.463,-0.0131,"[-0.038,0.016]",False,400
+nt_splice_sites_all,NT,POSITIONAL,5,8,0.2426,0.8431,0.6005,"[0.572,0.630]",True,3000

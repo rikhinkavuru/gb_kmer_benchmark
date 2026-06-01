@@ -1,0 +1,14 @@
+CONTAMINATION-LOCALIZATION — PRE-COMMITTED INTERPRETATION RULES (written BEFORE running)
+seed=42; scope=human_enhancers_cohn, nt_enhancers; drosophila = procedure control (not testable here)
+Flagged negative = negative-class sequence with a TBP PSSM hit >= 1.3 bits/pos (existing criterion).
+
+DECISION (applied verbatim after the numbers are in):
+ CONFIRMED  : flagged negatives are >2x as likely to overlap an annotated TSS (+-500bp) as
+              non-flagged negatives, AND the TATA-hit-to-TSS offset shows a clear peak at -25..-30 bp.
+              -> rewrite Route 3 to "demonstrated TSS-proximal core-promoter contamination".
+ REFUTED    : flagged negatives NOT enriched for TSS overlap AND offsets ~uniform.
+              -> rewrite to "AT-rich signal inflates separability; hypothesized core-promoter
+                 leakage NOT supported by coordinates; artifact real but not promoter-specific".
+ MIXED/PARTIAL: report exact numbers; state verdict at that precision.
+ If <50% of a suite's flagged negatives are localizable: report it; proceed with cohn only.
+No bias toward CONFIRMED. Whatever the data shows is the result.

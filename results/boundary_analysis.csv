@@ -1,0 +1,10 @@
+dataset,collection,best_k,bench_mcc,n_top,n_used_features,n_usable_TF,n_enriched_TF,max_enrich_z,frac_top_explained,mean_enriched_bits,top_enriched_TFs
+demo_human_or_worm,vertebrates,4,0.915,50,256,879,2,4.396,0.2,0.3422,IRF6; IRF9
+human_ensembl_regulatory,vertebrates,5,0.9067,50,1024,879,94,4.911,0.7,1.6583,ETS2; ETV2; E2F6
+human_nontata_promoters,vertebrates,6,0.8737,50,3393,876,125,7.595,0.68,1.6451,SP1; SP2; SP4
+demo_coding_vs_intergenomic_seqs,vertebrates,5,0.8002,50,1008,879,62,5.332,0.4,1.3286,MEF2A; Hmga1; ZFP42
+dummy_mouse_enhancers_ensembl,vertebrates,3,0.622,50,64,879,0,2.911,0.0,,-
+human_enhancers_ensembl,vertebrates,6,0.5934,50,3006,876,265,6.276,0.68,1.6764,PBX2; MEIS2; FOXC1
+human_enhancers_cohn,vertebrates,5,0.4612,50,1017,879,11,5.778,0.56,1.4812,ZNF157; ZFP42; ZNF354A
+drosophila_enhancers_stark,insects,5,0.4452,50,1023,286,47,6.831,0.54,1.4378,dl; dl; Dif
+human_ocr_ensembl,vertebrates,6,0.4213,50,2896,876,243,6.602,0.66,1.6388,TGIF2; PHOX2B; TGIF1

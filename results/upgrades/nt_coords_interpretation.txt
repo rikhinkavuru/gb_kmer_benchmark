@@ -1,0 +1,9 @@
+================================================================================================
+UPGRADE 6 -- nt_enhancers TSS coordinate analysis (fuzzy mapping)
+================================================================================================
+mapped 28.2% of nt_enhancers to GRCh38 (exact-match baseline ~22%); negatives 23.3%.
+TSS overlap (+-500bp): flagged-neg 0.006 vs nonflagged-neg 0.014 (0.46x; Fisher OR=0.45 p=1.66e-01); positives 0.159.
+TATA->TSS offset: n=4, frac in canonical -25..-30 bp = 0.000.
+
+VERDICT: REFUTES core-promoter leakage (flagged negs TSS-DEPLETED, no -25..-30 peak) -> AT-rich COMPOSITIONAL bias, replicating cohn.
+Seed 42; reference GRCh38 Ensembl release-97 (matches cohn); GENCODE v44; mappy preset 'sr'.

@@ -1,0 +1,24 @@
+================================================================================================
+POSITIONAL FEATURE DOUBLE-DISSOCIATION  (position-binned k-mers, B=8)
+================================================================================================
+task                        route                                 spectrum MCC  positional MCC    delta delta 95% CI      
+--------------------------------------------------------------------------------------------------------------------------
+nt_splice_sites_all         POSITIONAL                                   0.243           0.868   +0.624 [0.594,0.651]      SIG
+nt_promoter_no_tata         motif-local control                          0.887           0.896   +0.010 [0.002,0.017]      SIG
+nt_enhancers                contamination/shared-motif control           0.514           0.518   +0.005 [-0.032,0.040]     ns
+human_nontata_promoters     motif-local control (GB)                     0.874           0.864   -0.010 [-0.016,-0.003]    SIG
+human_enhancers_cohn        contamination/shared-motif control (GB)         0.461           0.449   -0.013 [-0.027,0.001]     ns
+
+delta = positional_MCC - spectrum_MCC, paired bootstrap (same resampled test set).
+SIG = delta 95% CI excludes 0 (positional features changed performance).
+
+Double-dissociation verdict:
+  POSITIONAL task (nt_splice_sites_all): delta=+0.624 [0.594,0.651] -> RECOVERS with positional features.
+  control tasks: 4 total, 2 with a significant delta; max |delta| among controls = 0.013 (vs positional task delta +0.624).
+
+Reading: a large, significant positive delta ONLY on the positional task -- with
+motif-local and contamination/shared-motif controls barely moving -- confirms the
+positional failure is CAUSALLY due to discarding position, and that it is a distinct
+route from shared-motif and contamination (which positional features cannot fix).
+If the positional task does NOT recover, the positional story is incomplete -- reported
+straight. Bin width is a fraction of each sequence length; B=8; seed=42.

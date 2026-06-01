@@ -1,0 +1,7 @@
+dataset,role,arm,best_k,dinuc_preserved,n_pos,n_neg,tata_auroc,tata_ci,gc_auroc,gc_ci,kmer_mcc,kmer_mcc_ci,kmer_auroc,n_test
+human_enhancers_cohn,contaminated,original_neg,5,1.0,13895,13896,0.3708,"[0.365,0.376]",0.7374,"[0.732,0.743]",0.461223,"[0.442,0.482]",0.804649,6948
+human_enhancers_cohn,contaminated,shuffled_neg,5,1.0,13895,13895,0.5514,"[0.546,0.557]",0.5,"[0.494,0.507]",0.769249,"[0.754,0.784]",0.954635,6948
+nt_enhancers,contaminated,original_neg,4,1.0,7684,7684,0.3927,"[0.387,0.399]",0.8224,"[0.816,0.829]",0.513712,"[0.433,0.600]",0.849675,400
+nt_enhancers,contaminated,shuffled_neg,4,1.0,7684,7684,0.5067,"[0.502,0.511]",0.5,"[0.491,0.509]",0.545334,"[0.467,0.627]",0.856237,400
+drosophila_enhancers_stark,clean control,original_neg,4,1.0,3457,3457,0.539,"[0.526,0.552]",0.4869,"[0.474,0.501]",0.398321,"[0.354,0.440]",0.763135,1730
+drosophila_enhancers_stark,clean control,shuffled_neg,4,1.0,3457,3457,0.7486,"[0.738,0.760]",0.5,"[0.487,0.514]",0.921508,"[0.902,0.939]",0.988949,1730

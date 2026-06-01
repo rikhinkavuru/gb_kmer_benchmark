@@ -1,0 +1,8 @@
+dataset,motif_class,thr_bits,motif_only_auroc,auroc_sd,auroc_ci_lo,auroc_ci_hi,n_panel,n_pos,n_neg
+human_enhancers_cohn,real_TATA,1.3,0.3671,,0.3561,0.3775,1,4000,4000
+human_enhancers_cohn,scrambled_TBP_panel,1.3,0.3761,0.0168,0.3692,0.383,20,4000,4000
+human_enhancers_cohn,random_IC_panel,1.3,0.5023,0.0333,0.4991,0.5052,10,4000,4000
+nt_enhancers,real_TATA,1.3,0.3919,,0.3825,0.4001,1,4000,4000
+nt_enhancers,scrambled_TBP_panel,1.3,0.396,0.0271,0.3915,0.4004,20,4000,4000
+nt_enhancers,random_IC_panel,1.3,0.5069,0.0162,0.5045,0.5092,10,4000,4000
+nt_promoter_tata,real_TATA,1.3,0.5885,,0.5768,0.6001,1,3065,3065

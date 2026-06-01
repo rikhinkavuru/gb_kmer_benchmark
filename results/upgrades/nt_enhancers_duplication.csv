@@ -1,0 +1,2 @@
+task,revision,match_criterion,n_test,n_train,n_test_unique,n_train_unique,train_test_verbatim,train_test_verbatim_frac,within_test_dup,within_test_dup_frac,both_A_and_B,train_test_only,within_test_only,neither_clean,clean_frac,f003_jaccard1_count
+nt_enhancers,96d86d567d4cd33536e49b429dc7983121619a08,full-string identity after strip().upper(),400,14968,400,14002,100,0.25,0,0.0,0,100,0,300,0.75,100

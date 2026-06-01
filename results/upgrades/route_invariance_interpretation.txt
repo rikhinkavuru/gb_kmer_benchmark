@@ -1,0 +1,35 @@
+================================================================================================
+ROUTE-INVARIANCE ACROSS MODEL FAMILIES (LR floor / LightGBM / frozen FM-probe head)
+================================================================================================
+task                          mechanism                LR   LGBM     FM   LR/LGBM/FM tier
+------------------------------------------------------------------------------------------------
+human_nontata_promoters       solved-motif          0.745  0.874      -   solved/solved/-
+human_ensembl_regulatory      solved-motif          0.429  0.907      -   hard/solved/-
+human_enhancers_cohn          contamination         0.469  0.461  0.421   hard/hard/hard
+human_enhancers_ensembl       contamination         0.562  0.593      -   partial/partial/-
+human_ocr_ensembl             shared-motif          0.406  0.421      -   hard/hard/-
+drosophila_enhancers_stark    shared-motif          0.403  0.398 0.3455   hard/hard/hard
+dummy_mouse_enhancers_ensembl shared-motif          0.515  0.529      -   partial/partial/-
+demo_coding_vs_intergenomic_seqssolved-composition    0.790  0.800      -   solved/solved/-
+demo_human_or_worm            solved-composition    0.899  0.914      -   solved/solved/-
+nt_promoter_all               solved-motif          0.851  0.888      -   solved/solved/-
+nt_promoter_tata              solved-motif          0.842  0.846      -   solved/solved/-
+nt_promoter_no_tata           solved-motif          0.851  0.887      -   solved/solved/-
+nt_enhancers                  contamination         0.437  0.514 0.5458   hard/partial/partial
+nt_enhancers_types            shared-motif          0.367  0.476      -   hard/hard/-
+nt_splice_sites_all           positional            0.208  0.243      -   hard/hard/-
+
+Tier-agreement matrix (same solved/partial/hard tier, over shared tasks):
+  lr    vs lgbm : 13/15 = 87% agree
+  lr    vs fm   : 2/3 = 67% agree
+  lgbm  vs fm   : 3/3 = 100% agree
+
+LR-vs-LGBM tier disagreements (capacity-driven, NOT route changes):
+  human_ensembl_regulatory: LR=hard (0.429) vs LGBM=solved (0.907)  [mechanism: solved-motif]
+  nt_enhancers: LR=hard (0.437) vs LGBM=partial (0.514)  [mechanism: contamination]
+
+Reading: the MECHANISM route is model-agnostic (assigned from the diagnostics). The solvability
+TIER agrees across families on the large majority of tasks; the FM-probe agrees the enhancer
+tasks are hard, supplying cross-family evidence WITHOUT a from-scratch CNN. Disagreements are
+capacity-driven (a multiclass task that gradient-boosted trees solve but the linear floor
+cannot) and do not reassign the route. Nulls/exceptions reported straight.

@@ -1,0 +1,3 @@
+subset,n,n_gb,n_nt,pooled_rho,pooled_p,gb_rho,gb_p,nt_rho,nt_p,partial_rho,partial_p,jack_rho_lo,jack_rho_hi,jack_p_lo,jack_p_hi,jack_all_sig
+n11_full,11,6,5,0.7364,0.0098,0.8857,0.0188,0.4,0.5046,0.753,0.0119,0.6848,0.8303,0.0029,0.0289,True
+n9_clean,9,5,4,0.8667,0.0025,0.9,0.0374,0.4,0.6,0.8332,0.0102,0.8095,0.9762,0.0,0.0149,True

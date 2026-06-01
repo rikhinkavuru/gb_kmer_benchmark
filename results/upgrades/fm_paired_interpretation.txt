@@ -1,0 +1,71 @@
+========================================================================================================
+PAIRED FM-PROBE -- unpaired vs paired deltas, and the LOCKED HEADLINE cell (Fix B)
+========================================================================================================
+test_effect = orig_on_clean - orig_full (fixed FROZEN-FM head; how much it loses when the
+composition-biased negatives are removed from the TEST = benchmark-score inflation).
+paired_delta = clean_on_clean - orig_on_clean (training effect, test held fixed at T_clean).
+
+dataset                   pool  head arm             unpaired ΔAUROC   test_effect AUROC   paired ΔAUROC
+--------------------------------------------------------------------------------------------------------
+human_enhancers_cohn      mean  lgbm tata_flag                -0.023       -0.022 [-0.026,-0.018]   -0.002 [-0.006,0.003]
+human_enhancers_cohn      mean  lgbm gc_match                 -0.048       -0.058 [-0.063,-0.052]   +0.009 [0.002,0.016]
+human_enhancers_cohn      mean  lgbm comp_equalized           -0.152       -0.169 [-0.208,-0.133]   +0.017 [-0.027,0.061]
+human_enhancers_cohn      mean  lr   tata_flag                -0.025       -0.026 [-0.030,-0.022]   +0.001 [-0.000,0.001]
+human_enhancers_cohn      mean  lr   gc_match                 -0.065       -0.073 [-0.079,-0.067]   +0.008 [0.004,0.012]
+human_enhancers_cohn      mean  lr   comp_equalized           -0.142       -0.201 [-0.239,-0.164]   +0.059 [0.028,0.093]
+human_enhancers_cohn      sep   lgbm tata_flag                -0.017       -0.014 [-0.018,-0.010]   -0.003 [-0.010,0.002]
+human_enhancers_cohn      sep   lgbm gc_match                 -0.057       -0.048 [-0.053,-0.043]   -0.009 [-0.016,-0.000]
+human_enhancers_cohn      sep   lgbm comp_equalized           -0.200       -0.146 [-0.183,-0.112]   -0.053 [-0.099,-0.011]
+human_enhancers_cohn      sep   lr   tata_flag                -0.015       -0.015 [-0.019,-0.011]   -0.000 [-0.001,0.000]
+human_enhancers_cohn      sep   lr   gc_match                 -0.045       -0.050 [-0.056,-0.045]   +0.005 [0.001,0.008]
+human_enhancers_cohn      sep   lr   comp_equalized           -0.146       -0.170 [-0.206,-0.134]   +0.024 [-0.014,0.063]
+nt_enhancers              mean  lgbm tata_flag                -0.041       -0.033 [-0.046,-0.023]   -0.008 [-0.018,0.002]
+nt_enhancers              mean  lgbm gc_match                 -0.101       -0.080 [-0.108,-0.055]   -0.021 [-0.044,0.002]
+nt_enhancers              mean  lgbm comp_equalized           -0.085       -0.143 [-0.225,-0.072]   +0.058 [-0.037,0.144]
+nt_enhancers              mean  lr   tata_flag                -0.041       -0.041 [-0.057,-0.028]   -0.001 [-0.003,0.002]
+nt_enhancers              mean  lr   gc_match                 -0.139       -0.124 [-0.159,-0.093]   -0.014 [-0.032,0.006]
+nt_enhancers              mean  lr   comp_equalized           -0.157       -0.227 [-0.316,-0.149]   +0.070 [-0.055,0.192]
+nt_enhancers              sep   lgbm tata_flag                -0.027       -0.023 [-0.036,-0.012]   -0.003 [-0.018,0.012]
+nt_enhancers              sep   lgbm gc_match                 -0.093       -0.079 [-0.107,-0.056]   -0.014 [-0.045,0.015]
+nt_enhancers              sep   lgbm comp_equalized           -0.161       -0.134 [-0.206,-0.068]   -0.026 [-0.141,0.087]
+nt_enhancers              sep   lr   tata_flag                -0.024       -0.017 [-0.034,0.000]   -0.007 [-0.012,-0.002]
+nt_enhancers              sep   lr   gc_match                 -0.142       -0.097 [-0.128,-0.067]   -0.045 [-0.073,-0.019]
+nt_enhancers              sep   lr   comp_equalized           -0.200       -0.160 [-0.249,-0.084]   -0.040 [-0.150,0.077]
+drosophila_enhancers_starkmean  lgbm tata_flag                +0.000       +0.000 [0.000,0.000]   +0.000 [0.000,0.000]
+drosophila_enhancers_starkmean  lgbm gc_match                 -0.041       -0.038 [-0.047,-0.030]   -0.003 [-0.017,0.012]
+drosophila_enhancers_starkmean  lgbm comp_equalized           -0.090       -0.088 [-0.124,-0.056]   -0.002 [-0.036,0.030]
+drosophila_enhancers_starkmean  lr   tata_flag                +0.000       +0.000 [0.000,0.000]   +0.000 [0.000,0.000]
+drosophila_enhancers_starkmean  lr   gc_match                 +0.048       -0.019 [-0.033,-0.006]   +0.067 [0.021,0.115]
+drosophila_enhancers_starkmean  lr   comp_equalized           -0.024       -0.033 [-0.071,0.005]   +0.009 [-0.083,0.099]
+drosophila_enhancers_starksep   lgbm tata_flag                +0.000       +0.000 [0.000,0.000]   +0.000 [0.000,0.000]
+drosophila_enhancers_starksep   lgbm gc_match                 -0.001       +0.005 [-0.003,0.014]   -0.007 [-0.021,0.007]
+drosophila_enhancers_starksep   lgbm comp_equalized           -0.008       -0.002 [-0.036,0.028]   -0.006 [-0.035,0.022]
+drosophila_enhancers_starksep   lr   tata_flag                +0.000       +0.000 [0.000,0.000]   +0.000 [0.000,0.000]
+drosophila_enhancers_starksep   lr   gc_match                 +0.003       +0.004 [-0.004,0.013]   -0.001 [-0.006,0.004]
+drosophila_enhancers_starksep   lr   comp_equalized           -0.010       -0.007 [-0.044,0.030]   -0.003 [-0.016,0.011]
+
+--- Fix B: headline-cell selection (test_effect AUROC: control flat, contaminated significant) ---
+  mean/lgbm/tata_flag       control flat=True  contaminated both-sig-&-down=True  <== valid
+  mean/lgbm/gc_match        control flat=False  contaminated both-sig-&-down=True
+  mean/lgbm/comp_equalized  control flat=False  contaminated both-sig-&-down=True
+  mean/lr/tata_flag       control flat=True  contaminated both-sig-&-down=True  <== valid
+  mean/lr/gc_match        control flat=False  contaminated both-sig-&-down=True
+  mean/lr/comp_equalized  control flat=True  contaminated both-sig-&-down=True  <== valid
+  sep/lgbm/tata_flag       control flat=True  contaminated both-sig-&-down=True  <== valid
+  sep/lgbm/gc_match        control flat=True  contaminated both-sig-&-down=True  <== valid
+  sep/lgbm/comp_equalized  control flat=True  contaminated both-sig-&-down=True  <== valid
+  sep/lr/tata_flag       control flat=True  contaminated both-sig-&-down=False
+  sep/lr/gc_match        control flat=True  contaminated both-sig-&-down=True  <== valid
+  sep/lr/comp_equalized  control flat=True  contaminated both-sig-&-down=True  <== valid
+
+LOCKED HEADLINE CELL: pooling=sep, head=lgbm, arm=gc_match  (contaminated test_effect AUROC in [-0.079,-0.048]; control CI includes 0).
+Rationale: gc_match is the moderate, well-powered composition cleaning and it DOES clean
+the control; under this cell the same frozen FM head loses AUROC on cohn/nt but NOT on the
+drosophila control. comp_equalized (any pooling) is reported as a ROBUSTNESS row only
+(aggressive, low-retention); under mean pooling the control is NOT flat, so mean-pool
+comp_equalized is explicitly NOT the headline. The figure + abstract number use the locked cell.
+
+CAVEAT honesty: paired_delta holds the test set fixed (removes the 'test set changed'
+confound). Where the control's paired_delta CI includes 0, its earlier unpaired decline was
+test-set shrinkage; where it excludes 0, the control has a real mild composition component
+(disclosed, not hidden). Seed 42, 1000-resample bootstrap, test sequence = resampling unit.

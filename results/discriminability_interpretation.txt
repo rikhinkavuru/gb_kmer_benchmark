@@ -1,0 +1,55 @@
+==============================================================================================
+MOTIF DISCRIMINABILITY  --  best single-motif class separation vs benchmark MCC
+==============================================================================================
+motif-only AUROC = does motif-hit-count ALONE separate the classes (0.5 = no separation,
+even though motifs may be abundant). Threshold 1.0 bits/pos, same for both classes.
+
+dataset                             mcc max_motif_AUROC  richness  best TF (skew)        
+-----------------------------------------------------------------------------------------
+demo_human_or_worm                0.915           0.555      0.21  TBP (pos)             
+human_ensembl_regulatory          0.907           0.691      0.53  SP2 (pos)             
+human_nontata_promoters           0.874           0.751      0.35  SP2 (pos)             
+demo_coding_vs_intergenomic_seqs  0.800           0.718      0.20  TBP (pos)             
+dummy_mouse_enhancers_ensembl     0.622           0.757      1.79  KLF5 (pos)            
+human_enhancers_ensembl           0.593           0.631      0.33  TBP (neg)             
+human_enhancers_cohn              0.461           0.669      0.56  TBP (neg)             
+drosophila_enhancers_stark        0.445           0.568      1.99  twi (pos)             
+human_ocr_ensembl                 0.421           0.573      0.38  BATF3 (pos)           
+
+richness = mean curated-motif hits per sequence (motif abundance, both classes).
+A dataset that is motif-RICH (high richness) but has max_motif_AUROC ~0.5 has motifs
+shared across classes -- present but non-discriminative.
+
+Spearman(benchmark MCC, max motif-only AUROC), all datasets (n=9): rho=+0.22 (p=0.58)
+Spearman, regulatory only (n=5): rho=+0.80 (p=0.10)
+
+Group means:
+  SOLVED regulatory (nontata, regulatory)    max_motif_AUROC=0.721  richness=0.44  mcc=0.890
+  FAILED regulatory (cohn, enh_ensembl, ocr) max_motif_AUROC=0.624  richness=0.43  mcc=0.492
+  composition controls (demo)                max_motif_AUROC=0.636  richness=0.20  mcc=0.858
+
+Sanity 1 -- GC-box (Sp1/KLF) in human_nontata_promoters (expect pos >> neg):
+  SP2        pos=1.545  neg=0.258  diff=+1.287  AUROC=0.751  (p=0.0e+00)
+  KLF15      pos=1.612  neg=0.112  diff=+1.500  AUROC=0.751  (p=0.0e+00)
+  SP1        pos=1.102  neg=0.146  diff=+0.956  AUROC=0.726  (p=0.0e+00)
+  KLF5       pos=1.343  neg=0.315  diff=+1.028  AUROC=0.722  (p=0.0e+00)
+  SP4        pos=1.000  neg=0.166  diff=+0.834  AUROC=0.707  (p=0.0e+00)
+  SP3        pos=0.612  neg=0.067  diff=+0.545  AUROC=0.662  (p=5.2e-276)
+
+Sanity 2 -- E-box/AP-1 in human_ocr_ensembl (expect pos ~ neg = shared motif):
+  BATF3      pos=0.648  neg=0.423  diff=+0.225  AUROC=0.573  (p=1.6e-38)
+  Jun        pos=0.678  neg=0.378  diff=+0.300  AUROC=0.569  (p=4.4e-39)
+  FOS        pos=0.469  neg=0.207  diff=+0.261  AUROC=0.569  (p=1.8e-50)
+  HAND2      pos=0.449  neg=0.281  diff=+0.167  AUROC=0.560  (p=2.6e-31)
+  BACH1      pos=0.187  neg=0.068  diff=+0.119  AUROC=0.553  (p=1.9e-49)
+  MYOD1      pos=0.348  neg=0.221  diff=+0.127  AUROC=0.540  (p=9.1e-18)
+  TFAP4      pos=0.103  neg=0.046  diff=+0.058  AUROC=0.527  (p=1.1e-20)
+
+Interpretation:
+  * High max_motif_AUROC with the skew toward positives = the task is solved by a
+    class-specific motif (e.g. promoters via the GC-box). Low max_motif_AUROC WITH high
+    richness = motifs are present but shared across classes -> not discriminative, which
+    is the direct demonstration of why a motif-rich task can still be hard.
+  * Reported straight: fixed bits threshold (sensitivity not swept here); sequences are
+    subsampled per class (seeded); multiclass regulatory uses promoter-vs-rest as the
+    representative contrast (all one-vs-rest contrasts are in motif_discriminability.csv).

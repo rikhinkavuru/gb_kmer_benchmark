@@ -1,0 +1,7 @@
+dataset,collection,best_k,bench_mcc,n_top,n_used_features,n_usable_TF,n_enriched_TF,max_enrich_z,frac_top_explained,mean_enriched_bits,top_enriched_TFs
+nt_promoter_all,vertebrates,4,0.8878,50,256,879,35,6.192,0.78,1.6557,HOXD11; Hoxa11; HOXC9
+nt_promoter_no_tata,vertebrates,4,0.8867,50,256,879,43,6.215,0.88,1.7363,HOXD11; Hoxa11; HOXC13
+nt_promoter_tata,vertebrates,3,0.8589,50,64,879,0,3.81,0.0,,-
+nt_enhancers,vertebrates,5,0.5332,50,963,879,83,5.785,0.76,1.6345,Atoh1; TAL1::TCF3; Ptf1A
+nt_enhancers_types,vertebrates,5,0.4818,50,1017,879,24,4.381,0.3,1.2432,TAL1::TCF3; RORC; Atoh1
+nt_splice_sites_all,vertebrates,6,0.278,50,3964,876,226,9.047,0.64,1.5976,EWSR1-FLI1; Elf5; ZNF680

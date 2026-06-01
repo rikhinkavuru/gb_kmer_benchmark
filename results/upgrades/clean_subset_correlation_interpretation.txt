@@ -1,0 +1,24 @@
+================================================================================================
+n=11 (full) vs n=9 (clean) -- discriminability (max pos-direction motif AUROC) vs benchmark MCC
+================================================================================================
+dropped (homology-inflated MCC): ['human_nontata_promoters', 'nt_enhancers']
+clean-subset tasks (n=9): ['drosophila_enhancers_stark', 'human_ocr_ensembl', 'human_enhancers_ensembl', 'human_enhancers_cohn', 'nt_promoter_tata', 'nt_promoter_no_tata', 'nt_enhancers_types', 'nt_promoter_all', 'human_ensembl_regulatory']
+
+stat                                           n=11 full             n=9 clean
+------------------------------------------------------------------------------
+pooled Spearman rho (p)                  +0.736 (0.010)       +0.867 (0.003)
+GB-only Spearman rho (p)                 +0.886 (0.019)       +0.900 (0.037)
+NT-only Spearman rho (p)                 +0.400 (0.505)       +0.400 (0.600)
+partial Spearman | suite rho (p)         +0.753 (0.012)       +0.833 (0.010)
+jackknife rho range                        [+0.68,+0.83]         [+0.81,+0.98]
+jackknife all-LOO significant                       True                  True
+
+n=11 reproduces the committed manuscript stats: True  (pooled +0.74, GB +0.89, jackknife [+0.68,+0.83]).
+PARTIAL-SPEARMAN CAVEAT: the manuscript reports +0.73 for the suite-controlled partial; that
+stat has no committed implementation and the standard rank-based first-order partial (two
+methods agreeing) gives +0.753 for n=11. The +0.02 gap is flagged, not hidden; it does not
+affect the conclusion. (Decide at write-in whether to update the manuscript's +0.73 -> +0.75.)
+
+VERDICT: dropping the two homology-inflated points STRENGTHENS the correlation (+0.74 -> +0.87); the jackknife stays entirely positive and
+significant on the clean subset. The real-task corroboration is NOT carried by the leaky
+points -- consistent with the causal synthetic dose-response being the primary Route-1 evidence.

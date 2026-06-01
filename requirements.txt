@@ -1,0 +1,13 @@
+# CPU-only. Versions pinned to the environment the benchmark was developed and
+# validated against (Python 3.14.5, macOS/arm64). scipy ships as a scikit-learn
+# dependency and is used for sparse k-mer matrices. NO torch / tensorflow / GPU.
+numpy==2.4.6
+scipy==1.17.1
+scikit-learn==1.8.0
+lightgbm==4.6.0
+genomic_benchmarks==1.0.0
+
+# interpretability layer (run_interpretability.py) only; still CPU-only / pure-python:
+pandas==3.0.3
+pyjaspar==4.0.0      # bundles the JASPAR SQLite DB (offline after install); pulls biopython
+biopython==1.87

@@ -1,0 +1,2 @@
+dataset,mapped_frac,neg_mapped_frac,n_mapped,n_total,flagged_neg_tss,nonflagged_neg_tss,pos_tss,enrichment,fisher_OR,fisher_p,n_offsets,offset_median,frac_canonical_minus25_30
+nt_enhancers,0.2819,0.2335,4332,15368,0.0063,0.0138,0.1588,0.456,0.453,0.166,4,115.0,0.0

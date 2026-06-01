@@ -1,0 +1,16 @@
+================================================================================================
+DISCRIMINABILITY DOSE-RESPONSE -- benchmark MCC as a function of dialed motif-only AUROC d
+================================================================================================
+n points = 135 (3 motifs x 5 seeds x 9 doses)
+Spearman(d, MCC) = +0.924 (p=2.4e-57)  -> MONOTONE increasing
+Linear slope dMCC/dd = +1.994  95% CI [+1.924, +2.059]  (excludes 0)
+
+Per motif (information content), d-range and MCC-range:
+  SP1    IC=14.2  d in [0.49,0.96]  MCC in [-0.05,0.88]
+  MYC    IC=11.0  d in [0.50,0.87]  MCC in [-0.06,0.72]
+  TBP    IC=8.8  d in [0.49,0.81]  MCC in [-0.09,0.60]
+
+Reading: a positive, significant slope with high Spearman shows learnability is CAUSALLY
+driven by motif discriminability -- dial d up (by implanting the motif more in positives than
+negatives) and the benchmark MCC rises monotonically, across motifs of differing IC. This is
+the arbitrary-n causal replacement for the pooled real-task correlation. Seed 42; synthetic.

@@ -1,0 +1,59 @@
+============================================================================================
+STATISTICAL SUMMARY
+============================================================================================
+PART A.1 -- best motif-only AUROC per dataset (does its CI exclude 0.5?):
+  demo_coding_vs_intergenomic_seqs TBP      AUROC=0.722 [0.712, 0.732]  perm_p=1.0e-03  -> EXCLUDES 0.5
+  demo_human_or_worm               TBP      AUROC=0.570 [0.558, 0.581]  perm_p=1.0e-03  -> EXCLUDES 0.5
+  drosophila_enhancers_stark       twi      AUROC=0.568 [0.555, 0.582]  perm_p=1.0e-03  -> EXCLUDES 0.5
+  dummy_mouse_enhancers_ensembl    KLF5     AUROC=0.757 [0.730, 0.782]  perm_p=1.0e-03  -> EXCLUDES 0.5
+  human_enhancers_cohn             TBP      AUROC=0.324 [0.313, 0.336]  perm_p=1.0e-03  -> EXCLUDES 0.5
+  human_enhancers_ensembl          TBP      AUROC=0.396 [0.384, 0.408]  perm_p=1.0e-03  -> EXCLUDES 0.5
+  human_ensembl_regulatory         SP2      AUROC=0.698 [0.689, 0.707]  perm_p=1.0e-03  -> EXCLUDES 0.5
+  human_nontata_promoters          SP2      AUROC=0.751 [0.742, 0.761]  perm_p=1.0e-03  -> EXCLUDES 0.5
+  human_ocr_ensembl                TBP      AUROC=0.431 [0.418, 0.443]  perm_p=1.0e-03  -> EXCLUDES 0.5
+
+PART A.2 -- benchmark LightGBM (point [95% CI]):
+  demo_coding_vs_intergenomic_seqs MCC=0.800 [0.793, 0.808]  AUROC=0.965 [0.963, 0.967]
+  demo_human_or_worm               MCC=0.915 [0.910, 0.920]  AUROC=0.992 [0.992, 0.993]
+  drosophila_enhancers_stark       MCC=0.445 [0.405, 0.485]  AUROC=0.780 [0.757, 0.801]
+  dummy_mouse_enhancers_ensembl    MCC=0.622 [0.520, 0.727]  AUROC=0.885 [0.842, 0.925]
+  human_enhancers_cohn             MCC=0.461 [0.440, 0.482]  AUROC=0.805 [0.794, 0.814]
+  human_enhancers_ensembl          MCC=0.593 [0.585, 0.602]  AUROC=0.875 [0.871, 0.879]
+  human_ensembl_regulatory         MCC=0.907 [0.904, 0.910]  AUROC=0.991 [0.990, 0.991]
+  human_nontata_promoters          MCC=0.874 [0.864, 0.883]  AUROC=0.989 [0.988, 0.991]
+  human_ocr_ensembl                MCC=0.421 [0.412, 0.430]  AUROC=0.785 [0.780, 0.790]
+
+PART B -- enhancer-negative TSS/promoter contamination (neg vs pos):
+  (neg_enriched=True + AUROC<0.5 => promoter signal concentrated in the NEGATIVE set)
+  drosophila_enhancers_stark [control]:
+      TATA_TBP_hits    pos=7.458 neg=7.195 (pos>neg)  AUROC(pos>neg)=0.539 [0.525,0.553]  p=1.8e-08
+      GCbox_SP1_hits   pos=0.575 neg=0.429 (pos>neg)  AUROC(pos>neg)=0.546 [0.534,0.558]  p=3.0e-15
+      GC_content       pos=0.416 neg=0.421 (neg>pos)  AUROC(pos>neg)=0.487 [0.473,0.501]  p=6.0e-02
+      CpG_OE           pos=0.928 neg=0.926 (pos>neg)  AUROC(pos>neg)=0.501 [0.487,0.516]  p=8.3e-01
+      TATA-box fraction (TSS-core contamination estimate): pos=97.3% neg=93.8% excess(neg-pos)=-3.4%
+  human_enhancers_cohn [suspect]:
+      TATA_TBP_hits    pos=0.683 neg=1.641 (neg>pos)  AUROC(pos>neg)=0.367 [0.356,0.377]  p=4.1e-113
+      GCbox_SP1_hits   pos=0.315 neg=0.110 (pos>neg)  AUROC(pos>neg)=0.560 [0.552,0.568]  p=2.7e-51
+      GC_content       pos=0.468 neg=0.392 (pos>neg)  AUROC(pos>neg)=0.738 [0.727,0.748]  p=1.2e-297
+      CpG_OE           pos=0.258 neg=0.185 (pos>neg)  AUROC(pos>neg)=0.629 [0.617,0.641]  p=2.7e-89
+      TATA-box fraction (TSS-core contamination estimate): pos=34.6% neg=57.3% excess(neg-pos)=+22.7%
+  human_enhancers_ensembl [suspect]:
+      TATA_TBP_hits    pos=0.385 neg=0.823 (neg>pos)  AUROC(pos>neg)=0.441 [0.430,0.451]  p=3.5e-31
+      GCbox_SP1_hits   pos=0.222 neg=0.070 (pos>neg)  AUROC(pos>neg)=0.548 [0.541,0.554]  p=8.0e-45
+      GC_content       pos=0.462 neg=0.409 (pos>neg)  AUROC(pos>neg)=0.665 [0.655,0.678]  p=7.5e-145
+      CpG_OE           pos=0.255 neg=0.210 (pos>neg)  AUROC(pos>neg)=0.568 [0.556,0.580]  p=2.6e-26
+      TATA-box fraction (TSS-core contamination estimate): pos=23.0% neg=33.8% excess(neg-pos)=+10.8%
+  human_ocr_ensembl [control]:
+      TATA_TBP_hits    pos=1.016 neg=0.937 (pos>neg)  AUROC(pos>neg)=0.450 [0.440,0.460]  p=6.6e-20
+      GCbox_SP1_hits   pos=0.086 neg=0.092 (neg>pos)  AUROC(pos>neg)=0.501 [0.496,0.507]  p=6.5e-01
+      GC_content       pos=0.424 neg=0.407 (pos>neg)  AUROC(pos>neg)=0.571 [0.557,0.584]  p=3.2e-28
+      CpG_OE           pos=0.185 neg=0.208 (neg>pos)  AUROC(pos>neg)=0.457 [0.444,0.469]  p=2.1e-11
+      TATA-box fraction (TSS-core contamination estimate): pos=31.8% neg=40.8% excess(neg-pos)=+9.0%
+
+Verdict logic: contamination is supported if the SUSPECT negatives are enriched for
+TATA/GC-box/GC/CpG (neg>pos, AUROC<0.5, CI excluding 0.5) AND the CONTROLs are not.
+If the suspect skew is weak or also present in controls, claim (2) should be reframed
+as 'weak/suggestive'. Thresholds: GC-box(SP1) >= 1.0 bits/pos; TATA(TBP) >= 1.3 bits/pos
+(specificity-controlled, since TBP is a low-information motif).
+Bootstrap: 1000 resamples (within-class, with replacement). Permutation: 1000 label shuffles,
+two-sided p = fraction with |AUROC-0.5| >= observed. Seed=42.

@@ -1,0 +1,20 @@
+====================================================================================================
+F003 -- TRAIN/TEST HOMOLOGY: exact 8-mer Jaccard, full scale, fraction of test sequences
+with a training near-duplicate above each threshold.
+====================================================================================================
+task                      role                        >=0.5    >=0.7    >=0.9  p99 maxJ     verdict
+---------------------------------------------------------------------------------------------------
+human_enhancers_cohn      contamination flagship     0.0075   0.0011   0.0004     0.455       clean
+nt_enhancers              contaminated enhancer      0.2500   0.2500   0.2500     1.000       LEAKY
+nt_promoter_tata          promoter anchor            0.0161   0.0145   0.0097     0.896  borderline
+human_nontata_promoters   promoter anchor            0.4497   0.4063   0.2255     0.992       LEAKY
+
+FLAGSHIP cohn is redundancy-CLEAN (0.0011 of test seqs have a >=0.7 train
+near-duplicate). Route 3's contamination magnitude on cohn is therefore NOT a homology
+artifact: the composition shortcut exists independent of train/test redundancy.
+
+Reading: this MEASURES redundancy only (no re-split, no re-fit). A leaky task's ABSOLUTE MCC
+(Table 1) may be inflated by memorised near-duplicates; but the route assignments and the
+within-TEST composition interventions (gc_match / comp_equalized / shuffled-negative) are
+computed inside a single split and do not depend on train/test redundancy. Exact 8-mer
+Jaccard, full scale, no subsampling.

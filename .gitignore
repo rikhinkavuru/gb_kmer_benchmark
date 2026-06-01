@@ -1,0 +1,19 @@
+# caches / large binaries (released via Zenodo)
+cache/
+*.fa.gz
+*.gtf.gz
+localization/GRCh38.primary_assembly.fa.gz
+localization/gencode.v44.annotation.gtf.gz
+
+# python / os cruft
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+
+# latex build artifacts
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.out
