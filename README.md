@@ -26,7 +26,7 @@ the foundation-model probe) reproduce on CPU. Exact parameters are in **`REPRODU
 - Frozen-FM embedding cache (HyenaDNA + DNABERT-2) and $k$-mer feature caches (`cache/`, ~1.4 GB)
 - Reference data used by `localization/`: GRCh38 primary assembly + GENCODE v44 annotation
 
-> **Zenodo DOIs:** *TBD on release.*
+> **Zenodo DOI** (frozen-FM embedding cache, HyenaDNA + DNABERT-2): [10.5281/zenodo.20494982](https://doi.org/10.5281/zenodo.20494982)
 
 ## Quickstart
 ```bash
