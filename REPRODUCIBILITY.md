@@ -18,7 +18,9 @@ configuration used; the code in this repository is the ground truth.
 
 ## Models (`models.py`)
 - **LightGBM** (main): `n_estimators=300, learning_rate=0.05, num_leaves=63,
-  min_child_samples=20, subsample=1.0, colsample_bytree=1.0`, `random_state=42`.
+  min_child_samples=20, subsample=1.0, colsample_bytree=1.0, reg_lambda=0.0, n_jobs=-1`,
+  `random_state=42`; run in **deterministic mode** (`deterministic=True, force_row_wise=True,
+  verbose=-1`) so a fixed seed + fixed config reproduces results bit-for-bit.
 - **Logistic regression** (linear floor): `Normalizer(norm="l2")` →
   `LogisticRegression(penalty="l2", C=1.0, solver="lbfgs", max_iter=1000, n_jobs=-1)`, `random_state=42`.
 - Metrics: accuracy, MCC, AUROC (one-vs-rest macro for multiclass); MCC emphasized.
@@ -38,6 +40,17 @@ configuration used; the code in this repository is the ground truth.
   (within-class, with replacement); 95% CIs throughout.
 - **Permutation = 1000** label shuffles; two-sided p = fraction with |AUROC − 0.5| ≥ observed.
 
+## Contamination cleaning (`run_cleaning.py`, `src/upgrades/composition_clean/run_composition_clean.py`)
+- **TATA-flag**: remove the *excess* negatives carrying a high-confidence TBP hit (≥ 1.3 bits/pos),
+  equal to the neg-minus-pos TATA-box-rate gap. Positives left identical.
+- **GC-matched**: subsample negatives to the positive-class GC histogram — **25 bins** (`--gc-bins 25`).
+- **Composition-equalized**: one LR propensity score P(positive | composition) fit on a 20-dimensional
+  composition signature (4 mononucleotide + 16 dinucleotide L1-normalized frequencies); negatives
+  resampled within each split to match the positives' propensity histogram — **20 bins** (`--n-bins 20`),
+  Rosenbaum–Rubin; balance verified by per-feature standardized mean difference.
+- **Dinucleotide-shuffled negatives**: dinucleotide-preserving (Eulerian-path) shuffle of the
+  positives (`src/upgrades/shuffled_neg/`), removing the mono/dinucleotide composition gap by construction.
+
 ## Datasets
 - Genomic Benchmarks (9 tasks) and the Nucleotide Transformer downstream tasks.
 - NT tasks are read at a pinned revision (`96d86d56…`; see `data_nt.py`).
@@ -45,7 +58,8 @@ configuration used; the code in this repository is the ground truth.
 ## Large artifacts on Zenodo (not in this repo)
 - Frozen-FM embedding cache (HyenaDNA, DNABERT-2) + $k$-mer feature caches (`cache/`).
 - GRCh38 primary assembly + GENCODE v44 annotation (used by `localization/`).
-- DOIs: *TBD on release.*
+- DOIs: frozen-FM embedding cache + manifest — **doi:10.5281/zenodo.20494982**;
+  cleaned train/test splits — **doi:10.5281/zenodo.20448617**.
 
 ## Reproduce
 ```bash
