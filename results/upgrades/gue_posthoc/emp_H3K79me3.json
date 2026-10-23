@@ -1,0 +1,109 @@
+{
+  "task": "emp_H3K79me3",
+  "posthoc": true,
+  "written": "2026-09-27",
+  "n_jobs": 3,
+  "PH2_twins": {
+    "n_test": 2884,
+    "frac_test_twin_in_train": 0.0,
+    "frac_test_crosslabel_twin_in_train": 0.0,
+    "frac_test_samelabel_twin_in_train": 0.0,
+    "frac_label1_with_label0_twin_anywhere": 0.0,
+    "comp_only_auroc_all": 0.807547,
+    "n_test_with_crosslabel_twin": 0,
+    "comp_only_auroc_with_crosslabel_twin": null,
+    "n_test_without_crosslabel_twin": 2884,
+    "comp_only_auroc_without_crosslabel_twin": 0.807547
+  },
+  "PH1_equalization": {
+    "feasible": true,
+    "k": 6,
+    "n_rand": 10,
+    "B": 1000,
+    "retained_neg_frac_train": 0.0707,
+    "retained_neg_frac_test": 0.1222,
+    "n_test_neg_matched": 166,
+    "n_test": 2884,
+    "kmer": {
+      "A0": 0.883994,
+      "Ar_mean": 0.832322,
+      "Am": 0.745887,
+      "Ar_sd_over_arms": 0.018928,
+      "A0_ci": [
+        0.871864,
+        0.896509
+      ],
+      "Ar_ci": [
+        0.80978,
+        0.853212
+      ],
+      "Am_ci": [
+        0.704043,
+        0.78408
+      ],
+      "size_effect": 0.051672,
+      "size_effect_ci": [
+        0.033919,
+        0.07166
+      ],
+      "matched_vs_random": 0.086435,
+      "matched_vs_random_ci": [
+        0.04675,
+        0.129457
+      ],
+      "total_drop": 0.138107,
+      "total_drop_ci": [
+        0.102089,
+        0.180649
+      ],
+      "rel_gap": 0.260095,
+      "rel_gap_ci": [
+        0.145484,
+        0.381962
+      ],
+      "n_boot_nan": 0
+    },
+    "comp": {
+      "A0": 0.807547,
+      "Ar_mean": 0.76672,
+      "Am": 0.621489,
+      "Ar_sd_over_arms": 0.018437,
+      "A0_ci": [
+        0.79041,
+        0.823693
+      ],
+      "Ar_ci": [
+        0.742666,
+        0.790395
+      ],
+      "Am_ci": [
+        0.580153,
+        0.663178
+      ],
+      "size_effect": 0.040828,
+      "size_effect_ci": [
+        0.020455,
+        0.06166
+      ],
+      "matched_vs_random": 0.145231,
+      "matched_vs_random_ci": [
+        0.099766,
+        0.19225
+      ],
+      "total_drop": 0.186059,
+      "total_drop_ci": [
+        0.144633,
+        0.23175
+      ],
+      "rel_gap": 0.544509,
+      "rel_gap_ci": [
+        0.389169,
+        0.703068
+      ],
+      "n_boot_nan": 0
+    },
+    "R1_supported": true,
+    "reading": "SUPPORTED: composition-chosen removal costs more AUROC than random removal of the same number of negatives, and equalization removed composition signal"
+  },
+  "total_s": 70.4
+}

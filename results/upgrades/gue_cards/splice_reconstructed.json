@@ -1,0 +1,96 @@
+{
+  "task": "splice_reconstructed",
+  "species": "human",
+  "family": "splice site (400 bp, 3-class)",
+  "neg_construction": "Wang et al. 2019 donor/acceptor/non-site, reconstructed with adversarial negatives",
+  "n_classes": 3,
+  "binary": false,
+  "n_train": 36496,
+  "n_dev": 4562,
+  "n_test": 4562,
+  "pos_frac_test": null,
+  "k": 6,
+  "val_mcc": {
+    "3": 0.257801,
+    "4": 0.283736,
+    "5": 0.313483,
+    "6": 0.330931
+  },
+  "learnability": {
+    "mcc": 0.3472004536091183,
+    "mcc_ci": [
+      0.3259940534142926,
+      0.3681660064498489
+    ],
+    "auroc": 0.8092233129843266,
+    "auroc_ci": [
+      0.7994750079672406,
+      0.8192943706515672
+    ],
+    "f1_macro": 0.508641114091545,
+    "f1_macro_ci": [
+      0.49316739619151545,
+      0.5239778509121735
+    ],
+    "acc": 0.6468654099079351,
+    "n_test": 4562
+  },
+  "composition_only": {
+    "mcc": 0.19654397848704522,
+    "mcc_ci": [
+      0.1739725120632415,
+      0.2179538931359948
+    ],
+    "auroc": 0.6969517021129805,
+    "auroc_ci": [
+      0.6852452833506625,
+      0.707852933513743
+    ],
+    "f1_macro": 0.3988445254802841
+  },
+  "composition_fraction": {
+    "value": 0.6369,
+    "ci": [
+      0.5991,
+      0.672
+    ],
+    "full_auroc": 0.8092,
+    "comp_only_auroc": 0.697,
+    "definition": "(AUROC_comp_only-0.5)/(AUROC_full-0.5) on macro-OvR AUROC [EXTENSION: multiclass]"
+  },
+  "tier": "hard",
+  "route2_positional": {
+    "spectrum_mcc": 0.2911,
+    "positional_mcc": 0.698,
+    "delta_mcc": 0.4069,
+    "delta_ci": [
+      0.382,
+      0.4316
+    ],
+    "significant": true,
+    "n_bins": 8,
+    "capped": true,
+    "n_train_used": 20000,
+    "n_test_used": 4562
+  },
+  "redundancy": {
+    "frac_ge_0_7": 0.2977,
+    "frac_verbatim": 0.0434,
+    "median_max_jaccard": 0.0904,
+    "verdict": "LEAKY",
+    "n_test": 4562
+  },
+  "verdict": "ROUTE 2: POSITIONAL (fixed-position signal discarded by the position-blind spectrum)",
+  "composition_dominated": false,
+  "composition_flag_rule": "composition fraction >= 0.8 and full AUROC >= 0.6 [multiclass extension]",
+  "timing_s": {
+    "select_k": 32.4,
+    "learn": 17.8,
+    "comp": 11.6,
+    "positional": 52.5,
+    "redundancy": 6.6
+  },
+  "total_s": 121.0,
+  "n_jobs": 3,
+  "lightgbm_version": "4.6.0"
+}

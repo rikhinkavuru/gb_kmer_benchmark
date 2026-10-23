@@ -1,0 +1,4 @@
+model,dataset,rule1_rides_shortcut,rule2_drop_not_test_imbalance,rule3_collapse_cause,rule5_aligned_control_not_destroyed,rule5_compared_to
+hyenadna,drosophila_enhancers_stark,False,True,composition removal (random arm preserves signal),True,"human_enhancers_cohn,nt_enhancers"
+hyenadna,human_enhancers_cohn,True,True,composition removal (random arm preserves signal),,
+hyenadna,nt_enhancers,False,True,size/imbalance NOT excluded (U CI includes 0),,

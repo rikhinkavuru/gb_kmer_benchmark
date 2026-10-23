@@ -1,0 +1,20 @@
+task,check,value,note
+nt_enhancers_types,train_sequences_identical_in_order_to_nt_enhancers,1.0,1 = identical lists
+nt_enhancers_types,test_sequences_identical_in_order_to_nt_enhancers,1.0,1 = identical lists
+nt_enhancers_types,label0_set_equals_nt_enhancers_label0_train,1.0,"nt_enhancers label 0 = non-enhancer (binary, label 1 = positive; data_nt.py)"
+nt_enhancers_types,label0_set_equals_nt_enhancers_label0_test,1.0,
+nt_enhancers_types,train_class0_fraction_that_is_nt_enhancers_positive,0.0,
+nt_enhancers_types,train_class1_fraction_that_is_nt_enhancers_positive,1.0,
+nt_enhancers_types,train_class2_fraction_that_is_nt_enhancers_positive,1.0,
+nt_splice_sites_all,class0_GT_peak_position,200.0,0-based start; n=9000 train seqs of length 400
+nt_splice_sites_all,class0_GT_peak_frequency,0.16722222222222222,
+nt_splice_sites_all,class0_AG_peak_position,198.0,0-based start; n=9000 train seqs of length 400
+nt_splice_sites_all,class0_AG_peak_frequency,0.9934444444444445,
+nt_splice_sites_all,class1_GT_peak_position,200.0,0-based start; n=9000 train seqs of length 400
+nt_splice_sites_all,class1_GT_peak_frequency,0.9821111111111112,
+nt_splice_sites_all,class1_AG_peak_position,203.0,0-based start; n=9000 train seqs of length 400
+nt_splice_sites_all,class1_AG_peak_frequency,0.5587777777777778,
+nt_splice_sites_all,class2_GT_peak_position,350.0,0-based start; n=9000 train seqs of length 400
+nt_splice_sites_all,class2_GT_peak_frequency,0.059444444444444446,
+nt_splice_sites_all,class2_AG_peak_position,146.0,0-based start; n=9000 train seqs of length 400
+nt_splice_sites_all,class2_AG_peak_frequency,0.08544444444444445,

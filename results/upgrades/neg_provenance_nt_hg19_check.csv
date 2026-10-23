@@ -1,0 +1,83 @@
+check,split,cls,n,k,frac,ci_lo,ci_hi,note
+"hg19 header window, whole13_all9",test,strong,100,0.0,0.0,0.0,0.0,iEnhancer FASTA header coordinates; no liftOver
+"hg19 header window, nonenh_all9",test,strong,100,0.0,0.0,0.0,0.0,iEnhancer FASTA header coordinates; no liftOver
+"hg19 header window, whole_strong_all9",test,strong,100,100.0,1.0,1.0,1.0,iEnhancer FASTA header coordinates; no liftOver
+"hg19 header window, weak_any",test,strong,100,0.0,0.0,0.0,0.0,iEnhancer FASTA header coordinates; no liftOver
+"hg19 header window, enh_any",test,strong,100,100.0,1.0,1.0,1.0,iEnhancer FASTA header coordinates; no liftOver
+"hg19 header window, whole13_all9",train,non,1484,1484.0,1.0,1.0,1.0,iEnhancer FASTA header coordinates; no liftOver
+"hg19 header window, nonenh_all9",train,non,1484,1484.0,1.0,1.0,1.0,iEnhancer FASTA header coordinates; no liftOver
+"hg19 header window, whole_strong_all9",train,non,1484,0.0,0.0,0.0,0.0,iEnhancer FASTA header coordinates; no liftOver
+"hg19 header window, weak_any",train,non,1484,0.0,0.0,0.0,0.0,iEnhancer FASTA header coordinates; no liftOver
+"hg19 header window, enh_any",train,non,1484,0.0,0.0,0.0,0.0,iEnhancer FASTA header coordinates; no liftOver
+"hg19 header window, whole13_all9",train,strong,742,0.0,0.0,0.0,0.0,iEnhancer FASTA header coordinates; no liftOver
+"hg19 header window, nonenh_all9",train,strong,742,0.0,0.0,0.0,0.0,iEnhancer FASTA header coordinates; no liftOver
+"hg19 header window, whole_strong_all9",train,strong,742,742.0,1.0,1.0,1.0,iEnhancer FASTA header coordinates; no liftOver
+"hg19 header window, weak_any",train,strong,742,0.0,0.0,0.0,0.0,iEnhancer FASTA header coordinates; no liftOver
+"hg19 header window, enh_any",train,strong,742,742.0,1.0,1.0,1.0,iEnhancer FASTA header coordinates; no liftOver
+"hg19 header window, whole13_all9",train,weak,742,0.0,0.0,0.0,0.0,iEnhancer FASTA header coordinates; no liftOver
+"hg19 header window, nonenh_all9",train,weak,742,0.0,0.0,0.0,0.0,iEnhancer FASTA header coordinates; no liftOver
+"hg19 header window, whole_strong_all9",train,weak,742,0.0,0.0,0.0,0.0,iEnhancer FASTA header coordinates; no liftOver
+"hg19 header window, weak_any",train,weak,742,742.0,1.0,1.0,1.0,iEnhancer FASTA header coordinates; no liftOver
+"hg19 header window, enh_any",train,weak,742,742.0,1.0,1.0,1.0,iEnhancer FASTA header coordinates; no liftOver
+test NEG: header carries a parseable parent range,test,non,200,186.0,0.93,0.895,0.965,
+test NEG: parent range on the fragment's own hg19 chromosome and containing it,test,non,186,184.0,0.989247311827957,0.9731182795698925,1.0,
+test NEG: parent range = one ChromHMM segment (both ends +-1 bp) in >=1 line,test,non,186,186.0,1.0,1.0,1.0,
+test NEG: ... and that segment is state 13 (Heterochrom/lo) in every matching line,test,non,186,183.0,0.9838709677419355,0.9623655913978495,1.0,
+test NEG: parent range >=99% state 13 (Heterochrom/lo) in all nine lines,test,non,186,11.0,0.05913978494623656,0.026881720430107527,0.0967741935483871,
+"NULL test NEG: shifted parent range (5-100 kb, 20 draws/region) = one segment in >=1 line",test,non,3720,0.0,0.0,,,seed 42
+test NEG with exact segment match: number of matching lines,test,non,186,134.0,0.7204301075268817,,,lines=2
+test NEG with exact segment match: number of matching lines,test,non,186,34.0,0.1827956989247312,,,lines=3
+test NEG with exact segment match: number of matching lines,test,non,186,10.0,0.053763440860215055,,,lines=4
+test NEG with exact segment match: number of matching lines,test,non,186,5.0,0.026881720430107527,,,lines=5
+test NEG with exact segment match: number of matching lines,test,non,186,2.0,0.010752688172043012,,,lines=6
+test NEG with exact segment match: number of matching lines,test,non,186,1.0,0.005376344086021506,,,lines=9
+"BASELINE test NEG: random same-state, length-matched (+-20%) segment: number of lines with an identical segment",test,non,1858,1572.0,0.8460710441334769,,,lines=1; seed 42
+"BASELINE test NEG: random same-state, length-matched (+-20%) segment: number of lines with an identical segment",test,non,1858,157.0,0.0844994617868676,,,lines=2; seed 42
+"BASELINE test NEG: random same-state, length-matched (+-20%) segment: number of lines with an identical segment",test,non,1858,54.0,0.02906350914962325,,,lines=3; seed 42
+"BASELINE test NEG: random same-state, length-matched (+-20%) segment: number of lines with an identical segment",test,non,1858,36.0,0.0193756727664155,,,lines=4; seed 42
+"BASELINE test NEG: random same-state, length-matched (+-20%) segment: number of lines with an identical segment",test,non,1858,25.0,0.013455328310010764,,,lines=5; seed 42
+"BASELINE test NEG: random same-state, length-matched (+-20%) segment: number of lines with an identical segment",test,non,1858,5.0,0.002691065662002153,,,lines=6; seed 42
+"BASELINE test NEG: random same-state, length-matched (+-20%) segment: number of lines with an identical segment",test,non,1858,5.0,0.002691065662002153,,,lines=7; seed 42
+"BASELINE test NEG: random same-state, length-matched (+-20%) segment: number of lines with an identical segment",test,non,1858,4.0,0.002152852529601722,,,lines=8; seed 42
+test NEG with exact segment match: parent matches a segment of this line,test,non,186,47.0,0.25268817204301075,,,Gm12878
+test NEG with exact segment match: parent matches a segment of this line,test,non,186,23.0,0.12365591397849462,,,H1hesc
+test NEG with exact segment match: parent matches a segment of this line,test,non,186,52.0,0.27956989247311825,,,Hepg2
+test NEG with exact segment match: parent matches a segment of this line,test,non,186,54.0,0.2903225806451613,,,Hmec
+test NEG with exact segment match: parent matches a segment of this line,test,non,186,59.0,0.3172043010752688,,,Hsmm
+test NEG with exact segment match: parent matches a segment of this line,test,non,186,54.0,0.2903225806451613,,,Huvec
+test NEG with exact segment match: parent matches a segment of this line,test,non,186,53.0,0.2849462365591398,,,K562
+test NEG with exact segment match: parent matches a segment of this line,test,non,186,67.0,0.3602150537634409,,,Nhek
+test NEG with exact segment match: parent matches a segment of this line,test,non,186,47.0,0.25268817204301075,,,Nhlf
+test NEG parent range length (bp): median [IQR],test,non,186,,93000.0,31400.0,227300.0,"quartiles, not a CI"
+test weak POS: header carries a parseable parent range,test,weak,100,71.0,0.71,0.61,0.8,
+test weak POS: parent range on the fragment's own hg19 chromosome and containing it,test,weak,71,71.0,1.0,1.0,1.0,
+test weak POS: parent range = one ChromHMM segment (both ends +-1 bp) in >=1 line,test,weak,71,71.0,1.0,1.0,1.0,
+test weak POS: ... and that segment is state 6/7 (weak enhancer) in every matching line,test,weak,71,69.0,0.971830985915493,0.9295774647887324,1.0,
+test weak POS: parent range >=99% state 6/7 (weak enhancer) in all nine lines,test,weak,71,0.0,0.0,0.0,0.0,
+"NULL test weak POS: shifted parent range (5-100 kb, 20 draws/region) = one segment in >=1 line",test,weak,1420,2.0,0.0014084507042253522,,,seed 42
+test weak POS with exact segment match: number of matching lines,test,weak,71,65.0,0.9154929577464789,,,lines=1
+test weak POS with exact segment match: number of matching lines,test,weak,71,4.0,0.056338028169014086,,,lines=2
+test weak POS with exact segment match: number of matching lines,test,weak,71,1.0,0.014084507042253521,,,lines=3
+test weak POS with exact segment match: number of matching lines,test,weak,71,1.0,0.014084507042253521,,,lines=7
+"BASELINE test weak POS: random same-state, length-matched (+-20%) segment: number of lines with an identical segment",test,weak,710,590.0,0.8309859154929577,,,lines=1; seed 42
+"BASELINE test weak POS: random same-state, length-matched (+-20%) segment: number of lines with an identical segment",test,weak,710,82.0,0.11549295774647887,,,lines=2; seed 42
+"BASELINE test weak POS: random same-state, length-matched (+-20%) segment: number of lines with an identical segment",test,weak,710,28.0,0.03943661971830986,,,lines=3; seed 42
+"BASELINE test weak POS: random same-state, length-matched (+-20%) segment: number of lines with an identical segment",test,weak,710,3.0,0.004225352112676056,,,lines=4; seed 42
+"BASELINE test weak POS: random same-state, length-matched (+-20%) segment: number of lines with an identical segment",test,weak,710,3.0,0.004225352112676056,,,lines=5; seed 42
+"BASELINE test weak POS: random same-state, length-matched (+-20%) segment: number of lines with an identical segment",test,weak,710,1.0,0.0014084507042253522,,,lines=6; seed 42
+"BASELINE test weak POS: random same-state, length-matched (+-20%) segment: number of lines with an identical segment",test,weak,710,1.0,0.0014084507042253522,,,lines=7; seed 42
+"BASELINE test weak POS: random same-state, length-matched (+-20%) segment: number of lines with an identical segment",test,weak,710,2.0,0.0028169014084507044,,,lines=8; seed 42
+test weak POS with exact segment match: parent matches a segment of this line,test,weak,71,1.0,0.014084507042253521,,,Gm12878
+test weak POS with exact segment match: parent matches a segment of this line,test,weak,71,71.0,1.0,,,H1hesc
+test weak POS with exact segment match: parent matches a segment of this line,test,weak,71,0.0,0.0,,,Hepg2
+test weak POS with exact segment match: parent matches a segment of this line,test,weak,71,1.0,0.014084507042253521,,,Hmec
+test weak POS with exact segment match: parent matches a segment of this line,test,weak,71,2.0,0.028169014084507043,,,Hsmm
+test weak POS with exact segment match: parent matches a segment of this line,test,weak,71,2.0,0.028169014084507043,,,Huvec
+test weak POS with exact segment match: parent matches a segment of this line,test,weak,71,2.0,0.028169014084507043,,,K562
+test weak POS with exact segment match: parent matches a segment of this line,test,weak,71,2.0,0.028169014084507043,,,Nhek
+test weak POS with exact segment match: parent matches a segment of this line,test,weak,71,2.0,0.028169014084507043,,,Nhlf
+test weak POS parent range length (bp): median [IQR],test,weak,71,,600.0,400.0,1000.0,"quartiles, not a CI"
+test NEG: fragment whole window state 13 in all nine lines (liftOver of fragment),test,non,200,128.0,0.64,0.565,0.71,
+test NEG: fragment enhancer state (4-7) in >=1 line (whole window),test,non,200,25.0,0.125,0.085,0.175,
+test weak POS: fragment weak-enhancer state (6/7) in >=1 line (whole window),test,weak,100,100.0,1.0,1.0,1.0,
+test weak POS: fragment strong state (4/5) in all nine lines (whole window),test,weak,100,0.0,0.0,0.0,0.0,

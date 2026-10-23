@@ -1,0 +1,13 @@
+model,dataset,train_arm,r2_cv_mean,auroc_model_mean,auroc_comp_projection_mean,frac_above_chance_recovered_mean,r2_cv_sd,auroc_model_sd,auroc_comp_projection_sd,frac_above_chance_recovered_sd,n_seeds
+hyenadna,drosophila_enhancers_stark,comp_equalized,0.118064,0.762843,0.682373,0.694179,0.01174,0.007584,0.000704,0.017211,3
+hyenadna,drosophila_enhancers_stark,gc_match,0.27622,0.823695,0.69234,0.594558,0.031604,0.009645,0.000504,0.018011,3
+hyenadna,drosophila_enhancers_stark,original,0.285813,0.828603,0.696735,0.598706,0.007315,0.000513,0.001839,0.006255,3
+hyenadna,drosophila_enhancers_stark,random,0.280898,0.806275,0.69032,0.621657,0.017296,0.005471,0.004742,0.024206,3
+hyenadna,human_enhancers_cohn,comp_equalized,0.414962,0.60834,0.636419,1.338015,0.363902,0.075863,0.083219,0.168984,3
+hyenadna,human_enhancers_cohn,gc_match,0.643825,0.77296,0.759034,0.949014,0.042271,0.002454,0.000946,0.005331,3
+hyenadna,human_enhancers_cohn,original,0.809893,0.791242,0.760949,0.896035,0.010655,0.002216,0.001029,0.00996,3
+hyenadna,human_enhancers_cohn,random,0.877123,0.747146,0.745799,0.994968,0.007826,0.011653,0.008635,0.015651,3
+hyenadna,nt_enhancers,comp_equalized,0.14494,0.75088,0.805514,1.224098,0.096426,0.055237,0.057257,0.048978,3
+hyenadna,nt_enhancers,gc_match,0.562625,0.977234,0.917374,0.874566,0.014654,0.003223,0.003481,0.002918,3
+hyenadna,nt_enhancers,original,0.648241,0.984441,0.936621,0.901319,0.058357,0.001804,0.004696,0.012957,3
+hyenadna,nt_enhancers,random,0.801559,0.943355,0.943739,1.000873,0.005921,0.001629,0.000564,0.00242,3

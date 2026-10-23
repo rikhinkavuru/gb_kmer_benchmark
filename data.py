@@ -14,10 +14,61 @@ Robustness (per the spec, the loader may return empty/odd splits):
   a deterministic stratified hold-out (20%, driven by ``seed``) is carved out of
   the available data instead, and ``split_source`` records that this happened.
 """
+import fcntl
 import glob
 import os
+import time
 
 import numpy as np
+
+# Expected (train, test) sequence counts per Genomic Benchmarks task (version 0), as
+# used for every result in the paper (Table I). genomic_benchmarks' cloud-cache path
+# calls download_from_cloud_cache(force_download=True), i.e. it DELETES and re-downloads
+# ~/.genomic_benchmarks/<task> on every download_dataset() call, so concurrent processes
+# can read a half-unzipped directory without any error. We therefore only download when
+# the local copy is incomplete, under an exclusive file lock, and verify counts on read.
+GB_EXPECTED = {
+    "demo_human_or_worm": (75000, 25000),
+    "human_ensembl_regulatory": (231348, 57713),
+    "human_nontata_promoters": (27097, 9034),
+    "demo_coding_vs_intergenomic_seqs": (75000, 25000),
+    "human_enhancers_ensembl": (123872, 30970),
+    "dummy_mouse_enhancers_ensembl": (968, 242),
+    "human_enhancers_cohn": (20843, 6948),
+    "human_ocr_ensembl": (139804, 34952),
+    "drosophila_enhancers_stark": (5184, 1730),
+}
+GB_ROOT = os.path.join(os.path.expanduser("~"), ".genomic_benchmarks")
+
+
+def _n_files(base, split):
+    return len(glob.glob(os.path.join(base, split, "*", "*.txt")))
+
+
+def _gb_complete(name, base):
+    exp = GB_EXPECTED.get(name)
+    if exp is None:
+        return os.path.isdir(base)
+    return _n_files(base, "train") >= exp[0] and _n_files(base, "test") >= exp[1]
+
+
+def _gb_base(name):
+    """Path to a complete local copy of a GB task; downloads once, under a lock."""
+    base = os.path.join(GB_ROOT, name)
+    if _gb_complete(name, base):
+        return base
+    os.makedirs(GB_ROOT, exist_ok=True)
+    with open(os.path.join(GB_ROOT, f".{name}.lock"), "w") as lk:
+        fcntl.flock(lk, fcntl.LOCK_EX)
+        try:
+            if not _gb_complete(name, base):
+                from genomic_benchmarks.loc2seq import download_dataset
+                download_dataset(name, version=0)
+            if not _gb_complete(name, base):
+                raise RuntimeError(f"{name}: download incomplete under {base}")
+        finally:
+            fcntl.flock(lk, fcntl.LOCK_UN)
+    return base
 
 
 def _read_split_dir(base, split):
@@ -60,11 +111,17 @@ def load_dataset(name, seed=42, test_frac=0.2, min_test_per_class=1):
     if name.startswith("nt_"):
         import data_nt
         return data_nt.load_nt_task(name[3:], seed=seed)
-    from genomic_benchmarks.loc2seq import download_dataset
-    base = download_dataset(name, version=0)
-
-    tr_seqs, tr_labs = _read_split_dir(base, "train")
-    te_seqs, te_labs = _read_split_dir(base, "test")
+    exp = GB_EXPECTED.get(name)
+    for attempt in range(5):
+        base = _gb_base(name)
+        tr_seqs, tr_labs = _read_split_dir(base, "train")
+        te_seqs, te_labs = _read_split_dir(base, "test")
+        if exp is None or (len(tr_seqs), len(te_seqs)) == exp:
+            break
+        time.sleep(30)   # another process was rewriting the directory; retry
+    else:
+        raise RuntimeError(f"{name}: read {len(tr_seqs)}/{len(te_seqs)} train/test "
+                           f"sequences, expected {exp[0]}/{exp[1]} (partial dataset)")
 
     classes = sorted(set(tr_labs) | set(te_labs))
     if not classes:

@@ -1,0 +1,13 @@
+model,motif,n_points,complete,slope,slope_lo,slope_hi,spearman,slope_ci_excludes_0,n_lr_degenerate
+lgbm,SP1,45,True,1.9711,1.8742,2.0674,0.9417,True,0
+lgbm,MYC,45,True,2.0193,1.8961,2.1434,0.9156,True,0
+lgbm,TBP,45,True,1.9584,1.7801,2.1323,0.8919,True,0
+lgbm,POOLED,135,True,1.9939,1.9238,2.0587,0.9239,True,0
+lr,SP1,45,True,1.8863,1.7942,1.974,0.9541,True,1
+lr,MYC,45,True,1.9817,1.8513,2.1113,0.9383,True,2
+lr,TBP,45,True,2.0734,1.9489,2.1981,0.9034,True,3
+lr,POOLED,135,True,1.9461,1.8835,2.0122,0.9345,True,6
+ebm,SP1,45,True,1.8359,1.7239,1.9408,0.9462,True,0
+ebm,MYC,45,True,1.8041,1.6606,1.9166,0.9215,True,0
+ebm,TBP,45,True,1.7215,1.5596,1.8705,0.88,True,0
+ebm,POOLED,135,True,1.8078,1.7299,1.8739,0.9211,True,0

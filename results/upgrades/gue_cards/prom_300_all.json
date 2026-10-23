@@ -1,0 +1,169 @@
+{
+  "task": "prom_300_all",
+  "species": "human",
+  "family": "promoter (300 bp)",
+  "neg_construction": "non-TATA: randomly substituted promoter sequences; TATA: random non-promoter genomic sequences carrying a TATA motif",
+  "n_classes": 2,
+  "binary": true,
+  "n_train": 47356,
+  "n_dev": 5920,
+  "n_test": 5920,
+  "pos_frac_test": 0.5034,
+  "k": 4,
+  "val_mcc": {
+    "3": 0.779989,
+    "4": 0.788287,
+    "5": 0.773301,
+    "6": 0.759179
+  },
+  "learnability": {
+    "mcc": 0.7648701998663984,
+    "mcc_ci": [
+      0.7496838418744025,
+      0.7810843392997345
+    ],
+    "auroc": 0.9510991074282062,
+    "auroc_ci": [
+      0.9459008104765976,
+      0.9560671900986975
+    ],
+    "f1_macro": 0.8824301646614576,
+    "f1_macro_ci": [
+      0.874825608203238,
+      0.8905404764555888
+    ],
+    "acc": 0.8824324324324324,
+    "n_test": 5920
+  },
+  "composition_only": {
+    "mcc": 0.7490570261013318,
+    "mcc_ci": [
+      0.7315293321749109,
+      0.7661194467366225
+    ],
+    "auroc": 0.9411108638086108,
+    "auroc_ci": [
+      0.9350259048547092,
+      0.9470147942167159
+    ],
+    "f1_macro": 0.8744635806505481
+  },
+  "composition_fraction": {
+    "value": 0.9779,
+    "ci": [
+      0.9707,
+      0.985
+    ],
+    "full_auroc": 0.9511,
+    "comp_only_auroc": 0.9411,
+    "definition": "(AUROC_comp_only-0.5)/(AUROC_full-0.5)"
+  },
+  "tier": "solved",
+  "route2_positional": {
+    "spectrum_mcc": 0.7588,
+    "positional_mcc": 0.7958,
+    "delta_mcc": 0.037,
+    "delta_ci": [
+      0.0246,
+      0.0494
+    ],
+    "significant": true,
+    "n_bins": 8,
+    "capped": true,
+    "n_train_used": 20000,
+    "n_test_used": 5920
+  },
+  "route1_motif": {
+    "max_pos_motif_auroc": 0.6863,
+    "best_TF": "KLF5",
+    "motif_richness": 0.414,
+    "per_TF_auroc": {
+      "SP1": 0.6608,
+      "SP2": 0.6806,
+      "SP3": 0.6188,
+      "SP4": 0.6565,
+      "KLF15": 0.6377,
+      "KLF5": 0.6863,
+      "ETS1": 0.5277,
+      "ETS2": 0.5284,
+      "ELF4": 0.5106,
+      "ETV2": 0.5166,
+      "FLI1": 0.5229,
+      "TFAP4": 0.5042,
+      "HAND2": 0.4715,
+      "MYOD1": 0.5178,
+      "MYC": 0.5244,
+      "BATF3": 0.4663,
+      "FOS": 0.4933,
+      "Jun": 0.4851,
+      "BACH1": 0.4959,
+      "TBP": 0.4502,
+      "PBX1": 0.4865,
+      "PBX2": 0.4821,
+      "MEIS1": 0.4025,
+      "MEIS2": 0.4975,
+      "FOXC1": 0.5006,
+      "TGIF1": 0.5
+    },
+    "n_TFs": 26,
+    "panel": "curated vertebrate (diagnose default)",
+    "missing": []
+  },
+  "route3_negatives": {
+    "tata_pos_rate": 0.11,
+    "tata_neg_rate": 0.1507,
+    "tata_neg_excess": 0.0407,
+    "tata_motif_auroc": 0.48,
+    "gc_auroc": 0.7053,
+    "cleaned_tata_auroc": 0.498,
+    "cleaning_moves_to_chance": true,
+    "frac_neg_removed": 0.0407
+  },
+  "shuffled_negative_control": {
+    "tata_auroc_vs_shuffled": 0.5267,
+    "gc_auroc_vs_shuffled": 0.5,
+    "dinuc_preserved_frac": 1.0,
+    "n_shuffled": 4000
+  },
+  "equalized_delta": {
+    "feasible": true,
+    "mcc_before": 0.76487,
+    "mcc_after": 0.029652,
+    "mcc_after_ci": [
+      -0.0106,
+      0.1036
+    ],
+    "delta_mcc": -0.7352,
+    "auroc_before": 0.951099,
+    "auroc_after": 0.779771,
+    "comp_only_auroc_after": 0.726281,
+    "comp_only_mcc_after": 0.04196,
+    "n_test_after": 3160,
+    "pos_frac_test_after": 0.943,
+    "retained_neg_frac": 0.0546,
+    "max_abs_smd_before": 1.2001,
+    "max_abs_smd_after": 0.4094
+  },
+  "redundancy": {
+    "frac_ge_0_7": 0.0152,
+    "frac_verbatim": 0.0032,
+    "median_max_jaccard": 0.168,
+    "verdict": "borderline",
+    "n_test": 5920
+  },
+  "verdict": "SOLVED (class-specific motif discriminability)",
+  "composition_dominated": true,
+  "composition_flag_rule": "composition fraction >= 0.8 and full AUROC >= 0.6",
+  "timing_s": {
+    "select_k": 18.4,
+    "learn": 6.5,
+    "comp": 7.5,
+    "positional": 9.5,
+    "motif": 3.0,
+    "equalized": 10.4,
+    "redundancy": 8.0
+  },
+  "total_s": 63.4,
+  "n_jobs": 3,
+  "lightgbm_version": "4.6.0"
+}

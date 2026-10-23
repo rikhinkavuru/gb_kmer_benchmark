@@ -1,0 +1,6 @@
+task,published_comp_mcc,this_comp_mcc,abs_diff_mcc,published_comp_auroc,this_comp_auroc,abs_diff_auroc,source
+human_enhancers_cohn,0.410478,0.410478,0.0,0.778695,0.778695,0.0,composition_clean.csv
+nt_enhancers,0.521672,0.521672,0.0,0.824475,0.824475,0.0,composition_clean.csv
+drosophila_enhancers_stark,0.252925,0.252925,0.0,0.683007,0.683007,0.0,composition_clean.csv
+human_ocr_ensembl,0.296141,0.296141,0.0,0.705385,0.705385,0.0,composition_clean_specificity.csv
+human_enhancers_ensembl,0.419712,0.419712,0.0,0.780314,0.780314,0.0,composition_clean_specificity.csv

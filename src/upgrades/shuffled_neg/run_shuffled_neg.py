@@ -36,6 +36,15 @@ import dinuc_shuffle as D
 DEFAULT = [("human_enhancers_cohn", "contaminated"),
            ("nt_enhancers", "contaminated"),
            ("drosophila_enhancers_stark", "clean control")]
+ROLE_OF = dict(DEFAULT)          # role label lookup; anything else runs as "unlabelled"
+
+
+def resolve_tasks(datasets):
+    """--datasets is a genuine dataset SELECTOR, not merely a filter over DEFAULT: any task
+    data.load_dataset can load may be named. Empty --datasets reproduces DEFAULT exactly."""
+    if not datasets:
+        return DEFAULT
+    return [(t, ROLE_OF.get(t, "unlabelled")) for t in datasets.split(",") if t]
 
 
 def shuffled_negatives(pos_seqs, rng):
@@ -74,7 +83,7 @@ def main():
     args = ap.parse_args()
     os.makedirs(C.RESULTS_DIR, exist_ok=True)
     tbp = C.load_tbp()
-    tasks = DEFAULT if not args.datasets else [(t, r) for t, r in DEFAULT if t in set(args.datasets.split(","))]
+    tasks = resolve_tasks(args.datasets)
 
     print("=" * 100)
     print(f"UPGRADE 5 -- SHUFFLED-NEGATIVE CONTROL (dinucleotide-preserving) | tata={args.tata_bits} | "

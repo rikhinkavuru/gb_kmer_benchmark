@@ -1,0 +1,239 @@
+GUE AS A THIRD SUITE -- interpretation (Reviewer 2, comment 2)   [regenerated in fix round 2]
+====================================================================================================
+Question. Do results on a further, independently curated suite support the abstract's claim that the
+framework 'route-labels any genomic sequence-classification benchmark', or must the wording be narrowed?
+Protocol. The paper's CPU pipeline and diagnose.py's fixed route rules, unchanged and pre-registered
+(src/upgrades/gue_suite/run_gue.py docstring), on all 28 GUE datasets (DNABERT-2, Zhou et al. ICLR 2024).
+Post-hoc analyses (PH1-PH5, the uniform overlap audit, paper15_reference) are labelled as such.
+Sources: results/upgrades/gue_*.csv.
+
+1. DATA INTEGRITY (gue_integrity.csv, gue_published.csv; verify_gue.py)
+   Archive SHA-256 = pinned value; 84/84 analysed CSVs are CRC-identical to the zip members;
+   27/28 datasets have train/dev/test sizes equal to DNABERT-2 Table 12. The exception is covid:
+   archive 73335/9166/9168 vs Table 12 77669/7000/7000 (same total 91669), so its published numbers may use another test partition.
+   Exact (fwd/rc) test-in-train duplicates: prom_core_all 43 (0.7% of test), prom_core_notata 30 (0.6% of test), prom_core_tata 16 (2.6% of test), prom_300_all 19 (0.3% of test), prom_300_notata 11 (0.2% of test), prom_300_tata 6 (1.0% of test), human_tf_1 2 (0.2% of test), human_tf_3 1 (0.1% of test), splice_reconstructed 198 (4.3% of test), covid 1118 (12.2% of test); all others 0.
+   Exact dev-in-train duplicates (the GUE dev split is not used by this pipeline): prom_core_all 54, prom_core_notata 29, prom_core_tata 8, prom_300_all 39, prom_300_notata 18, prom_300_tata 14, human_tf_0 1, human_tf_2 19, human_tf_3 2, human_tf_4 358, splice_reconstructed 191, covid 1132.
+   Within-split duplicates in TRAIN (strand-aware, n_dup_within_split_canonical) above 1 %: prom_core_tata 57 (1.2%), prom_300_tata 56 (1.1%), human_tf_4 3789 (19.9%), splice_reconstructed 780 (2.1%), covid 4646 (6.3%); they inflate no test metric (test-in-train is counted separately above).
+   Published numbers: 364 values parsed from Tables 6/9 of the saved arXiv text (gue_published.csv); the 224
+   hand-transcribed values in gue_data.py match the parse (0 mismatches). The Table-9 DNABERT-2 row differs from
+   Table 6 on 11 datasets (human/mouse TF, prom_core_all); we compare against Table 6 (the main table).
+
+2. HOW INDEPENDENT IS GUE? (uniform exact audit, fwd or rc: gue_overlap_summary.csv, gue_overlap_matrix.csv;
+   targeted relations with label agreement: gue_overlap.csv). Every GUE dataset was audited against every
+   task of the paper's 15 and the 12 other NT-suite tasks, in both directions (GUE inside GB/NT; GB/NT >= 50 bp
+   inside GUE). Shifted/partial overlaps are not counted, so every fraction is a LOWER bound.
+   [near-disjoint] 6/28: mouse_tf_0, mouse_tf_1, mouse_tf_2, mouse_tf_3, mouse_tf_4, covid
+      shared with any GB/NT task: 0.0%-0.2% of released sequences (with the paper's 15: 0.0%-0.1%).
+   [shares with the paper's tasks] 12/28: prom_core_all, prom_core_notata, prom_core_tata, prom_300_all, prom_300_notata, prom_300_tata, human_tf_0, human_tf_1, human_tf_2, human_tf_3, human_tf_4, splice_reconstructed
+      shared with any GB/NT task: 19.8%-77.4% of released sequences (with the paper's 15: 19.8%-77.4%).
+   [shares with NT suite only (not the paper's 15)] 10/28: emp_H3, emp_H3K14ac, emp_H3K36me3, emp_H3K4me1, emp_H3K4me2, emp_H3K4me3, emp_H3K79me3, emp_H3K9ac, emp_H4, emp_H4ac
+      shared with any GB/NT task: 100.0%-100.0% of released sequences (with the paper's 15: 0.0%-0.0%).
+   Human TF: 19.8%-44.8% of each dataset occurs verbatim inside (or contains) a sequence of the paper's tasks -- positives 31.7%-65.7%, negatives 7.9%-27.8%;
+      largest sources (summed over the 5 datasets): human_ensembl_regulatory 40655, nt_promoter_all 13969, nt_promoter_no_tata 13349, human_nontata_promoters 8642. A new assay/labelling, but not new DNA.
+   Mouse TF: 0.0%-0.2% shared (mouse_tf_0 9, mouse_tf_1 23, mouse_tf_2 6, mouse_tf_3 2, mouse_tf_4 21 sequences); covid: 0.0% (no viral GB/NT task).
+   Promoters: 29598 GUE prom_300_all positives are identical to nt_promoter_all sequences (label agreement 0.9995); only 15 negatives are shared, i.e. GUE reuses the NT/EPDnew promoter
+   positives with newly drawn negatives. GUE prom_core (70 bp) sequences are windows of prom_300 (59196/59196 contained; modal start offset 216 of 300, 95.9% of them), i.e. the
+   -34..+35 bp core around the TSS. prom_300_tata positives are identical to nt_promoter_tata's; prom_core_tata
+   positives are 70-bp windows of them (3065 of 3065).
+   Label conflicts: GUE promoter NEGATIVES that are (windows of) nt_promoter_all POSITIVES: prom_core_tata 244, prom_core_notata 49, prom_300_tata 15, prom_300_notata 0.
+   9963/36131 GB human_nontata_promoters sequences lie inside a GUE 300-bp sequence.
+   Splice: 29999/45620 GUE splice sequences (65.8%) are NT splice_sites_all sequences (label agreement 1.0000); GUE adds adversarial non-sites.
+   Yeast EMP: all 10 datasets are identical to the NT suite's own histone tasks (overlap fraction 1.000-1.000, label agreement 1.000); these NT tasks are NOT among the paper's 15.
+   The ten EMP datasets also share windows with each other (a GUE EMP dataset shares 34.2%-92.2% of its sequences with each OTHER histone task): they are ten labelings of largely one set of yeast windows.
+   => Only 6/28 GUE datasets are near-disjoint from GB/NT (<= 0.2% of sequences shared; shared sequences: mouse_tf_0 9, mouse_tf_1 23, mouse_tf_2 6, mouse_tf_3 2, mouse_tf_4 21, covid none); 1 of them (covid) shares none.
+   What GUE curated anew, per family: human TF, mouse TF and covid are new tasks with their own labels and negatives
+      (human TF: GC-matched genomic negatives, yet 19.8%-44.8% of its sequences occur in the paper's tasks; mouse TF: dinucleotide shuffles); promoters: new negatives, but the positives are NT/EPDnew sequences
+      with NT's labels; splice: 65.8% of sequences are NT splice sequences with NT's labels (sites and non-sites), plus new adversarial non-sites; yeast EMP: NT's histone tasks, identical sequences and labels.
+      => GUE is a separately ASSEMBLED suite with partly new curation, not independent DATA.
+
+3. WHERE THE CPU k-mer BASELINE STANDS (gue_published_comparison.csv; MCC x100, covid macro-F1 x100;
+   published = DNABERT-2 Table 6 (3-seed means of fine-tuned models, dev-loss checkpoint selection); ours = seed 42)
+   k-mer LightGBM minus DNABERT-2 over the 27 MCC datasets: median -7.2, range -50.3 to +3.0; k-mer >= DNABERT-2 on 4/27 (mouse_tf_0, mouse_tf_3, emp_H3K4me2, emp_H3K4me3).
+   k-mer >= NT-2500M-multi: 2/27 MCC datasets;  composition-only >= NT-2500M-multi: 0/27
+   k-mer >= NT-500M-human: 18/27 MCC datasets;  composition-only >= NT-500M-human: 0/27
+   k-mer >= DNABERT (3-mer): 11/27 MCC datasets;  composition-only >= DNABERT (3-mer): 0/27
+   HyenaDNA: the only numbers in this source are the DNABERT-2 authors' Table-9 run (e.g. prom_300_tata 5.34, covid 23.27); not compared here and not to be cited.
+   Largest deficits are position-blind failures: splice_reconstructed -50.3, prom_300_tata -34.5, prom_core_tata -25.3.
+   (splice: the B=8 positional arm lifts MCC 0.291 -> 0.698 on the capped split; 198 splice test sequences (4.3%) occur verbatim in train.)
+   covid: k-mer macro-F1 76.8 [76.0, 77.7] vs DNABERT-2 71.0, best published 73.0 (NT-2500M-multi (Table 6)), with three caveats: a different partition than
+   Table 12; 1118 test sequences (12.2%) occur verbatim in train; 100.0% of test sequences have a >= 0.7 8-mer-Jaccard train neighbour (one virus).
+   Per family (gue_family_summary.csv): Core promoter (70 bp) k-mer 58.2 / comp-only 55.8 / DNABERT-2 70.5; Promoter (300 bp) k-mer 66.8 / comp-only 63.3 / DNABERT-2 84.2; TF binding, human k-mer 63.1 / comp-only 51.7 / DNABERT-2 70.1; Splice site (3-class) k-mer 34.7 / comp-only 19.6 / DNABERT-2 85.0; TF binding, mouse k-mer 63.5 / comp-only -77.4 / DNABERT-2 68.0; Yeast histone marks k-mer 51.5 / comp-only 36.5 / DNABERT-2 56.0; Covid variant (9-class) k-mer 76.8 / comp-only 58.0 / DNABERT-2 71.0
+
+4. ROUTE LABELS WITH THE PAPER'S UNCHANGED RULE (gue_results.csv, column route = diagnose._verdict)
+   hard (no single route): 8; solved: 8; shared-motif: 5; contamination: 4; positional: 3  (n = 28; 2 of the solved carry the 'class-specific motif discriminability' qualifier) -> 12 failure routes, 8 solved, 8 hard (no single route).
+   prom_core prom_core_all=hard (no single route) (MCC 0.612); prom_core_notata=hard (no single route) (MCC 0.646); prom_core_tata=positional (MCC 0.488)
+   prom_300  prom_300_all=solved (motif-discriminable) (MCC 0.765); prom_300_notata=solved (motif-discriminable) (MCC 0.867); prom_300_tata=positional (MCC 0.371)
+   human_tf  human_tf_0=hard (no single route) (MCC 0.648); human_tf_1=solved (MCC 0.700); human_tf_2=hard (no single route) (MCC 0.567); human_tf_3=hard (no single route) (MCC 0.479); human_tf_4=solved (MCC 0.759)
+   splice    splice_reconstructed=positional (MCC 0.347)
+   mouse_tf  mouse_tf_0=hard (no single route) (MCC 0.577); mouse_tf_1=solved (MCC 0.768); mouse_tf_2=solved (MCC 0.783); mouse_tf_3=hard (no single route) (MCC 0.674); mouse_tf_4=hard (no single route) (MCC 0.373)
+   emp       emp_H3=contamination (MCC 0.689); emp_H3K14ac=shared-motif (MCC 0.473); emp_H3K36me3=contamination (MCC 0.499); emp_H3K4me1=contamination (MCC 0.414); emp_H3K4me2=shared-motif (MCC 0.342); emp_H3K4me3=shared-motif (MCC 0.385); emp_H3K79me3=contamination (MCC 0.627); emp_H3K9ac=shared-motif (MCC 0.535); emp_H4=solved (MCC 0.723); emp_H4ac=shared-motif (MCC 0.463)
+   covid     covid=solved (MCC 0.736)
+   By independence class (gue_independence_routes.csv): [shares with the paper's tasks] hard (no single route):5; solved:4; positional:3 (failure routes on: prom_core_tata, prom_300_tata, splice_reconstructed); [near-disjoint] hard (no single route):3; solved:3 (failure routes on: none); [shares with NT suite only (not the paper's 15)] shared-motif:5; contamination:4; solved:1 (failure routes on: emp_H3, emp_H3K14ac, emp_H3K36me3, emp_H3K4me1, emp_H3K4me2, emp_H3K4me3, emp_H3K79me3, emp_H3K9ac, emp_H4ac)
+   Solved-boundary fragility (MCC 95% CI contains 0.7; gue_rule_sensitivity.csv): human_tf_1 0.7002 [0.657, 0.744] (solved), mouse_tf_3 0.6742 [0.578, 0.766] (hard (no single route)), emp_H3 0.6887 [0.651, 0.726] (contamination), emp_H4 0.7227 [0.687, 0.758] (solved).
+   Yeast Route-1 readout is panel-invariant: 10/10 labels identical with the vertebrate panel (verdict_vertebrate_panel). The Route-3 TATA readout uses the vertebrate TBP PSSM in both panels, so this is
+   not a panel sensitivity for Route 3.
+
+   Route 2 (significant B=8 delta > 0.2):
+     prom_core_tata +0.231 [+0.170, +0.297]; 77.4% of its sequences are shared with the paper's tasks (nt_promoter_all:3309).
+     prom_300_tata +0.248 [+0.183, +0.317]; 65.8% of its sequences are shared with the paper's tasks (nt_promoter_tata:3080).
+     splice_reconstructed +0.407 [+0.382, +0.432]; 68.4% of its sequences are shared with the paper's tasks (nt_splice_sites_all:29999).
+   All three share data with NT. prom_300_tata's positives are identical to nt_promoter_tata's, where the same code gives
+   delta +0.0194 [-0.0006, +0.0423] (not significant; gue_paper15_reference.csv): same positives, same code, different negatives -> different route. The route is
+   a property of how the negatives were built.
+   Post hoc PH3, where the positional gain sits (gue_positional_localisation.csv; single-bin additions to the global
+   spectrum, paired bootstrap; carrier = bin recovering >= 50 % of the B=8 gain with CI > 0; rule fixed before running):
+     prom_300_tata: full delta +0.248; distributed (no single carrier bin); top single-bin gains bin7 [262,300) +0.111 (45%); bin5 [187,225) +0.097 (39%); bin6 [225,262) +0.085 (34%); rule M (TATA-box bin carries the gain): False.
+       TBP-hit peak bin5 [187,225): class 1 0.375 vs class 0 0.219 of sequences; GC there 0.510 vs 0.414. GC by bin, class 1 0.530->0.589, class 0 0.554->0.491; CpG/bin class 1 1.31->2.01, class 0 1.65->1.16.
+     prom_core_tata: full delta +0.231; carrier bin(s) 0; top single-bin gains bin0 [0,8) +0.213 (92%); bin3 [26,35) +0.078 (34%); bin5 [43,52) +0.048 (21%); rule M (TATA-box bin carries the gain): True.
+       TBP-hit peak bin0 [0,8): class 1 0.357 vs class 0 0.208 of sequences; GC there 0.256 vs 0.201. GC by bin, class 1 0.256->0.584, class 0 0.201->0.494; CpG/bin class 1 0.08->0.41, class 0 0.05->0.25.
+     splice_reconstructed: full delta +0.407; carrier bin(s) 3,4; top single-bin gains bin4 [200,250) +0.283 (70%); bin3 [150,200) +0.269 (66%); bin5 [250,300) +0.114 (28%); rule M (TATA-box bin carries the gain): n/a (multiclass).
+     nt_promoter_tata: full delta +0.019; carrier reading suppressed (full delta CI includes 0); top single-bin gains bin6 [225,262) +0.023; bin0 [0,37) +0.022; bin2 [75,112) +0.022.
+       (full delta not significant [-0.0006, +0.0423]: every single-bin gain is <= 0.023 MCC; 'carrier' is left empty in the CSV for this comparator.)
+       TBP-hit peak bin5 [187,225): class 1 0.375 vs class 0 0.137 of sequences; GC there 0.510 vs 0.505. GC by bin, class 1 0.530->0.589, class 0 0.511->0.536; CpG/bin class 1 1.31->2.01, class 0 1.91->2.20.
+     Reading prom_300_tata: the class-0 TBP-hit peak is the SAME bin as the class-1 peak (bin5), so 'negatives carry TATA at random offsets' is NOT the mechanism; no single bin carries the gain (largest single-bin gains: bins 7, 5, 6); GC runs up along class-1 sequences and down along class-0 sequences.
+     Reading prom_core_tata: the class-0 TBP-hit peak is the SAME bin as the class-1 peak (bin0), so 'negatives carry TATA at random offsets' is NOT the mechanism; the gain is carried by bin(s) 0 = the TATA-box bin, where the TATA-region k-mer content differs between classes.
+     Comparator (identical positives): nt_promoter_tata's negatives have GC running up (0.511->0.536) and CpG up (1.91->2.20), like the positives; GUE prom_300_tata's
+     negatives have GC down (0.554->0.491) and CpG down (1.65->1.16). Consistent with the B=8 gain on GUE (+0.248) but not on NT (+0.019); descriptive, not an intervention.
+   All other 25 tasks: delta -0.079 to +0.037; nominally significantly NEGATIVE (95% CI excludes 0) on 6 (emp_H3K14ac -0.060, emp_H3K4me2 -0.032, emp_H3K4me3 -0.079, emp_H3K9ac -0.043, emp_H4ac -0.062, covid -0.022) and nominally
+   significantly positive but < 0.2 on 2 (prom_core_all +0.019 [+0.005, +0.033], prom_300_all +0.037 [+0.025, +0.049]); no multiplicity correction (25 CIs, ~1.25 expected to exclude 0 by chance).
+   The paper's 'controls barely move' statement holds for GB/NT only.
+
+   Route 3: the SIGNATURE (TATA neg-excess >= 0.10, TATA AUROC < 0.5, cleaning toward chance; gue_rule_sensitivity.csv
+   route3_signature) appears in 5 GUE datasets (emp_H3 +0.268/0.325, emp_H3K36me3 +0.179/0.385, emp_H3K4me1 +0.133/0.412, emp_H3K79me3 +0.259/0.323, emp_H4 +0.328/0.281; neg-excess/TATA AUROC); the Route-3 LABEL fires on 4.
+   emp_H4 (MCC 0.7227) carries the signature but is labelled solved because the MCC >= 0.7 branch comes first.
+   Families: emp only; none of the 16 binary human/mouse tasks; not evaluable on the multiclass splice_reconstructed, covid.
+   (On GB/NT the same signature occurs on 4 tasks: human_enhancers_cohn (contamination), human_enhancers_ensembl (contamination), human_nontata_promoters (solved), nt_enhancers (contamination) -- the solved-first pre-emption also happens there.)
+   (The ten EMP datasets share 34-92% of their windows pairwise, so EMP counts are not independent observations.)
+   Post hoc PH5, provenance and genomic location of the EMP windows (emp_provenance.py; gue_emp_provenance*.csv; no fits):
+     Provenance: GUE label-1/label-0 totals equal the #positive/#negative of the Pham et al. 2005 release on 10/10 marks; the archived H3/H4 files contain every GUE window with the same label (H3 1.0000; H4 1.0000).
+     40055/41279 unique EMP windows map exactly and uniquely to the sacCer3 genome (0 hits 1165; >1 hits 59); the midpoint ORF/intergenic class
+     agrees with Pham's probe names ('i' = intergenic) on H3 0.9454 (n=14460); H4 0.9497 (n=14084). So label 0 = LOW-signal genomic windows from the same
+     ChIP-chip regions as label 1: there are no sampled negatives.
+     Label direction: pre-stated location predictions for label 1 = high hold on 6/6 marks (H3, H4, H3K36me3 high class less
+     intergenic; H3K9ac, H3K14ac, H4ac high class more intergenic).
+     Across marks the signature tracks location: TATA neg-excess vs (label-0 minus label-1 intergenic share) rho=0.976
+     (two-sided permutation p=0.00005 (100,000 perms, seed 42)); signature on 5/6 marks whose low class is more intergenic vs 0/4 others (Fisher exact two-sided p=0.0476);
+     verifier's literature grouping (gene-body/promoter-depleted vs promoter/5'): signature 5/5 vs 0/5 (exact one-sided Mann-Whitney p=0.0040 (U=25); agrees with the measured intergenic-diff sign on 9/10 marks).
+     Within marks (primary, reading rule fixed before running: e_std CI upper < 0.10 = explained by location, lower >= 0.10 = not):
+       H3        (contamination) neg-excess +0.270 -> location-standardised +0.175 [+0.147, +0.203] (35% of it explained): not explained; 4 strata +0.190: not explained
+       H4        (solved) neg-excess +0.332 -> location-standardised +0.198 [+0.160, +0.235] (40% of it explained): not explained; 4 strata +0.200: not explained
+       H3K4me1   (contamination) neg-excess +0.133 -> location-standardised +0.062 [+0.038, +0.088] (53% of it explained): explained by location; 4 strata +0.078: partly explained
+       H3K36me3  (contamination) neg-excess +0.178 -> location-standardised +0.092 [+0.067, +0.118] (48% of it explained): partly explained; 4 strata +0.061: partly explained
+       H3K79me3  (contamination) neg-excess +0.262 -> location-standardised +0.172 [+0.144, +0.198] (34% of it explained): not explained; 4 strata +0.160: not explained
+     Within-stratum excess >= 0.10 persists for H3, H3K36me3, H3K79me3, H4: H3/ORF +0.182; H3/intergenic +0.141; H4/ORF +0.204; H4/intergenic +0.100; H3K36me3/ORF +0.102; H3K79me3/ORF +0.179; H3K79me3/intergenic +0.102.
+     Reading: location accounts for the pattern ACROSS marks and for 1 signature (H3K4me1) fully and 1 (H3K36me3) partly;
+     on H3, H4, H3K79me3 the low-signal windows stay TATA/AT-richer inside both ORFs and intergenic regions. With no
+     sampled negatives, the Route-3 label on EMP cannot mean a contaminated negative background; the residual skew could be
+     the sequence preference of nucleosomes (AT-rich/poly(dA:dT) DNA is depleted) or a ChIP-chip AT bias -- not resolved here.
+     => Route 3 has a specificity limit on assays whose labels are measured signal: it flags a class-composition skew
+        whatever its origin.
+
+   'Hard (no single route)': 8/28 (prom_core_all, prom_core_notata, human_tf_0, human_tf_2, human_tf_3, mouse_tf_0, mouse_tf_3, mouse_tf_4), all of length 70-101 bp.
+   7 of them are hard ONLY because Route 1's absolute richness threshold (> 0.2 hits/sequence) is not met (their max motif AUROC is < 0.6);
+   mouse_tf_3 would stay hard under any richness normalisation: max motif AUROC 0.751 >= 0.6 (MCC 0.674).
+   Within one (vertebrate) panel, richness is 0.08-0.17 hits/sequence at 70-101 bp vs 0.40-0.51 at 300-500 bp (gue_results.csv motif_richness[_vertebrate_panel]).
+   Post hoc PH4 (gue_rule_sensitivity_summary.csv): re-expressing richness per L_ref bp and re-applying _verdict:
+     GUE   richness per 200 bp                          11 labels change (6 hard->shared-motif, 5 shared-motif->hard)
+     GUE   richness per 250 bp                          12 labels change (7 hard->shared-motif, 5 shared-motif->hard)
+     GUE   richness per 300 bp (= median paper-15 length) 11 labels change (7 hard->shared-motif, 4 shared-motif->hard)
+     GUE   richness per 400 bp                           7 labels change (7 hard->shared-motif, 0 shared-motif->hard)
+     GUE   richness per 500 bp                           7 labels change (7 hard->shared-motif, 0 shared-motif->hard)
+     GB+NT richness per 200 bp                           1 labels change (0 hard->shared-motif, 1 shared-motif->hard), Table-1 agreement 10/12
+     GB+NT richness per 250 bp                           0 labels change (0 hard->shared-motif, 0 shared-motif->hard), Table-1 agreement 11/12
+     GB+NT richness per 300 bp (= median paper-15 length)  0 labels change (0 hard->shared-motif, 0 shared-motif->hard), Table-1 agreement 11/12
+     GB+NT richness per 400 bp                           0 labels change (0 hard->shared-motif, 0 shared-motif->hard), Table-1 agreement 11/12
+     GB+NT richness per 500 bp                           0 labels change (0 hard->shared-motif, 0 shared-motif->hard), Table-1 agreement 11/12
+   => GUE labels move under length normalisation, GB/NT labels do not; the Route-1 threshold does not transfer across
+      lengths: in both directions at L_ref = 200 bp, 250 bp, 300 bp (short tasks gain Route 1, 500-bp yeast tasks lose it), only
+      hard->shared-motif at 400 bp, 500 bp. GB/NT lengths (median 300 bp) sit near L_ref, so their
+      stability is partly mechanical; the direct evidence is the within-panel richness contrast above.
+
+   Failure-route audit (gue_failure_route_audit.csv): the 12 failure-route labels against the post-hoc checks
+     positional      3: prom_core_tata (not affected by PH4 (Route 2 has no richness clause) or PH5 (not EMP)); prom_300_tata (not affected by PH4 (Route 2 has no richness clause) or PH5 (not EMP)); splice_reconstructed (not affected by PH4 (Route 2 has no richness clause) or PH5 (not EMP))
+     contamination   4: emp_H3 (label-0 windows are low-signal genomic windows, not sampled negatives; location: not explained (not explained with 4 strata)); emp_H3K36me3 (label-0 windows are low-signal genomic windows, not sampled negatives; location: partly explained (partly explained with 4 strata)); emp_H3K4me1 (label-0 windows are low-signal genomic windows, not sampled negatives; location: explained by location (partly explained with 4 strata)); emp_H3K79me3 (label-0 windows are low-signal genomic windows, not sampled negatives; location: not explained (not explained with 4 strata))
+     shared-motif    5: emp_H3K14ac (becomes hard at L200bp, L250bp, L300bp); emp_H3K4me2 (becomes hard at L200bp, L250bp, L300bp); emp_H3K4me3 (becomes hard at L200bp, L250bp, L300bp); emp_H3K9ac (becomes hard at L200bp, L250bp); emp_H4ac (becomes hard at L200bp, L250bp, L300bp)
+   => 3/12 failure-route labels (prom_core_tata, prom_300_tata, splice_reconstructed) are untouched by PH4/PH5.
+
+5. COMPOSITION / CONTAMINATION SIGNATURES
+   Composition-dominance flag (pre-registered: composition fraction >= 0.80 and AUROC >= 0.60): 12/28 (11/26 binary): prom_core_all 0.979, prom_core_notata 0.994, prom_core_tata 0.848, prom_300_all 0.978, prom_300_notata 0.980, human_tf_0 0.940, human_tf_1 0.930, human_tf_4 0.802, emp_H3 0.939, emp_H3K79me3 0.801, emp_H4 0.889, covid 0.845.
+   On GB/NT it fires on 9/12 binary tasks (gue_paper15_reference.csv), incl. Table-1 'solved' ones -> it marks composition-solvability, not contamination.
+   Promoters: composition-only MCC within 0.004-0.055 of the k-mer model (prom_core_all 0.590 vs 0.612, prom_core_notata 0.642 vs 0.646, prom_core_tata 0.442 vs 0.488, prom_300_all 0.749 vs 0.765, prom_300_notata 0.834 vs 0.867, prom_300_tata 0.316 vs 0.371);
+   the paper's own NT promoters show the same small gap (0.002-0.036, composition fraction 0.978-0.981) under a Table-1 'solved' label.
+   The equalizer keeps prom_core_all 2.8%, prom_core_notata 2.6%, prom_core_tata 6.9%, prom_300_all 5.5%, prom_300_notata 0.6%, prom_300_tata 21.9% of promoter negatives (paper text: cohn/nt_enhancers 4.5-4.9%, drosophila 42.9%);
+   max|SMD| after equalization prom_core_all 0.242, prom_core_notata 0.244, prom_core_tata 0.137, prom_300_all 0.409, prom_300_tata 0.116 (paper text: cohn 0.059), i.e. the equalizer cannot balance these negatives.
+   Human TF (GC-matched negatives): GC AUROC 0.497-0.511 (GC matching works), yet composition-only AUROC 0.711-0.899: dinucleotide content still separates the
+   classes; for TF peaks that can be genuine (e.g. CpG-containing motif) content -- artifact vs biology not resolved.
+   NEW artifact outside the three routes -- mouse TF: composition-only AUROC 0.018-0.081 (MCC -0.813 to -0.685): an INVERTED composition signal. Post hoc PH2 (gue_twins.csv):
+   every positive has a label-0 dinucleotide twin (frac 1.000), and 72.8%-81.9% of test sequences have their cross-label twin in TRAIN; composition-only AUROC is
+   0.000-0.015 on those and 0.452-0.520 (chance) on the rest. The shuffle negatives were split independently of
+   their source positives, so a model that memorises low-order composition is pushed toward the WRONG label.
+
+   Post hoc PH1, equalization vs 10 size-matched random removals (gue_equalization_decomposition.csv; AUROC):
+   R1 'supported' on 14/25 feasible binary tasks; relative gap -0.030-0.463 (max prom_core_all).
+   Paper references (psm_sensitivity_decomposition_ci.csv): contaminated cohn 0.545 [0.398, 0.683], CLEAN control drosophila 0.317 [0.156, 0.470] -- the clean
+   control is itself 'supported', so R1 is not specific. Point estimate below cohn's: 25/25; CI upper bound below cohn's point estimate: 18; CI upper bound below cohn's CI
+   lower bound: 13.
+   Equalized-split MCC (pre-registered) is exactly 0.000 on 4 tasks (prom_core_all: 2.8% of negatives kept, test 95.7% positive, prom_core_notata: 2.6% of negatives kept, test 98.1% positive, prom_core_tata: 6.9% of negatives kept, test 91.4% positive, emp_H4: 8.3% of negatives kept, test 97.2% positive),
+   and equalized test sets are 56.0%-98.1% positive across tasks: at low retention MCC is degenerate; the AUROC decomposition above is the readout.
+
+6. PRE-STATED PREDICTIONS (gue_predictions.csv)
+   P1a: mouse TF (dinucleotide-shuffled negatives): composition-only AUROC within 0.05 of 0.5 -> FAILS  [mouse_tf_0=0.022; mouse_tf_1=0.081; mouse_tf_2=0.018; mouse_tf_3=0.033; mouse_tf_4=0.034]
+   P1b: mouse TF: composition fraction ~0 (read as |fraction| <= 0.10) -> FAILS  [mouse_tf_0=-1.288; mouse_tf_1=-0.914; mouse_tf_2=-1.036; mouse_tf_3=-1.134; mouse_tf_4=-1.784]
+   P1c: mouse TF: equalized split retains most (>50%) negatives -> PARTLY  [mouse_tf_0=0.484; mouse_tf_1=0.793; mouse_tf_2=0.529; mouse_tf_3=0.512; mouse_tf_4=0.740]
+   P2: human TF (GC-matched negatives): GC AUROC within 0.05 of 0.5 -> HOLDS  [human_tf_0=0.504; human_tf_1=0.511; human_tf_2=0.497; human_tf_3=0.498; human_tf_4=0.503]
+   P3a: splice/reconstructed: significant positive positional delta -> HOLDS  [delta=+0.4069 [+0.3820,+0.4316]]
+   P3b: splice is the only GUE task that can meet the Route-2 rule (significant delta > 0.2) -> FAILS  [tasks meeting the delta rule: prom_core_tata (+0.231), prom_300_tata (+0.248), splice_reconstructed (+0.407)]
+   P4: no magnitude prediction for the promoter tasks -> not applicable  [none]
+   P1a/P1b fail because of the twin artifact (section 5), not because the shuffles carry composition signal:
+   on test sequences without a cross-label twin in train the composition-only AUROC is at chance.
+
+7. SAME CODE ON THE PAPER'S 15 TASKS (post hoc; gue_paper15_reference.csv) -- in-sample CONSISTENCY, not calibration
+   k-mer MCC reproduces the paper on 15/15.
+   diagnose._verdict reproduces the submitted Table-1 route on 11/12 scorable tasks. The thresholds and the Table-1 labels were set on these same tasks, so this checks consistency, not generalisation.
+   Disagreement: nt_enhancers_types: Table 1 'shared-motif' vs rule 'hard (no single route)' (multiclass: Routes 1/3 need binary labels).
+   The 3 Table-1 'composition' (model-free) labels are not emitted by the rule; it returns demo_human_or_worm -> solved, demo_coding_vs_intergenomic_seqs -> solved, dummy_mouse_enhancers_ensembl -> hard (no single route).
+   Rule-label distribution on GB/NT: solved: 7; contamination: 3; hard (no single route): 2; shared-motif: 2; positional: 1.
+   (nt_splice_sites_all delta here +0.6005 [+0.5711, +0.6287] on the 20,000-capped train split used by run_gue; the paper's +0.624 is the uncapped value.)
+   GUE: 8/28 'hard' vs 2/15 on GB/NT. The implementation is the shipped rule (tests); the extra 'hard' labels come from a threshold that does not
+   transfer to short sequences (section 4, PH4), i.e. a limit of the rule's scope, not an implementation error.
+
+8. CONCLUSION FOR THE WORDING
+   The pipeline and the route rules ran unchanged on all 28 GUE datasets (4 species, binary and multiclass) and gave
+   interpretable, falsifiable readouts: the positional route is recovered (splice, both TATA-promoter tasks),
+   composition-solvability is common, and a split-design artifact outside the taxonomy is exposed (mouse TF).
+   The results do NOT support restoring 'any genomic sequence-classification benchmark':
+    (a) GUE is only partly independent: 6/28 datasets are near-disjoint from GB/NT (<= 0.2% shared; mouse_tf_0 9, mouse_tf_1 23, mouse_tf_2 6, mouse_tf_3 2, mouse_tf_4 21, covid none sequences); human TF shares
+        19.8%-44.8% of its sequences with the paper's tasks; promoter positives, most splice sequences and the yeast tasks are NT data;
+    (b) every failure route fired on data shared with GB/NT (min shared fraction among failure-route datasets 65.8%); on the near-disjoint datasets the rule returned hard (no single route):3; solved:3;
+    (b') only 3 of the 12 failure-route labels (the positional ones) are untouched by the post-hoc checks: the 5 yeast Route-1 labels
+        become hard when richness is length-normalised (5/5 at 200 bp, 4/5 at 300 bp), and the 4 yeast Route-3 labels fall on measured low-signal windows, not sampled negatives (PH5);
+    (c) 8/28 datasets (<= 101 bp) are labelled hard: 7 because the Route-1 richness threshold is unreachable at that length (PH4),
+        mouse_tf_3 because its motif AUROC is >= 0.6; Routes 1/3 are defined for binary tasks only;
+    (d) on the yeast histone marks the Route-3 signature (5 datasets) tracks genomic location across marks (rho=0.976), but within a mark location explains it for only 1 of 5 (H3K4me1; only partly with 4 strata) and partly for 1 (H3K36me3);
+        the rest is an unresolved AT/TATA skew of low-signal windows inside ORFs and intergenic regions;
+    (e) the mouse-TF twin artifact is a failure mode the three routes do not name.
+   What GUE does support: the unchanged pipeline APPLIES to a separately assembled suite and its readouts are informative
+   (same positives + different negatives -> different route). Narrow the abstract/introduction to what was shown.
+
+   REPLACEMENT WORDING (bibm/paper_bibm_submitted.tex)
+   Abstract (lines 34-36): '... a diagnostic framework that route-labels genomic sequence-classification benchmarks
+     from interpretable $k$-mer-spectrum features and gradient-boosted trees; we develop it on two suites and apply it,
+     with thresholds fixed in advance, to the 28 GUE datasets, and we release ...'
+   Introduction (lines 68-69): 'We provide a model-independent, CPU-only diagnostic framework that route-labels
+     genomic sequence-classification benchmarks; we develop it on Genomic Benchmarks and the NT downstream tasks
+     and apply it, with pre-registered thresholds, to the 28 datasets of GUE~\cite{dnabert2}. Its TF, virus and
+     promoter-negative sets were curated separately, whereas its yeast datasets are NT's histone tasks, its promoter
+     positives and most splice sequences are NT sequences, and 20--45\% of its human-TF sequences occur in GB/NT.'
+   Contribution (1) (lines 85-86): '... route-labels benchmarks across two suites (...), and apply it unchanged to
+     a third (GUE; 28 datasets), where it recovers the positional route on the splice and TATA-promoter tasks,
+     which reuse NT sequences (the TATA tasks with new negatives).'
+   Route 2 (optional): 'On GUE the same rule fires on splice ($\Delta{=}+0.407$) and both TATA-promoter tasks ($+0.231$, $+0.248$), all of which
+     reuse NT sequences. \texttt{prom\_300\_tata} has exactly \texttt{nt\_promoter\_tata}'s positives, yet $\Delta{=}+0.248$ vs.\ $+0.019$, so the route is set by how the
+     negatives were built; descriptively, its negatives carry TBP matches in the same bin as the positives but lack
+     their GC/CpG rise toward the TSS.'
+   Limitation (new): 'Scope. The rules were developed on GB and NT. Applied unchanged to GUE they give 12 failure
+     routes, 8 solved and 8 hard labels. Only the 3 positional labels are insensitive to our post hoc checks: the 5 yeast
+     Route-1 labels depend on a length-dependent richness threshold, which also makes 7 short (<=101 bp) tasks hard,
+     and the 4 yeast Route-3 labels fall on measured low-signal windows, not sampled negatives, where genomic
+     location explains the cross-mark pattern but only part of each skew. Routes 1/3 need binary labels. Only 6 of the 28
+     GUE datasets are near-disjoint (<= 0.2% of sequences shared) from GB/NT.'

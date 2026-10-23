@@ -1,0 +1,67 @@
+x,y,subset,n,rho,p,jack_rho_lo,jack_rho_hi,jack_all_sig,tasks_missing,primary,role
+published_disc,published_MCC,all_TF,11,0.7364,0.0098,0.6848,0.8303,True,,False,reference
+published_disc,purge_id80_MCC,all_TF,10,0.8788,0.0008,0.8333,1.0,True,nt_enhancers_types,False,sensitivity
+published_disc,purge_id80_stdMCC,all_TF,10,0.8667,0.0012,0.8167,0.9833,True,nt_enhancers_types,False,sensitivity
+published_disc,resplit_id80_MCC,all_TF,11,0.5455,0.0827,0.4667,0.7212,False,,True,PRIMARY (pre-registered MCC protocol)
+published_disc,purge_id50_MCC,all_TF,10,0.8788,0.0008,0.8333,1.0,True,nt_enhancers_types,False,sensitivity
+published_disc,purge_id50_stdMCC,all_TF,10,0.8667,0.0012,0.8167,0.9833,True,nt_enhancers_types,False,sensitivity
+published_disc,resplit_id50_MCC,all_TF,11,0.5727,0.0655,0.503,0.7576,False,,False,sensitivity
+published_disc,resplit_random_MCC,all_TF,11,0.5727,0.0655,0.4909,0.7576,False,,False,re-pooling control
+published_disc,resplit_id80_seedmean_MCC,all_TF,11,0.5727,0.0655,0.503,0.7576,False,,False,sensitivity
+published_disc,resplit_id50_seedmean_MCC,all_TF,11,0.5818,0.0604,0.5152,0.7697,False,,False,sensitivity
+published_disc,resplit_random_seedmean_MCC,all_TF,11,0.6818,0.0208,0.6242,0.7818,False,,False,re-pooling control
+published_disc,published_MCC,excl_nt_enhancers_types,10,0.8303,0.0029,0.7667,0.8833,True,,False,reference
+published_disc,purge_id80_MCC,excl_nt_enhancers_types,10,0.8788,0.0008,0.8333,1.0,True,,False,sensitivity
+published_disc,purge_id80_stdMCC,excl_nt_enhancers_types,10,0.8667,0.0012,0.8167,0.9833,True,,False,sensitivity
+published_disc,resplit_id80_MCC,excl_nt_enhancers_types,10,0.6,0.0667,0.5333,0.7667,False,,False,sensitivity
+published_disc,purge_id50_MCC,excl_nt_enhancers_types,10,0.8788,0.0008,0.8333,1.0,True,,False,sensitivity
+published_disc,purge_id50_stdMCC,excl_nt_enhancers_types,10,0.8667,0.0012,0.8167,0.9833,True,,False,sensitivity
+published_disc,resplit_id50_MCC,excl_nt_enhancers_types,10,0.6242,0.0537,0.5667,0.8,False,,False,sensitivity
+published_disc,resplit_random_MCC,excl_nt_enhancers_types,10,0.6,0.0667,0.5333,0.7667,False,,False,re-pooling control
+published_disc,resplit_id80_seedmean_MCC,excl_nt_enhancers_types,10,0.6242,0.0537,0.5667,0.8,False,,False,sensitivity
+published_disc,resplit_id50_seedmean_MCC,excl_nt_enhancers_types,10,0.6364,0.0479,0.5833,0.8167,False,,False,sensitivity
+published_disc,resplit_random_seedmean_MCC,excl_nt_enhancers_types,10,0.7333,0.0158,0.7,0.8,True,,False,re-pooling control
+published_disc,published_MCC,excl_NT_enhancer_tasks,9,0.8833,0.0016,0.8333,0.9762,True,,False,reference
+published_disc,purge_id80_MCC,excl_NT_enhancer_tasks,9,0.8333,0.0053,0.7619,1.0,True,,False,sensitivity
+published_disc,purge_id80_stdMCC,excl_NT_enhancer_tasks,9,0.8167,0.0072,0.7381,0.9762,True,,False,sensitivity
+published_disc,resplit_id80_MCC,excl_NT_enhancer_tasks,9,0.7667,0.0159,0.6667,0.9048,False,,False,sensitivity
+published_disc,purge_id50_MCC,excl_NT_enhancer_tasks,9,0.8333,0.0053,0.7619,1.0,True,,False,sensitivity
+published_disc,purge_id50_stdMCC,excl_NT_enhancer_tasks,9,0.8167,0.0072,0.7381,0.9762,True,,False,sensitivity
+published_disc,resplit_id50_MCC,excl_NT_enhancer_tasks,9,0.8,0.0096,0.7143,0.9524,True,,False,sensitivity
+published_disc,resplit_random_MCC,excl_NT_enhancer_tasks,9,0.7667,0.0159,0.6667,0.9048,False,,False,re-pooling control
+published_disc,resplit_id80_seedmean_MCC,excl_NT_enhancer_tasks,9,0.8,0.0096,0.7143,0.9524,True,,False,sensitivity
+published_disc,resplit_id50_seedmean_MCC,excl_NT_enhancer_tasks,9,0.8167,0.0072,0.7381,0.9762,True,,False,sensitivity
+published_disc,resplit_random_seedmean_MCC,excl_NT_enhancer_tasks,9,0.8,0.0096,0.7143,0.9524,True,,False,re-pooling control
+published_disc,published_MCC,paper_9task_subset,9,0.8667,0.0025,0.8095,0.9762,True,,False,reference
+published_disc,purge_id80_MCC,paper_9task_subset,8,1.0,0.0,1.0,1.0,True,nt_enhancers_types,False,sensitivity
+published_disc,purge_id80_stdMCC,paper_9task_subset,8,0.9762,0.0,0.9643,1.0,True,nt_enhancers_types,False,sensitivity
+published_disc,resplit_id80_MCC,paper_9task_subset,9,0.8667,0.0025,0.8095,0.9524,True,,False,sensitivity
+published_disc,purge_id50_MCC,paper_9task_subset,8,1.0,0.0,1.0,1.0,True,nt_enhancers_types,False,sensitivity
+published_disc,purge_id50_stdMCC,paper_9task_subset,8,0.9762,0.0,0.9643,1.0,True,nt_enhancers_types,False,sensitivity
+published_disc,resplit_id50_MCC,paper_9task_subset,9,0.9167,0.0005,0.881,0.9524,True,,False,sensitivity
+published_disc,resplit_random_MCC,paper_9task_subset,9,0.8667,0.0025,0.8095,0.9524,True,,False,re-pooling control
+published_disc,resplit_id80_seedmean_MCC,paper_9task_subset,9,0.9167,0.0005,0.881,0.9524,True,,False,sensitivity
+published_disc,resplit_id50_seedmean_MCC,paper_9task_subset,9,0.9333,0.0002,0.9048,0.9762,True,,False,sensitivity
+published_disc,resplit_random_seedmean_MCC,paper_9task_subset,9,0.9,0.0009,0.8571,0.9524,True,,False,re-pooling control
+recomputed_disc_all,published_MCC,all_TF,11,0.6727,0.0233,0.6,0.8182,False,,False,reference
+recomputed_disc_all,purge_id80_MCC,all_TF,10,0.8667,0.0012,0.8167,0.9833,True,nt_enhancers_types,False,sensitivity
+recomputed_disc_all,purge_id80_stdMCC,all_TF,10,0.8545,0.0016,0.8,0.9667,True,nt_enhancers_types,False,sensitivity
+recomputed_disc_all,resplit_id80_MCC,all_TF,11,0.5091,0.1097,0.4182,0.6848,False,,False,sensitivity
+recomputed_disc_all,purge_id50_MCC,all_TF,10,0.8667,0.0012,0.8167,0.9833,True,nt_enhancers_types,False,sensitivity
+recomputed_disc_all,purge_id50_stdMCC,all_TF,10,0.8545,0.0016,0.8,0.9667,True,nt_enhancers_types,False,sensitivity
+recomputed_disc_all,resplit_id50_MCC,all_TF,11,0.5273,0.0956,0.4424,0.7091,False,,False,sensitivity
+recomputed_disc_all,resplit_random_MCC,all_TF,11,0.5273,0.0956,0.4303,0.7091,False,,False,re-pooling control
+recomputed_disc_all,resplit_id80_seedmean_MCC,all_TF,11,0.5273,0.0956,0.4424,0.7091,False,,False,sensitivity
+recomputed_disc_all,resplit_id50_seedmean_MCC,all_TF,11,0.5364,0.089,0.4545,0.7212,False,,False,sensitivity
+recomputed_disc_all,resplit_random_seedmean_MCC,all_TF,11,0.6364,0.0353,0.5636,0.7333,False,,False,re-pooling control
+recomputed_disc_NR_id80,published_MCC,all_TF,11,0.6727,0.0233,0.6,0.8182,False,,False,reference
+recomputed_disc_NR_id80,purge_id80_MCC,all_TF,10,0.8667,0.0012,0.8167,0.9833,True,nt_enhancers_types,False,sensitivity
+recomputed_disc_NR_id80,purge_id80_stdMCC,all_TF,10,0.8545,0.0016,0.8,0.9667,True,nt_enhancers_types,False,sensitivity
+recomputed_disc_NR_id80,resplit_id80_MCC,all_TF,11,0.5091,0.1097,0.4182,0.6848,False,,False,sensitivity
+recomputed_disc_NR_id80,purge_id50_MCC,all_TF,10,0.8667,0.0012,0.8167,0.9833,True,nt_enhancers_types,False,sensitivity
+recomputed_disc_NR_id80,purge_id50_stdMCC,all_TF,10,0.8545,0.0016,0.8,0.9667,True,nt_enhancers_types,False,sensitivity
+recomputed_disc_NR_id80,resplit_id50_MCC,all_TF,11,0.5182,0.1025,0.4303,0.697,False,,False,sensitivity
+recomputed_disc_NR_id80,resplit_random_MCC,all_TF,11,0.5273,0.0956,0.4303,0.7091,False,,False,re-pooling control
+recomputed_disc_NR_id80,resplit_id80_seedmean_MCC,all_TF,11,0.5182,0.1025,0.4303,0.697,False,,False,sensitivity
+recomputed_disc_NR_id80,resplit_id50_seedmean_MCC,all_TF,11,0.5364,0.089,0.4545,0.7212,False,,False,sensitivity
+recomputed_disc_NR_id80,resplit_random_seedmean_MCC,all_TF,11,0.6545,0.0289,0.5879,0.7576,False,,False,re-pooling control

@@ -1,0 +1,13 @@
+{
+  "task": "splice_reconstructed",
+  "posthoc": true,
+  "written": "2026-09-27",
+  "n_jobs": 3,
+  "PH2_twins": {
+    "n_test": 4562,
+    "frac_test_twin_in_train": 0.001315,
+    "frac_test_crosslabel_twin_in_train": 0.0,
+    "frac_test_samelabel_twin_in_train": 0.001315
+  },
+  "total_s": 0.2
+}

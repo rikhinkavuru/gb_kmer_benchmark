@@ -1,0 +1,21 @@
+model,dataset,rule1_rides_shortcut,rule2_drop_not_test_imbalance,rule3_collapse_cause,rule5_aligned_control_not_destroyed,rule5_compared_to
+dnabert2,nt_enhancers_leakfree,True,True,size/imbalance NOT excluded (U CI includes 0),,
+dnabert2_frozen_cls,human_enhancers_cohn,False,True,composition removal (random arm preserves signal),,
+dnabert2_frozen_cls,nt_enhancers,False,True,composition removal (random arm preserves signal),,
+dnabert2_frozen_cls,nt_enhancers_leakfree,True,True,composition removal (random arm preserves signal),,
+dnabert2_frozen_mean,human_enhancers_cohn,False,True,composition removal (random arm preserves signal),,
+dnabert2_frozen_mean,nt_enhancers,False,True,composition removal (random arm preserves signal),,
+dnabert2_frozen_mean,nt_enhancers_leakfree,True,True,size/imbalance NOT excluded (U CI includes 0),,
+hyenadna,nt_enhancers_leakfree,True,True,composition removal (random arm preserves signal),,
+hyenadna_frozen_mean,drosophila_enhancers_stark,False,True,composition removal (random arm preserves signal),False,"human_enhancers_cohn,nt_enhancers,nt_enhancers_leakfree"
+hyenadna_frozen_mean,human_enhancers_cohn,False,True,composition removal (random arm preserves signal),,
+hyenadna_frozen_mean,nt_enhancers,False,True,composition removal (random arm preserves signal),,
+hyenadna_frozen_mean,nt_enhancers_leakfree,True,True,size/imbalance NOT excluded (U CI includes 0),,
+hyenadna_frozen_sep,drosophila_enhancers_stark,False,False,size/imbalance NOT excluded (U CI includes 0),True,"human_enhancers_cohn,nt_enhancers,nt_enhancers_leakfree"
+hyenadna_frozen_sep,human_enhancers_cohn,True,True,composition removal (random arm preserves signal),,
+hyenadna_frozen_sep,nt_enhancers,False,True,size/imbalance NOT excluded (U CI includes 0),,
+hyenadna_frozen_sep,nt_enhancers_leakfree,True,True,size/imbalance NOT excluded (U CI includes 0),,
+kmer_lgbm,drosophila_enhancers_stark,False,True,composition removal (random arm preserves signal),False,"human_enhancers_cohn,nt_enhancers,nt_enhancers_leakfree"
+kmer_lgbm,human_enhancers_cohn,False,True,composition removal (random arm preserves signal),,
+kmer_lgbm,nt_enhancers,False,True,size/imbalance NOT excluded (U CI includes 0),,
+kmer_lgbm,nt_enhancers_leakfree,True,True,size/imbalance NOT excluded (U CI includes 0),,

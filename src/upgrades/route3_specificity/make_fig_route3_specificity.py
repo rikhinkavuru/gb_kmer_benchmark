@@ -23,6 +23,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
+plt.rcParams.update({
+    "font.family": "sans-serif", "font.size": 8, "axes.labelsize": 8.5,
+    "axes.titlesize": 9, "xtick.labelsize": 8, "ytick.labelsize": 8,
+    "legend.fontsize": 7.6, "axes.linewidth": 0.7, "pdf.fonttype": 42, "ps.fonttype": 42,
+})
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
 SPEC_CSV = os.path.join(ROOT, "results", "upgrades", "route3_specificity.csv")
@@ -52,26 +58,26 @@ def left_panel(ax, spec):
         ax.errorbar(x - dx, _f(rt["motif_only_auroc"]),
                     yerr=[[_f(rt["motif_only_auroc"]) - _f(rt["auroc_ci_lo"])],
                           [_f(rt["auroc_ci_hi"]) - _f(rt["motif_only_auroc"])]],
-                    fmt="D", color=OKABE["real"], ms=7, capsize=3, lw=1.4, zorder=4,
+                    fmt="D", color=OKABE["real"], ms=5, capsize=3, lw=1.4, zorder=4,
                     label="real TATA" if ds == datasets[0] else None)
         # scrambled-TBP panel: mean +/- sd band (panel spread)
         sc = g.loc["scrambled_TBP_panel"]
         ax.errorbar(x, _f(sc["motif_only_auroc"]), yerr=_f(sc["auroc_sd"]),
-                    fmt="o", color=OKABE["scram"], ms=6, capsize=3, lw=1.4, zorder=3,
-                    label="scrambled-TBP panel (mean +/- sd)" if ds == datasets[0] else None)
+                    fmt="o", color=OKABE["scram"], ms=4.5, capsize=3, lw=1.4, zorder=3,
+                    label="scrambled TBP (mean $\\pm$ sd)" if ds == datasets[0] else None)
         # random IC-matched panel: mean +/- sd band
         rd = g.loc["random_IC_panel"]
         ax.errorbar(x + dx, _f(rd["motif_only_auroc"]), yerr=_f(rd["auroc_sd"]),
-                    fmt="s", color=OKABE["rand"], ms=6, capsize=3, lw=1.4, zorder=3,
-                    label="random IC panel (mean +/- sd)" if ds == datasets[0] else None)
+                    fmt="s", color=OKABE["rand"], ms=4.5, capsize=3, lw=1.4, zorder=3,
+                    label="random IC (mean $\\pm$ sd)" if ds == datasets[0] else None)
     ax.set_xticks(list(xpos.values()))
-    ax.set_xticklabels([DS_LAB.get(d, d) for d in datasets], fontsize=8)
-    ax.set_ylim(0.30, 0.62)
-    ax.set_ylabel("TATA motif-only AUROC (pos > neg)", fontsize=8)
-    ax.set_title("Control panels vs real TATA\n(IC-matched controls; random panel on 0.5)", fontsize=8.5)
-    ax.legend(fontsize=6.3, loc="upper left", frameon=False, ncol=1)
+    ax.set_xticklabels([DS_LAB.get(d, d) for d in datasets])
+    ax.set_ylim(0.30, 0.66)
+    ax.set_ylabel("TATA motif-only AUROC")
+    ax.set_title("(a) IC-matched control panels")
+    ax.legend(loc="upper left", frameon=False, ncol=1, handletextpad=0.4,
+              borderpad=0.15, labelspacing=0.25)
     ax.spines[["top", "right"]].set_visible(False)
-    ax.tick_params(labelsize=7.5)
 
 
 def right_panel(ax, thr):
@@ -93,24 +99,22 @@ def right_panel(ax, thr):
                             color=color, alpha=0.12, zorder=1)
             ax.plot(xs, ys, ls=ls, marker=mk, color=color, ms=4, lw=1.4, zorder=2,
                     label=f"{DS_LAB.get(ds, ds)} | {split}")
-    ax.set_xlabel("TATA threshold (bits/pos)", fontsize=8)
-    ax.set_ylabel("TATA motif-only AUROC (pos > neg)", fontsize=8)
+    ax.set_xlabel("TATA threshold (bits/pos)")
+    ax.set_ylabel("TATA motif-only AUROC")
     ax.set_ylim(0.25, 0.62)
-    ax.set_title("Threshold invariance\noriginal stays neg-skewed; comp-equalized flat on 0.5", fontsize=8.5)
-    ax.legend(fontsize=6.3, loc="lower right", frameon=False)
+    ax.set_title("(b) Threshold invariance")
+    ax.legend(loc="lower right", frameon=False, handlelength=1.6, handletextpad=0.4,
+              borderpad=0.15, labelspacing=0.25)
     ax.spines[["top", "right"]].set_visible(False)
-    ax.tick_params(labelsize=7.5)
 
 
 def main():
     spec = pd.read_csv(SPEC_CSV)
     thr = pd.read_csv(THR_CSV)
-    fig, axes = plt.subplots(1, 2, figsize=(9.0, 3.8))
+    fig, axes = plt.subplots(1, 2, figsize=(5.5, 2.45))
     left_panel(axes[0], spec)
     right_panel(axes[1], thr)
-    fig.suptitle("Route 3 specificity: the TATA/composition class-skew is specific to the real motif and threshold-robust",
-                 fontsize=9.0, y=1.02)
-    fig.tight_layout()
+    fig.tight_layout(pad=0.4, w_pad=1.2)
     os.makedirs(OUTDIR, exist_ok=True)
     for ext in ("pdf", "png"):
         fig.savefig(os.path.join(OUTDIR, f"route3_specificity.{ext}"), dpi=300, bbox_inches="tight")

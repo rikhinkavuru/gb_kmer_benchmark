@@ -1,0 +1,109 @@
+{
+  "task": "emp_H4ac",
+  "posthoc": true,
+  "written": "2026-09-27",
+  "n_jobs": 3,
+  "PH2_twins": {
+    "n_test": 3410,
+    "frac_test_twin_in_train": 0.0,
+    "frac_test_crosslabel_twin_in_train": 0.0,
+    "frac_test_samelabel_twin_in_train": 0.0,
+    "frac_label1_with_label0_twin_anywhere": 0.0,
+    "comp_only_auroc_all": 0.696301,
+    "n_test_with_crosslabel_twin": 0,
+    "comp_only_auroc_with_crosslabel_twin": null,
+    "n_test_without_crosslabel_twin": 3410,
+    "comp_only_auroc_without_crosslabel_twin": 0.696301
+  },
+  "PH1_equalization": {
+    "feasible": true,
+    "k": 6,
+    "n_rand": 10,
+    "B": 1000,
+    "retained_neg_frac_train": 0.2496,
+    "retained_neg_frac_test": 0.1906,
+    "n_test_neg_matched": 304,
+    "n_test": 3410,
+    "kmer": {
+      "A0": 0.805714,
+      "Ar_mean": 0.762095,
+      "Am": 0.74492,
+      "Ar_sd_over_arms": 0.011828,
+      "A0_ci": [
+        0.791615,
+        0.820245
+      ],
+      "Ar_ci": [
+        0.744776,
+        0.780992
+      ],
+      "Am_ci": [
+        0.712919,
+        0.775642
+      ],
+      "size_effect": 0.04362,
+      "size_effect_ci": [
+        0.029184,
+        0.058555
+      ],
+      "matched_vs_random": 0.017175,
+      "matched_vs_random_ci": [
+        -0.012559,
+        0.051574
+      ],
+      "total_drop": 0.060795,
+      "total_drop_ci": [
+        0.030955,
+        0.095047
+      ],
+      "rel_gap": 0.065529,
+      "rel_gap_ci": [
+        -0.048457,
+        0.194185
+      ],
+      "n_boot_nan": 0
+    },
+    "comp": {
+      "A0": 0.696301,
+      "Ar_mean": 0.675501,
+      "Am": 0.591393,
+      "Ar_sd_over_arms": 0.017354,
+      "A0_ci": [
+        0.678858,
+        0.713453
+      ],
+      "Ar_ci": [
+        0.653422,
+        0.697822
+      ],
+      "Am_ci": [
+        0.553664,
+        0.624029
+      ],
+      "size_effect": 0.0208,
+      "size_effect_ci": [
+        0.004102,
+        0.037542
+      ],
+      "matched_vs_random": 0.084108,
+      "matched_vs_random_ci": [
+        0.043989,
+        0.12509
+      ],
+      "total_drop": 0.104908,
+      "total_drop_ci": [
+        0.070337,
+        0.142028
+      ],
+      "rel_gap": 0.479246,
+      "rel_gap_ci": [
+        0.269546,
+        0.698588
+      ],
+      "n_boot_nan": 0
+    },
+    "R1_supported": false,
+    "reading": "NOT DISTINGUISHABLE"
+  },
+  "total_s": 71.0
+}

@@ -1,0 +1,5 @@
+dataset,contrast,estimate,ci_lo,ci_hi,model_1,model_2,value_1,value_2,seeds_1,seeds_2,hyenadna,dnabert2,seeds_hyenadna,seeds_dnabert2
+human_enhancers_cohn,S_hyena_minus_S_dnabert2,0.085703,0.058332,0.114736,hyenadna,dnabert2,0.2142,0.128497,"42,43,44","42,43,44",0.2142,0.128497,"42,43,44","42,43,44"
+human_enhancers_cohn,fraclost_hyena_minus_dnabert2,0.35587,0.266858,0.457354,hyenadna,dnabert2,0.724749,0.368879,"42,43,44","42,43,44",0.724749,0.368879,"42,43,44","42,43,44"
+nt_enhancers,S_hyena_minus_S_dnabert2,0.028253,-0.014199,0.075848,hyenadna,dnabert2,0.168531,0.140277,"42,43,44","42,43,44",0.168531,0.140277,"42,43,44","42,43,44"
+nt_enhancers,fraclost_hyena_minus_dnabert2,0.205904,0.044103,0.387872,hyenadna,dnabert2,0.643922,0.438019,"42,43,44","42,43,44",0.643922,0.438019,"42,43,44","42,43,44"

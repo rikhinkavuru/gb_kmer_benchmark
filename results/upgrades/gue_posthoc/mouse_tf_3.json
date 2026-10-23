@@ -1,0 +1,109 @@
+{
+  "task": "mouse_tf_3",
+  "posthoc": true,
+  "written": "2026-09-27",
+  "n_jobs": 3,
+  "PH2_twins": {
+    "n_test": 239,
+    "frac_test_twin_in_train": 0.728033,
+    "frac_test_crosslabel_twin_in_train": 0.728033,
+    "frac_test_samelabel_twin_in_train": 0.0,
+    "frac_label1_with_label0_twin_anywhere": 1.0,
+    "comp_only_auroc_all": 0.033333,
+    "n_test_with_crosslabel_twin": 174,
+    "comp_only_auroc_with_crosslabel_twin": 0.0,
+    "n_test_without_crosslabel_twin": 65,
+    "comp_only_auroc_without_crosslabel_twin": 0.451613
+  },
+  "PH1_equalization": {
+    "feasible": true,
+    "k": 6,
+    "n_rand": 10,
+    "B": 1000,
+    "retained_neg_frac_train": 0.4968,
+    "retained_neg_frac_test": 0.6333,
+    "n_test_neg_matched": 76,
+    "n_test": 239,
+    "kmer": {
+      "A0": 0.911625,
+      "Ar_mean": 0.901603,
+      "Am": 0.902366,
+      "Ar_sd_over_arms": 0.012208,
+      "A0_ci": [
+        0.871799,
+        0.948144
+      ],
+      "Ar_ci": [
+        0.864054,
+        0.938556
+      ],
+      "Am_ci": [
+        0.856803,
+        0.946955
+      ],
+      "size_effect": 0.010021,
+      "size_effect_ci": [
+        -0.004579,
+        0.023731
+      ],
+      "matched_vs_random": -0.000763,
+      "matched_vs_random_ci": [
+        -0.022838,
+        0.021876
+      ],
+      "total_drop": 0.009258,
+      "total_drop_ci": [
+        -0.01258,
+        0.031684
+      ],
+      "rel_gap": -0.0019,
+      "rel_gap_ci": [
+        -0.058942,
+        0.055379
+      ],
+      "n_boot_nan": 0
+    },
+    "comp": {
+      "A0": 0.033333,
+      "Ar_mean": 0.122136,
+      "Am": 0.119858,
+      "Ar_sd_over_arms": 0.013054,
+      "A0_ci": [
+        0.01789,
+        0.051383
+      ],
+      "Ar_ci": [
+        0.089893,
+        0.157809
+      ],
+      "Am_ci": [
+        0.074758,
+        0.172558
+      ],
+      "size_effect": -0.088803,
+      "size_effect_ci": [
+        -0.115084,
+        -0.06577
+      ],
+      "matched_vs_random": 0.002278,
+      "matched_vs_random_ci": [
+        -0.046761,
+        0.04621
+      ],
+      "total_drop": -0.086525,
+      "total_drop_ci": [
+        -0.134428,
+        -0.046818
+      ],
+      "rel_gap": -0.006028,
+      "rel_gap_ci": [
+        -0.127017,
+        0.120806
+      ],
+      "n_boot_nan": 0
+    },
+    "R1_supported": false,
+    "reading": "NOT DISTINGUISHABLE (equalization did not move composition-only AUROC toward 0.5)"
+  },
+  "total_s": 26.6
+}

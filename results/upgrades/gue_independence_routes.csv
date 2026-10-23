@@ -1,0 +1,4 @@
+independence_class,n_datasets,tasks,frac_in_any_gb_nt_range,routes,n_failure_route,failure_route_tasks,n_route3_signature,n_route2_signature,n_comp_dominated
+shares with the paper's tasks,12,"prom_core_all, prom_core_notata, prom_core_tata, prom_300_all, prom_300_notata, prom_300_tata, human_tf_0, human_tf_1, human_tf_2, human_tf_3, human_tf_4, splice_reconstructed",0.198-0.774,hard (no single route):5; solved:4; positional:3,3,"prom_core_tata, prom_300_tata, splice_reconstructed",0,3,8
+near-disjoint,6,"mouse_tf_0, mouse_tf_1, mouse_tf_2, mouse_tf_3, mouse_tf_4, covid",0.000-0.002,hard (no single route):3; solved:3,0,,0,0,1
+shares with NT suite only (not the paper's 15),10,"emp_H3, emp_H3K14ac, emp_H3K36me3, emp_H3K4me1, emp_H3K4me2, emp_H3K4me3, emp_H3K79me3, emp_H3K9ac, emp_H4, emp_H4ac",1.000-1.000,shared-motif:5; contamination:4; solved:1,9,"emp_H3, emp_H3K14ac, emp_H3K36me3, emp_H3K4me1, emp_H3K4me2, emp_H3K4me3, emp_H3K79me3, emp_H3K9ac, emp_H4ac",5,0,3

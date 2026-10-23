@@ -1,0 +1,16 @@
+task,suite,n_enriched_TFs,best_k,test_MCC,enrich_k,k_match,maxk_test_MCC,table1_MCC,n_test
+demo_human_or_worm,GB,2,5,0.91408,4,0,0.915046,0.914,25000
+human_ensembl_regulatory,GB,94,5,0.906674,5,1,0.906674,0.907,57713
+human_nontata_promoters,GB,125,6,0.873673,6,1,0.873673,0.874,9034
+demo_coding_vs_intergenomic_seqs,GB,62,5,0.800248,5,1,0.800248,0.8,25000
+human_enhancers_ensembl,GB,265,6,0.593439,6,1,0.593439,0.593,30970
+dummy_mouse_enhancers_ensembl,GB,0,6,0.529088,-1,-1,0.621962,0.529,242
+human_enhancers_cohn,GB,11,5,0.461223,5,1,0.461223,0.461,6948
+human_ocr_ensembl,GB,243,6,0.421252,6,1,0.421252,0.421,34952
+drosophila_enhancers_stark,GB,47,4,0.398321,5,0,0.445167,0.398,1730
+nt_promoter_all,NT,35,4,0.887832,4,1,0.887832,0.888,5920
+nt_promoter_no_tata,NT,43,4,0.886663,4,1,0.886663,0.887,5299
+nt_promoter_tata,NT,0,4,0.846348,-1,-1,0.858932,0.846,621
+nt_enhancers,NT,83,4,0.513712,5,0,0.533236,0.514,400
+nt_enhancers_types,NT,24,6,0.476102,5,0,0.481788,0.476,400
+nt_splice_sites_all,NT,226,5,0.243511,6,0,0.278043,0.244,3000

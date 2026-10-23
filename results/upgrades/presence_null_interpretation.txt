@@ -1,0 +1,53 @@
+================================================================================================
+PRESENCE NULL, n=9 -> n=15, WITH A CONFIDENCE INTERVAL  (Upgrade E2)
+================================================================================================
+x = # BH-FDR-enriched TF motifs per task (read from results/enriched_tfs.csv and
+    results/nt/enriched_tfs.csv; tasks absent from those files enter as 0).
+y = best-k LightGBM test MCC (results{,_nt}.csv, model=lgbm & selected_by_val==1;
+    all 15 values verified against Table 1 of the paper).
+Zero-enrichment tasks (kept, not dropped): dummy_mouse_enhancers_ensembl, nt_promoter_tata.
+
+GB_n9        n=9   rho=-0.033  p_asym=0.932  p_perm=0.9484 (exact_enumeration)
+             Fisher 95% CI  [-0.682, +0.645]   (Bonett-Wright [-0.682, +0.645])
+             BC bootstrap over tasks 95% CI  [-0.735, +0.684]   (plain percentile [-0.754, +0.670], 9998/10000 non-degenerate)
+
+NT_n6        n=6   rho=-0.371  p_asym=0.468  p_perm=0.4972 (exact_enumeration)
+             Fisher 95% CI  [-0.909, +0.630]   (Bonett-Wright [-0.915, +0.653])
+             BC bootstrap over tasks 95% CI  [-1.000, +0.742]   (plain percentile [-1.000, +0.636], 9799/10000 non-degenerate)
+
+pooled_n15   n=15  rho=-0.245  p_asym=0.379  p_perm=0.3752 (monte_carlo)
+             Fisher 95% CI  [-0.673, +0.306]   (Bonett-Wright [-0.677, +0.313])
+             BC bootstrap over tasks 95% CI  [-0.649, +0.302]   (plain percentile [-0.651, +0.297], 10000/10000 non-degenerate)
+
+Reading.
+  * The GB-only value reproduces the paper's -0.03 exactly (rho=-0.0333), so the
+    published point estimate is correct as stated.
+  * But its 95% CI spans essentially the whole admissible range: Fisher
+    [-0.68, +0.65], BC bootstrap [-0.73, +0.68]. At n=9 the data are
+    compatible with a strong correlation in EITHER direction. The reviewer is right that
+    'uncorrelated' overstates what n=9 supports; the defensible claim is that no
+    association is DETECTABLE, not that none exists.
+  * Adding the six NT tasks (NT-only rho=-0.371) leaves the pooled estimate at
+    rho=-0.245 (p=0.38), i.e. still indistinguishable from zero, and the
+    pooled CI is still wide: Fisher [-0.67, +0.31],
+    BC bootstrap [-0.65, +0.30].
+  * So n=15 leaves the null INTACT: it does not reverse and it does not turn positive.
+    The point estimate drifts from -0.03 to -0.24, i.e. slightly NEGATIVE (more
+    enriched motifs, if anything marginally LOWER MCC -- the direction the paper's own
+    'the failed enhancer/OCR tasks are the most motif-rich' observation implies), but at
+    every n the interval covers 0 comfortably. What n=15 changes is only that the null must
+    be stated as an absence of DETECTABLE association at low power, not as a demonstrated
+    absence of association.
+
+Caveats.
+  * The enrichment counts were computed at the OLD selection-on-test best k, which differs
+    from the validation-selected k on 5 of the 13 tasks that have enrichment rows
+    (column enrich_k vs best_k; the 2 zero-enrichment tasks carry enrich_k=-1 because no
+    row records their k). Pairing the counts with the k-consistent max-over-k MCC instead
+    gives the sensitivity rows in presence_null_sensitivity.csv; the GB value there is the
+    -0.23 printed in results/motif_interpretation.txt. All are near zero, none significant.
+  * n_enriched_TFs is not comparable in an absolute sense across suites (different
+    sequence lengths, class counts and JASPAR collections), so the pooled n=15 test is
+    the least assumption-free of the three; the suite-partial rho is in the sensitivity CSV.
+  * Tasks are not independent replicates (overlapping human regulatory annotation), so the
+    effective n is if anything below 15 and the CIs above are optimistic, not conservative.

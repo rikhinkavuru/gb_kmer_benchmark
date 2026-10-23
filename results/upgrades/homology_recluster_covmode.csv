@@ -1,0 +1,11 @@
+task,threshold,cov_rule,n_edges,n_edges_covmode0,frac_test_in_train_cluster,frac_test_in_train_cluster_covmode0,purge_status,purge_mcc,purge_null_mean,homology_effect,p_null,purge_mcc_covmode0,homology_effect_covmode0,search_seconds,robust_to_cov_rule
+dummy_mouse_enhancers_ensembl,id80,"max(qcov,tcov)>=0.8 (cov-mode 1)",4,1,0.00413,0.0,ok,0.5270773497086821,0.529339526953197,-0.00226,0.725,0.5290882633145961,-0.0,5.8,True
+dummy_mouse_enhancers_ensembl,id50,"max(qcov,tcov)>=0.8 (cov-mode 1)",4,1,0.00413,0.0,ok,0.5270773497086821,0.529339526953197,-0.00226,0.725,0.5290882633145961,-0.0,5.8,True
+drosophila_enhancers_stark,id80,"max(qcov,tcov)>=0.8 (cov-mode 1)",243,141,0.0341,0.02139,ok,0.3851691528011671,0.3985412426944311,-0.01337,0.0,0.3884152653835715,-0.01007,93.5,True
+drosophila_enhancers_stark,id50,"max(qcov,tcov)>=0.8 (cov-mode 1)",259,143,0.03468,0.02197,ok,0.3847293979373155,0.3985188438860801,-0.01379,0.0,0.3879932221951778,-0.01051,93.5,True
+human_enhancers_ensembl,id80,"max(qcov,tcov)>=0.8 (cov-mode 1)",1999405,232548,0.52622,0.42854,ok,0.4246363551357681,0.5331254984260188,-0.10849,0.0,0.4271998351797124,-0.08909,1568.1,True
+human_enhancers_ensembl,id50,"max(qcov,tcov)>=0.8 (cov-mode 1)",3260480,419137,0.55809,0.45457,ok,0.4242153093280786,0.5365838084909144,-0.11237,0.0,0.4270294492566163,-0.09227,1568.1,False
+human_ocr_ensembl,id80,"max(qcov,tcov)>=0.8 (cov-mode 1)",3094117,389698,0.23735,0.11227,ok,0.3855894417215348,0.4213912701194887,-0.0358,0.0,0.4004652689109386,-0.02084,3299.2,True
+human_ocr_ensembl,id50,"max(qcov,tcov)>=0.8 (cov-mode 1)",5220755,712808,0.31769,0.16711,ok,0.3826486928529914,0.421364534163465,-0.03872,0.0,0.3976449472183447,-0.02374,3299.2,True
+human_ensembl_regulatory,id80,"max(qcov,tcov)>=0.8 (cov-mode 1)",2392737,288210,0.16339,0.06051,ok,0.9059869619385638,0.9066208456827914,-0.00063,0.161,0.9048481808313272,-0.00067,6596.1,True
+human_ensembl_regulatory,id50,"max(qcov,tcov)>=0.8 (cov-mode 1)",3618205,416766,0.22719,0.09187,ok,0.9051131937727522,0.905292929357022,-0.00018,0.408,0.9038029053175444,-0.00066,6596.1,True

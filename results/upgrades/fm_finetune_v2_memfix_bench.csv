@@ -1,0 +1,212 @@
+started,model,dataset,shaping,config,step,secs,tokens,footprint_mb,aborted_by_memguard
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),0,2.7,112,3415,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),1,2.17,112,2865,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),2,2.16,112,2863,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),3,2.57,128,2895,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),4,2.46,128,2895,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),5,2.11,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),6,2.1,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),7,2.09,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),8,2.16,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),9,2.18,112,2898,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),10,2.14,112,2898,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),11,2.12,112,2898,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),12,2.44,128,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),13,2.21,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),14,2.13,112,2898,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),15,2.18,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),16,2.13,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),17,2.15,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),18,2.52,128,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),19,2.19,112,2898,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),20,2.17,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),21,2.15,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),22,2.19,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),23,2.21,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),24,2.18,112,2898,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),25,2.18,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),26,2.15,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),27,2.24,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),28,2.53,128,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),29,2.17,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),30,2.2,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),31,2.49,128,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),32,2.21,112,2898,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),33,2.21,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),34,2.54,128,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),35,2.54,128,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),36,2.2,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),37,2.23,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),38,2.23,112,2898,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),39,2.18,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),40,2.23,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),41,2.19,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),42,2.25,112,2898,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),43,2.22,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),44,2.28,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),45,2.19,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),46,2.19,112,2897,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),47,2.32,112,2898,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),48,2.28,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),49,2.38,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),50,2.33,112,2898,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),51,2.64,128,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),52,2.22,112,2898,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),53,2.34,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),54,2.33,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),55,2.63,128,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),56,2.27,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),57,2.66,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),58,2.46,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),59,2.46,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),60,2.49,112,2897,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),61,2.52,112,2897,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),62,2.44,112,2897,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),63,2.49,112,2897,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),64,2.46,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),65,2.44,112,2896,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),66,2.55,112,2897,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),67,2.64,112,2890,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),68,2.57,112,2890,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),69,2.53,112,2890,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),70,2.44,112,2890,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),71,2.48,112,2890,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),72,2.62,112,2890,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),73,2.51,112,2890,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),74,2.51,112,2890,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),75,2.44,112,2890,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),76,2.83,112,2890,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),77,2.59,112,2890,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),78,2.56,112,2890,False
+2026-09-24 10:58:33,dnabert2,cohn,fixed,fixed shapes (--pad-multiple 16),79,2.5,112,2890,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),0,2.63,107,3415,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),1,1.98,106,3175,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),2,1.97,105,2914,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),3,2.03,114,2939,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),4,2.56,113,2962,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),5,2.33,110,2985,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),6,2.44,106,3002,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),7,2.4,109,3025,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),8,2.82,111,3047,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),9,2.39,107,3049,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),10,2.32,109,3066,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),11,2.38,109,3066,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),12,2.56,116,3088,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),13,2.45,110,3106,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),14,2.3,112,3129,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),15,2.4,109,3145,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),16,2.62,112,3162,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),17,2.59,106,3179,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),18,2.47,113,3195,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),19,2.37,104,3218,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),20,2.33,108,3241,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),21,2.45,105,3257,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),22,2.36,112,3259,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),23,2.34,108,3275,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),24,2.53,109,3277,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),25,2.63,111,3293,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),26,2.55,108,3295,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),27,2.51,110,3311,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),28,2.57,113,3327,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),29,2.62,107,3344,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),30,2.6,109,3361,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),31,2.62,115,3386,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),32,2.49,107,3400,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),33,2.87,110,3417,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),34,2.7,116,3433,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),35,2.53,113,3450,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),36,2.65,111,3465,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),37,2.62,106,3466,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),38,2.61,107,3483,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),39,2.5,107,3483,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),40,2.61,109,3485,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),41,2.66,110,3484,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),42,2.62,109,3486,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),43,2.84,112,3504,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),44,2.75,104,3518,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),45,2.68,107,3520,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),46,2.63,105,3536,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),47,2.68,107,3537,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),48,2.74,110,3552,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),49,3.03,111,3564,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),50,2.57,107,3569,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),51,3.04,116,3524,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),52,2.67,108,3540,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),53,2.69,106,3557,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),54,2.5,105,3559,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),55,2.73,114,3575,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),56,2.52,106,3591,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),57,2.59,108,3593,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),58,2.54,106,3609,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),59,2.56,110,3626,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),60,2.47,106,3628,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),61,2.83,111,3630,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),62,3.89,106,3627,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),63,2.73,108,3646,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),64,2.61,110,3662,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),65,2.85,112,3664,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),66,2.82,108,3680,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),67,2.57,107,3682,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),68,2.52,106,3683,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),69,2.63,106,3685,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),70,2.59,108,3701,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),71,2.48,106,3701,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),72,2.54,109,3718,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),73,2.77,107,3719,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),74,2.43,109,3723,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),75,2.55,109,3723,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),76,2.69,106,3739,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),77,3.11,110,3740,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),78,2.75,110,3742,False
+2026-09-24 11:02:04,dnabert2,cohn,old,OLD shapes (unpadded),79,2.69,104,3758,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),0,1.76,2560,1877,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),1,0.7,2560,1897,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),2,0.86,2560,1900,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),3,0.9,2560,1900,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),4,0.91,2560,1899,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),5,0.91,2560,1901,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),6,0.97,2560,1901,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),7,0.95,2560,1902,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),8,0.91,2560,1902,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),9,0.85,2560,1902,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),10,0.89,2560,1901,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),11,0.9,2560,1900,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),12,0.75,2560,1903,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),13,0.79,2560,1903,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),14,0.77,2560,1903,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),15,0.79,2560,1904,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),16,0.75,2560,1903,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),17,0.75,2560,1903,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),18,0.85,2560,1903,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),19,1.35,1024,1768,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),20,0.69,2560,1952,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),21,0.7,2560,1935,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),22,0.8,2560,1935,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),23,0.79,2560,1934,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),24,0.8,2560,1936,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),25,0.68,2560,1936,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),26,0.68,2560,1936,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),27,0.66,2560,1936,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),28,0.66,2560,1936,False
+2026-09-24 11:05:54,hyenadna,drosophila,fixed,fixed shapes (--pad-multiple 512 --micro-batch 8 --eval-batch 8),29,0.72,2560,1936,False
+2026-09-24 11:06:34,hyenadna,drosophila,old,OLD per-batch padding (micro-batch 8),0,1.59,2076,2236,True
+2026-09-24 11:06:34,hyenadna,drosophila,old,OLD per-batch padding (micro-batch 8),1,1.14,2104,2324,True
+2026-09-24 11:06:34,hyenadna,drosophila,old,OLD per-batch padding (micro-batch 8),2,2.25,2091,2417,True
+2026-09-24 11:06:34,hyenadna,drosophila,old,OLD per-batch padding (micro-batch 8),3,1.85,2137,2542,True
+2026-09-24 11:06:34,hyenadna,drosophila,old,OLD per-batch padding (micro-batch 8),4,1.04,2106,2298,True
+2026-09-24 11:06:34,hyenadna,drosophila,old,OLD per-batch padding (micro-batch 8),5,2.46,2221,2790,True
+2026-09-24 11:06:34,hyenadna,drosophila,old,OLD per-batch padding (micro-batch 8),6,1.13,2211,2857,True
+2026-09-24 11:06:34,hyenadna,drosophila,old,OLD per-batch padding (micro-batch 8),7,1.13,2098,2919,True
+2026-09-24 11:06:34,hyenadna,drosophila,old,OLD per-batch padding (micro-batch 8),8,1.41,2112,2650,True
+2026-09-24 11:06:34,hyenadna,drosophila,old,OLD per-batch padding (micro-batch 8),9,1.29,2125,2998,True
+2026-09-24 11:06:34,hyenadna,drosophila,old,OLD per-batch padding (micro-batch 8),10,1.4,2184,3102,True
+2026-09-24 11:06:34,hyenadna,drosophila,old,OLD per-batch padding (micro-batch 8),11,1.43,2218,3091,True
+2026-09-24 11:06:34,hyenadna,drosophila,old,OLD per-batch padding (micro-batch 8),12,1.49,2085,3182,True
+2026-09-24 11:06:34,hyenadna,drosophila,old,OLD per-batch padding (micro-batch 8),13,1.1,2113,3213,True
+2026-09-24 11:06:34,hyenadna,drosophila,old,OLD per-batch padding (micro-batch 8),14,1.2,2102,3244,True
+2026-09-24 11:06:34,hyenadna,drosophila,old,OLD per-batch padding (micro-batch 8),15,1.45,2132,3303,True
+2026-09-24 11:06:34,hyenadna,drosophila,old,OLD per-batch padding (micro-batch 8),16,1.78,2150,3364,True
+2026-09-24 11:06:34,hyenadna,drosophila,old,OLD per-batch padding (micro-batch 8),17,1.1,2100,3081,True
+2026-09-24 11:06:34,hyenadna,drosophila,old,OLD per-batch padding (micro-batch 8),18,1.75,2095,3455,True
+2026-09-24 11:06:34,hyenadna,drosophila,old,OLD per-batch padding (micro-batch 8),19,2.53,901,3354,True
+2026-09-24 11:06:34,hyenadna,drosophila,old,OLD per-batch padding (micro-batch 8),20,1.89,2263,3716,True

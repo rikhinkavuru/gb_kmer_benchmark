@@ -1,0 +1,1077 @@
+% =====================================================================
+% IEEE BIBM 2026, regular paper B290 -- ONLINE SUPPLEMENTARY MATERIAL (SM)
+% "Three Routes to Failure: An Interpretable Diagnosis of Task Difficulty and
+%  Negative-Set Contamination in Genomic Sequence-Classification Benchmarks"
+%
+% Sections S1--S9 are the targets of the pointers "SM S<n>" in bibm/paper_bibm.tex.
+% Every table (generated/tab_*.tex), every number in the prose (generated/sm_numbers.tex)
+% and every figure copy (figs/) is written by make_sm_tables.py from the result files
+% named in the captions. Do not type numbers into this file.
+%
+% Build (from the repository root):
+%   bibm/lowcpu.sh /Users/rikhinkavuru/Downloads/venv/bin/python bibm/supplement/make_sm_tables.py
+%   cd bibm/supplement && ../lowcpu.sh /opt/homebrew/bin/tectonic B290_SM.tex
+% Same toolchain and fonts as the paper (XeTeX via tectonic; TeX Gyre Termes/Heros/Cursor,
+% texgyretermes-math).
+%
+% SM change notes, camera-ready fix round 1 (audit of 2026-09-27; every value re-read from the result files):
+%  - Table S24: Head column fixed (the generator read pandas' Series.head method instead of the "head" column, so every
+%    row said LR); CI bounds now signed (+0.014). A CI bound that rounds to zero keeps its sign (T CI [-0.000, +0.227]).
+%  - TATA-box rates: S3, Tables S8/S9/S23 state that S3 uses all sequences (cohn +22.2, nt_enhancers +20.8 points) while
+%    the TATA gate and motif scans use a seeded 4,000-per-class sample (+22.7, +20.9; AUROC 0.367 vs 0.371 on all).
+%  - Terminology: "original" split (benchmark as distributed), "released equalizer / released equalized split" (ours),
+%    "published" only for literature values (defined in the About block); "GC-content AUROC" (not "GC motif-only");
+%    "test effect" in plain type; "MCC-tuned L1/L2 LR"; "Random / placebo" column in Table S13.
+%  - No version history: no "submitted"/"revision" wording; the former 9-task set is named by its members.
+%  - Contamination definition aligned with the paper and diagnose.py (excess >= 10 points, TATA AUROC < 0.5, cleaning
+%    moves it toward chance); S2 wording ("separates narrowly ... does not"; homology partials stated, not "does not
+%    confound"); S1.1 p-value methods and split-seed wording corrected; pool A = discriminability + 9 covariates.
+%  - Layout: placeins flushes floats at every section; bookmarks via \texorpdfstring; manifest caption in IEEEtran style;
+%    Fig. S5 is the regenerated vector figure (same CSVs, no suptitle); caption source lists use a wider separator.
+%  - Release gates \releasegatestatus and \aidisclosurestatus (non-comment TODO lines) added below.
+%
+% SM change notes, camera-ready fix round 2 (audit of 2026-09-27; every value re-read from the result files):
+%  - Table S35 + S6 "Routes": homology-clean cohn composition equalization vs. its size-matched placebo (X1, id80, one draw
+%    each: k-mer AUROC 0.625 [0.582, 0.666] vs 0.737 [0.700, 0.772]) with the 20-draw range 0.551-0.633 (median 0.606;
+%    homology_recluster_e1_draws_summary.csv); the note no longer withholds this readout. The paper cites it (SM S6).
+%  - S4.5 + Table S12: the pre-specified nt_enhancers test is the within design on the ORIGINAL test (0.799 vs 0.807,
+%    +0.008 [-0.074, +0.099]); the leak-free test/refit rows are labelled post hoc and listed after it; caption and note
+%    say which rows are pre-specified. Fig. S2 and S4 captions follow.
+%  - S2.1: LOTO R^2 +0.44 [-0.27, +0.70] (multivar_posthoc_homology_clean.csv S11_all), as quoted in the paper.
+%  - S3.4: leakage refutation scoped (cohn: Fisher p = 3.2e-8; genomic nt_enhancers subset: directional, p = 0.17).
+%  - S6 Labels + Table S33 note: prevalence-adjusted MCC defined (purged test re-weighted to the original per-class test
+%    proportions; run_eval.py std_mcc; post hoc). Table S33 seed-range bounds keep their sign (-0.000, +0.000); the
+%    About convention now covers range bounds.
+%  - Table S32 note: frozen rows reproduce Table S24's point estimates; CIs come from a separate paired bootstrap.
+%  - Fig. S5: SM-local re-plot by the experiment's own panel functions on the same CSVs; only the panel-(b) legend is
+%    moved off the lines and 'comp_equalized' spelled 'equalized'. Fig. S6: SM-local vector re-plot of
+%    fm_cross_architecture.csv at 8 pt with plain labels (was a cropped 5-pt raster with a 'test_effect' axis label).
+%
+% SM change notes, camera-ready fix round 4 (final polish after audit round 3; every value re-read from the result files):
+%  - About block: the 11 TF-motif tasks are defined once and named (all 15 tasks but splice and the three composition
+%    tasks; multivar_posthoc_family_tasks.csv); S2.1 uses the paper's gloss and points to it; "enhancer/OCR" is now
+%    "enhancer/open-chromatin" (S2.1, S2.2), as in the paper. Table S1: first column widened (0.17 -> 0.2 linewidth) and
+%    each code directory set on its own line, so no directory name breaks inside the name.
+%  - Table S35 note: the homology-clean nt_enhancers equalized arm keeps 3 test negatives at id80 (the paper's value) and
+%    1 at id50, labelled (was "1--3"; homology_recluster_interventions.csv E1 n_test_neg_kept).
+%  - Table S1: "Prevalence-adjusted purge MCC" (was "Prevalence-standardised"); one name for the metric throughout.
+%  - Table S34: Task column widened (0.1 -> 0.145 linewidth) so no short task id breaks inside the name.
+%  - S3.1: iEnhancer-EL test negatives: the all-nine state-13 rate is stated as observed, the single-segment construction
+%    as inferred post hoc from the FASTA headers (same certainty as the paper and Table S10).
+%  - S4.1: "matching"/"matched" defined once as the composition equalization (not the frozen probes' GC-matched subset);
+%    "one-sided" defined (removes negatives only). S5.1: the GC-matched subset is defined (negatives subsampled to the
+%    positives' GC histogram).
+%  - S5.2 + Table S26 note: pre-specified rule 5 is stated (B and D above chance; the control's S below each contaminated
+%    set's, disjoint CIs) with why it fails (control S +0.086 [+0.056, +0.114] overlaps nt_enhancers' +0.169
+%    [+0.095, +0.241]); the generator re-derives the verdict from fm_finetune_v2_paper_table.csv and asserts it.
+%  - S3.4: Fisher p for cohn set outside math mode (its macro uses \texttimes; the build warned "invalid in math mode").
+%  - US spelling throughout (labeled, unlabeled, favors, normalized, standardized, center). Fig. S1 caption expands the
+%    in-figure "OCR" (open-chromatin); Table S4 row label uses the short id nt_enh_types (no mid-name break).
+%
+% SM change notes, camera-ready fix round 4, second pass (audit of the round-4 texts; no number changed, the generator
+% re-run leaves generated/ and figs/ byte-identical; table and figure numbering unchanged, S1-S49 and Figs. S1-S9):
+%  - Layout: Fig. S1 at 0.6 linewidth (was 0.7; the 300-dpi raster now prints at 381 ppi) with a shorter caption, so it
+%    fills the bottom of the S2.3 page instead of floating to the next page and leaving it half blank. Fig. S5 at 0.8
+%    linewidth (was 0.85) with a shorter caption that cites Table S23 for its data and sources, so it joins the float
+%    page of Tables S16-S17 (removes a page that held Fig. S5 alone). Tables S25-S26 are input right after the S5.2
+%    paragraph that first cites them, so they land on the S5.2 text pages. Net: 35 pages (was 36); the largest
+%    mid-section blank blocks (S2.3 page, S4 float tail, S5.2 float tail) are gone.
+%  - Every figure is now cited in the text: Fig. S1a/b in S2.1 and S2.2, Fig. S4 in S4.5, Figs. S7 and S8 in S5.2.
+%  - S7: the weak-excess gate-positive human_enhancers_ensembl also loses AUROC beyond random negatives but, under
+%    overlap weighting, a smaller share than the control with LightGBM and LR (EBM CI includes 0); its label rests on
+%    the TATA gate alone (alt_model_route3_overlap_contrast.csv task_loses_less; Tables S34, S39). Supports the
+%    paper's Table I footnote a, which no longer says "not tested further".
+%
+% SM change notes, camera-ready fix round 5 (audit of round 4, second pass; one prose minor; no number changed):
+%  - S7: "(with the EBM the CI includes 0)" -> "(with the EBM the CI of the difference includes 0)". The CI is that of
+%    the ensembl-minus-control difference in overlap share (alt_model_route3_overlap_contrast.csv, ebm,
+%    human_enhancers_ensembl: diff -0.047 [-0.103, +0.004], task_loses_less False), not of the task's own loss; the
+%    round-4 note above ("EBM CI includes 0") means the same difference CI.
+%
+% SM change notes, camera-ready fix round 7 (audit round 6; no number changed):
+%  - S5.1 and the Table S24 caption (make_sm_tables.py): the frozen-probe "test effect" is now defined as the signed
+%    AUROC change of the same fixed head when composition-biased test negatives are removed (negative = loss), the
+%    paper's IV-E definition. It had read "the AUROC the same fixed head loses", the opposite sign to the values printed
+%    (fm_head_invariance.csv: cohn [SEP] LightGBM -0.0481, control [SEP] +0.0055, control mean -0.0385) and to
+%    Table S32 (G-A) and Table S35 ("test effect (id80)"). Fig. S6 caption states the same sign convention.
+%  - About block: discriminability is defined (a task's highest TF motif-only AUROC, positives scored above negatives;
+%    one class against the rest for a multiclass task), as computed for results/cross_suite_summary.csv
+%    max_pos_motif_auroc (run_cross_suite.py _motif_pos; homology_recluster/run_routes.py route1_block, rep_contrast);
+%    AUROC and MCC are expanded once. Paid for in the About block by two same-meaning trims ("Values are rounded as
+%    shown; differences use unrounded values"; "Short names used here"), so the block keeps its line count, the page
+%    flow is unchanged (35 pages; every table and figure on the same page) and drosophila_enhancers_stark no longer
+%    breaks after an underscore there.
+% =====================================================================
+\documentclass[journal,onecolumn,10pt,letterpaper]{IEEEtran}
+\usepackage[letterpaper,top=0.85in,bottom=0.9in,left=0.9in,right=0.9in]{geometry}
+\usepackage{fontspec}
+\setmainfont{texgyretermes}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,%
+  ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\setsansfont{texgyreheros}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,%
+  ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\setmonofont{texgyrecursor}[Extension=.otf,UprightFont=*-regular,BoldFont=*-bold,%
+  ItalicFont=*-italic,BoldItalicFont=*-bolditalic]
+\usepackage{unicode-math}
+\setmathfont{texgyretermes-math.otf}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{url}
+\def\UrlBreaks{\do\/}
+\usepackage[section]{placeins}% every \section flushes pending floats, so no table or figure drifts past a section heading
+\usepackage[hidelinks,pdftitle={Supplementary Material: Three Routes to Failure},pdfauthor={Rikhin Kavuru}]{hyperref}
+
+% --- numbering: S1, S1.1, Table S1, Fig. S1
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thesectiondis}{S\arabic{section}.}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+\renewcommand{\thesubsectiondis}{\thesection.\arabic{subsection}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\setcounter{secnumdepth}{2}
+% float pages: stack floats from the top with a fixed gap instead of spreading them over the page
+\makeatletter
+\setlength{\@fptop}{0pt}\setlength{\@fpsep}{16pt plus 4pt}\setlength{\@fpbot}{0pt plus 1fil}
+\makeatother
+
+% --- source file names in captions: upright typewriter even inside small-caps table captions
+\newcommand{\tasku}{\textunderscore\allowbreak}
+\DeclareRobustCommand{\src}[1]{{\normalfont\ttfamily\upshape\let\_\tasku #1}}
+% monospace names that may break after underscores (task ids, file names); upright even in captions
+\DeclareRobustCommand{\task}[1]{{\normalfont\ttfamily\upshape\let\_\tasku #1}}
+% paths that may break after '/' and '_' (raw path, no escaping)
+\DeclareUrlCommand\pth{\urlstyle{tt}\def\UrlBreaks{\do\/\do\_\do\-}}
+% Link to the code repository that holds this SM (bibm/supplement/B290_SM.pdf); released 2026-10-23.
+\newcommand{\smurl}{\url{https://github.com/rikhinkavuru/gb_kmer_benchmark}}
+
+\lstset{basicstyle=\ttfamily\scriptsize,columns=fullflexible,keepspaces=true,breaklines=true,
+  breakatwhitespace=true,xleftmargin=1em,aboveskip=4pt,belowskip=4pt,showstringspaces=false,
+  postbreak=\mbox{\hspace{1.5em}}}
+
+\input{generated/sm_numbers}
+
+\markboth{Kavuru: Supplementary Material to ``Three Routes to Failure'' (Proc.\ IEEE BIBM 2026)}%
+{Kavuru: Supplementary Material to ``Three Routes to Failure'' (Proc.\ IEEE BIBM 2026)}
+
+\begin{document}
+
+\title{Supplementary Material for ``Three Routes to Failure: An Interpretable Diagnosis of Task
+Difficulty and Negative-Set Contamination in Genomic Sequence-Classification Benchmarks''}
+\author{Rikhin Kavuru\\
+\normalsize Independent Researcher, Fort Wayne, Indiana, USA \quad rikhinkavuru@gmail.com\\
+\normalsize Supplement to the paper in \emph{Proc.\ IEEE BIBM 2026}. Online supplement, released with the code repository: \smurl}
+
+\maketitle
+
+\section*{About this supplement}
+
+This supplement accompanies the paper in \emph{Proc.\ IEEE BIBM 2026}. Section S$n$ is the target of every
+pointer ``SM~S$n$'' in the paper. It holds the full analyses behind the paper's robustness table
+(Table~II of the paper) and its Methods and Results: every sweep level, dataset and design, the
+per-task tables, the control-motif panel and the frozen-probe figure (Figs.~\ref{fig:ctlmotif}
+and~\ref{fig:frozen}), the pre-specification record, the analyses that were packaged but not run, and
+the commands that reproduce everything. It is organized by concern.
+
+\begin{itemize}
+\item \emph{Numbers.} Every table is written by \task{bibm/supplement/make\_sm\_tables.py} from the
+result files named in its caption (under \task{results/upgrades/} unless a path is given), and every
+estimate, interval and $p$-value quoted in the prose is a macro written by the same script;
+literature values, analysis settings and task counts are typed. The manifest at the end lists every
+input file with its SHA-256 prefix. 95\% CIs are percentile bootstrap intervals (1000 resamples; the
+test sequence is the resampling unit unless stated). Values are rounded as shown; differences use
+unrounded values, and a nonzero CI or range bound that rounds to zero keeps its sign ($-$0.000).
+\item \emph{Pre-specified and post hoc.} ``Pre-specified'' means that a rule or analysis was written
+into the analysis script (its docstring) before the analysis it governs was run; there is no
+external registry. ``Post hoc'' marks everything added later; such analyses are descriptive unless
+stated otherwise (Table~\ref{tab:prespec}).
+\item \emph{Not run.} Section~\ref{sec:s9} lists analyses that are packaged or recommended but were
+not run. They are not results, and no number in the paper or here comes from them.
+\item \emph{Splits and sources.} The \emph{original} split is a benchmark task as distributed by
+Genomic Benchmarks (GB) or the Nucleotide Transformer (NT) suite. The \emph{released equalizer} is the
+paper's composition equalizer (the negatives subsampled to the positives' 20-bin propensity histogram;
+strictness $\alpha{=}1$ in Section~\ref{sec:s4}), and the \emph{released equalized split} is the split
+it produced, distributed with the paper's code. \emph{Published} refers only to values in the
+literature. Discriminability (a task's highest TF motif-only AUROC, positives scored above negatives;
+for a multiclass task, one class against the rest), the benchmark MCCs and the route labels of
+Table~I are the paper's.
+\item \emph{Names.} AUROC: area under the ROC curve; MCC: Matthews correlation coefficient.
+Short names used here (``control'', ``GC-balanced control'' and
+\task{drosophila} all denote \task{drosophila\_enhancers\_stark}, which is GC-balanced but not
+composition-free: composition-only AUROC \smCtlComp):\\[2pt]
+{\footnotesize\setlength{\tabcolsep}{3pt}\begin{tabular}{@{}ll@{\quad}ll@{}}
+\task{cohn} & \task{human\_enhancers\_cohn} & regulatory & \task{human\_ensembl\_regulatory}\\
+\task{nt\_enh.} & \task{nt\_enhancers} & \task{nontata} & \task{human\_nontata\_promoters}\\
+control & \task{drosophila\_enhancers\_stark} & \task{enh\_ensembl} & \task{human\_enhancers\_ensembl}\\
+splice & \task{nt\_splice\_sites\_all} & ocr & \task{human\_ocr\_ensembl}\\
+\task{coding} & \task{demo\_coding\_vs\_intergenomic\_seqs} & \task{mouse\_enh} & \task{dummy\_mouse\_enhancers\_ensembl}\\
+\task{human\_or\_worm} & \task{demo\_human\_or\_worm} & \task{nt\_enh\_types} & \task{nt\_enhancers\_types}\\
+\task{nt\_prom\_all} & \task{nt\_promoter\_all} & \task{nt\_prom\_tata} & \task{nt\_promoter\_tata}\\
+\task{nt\_prom\_no\_tata} & \task{nt\_promoter\_no\_tata} & &
+\end{tabular}}\\[2pt]
+The \emph{11 TF-motif tasks} (Route~1 on real tasks, Section~\ref{sec:s2}) are all 15 tasks but splice and the three
+composition tasks (\task{coding}, \task{human\_or\_worm}, \task{mouse\_enh}): the five solved promoter/regulatory tasks
+(regulatory, \task{nontata}, \task{nt\_prom\_all}, \task{nt\_prom\_no\_tata}, \task{nt\_prom\_tata}) and the six failing
+enhancer/open-chromatin tasks (\task{cohn}, \task{nt\_enh.}, \task{nt\_enh\_types}, \task{enh\_ensembl}, ocr, control).
+\item \emph{``Contamination'' (Route~3)} labels a task that fails (MCC below 0.7), is not positional,
+and whose negatives carry a TATA-box excess of at least 10 percentage points over the positives, with
+a TATA motif-only AUROC below 0.5 that TATA-flag cleaning moves toward chance (the paper's TATA gate,
+also the rule of its diagnostic CLI; evaluated on a seeded sample of \smTataSampleN\ sequences per class
+and met by all three Table~I contamination tasks). Such a compositional shift supplies much of the task's
+separability (Section~\ref{sec:s3wider}). The word names a benchmark-design confound, here GC-rich
+positives against AT-richer negatives. It does not mean core-promoter leakage, and it does not claim
+that the composition difference is an artifact rather than biology.
+\end{itemize}
+
+\noindent\textbf{Contents.}
+S1 Methods and reproducibility (p.~\pageref{sec:s1});
+S2 Route~1 on real tasks (p.~\pageref{sec:s2});
+S3 Provenance of the negatives (p.~\pageref{sec:s3});
+S4 Route-3 matching sensitivity and the control-motif panel (p.~\pageref{sec:s4});
+S5 FM probes, frozen and fine-tuned (p.~\pageref{sec:s5});
+S6 Homology re-clustering (p.~\pageref{sec:s6});
+S7 Alternative interpretable classifiers (p.~\pageref{sec:s7});
+S8 The GUE suite (p.~\pageref{sec:s8});
+S9 Analyses packaged but not run (p.~\pageref{sec:s9});
+manifest of input files (p.~\pageref{tab:manifest}).
+
+% =====================================================================
+\section{Methods and reproducibility}\label{sec:s1}
+
+\subsection{Seeds, resampling and tests}
+The benchmark fits use seed 42, as in the paper. The analyses of Sections S2--S8 add the following.
+Composition matching is re-drawn with selection seeds 42--44 (the pre-specified verdict uses
+seed~42), and every matching level has \smNrandom\ size-matched random-negative draws (seeds 0--9 in the
+alternative-classifier analysis). Homology re-splits use split seeds 42--44 (seed~42 is pre-specified
+and gives the primary Route-1 test; label counts and per-task re-split MCCs are also given as split-seed
+means). Fine-tuning uses seeds 42--44. Draw dependence is measured over \smDraws\ equally valid matching
+draws of the released equalizer and over \smHashDraws\ \task{PYTHONHASHSEED} draws of the dinucleotide
+shuffle.
+
+Per-task CIs resample test sequences. The matching decomposition uses a two-level paired bootstrap
+(test sequences shared by all arms, crossed with the random and matched seeds); its models are
+fixed, so training-set variability is not resampled. Fine-tuning contrasts resample the original
+test sequences jointly across arms and average over seeds. Cross-task (Route~1) statistics resample
+tasks. Route-1 Spearman $p$-values of the covariate analysis (Section~\ref{sec:s2}) are exact
+permutation $p$ (enumeration for $n\le12$; its partial-correlation $p$-values use $t$ with $n{-}3$ df);
+those of the alternative-classifier analysis at $n=11$ are
+\smAltPmethod\ permutation $p$; the homology analysis's Route-1 rows are reported as $\rho$ and $n$
+because its $p$-values are $t$-approximations. Multiplicity is not corrected unless stated.
+
+\subsection{Pre-specification record}
+Table~\ref{tab:prespec} lists, per analysis, what was fixed before the analysis ran and what was added
+later. The multivariate plan is kept verbatim in \task{multivar\_preregistration.txt} (SHA-256 of
+the frozen docstring \task{\smMultivarPreregSha}\ldots); the other plans are the docstrings of the
+scripts named in the table.
+
+\input{generated/tab_prespec}
+
+\subsection{Software, data and model versions}
+Table~\ref{tab:software} gives the versions. All analyses except fine-tuning and tokenization are
+CPU-only and torch-free; fine-tuning ran on an Apple M4 GPU (PyTorch MPS) and is scored torch-free
+from the saved per-sequence predictions.
+
+\input{generated/tab_software}
+
+\subsection{DNABERT-2 token lengths of the GC-balanced control}\label{sec:s1tok}
+DNABERT-2 was not run on the \task{drosophila} control. Table~\ref{tab:d9} measures its token
+lengths with the pinned tokenizer: \smDNineN\ \task{drosophila} sequences (\smDNinePct; \smDNineTrain\
+in training, \smDNineTest\ in test) exceed its 512-token context, the median is \smDNineMedTok\ tokens,
+and the fine-tuning code truncates at 512 tokens in any case. The omission is therefore a choice, not
+a context-length constraint. The control covers HyenaDNA only; the DNABERT-2 control runs are listed
+in Section~\ref{sec:s9} as not run.
+
+\input{generated/tab_d9}
+
+\subsection{Reproducing the analyses}
+Every command runs from the repository root through the low-CPU wrapper, one heavy process at a
+time. Each analysis is resumable (checkpointed per unit), and its code directory has a README with
+outputs and measured cost. The environments:
+\begin{lstlisting}
+PY=<torch-free venv>/bin/python   # numpy, pandas, scipy, scikit-learn, lightgbm, interpret, mappy
+FT=.venv-ft/bin/python            # torch, transformers, peft, tokenizers (fine-tuning and tokenizer only)
+W=bibm/lowcpu.sh                  # nice 20 and capped BLAS/OpenMP/LightGBM threads
+\end{lstlisting}
+\noindent\emph{Composition matching (S4):}
+\begin{lstlisting}
+M=src/upgrades/psm_sensitivity
+$W $PY $M/psm_data.py; $W $PY $M/tests/test_psm_core.py; $W $PY $M/tests/test_genomic_helpers.py
+$W $PY -W ignore $M/run_psm_sensitivity.py      # pre-specified run (hours; resumable)
+$W $PY -W ignore $M/tests/test_reproduces_paper.py
+$W $PY -W ignore $M/run_posthoc.py              # post hoc P0-P8 (resumable)
+$W $PY -W ignore $M/summarize_psm.py; $W $PY -W ignore $M/tests/test_posthoc.py
+$W $PY $M/make_fig_psm_sensitivity.py; $W $PY $M/make_fig_psm_sensitivity.py --caliper
+$W $PY $M/make_fig_psm_sensitivity.py --nt-raw --out results/upgrades/figures/psm_sensitivity_ntraw
+\end{lstlisting}
+\noindent\emph{Real-task covariates (S2):}
+\begin{lstlisting}
+bash src/upgrades/multivar/run_pipeline.sh      # full pipeline (resumable); or step by step:
+$W $PY src/upgrades/multivar/audit_task_overlap.py; $W $PY src/upgrades/multivar/audit_locus_overlap.py
+$W $PY src/upgrades/multivar/run_multivar.py; $W $PY src/upgrades/multivar/write_interpretation.py
+$W $PY src/upgrades/multivar/make_fig_multivar.py; $W $PY src/upgrades/multivar/tests/test_multivar.py
+\end{lstlisting}
+\noindent\emph{Provenance of the negatives (S3):}
+\begin{lstlisting}
+M=src/upgrades/neg_provenance
+$W $PY $M/map_nt_enhancers.py; $W $PY $M/verify_inputs.py; $W $PY $M/tests/test_sanity.py
+$W $PY $M/run_neg_provenance.py; $W $PY $M/nt_split_provenance.py; $W $PY $M/bg_seed_stability.py
+$W $PY $M/chromhmm_rule_counts.py; $W $PY $M/write_sources.py; $W $PY $M/make_report.py
+\end{lstlisting}
+\noindent\emph{Fine-tuning (S5; training is the only GPU step):}
+\begin{lstlisting}
+M=src/upgrades/fm_finetune
+$W $PY $M/prepare_splits_v2.py
+nohup $M/run_queue_v3.sh >> results/upgrades/fm_finetune_v2_run.log 2>&1 &     # 54 units (MPS)
+$W $PY $M/verify_preds_ft_v2.py; $W $PY $M/eval_ft_v2.py; $W $PY $M/summarize_ft_v2.py
+$W $PY $M/baselines_ft_v2.py; $W $PY $M/posthoc_ft_v2.py; $W $PY $M/sensitivity_ft_v2.py
+$W $PY $M/make_fig_ft_v2.py; $W $PY $M/write_interpretation_ft_v2.py
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 $W $FT $M/measure_token_lengths.py     # token lengths (Section S1.4)
+\end{lstlisting}
+\noindent\emph{Homology re-clustering (S6):}
+\begin{lstlisting}
+M=src/upgrades/homology_recluster
+$W $PY $M/run_cluster.py --calibrate && $W $PY $M/run_cluster.py
+$W $PY $M/run_eval.py && $W $PY $M/run_seeds.py
+$W $PY $M/run_interventions.py --exp E1,E2,E3 --tiers 1,2 && $W $PY $M/run_routes.py && $W $PY $M/fix_checks.py
+$W $PY $M/run_audit.py; $W $PY $M/run_e1_reconcile.py; $W $PY $M/run_linclust_calibration.py; $W $PY $M/run_covmode_sensitivity.py
+nohup $M/run_stage_extra.sh X10 X1 X2 X5 >> external/homology_recluster/logs/stage_extra.log 2>&1 &
+nohup $M/run_stage_fix1.sh >> external/homology_recluster/logs/stage_fix1.log 2>&1 &
+$W $PY $M/prepare_ft_hc_splits.py && nohup $M/run_stage_ft_hc.sh >> external/homology_recluster/logs/stage_ft_hc.log 2>&1 &
+$W $PY $M/run_labels_addendum.py && $W $PY $M/make_report_audit.py && $W $PY $M/make_report_extra.py && $W $PY $M/make_report.py
+\end{lstlisting}
+\noindent\emph{Alternative classifiers (S7):}
+\begin{lstlisting}
+M=src/upgrades/alt_model
+nohup $W $M/run_all.sh > external/alt_model/logs/run_all.log 2>&1 &     # then run_post.sh, run_fix1.sh, run_fix2.sh
+$W $PY $M/check_shuffle_hashseed.py 16; $W $PY $M/analyze_alt_model.py; $W $PY $M/make_interpretation_alt.py
+$W $PY -m pytest -q $M/tests
+\end{lstlisting}
+\noindent\emph{GUE (S8):}
+\begin{lstlisting}
+M=src/upgrades/gue_suite
+$W $PY $M/verify_gue.py; LOWCPU_THREADS=1 $W $PY -W ignore $M/gue_overlap.py
+GUE_THREADS=3 $W $PY $M/run_gue.py; GUE_THREADS=3 $W $PY $M/run_gue_posthoc.py; GUE_THREADS=3 $W $PY $M/paper15_reference.py
+GUE_THREADS=3 $W $PY -W ignore $M/run_gue_posthoc_r2.py; $W $PY -W ignore $M/rule_sensitivity.py
+$M/fetch_emp_sources.sh; $W $PY -W ignore $M/emp_provenance.py
+$W $PY $M/summarize_gue.py && $W $PY $M/make_interpretation_gue.py
+\end{lstlisting}
+\noindent\emph{This supplement:}
+\begin{lstlisting}
+$W $PY bibm/supplement/make_sm_tables.py
+cd bibm/supplement && ../lowcpu.sh tectonic B290_SM.tex
+\end{lstlisting}
+
+% =====================================================================
+\section{Route 1 on real tasks: discriminability, GC content and task dependence}\label{sec:s2}
+
+The paper rests Route~1 on the semi-synthetic dose-response, which manipulates discriminability at
+arbitrary sample size. On the real tasks the relation is a consistency check only. This section
+gives the full analysis.
+
+\subsection{What the real tasks show}\label{sec:s2real}
+On the 11 TF-motif tasks (all but splice and the three composition tasks; named in the About block)
+discriminability tracks learnability (Spearman $\rho=\smRdiscAll$, exact
+$p=\smPdiscAll$; leave-one-task-out (LOTO) MAE \smLotoMAE\ MCC, 95\% CI \smLotoMAECI; LOTO $R^2$
+\smLotoRsq), but GC content
+tracks it at least as closely ($\rho=\smRgcAll$, $p=\smPgcAll$). The two are collinear
+($\rho=\smRdiscGC$), and at $n=11$ the CI of $\rho_\mathrm{GC}-\rho_\mathrm{disc}$, \smRdiffCI, cannot
+tell them apart. The class-pooled GC mean alone separates the solved promoter/regulatory tasks from
+the failing enhancer/open-chromatin tasks, but narrowly: the solved minimum is \smGCsolvedMin\ (the regulatory
+task; \smGCpromMin\ for the four promoter tasks alone) against a failing maximum of \smGCfailMax.
+The paper's discriminability does not separate these two clusters (Fig.~\ref{fig:multivar}b;
+\task{nt\_enhancers\_types} \smDiscTypes\ against \task{nt\_promoter\_tata} \smDiscPromTata).
+
+The tasks are not independent units. They are \smNdistinct\ distinct sequence sets once exact copies
+and unions are collapsed, and the non-TATA promoter tasks of both suites and the regulatory task's
+promoter class share most loci (\smLinkRange; 31-mer containment). Table~\ref{tab:subsets} therefore
+reports the correlation on task subsets as a balanced pair. Without the four tasks with $\ge$5\%
+train/test near-duplicates (8-mer Jaccard $\ge$0.7) discriminability gives \smRcleanSeven\ ($n=7$),
+but GC's correlation falls to \smRgcCleanSeven; on the 5 of those 7 with no exact sequence sharing
+it is \smRfive\ (exact $p=\smPfive$) against GC \smRgcFive\ ($p=\smPgcFive$). On the largest sets of
+tasks that share no loci ($n=7$, locus link below 0.25) discriminability gives \smRsevenLo\ to
+\smRsevenHi\ ($p=\smPsevenLo$--\smPsevenHi) and GC \smRgcSeven\ ($p=\smPgcSeven$). Every such set
+omits the regulatory task, whose pooled three-class GC mean lowers GC's correlation (without it,
+discriminability \smRnoReg\ and GC \smRgcNoReg).
+
+\input{generated/tab_subsets}
+
+\subsection{Pre-specified covariate analysis}
+A pre-specified multivariate analysis asked whether measured task properties explain the deviations
+from the discriminability fit (plan in \task{multivar\_preregistration.txt}). Its primary validation
+is nested LOTO, which re-runs the whole subset search inside every fold (Table~\ref{tab:nested}). The
+decision-rule model (pool~A, selected by AICc) reaches a nested MAE of \smNestMAE\ against \smDiscMAE\
+for discriminability alone ($\Delta$MAE \smNestdMAE), so no covariate set improves on discriminability,
+and the pre-specified verdict is that $n$ is too small to resolve covariate effects beyond it. A
+four-term model with discriminability, length, within-class GC SD and train/test homology overfits: LOTO MAE \smRevMAE\ (LOTO $R^2$ \smRevRsq; \smRevMAEmm\ with MMseqs2 homology in
+place of the 8-mer measure). Test-set sampling noise accounts for \smNoiseEleven\ of the
+discriminability-only LOTO misfit (\smNoiseFifteen\ on all 15 tasks), so the misfit is between-task
+heterogeneity. Post hoc, that heterogeneity is the split between Table~I's solved promoter/regulatory
+tasks and failing enhancer/open-chromatin tasks, which GC content separates narrowly and discriminability does not
+(Section~\ref{sec:s2real}); within the two clusters nothing is resolvable at this $n$.
+
+Pool~B adds the composition-only model's score. It reaches \smPoolBMAE\ on MCC ($\Delta$MAE
+\smPoolBdMAE, not significant) and is better on the secondary AUROC outcome ($\Delta$MAE
+\smPoolBYtwo). Because that covariate is a weaker classifier's score on the same test set, a pool-B
+model decomposes the outcome rather than explaining it; it was pre-specified as a decomposition and
+never entered the decision rule.
+
+Controlling for train/test homology leaves discriminability's partial correlation at \smPartialHom\
+with the 8-mer measure and \smPartialMM\ with MMseqs2 id80 (Table~\ref{tab:partial}; each covariate in
+Fig.~\ref{fig:multivar}a); at $n=11$ these
+intervals are wide, and the re-split test of Section~\ref{sec:s2hom} is the stricter check.
+The real-task slope of MCC on discriminability, \smSlopeReal, is consistent with the synthetic
+dose-response slope (\smSlopeSyn).
+
+\input{generated/tab_nested}
+\input{generated/tab_partial}
+
+\subsection{Under homology control and under other classifiers}\label{sec:s2hom}
+Under MMseqs2 homology control (Section~\ref{sec:s6}) the 11-task correlation falls from \smHomPub\
+to \smHomPrim\ on the pre-specified cluster-aware re-split (not significant; $t$-approximation
+$p=\smHomPrimP$), but also to \smHomRand\ on a random re-split (Table~\ref{tab:route1robust}). Over
+split seeds 42--44 the means are \smHomPrimMean\ (cluster-aware) and \smHomRandMean\ (random); without
+the two NT enhancer tasks both are \smHomNoNTprim, so the residual seed-mean gap comes from those two
+tasks, whose separately built test split any re-split pools with training data. On MCCs purged of
+test homologs, a sensitivity analysis, $\rho$ is \smHomPurge\ ($n=10$; \smHomPurgePub\ on the
+original-split MCCs of the same tasks). With MCC-tuned L1/L2 logistic regression (LR) or an EBM in
+place of LightGBM the correlation is not significant ($\rho=\smAltRoneLR$, $p=\smAltRoneLRP$; $\rho=\smAltRoneEBM$,
+$p=\smAltRoneEBMP$; $n=11$). The real-task relation is therefore consistent with the dose-response but
+is not independent evidence for it.
+
+\input{generated/tab_route1_robust}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.6\linewidth]{figs/multivar_covariates_cropped.png}
+\caption{Route~1 covariates on the 11 TF-motif tasks. (a) Partial Spearman correlation of benchmark
+MCC with discriminability given each covariate (circles) and with the covariate given
+discriminability (triangles); 95\% task-bootstrap CIs; open symbols: CI includes 0. (b) Benchmark
+MCC vs.\ discriminability by task family (= Table~I's solved/failing split; ``OCR'': open-chromatin);
+open symbols: tasks with $\ge$5\% train/test near-duplicates by 8-mer Jaccard $\ge$0.7; arrow: the
+post hoc enhancer-oriented discriminability of \task{nt\_enhancers\_types}. The 11 tasks are
+\smNdistinct\ distinct sequence sets (Table~\ref{tab:subsets}).
+Source: \src{results/upgrades/figures/multivar\_covariates.png} (in-figure footnote cropped).}
+\label{fig:multivar}
+\end{figure}
+
+% =====================================================================
+\section{Provenance of the negatives}\label{sec:s3}
+
+The paper traces the Route-3 composition gap mainly to GC-rich positives, with genomic negatives
+drawn from gene-distal or unmarked DNA. This section gives the evidence
+(Tables~\ref{tab:provcompact}--\ref{tab:provrules}).
+
+\subsection{Where the negatives come from}
+\task{cohn} negatives are random 500-bp windows at least 15\,kb from genes and outside liver H3K27ac
+peaks~\cite{cohn2018}. On GRCh38, \smCohnPc\ \smCohnPcCI\ of them lie at least 15\,kb from every
+GENCODE v44 protein-coding gene, against \smRandPc\ of random windows. They are gene-distal but not
+gene-free: only \smCohnAll\ lie at least 15\,kb from every GENCODE gene of any biotype, \smCohnInGene\
+lie inside a gene (\smCohnIntron\ in introns, mostly of non-coding genes; \smCohnExon\ in exons),
+\smCohnSthirteen\ are ChromHMM state~13 in all nine lines, and \smCohnEnhAny\ carry an enhancer state in
+at least one line.
+
+Genomic \task{nt\_enhancers} training negatives (iEnhancer-2L~\cite{liu2016}) are ChromHMM low-signal
+state~13 (a nine-mark model without H3K9me3) in all nine ENCODE
+lines~\cite{ernst2011}: \smStrainNeg, against \smSrand\ of random windows. This rule also reproduces
+the published candidate count (\smRuleCount\ 200-bp fragments against \smRulePub;
+Table~\ref{tab:provrules}). The test negatives (iEnhancer-EL~\cite{liu2018}) differ: only
+\smStestNeg\ \smStestNegCI\ are state~13 in all nine lines, and their FASTA headers point to single
+state-13 segments rather than to the nine-line intersection (the construction is inferred post hoc
+from the headers). They are equally AT-rich (Table~\ref{tab:provsplit}). Most of the training data are not genomic: \smSynTrNeg\ of the
+training negatives (\smSynTrNegN) and \smSynTrPos\ of the training positives are RankGAN-synthetic
+sequences~\cite{geng2022} with no locus, and only \smGenomicAll\ of all \task{nt\_enhancers} sequences
+(\smGenomicAllN, including the whole test split) are genomic.
+
+Such DNA lies in AT-rich isochores~\cite{costantini2006}: \smCohnIso\ of \task{cohn} negatives and
+\smNtIso\ of genomic \task{nt\_enhancers} negatives are in L1+L2 isochores (100-kb GC below 41\%),
+against \smRandIso\ and \smNtRandIso\ of random windows.
+
+TATA-box rates in this section use every sequence: positives against negatives, \smTataAllCohn\ for
+\task{cohn} and \smTataAllNt\ for the whole \task{nt\_enhancers} class. The TATA gate and the
+motif-only scans (Section~\ref{sec:s4ctl}) use a seeded sample of \smTataSampleN\ sequences per class,
+which gives \smTataSubCohn\ and \smTataSubNt.
+
+\input{generated/tab_prov_compact}
+
+\subsection{Why the negatives are AT-rich, and why that is not the whole gap}
+Relative to random genome, the sampling rules shift the negatives toward AT (TATA-box rate
+\smTataShiftCohn\ and \smTataShiftNt\ points for \task{cohn} and genomic \task{nt\_enhancers}). That
+shift is a minority of the positive--negative gap (Table~\ref{tab:provd1}). The negative side carries
+\smShareCohnGC\ \smShareCohnGCCI\ (\task{cohn}) and \smShareNtGC\ \smShareNtGCCI\ (genomic
+\task{nt\_enhancers}) of the GC gap, and only \smShareWholeGC\ over the whole, mostly synthetic
+\task{nt\_enhancers} class; of the TATA gap it carries \smShareCohnTata\ and \smShareNtTata\
+(\smShareWholeTata\ over the whole class). The rest (\smPosShareCohnGC\ and \smPosShareNtGC\ of the GC
+gap; \smPosShareWholeGC\ over the whole class) is the positives' GC-richness and TATA depletion
+relative to random genome.
+
+Backgrounds re-drawn by the documented rules, with unstated details inferred post hoc, reproduce the
+negatives' GC. For \task{cohn}, a rule restricted to protein-coding genes differs from the negatives
+by \smBgPcGC\ in GC and \smBgPcTata\ in TATA-box rate (six pooled background draws); for
+\task{nt\_enhancers}, the state-13 rule differs by \smBgSthirteenGC\ and \smBgSthirteenTata. The
+pre-specified rule variants fare worse: the all-gene \task{cohn} rule over-shoots the negatives' AT
+shift, and the literal \task{nt\_enhancers} rule (non-enhancer states in all nine lines) does not
+explain it (Table~\ref{tab:provd1}).
+
+\input{generated/tab_prov_d1}
+
+\subsection{Chromosomes}
+The chromosome distribution of the genomic \task{nt\_enhancers} negatives is consistent with the
+state-13 rule (\smChromNtChi; homogeneity test against the rule background). That of the \task{cohn}
+negatives is not reproduced by any rule background (\smChromCohnP): there are \smChrNineNeg\ chr9
+negatives against \smChrNinePos\ chr9 positives (\smChrNineExp\ expected under the rule background).
+This skew is unexplained and is a potential chromosome-level label shortcut.
+
+\input{generated/tab_prov_split}
+\input{generated/tab_prov_rules}
+
+\subsection{What the provenance shows and does not show}\label{sec:s3wider}
+The coordinate analysis in the paper refutes core-promoter leakage for \task{cohn} (TATA-flagged
+negatives are depleted at TSSs; Fisher $p$~=~\smCohnTssP); on the genomic \task{nt\_enhancers} subset
+(\smNtMapped\ of its sequences) the depletion is directional but underpowered ($p=\smNtTssP$). The
+provenance shows that most
+of the composition gap is the positives' own GC-richness, with the negative-sampling choices
+(gene-distal windows; ChromHMM low-signal chromatin) contributing the rest. Neither is a data error,
+and neither separates artifactual from biological composition. Route~3's critique is one of benchmark
+design: on these otherwise hard tasks composition alone supplies most of the separability
+(composition-only AUROC \smCompZero\ and \smCompZeroNt\ against $k$-mer \smAzero\ and \smAzeroNt\ for
+\task{cohn} and \task{nt\_enhancers}), whatever the composition's origin.
+
+% =====================================================================
+\section{Route-3 matching sensitivity and the control-motif panel}\label{sec:s4}
+
+\subsection{Designs and the pre-specified rule}
+Composition equalization resamples the negatives, within each split, to the positives' histogram of
+a propensity score fit on the 20-dimensional mono- plus dinucleotide signature~\cite{rosenbaum1983}.
+In this section \emph{matching} means this equalization (the paper's composition-equalized intervention), and
+its kept negatives are the \emph{matched} negatives; it is not the GC-matched test subset of the frozen
+probes (Section~\ref{sec:s5}). The equalizer is \emph{one-sided}: it removes negatives only.
+The released equalizer ($\alpha{=}1$) keeps \smKeptCohn\ of \task{cohn} negatives (max$|$SMD$|$ \smSMDpub\ on
+the released equalized split; \smSMDredraw\ on the seed-42 re-draw). We compare it with size-matched random
+negatives (\smNrandom\ draws per level) in designs that differ in what they hold fixed
+(Table~\ref{tab:psmdesigns}):
+\begin{itemize}
+\item \emph{within} (retrained on matched vs.\ random negatives, each scored on its own reduced test;
+unpaired). The pre-specified decision rule uses this design at strictness $\alpha=1$
+(Table~\ref{tab:psmdecision});
+\item \emph{undistorted test} (retrained on matched or random negatives, both scored on the untouched
+original test; paired);
+\item \emph{model fixed} (the original model scored on the matched vs.\ random test subsets; paired);
+\item removal-free overlap weighting~\cite{li2018}, retrained or with the original model, against a
+permuted-weight placebo;
+\item positive-side matching (positives subsampled to the negatives' propensity histogram; every
+negative kept);
+\item two-sided 1:1 caliper matching (both classes subsampled; the test stays balanced).
+\end{itemize}
+
+\input{generated/tab_psm_decision}
+
+\subsection{\texorpdfstring{\task{cohn}}{cohn}: shortcut removal or sample loss?}
+Random reduction to \smKeptCohn\ of the negatives lowers $k$-mer AUROC from \smAzero\ to \smAr\ (range
+\smArRange), and composition matching to \smAm\ \smAmCI\ in one matching draw (selection seed 42;
+seeds 42--44 give \smAmSeeds; the released equalized split \smPub). The total drop of \smDropTotal\ splits into
+a size effect of \smSizeEff\ (\smSizeShare\ \smSizeShareCI\ of the drop) and a matched-vs-random effect
+of \smMvr\ (\smMvrShare\ \smMvrShareCI; Table~\ref{tab:psmdecomp}). The size share depends on the
+matching draw: over \smDraws\ equally valid draws of the released equalizer the matched AUROC spans
+\smDrawRange\ (median \smDrawMedian), which puts the size share at about \smSizeShareMedian\ at the
+median draw (\smSizeShareMedianExact) and \smSizeShareMax\ at the highest draw; the mean of selection
+seeds 42--44 gives \smSizeShareSeeds. Because the size effect exceeds the pre-specified tolerance
+(\smTau), the verdict is ``supported, with a size component''.
+
+\emph{Test distortion and negative removal.} With the test held fixed, a model trained on matched
+negatives scores \smTrainOnly\ on the untouched original test, against \smTrainOnlyR\ for one trained on
+random negatives (difference \smTrainOnlyD). With the model held fixed, the original model scores
+\smFixed\ on the matched test subset and \smFixedR\ on random subsets (\smFixedD). Changing only the
+test's class ratio moves AUROC by \smRatioOnly, as expected for a prevalence-invariant metric. With no
+negative removed at all, matching the positives to the negatives (\smFfourPos\ of positives kept,
+every negative kept) gives \smFfour\ \smFfourCI\ against \smFfourR\ for random positive subsets. Under
+removal-free overlap weighting the original model scores \smOverlapFixed\ against a placebo of
+\smOverlapPlacebo, and two-sided 1:1 matching at caliper 0.2\,SD gives \smOneToOne\ against \smOneToOneR.
+
+\emph{Sweeps.} Along the strictness sweep (Table~\ref{tab:psmsweep}; Fig.~\ref{fig:psm}) the gap
+between random and matched negatives grows with balance, from \smSweepGapLoose\ at \smSweepKeptLoose\
+of negatives kept to \smSweepGapHalf\ at \smSweepKeptHalf\ and \smSweepGapNine\ at \smSweepKeptNine,
+then levels off (\smSweepGapOne\ at $\alpha{=}1$; this last step lies within the
+matching-draw variation above). Meanwhile the size-matched random controls fall from
+\smSweepRandLoose\ to \smSweepRandOne: that fall is the size component. Along the caliper sweep
+(Table~\ref{tab:psmcaliper}; Fig.~\ref{fig:psmcal}) random 1:1 subsets stay at \smCalRandRange, while
+the matched gap rises from \smCalGapTwo\ at a caliper of 2\,SD to \smCalGapPtTwo\ at 0.2\,SD, where both
+classes are balanced.
+
+\input{generated/tab_psm_designs}
+\input{generated/tab_psm_decomp}
+\input{generated/tab_psm_sweep}
+\input{generated/tab_psm_caliper}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.62\linewidth]{figs/psm_sensitivity.pdf}
+\caption{Composition matching vs.\ size-matched random negatives across matching strictness. $k$-mer
+AUROC (top) and balanced MCC (bottom; class-balance-weighted, threshold = training positive
+fraction) against the percentage of negatives retained (log scale; for weighting, the effective
+sample size). Solid: composition-matched negatives (95\% bootstrap CI; the last point is the
+released equalizer rule re-drawn with selection seed 42). Dashed: size-matched random negatives
+(10-draw range). Star: the released equalized split (legend: ``published equalized split''). Square:
+model retrained with overlap weights
+against a permuted-weight placebo. Diamond: two-sided 1:1 caliper-0.2 matching against random 1:1.
+Markers are offset in $x$ for legibility. \task{nt\_enh.}: leak-free test (post hoc); its overlap weights
+over-correct, so its square lies below chance. Source:
+\src{results/upgrades/figures/psm\_sensitivity.pdf}.}
+\label{fig:psm}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.62\linewidth]{figs/psm_sensitivity_caliper.pdf}
+\caption{Two-sided 1:1 matching across calipers from 2 to 0.01 SD of the logit propensity. Top:
+$k$-mer AUROC, matched (95\% CI) against random 1:1 subsets of the same size (10-draw range). Bottom:
+max$|$SMD$|$ of the matched set (solid) and of the random subsets (dashed); dotted line 0.1. Source:
+\src{results/upgrades/figures/psm\_sensitivity\_caliper.pdf}.}
+\label{fig:psmcal}
+\end{figure}
+
+\subsection{What matching removes: the GC-balanced control}
+Matching also lowers the GC-balanced control (random \smCtlAr, matched \smCtlAm\ \smCtlAmCI;
+pre-specified verdict supported). The control has composition signal of its own (composition-only
+LightGBM AUROC \smCtlComp), and in the paired designs its composition-only baseline falls as much as
+the $k$-mer model does: \smCtlFixedC\ against \smCtlFixedK\ with the model fixed, and \smCtlTrainC\
+against \smCtlTrainK\ on the original test. (In the retrained within design with seed 42 the
+composition-only loss is smaller, \smCtlWithinC\ \smCtlWithinCCI\ against \smCtlWithinK; over seeds
+42--44 the two are \smCtlWithinCS\ and \smCtlWithinKS.) Matching therefore removes
+composition-associated signal, artifactual or biological. It is also incomplete: the composition-only
+AUROC falls from \smCompZero\ to \smCompPub\ \smCompPubCI\ on the released equalized \task{cohn} split,
+not to 0.5.
+
+For \task{cohn} the $k$-mer loss does not exceed the composition-only loss (\smMvrPoint\ against
+\smCohnWithinC\ retrained; \smCohnFixedK\ against \smCohnFixedC\ with the model fixed). Across the
+matching arms, \task{cohn}'s $k$-mer gap correlates with the composition-only gap more than with
+selection depth in all three designs, but by the 0.3-margin reading rule of this post hoc summary the
+separation is clear only in the within design (Table~\ref{tab:psmdissoc}). Under overlap weighting \task{cohn} loses a larger share
+of its above-chance AUROC than the control (contrast \smBetK), but the composition-only model loses an
+equally larger share under the same weights (\smBetC; difference of contrasts \smBetDoc;
+Table~\ref{tab:psmbetween}). The contrast measures reliance on the composition gap, not contamination
+specificity.
+
+\input{generated/tab_psm_between}
+\input{generated/tab_psm_dissoc}
+
+\subsection{Selection bias and label noise}
+The kept \task{cohn} negatives match the positives' TATA-box rate (\smTataKept\ against \smTataPos;
+discarded \smTataDisc) and are enriched for enhancer-like cCREs~\cite{encode2020} (\smElsKept\ of kept
+against \smElsDisc\ of discarded negatives; positives \smElsPos; Bonferroni $p$~=~\smElsP), but not for
+TSS overlap after correction (\smTssKept\ against \smTssDisc; $p$~=~\smTssP; Table~\ref{tab:psmselbias}).
+If some kept negatives are unlabeled enhancers, the matched AUROC would be too low. Re-scoring
+without cCRE-overlapping test negatives keeps the drop (\smCcreFree\ \smCcreFreeCI\ against
+\smCcreFreeR, with \smCcreFreeN\ matched test negatives), and a mixture-model estimate (not a
+worst case) puts the AUROC cost of hidden enhancers at \smLabelNoise, \smLabelNoiseRatio\ times the
+matched-vs-random effect (Table~\ref{tab:psmlabelnoise}).
+
+\input{generated/tab_psm_selbias}
+\input{generated/tab_psm_labelnoise}
+
+\subsection{\texorpdfstring{\task{nt\_enhancers}}{nt\textunderscore enhancers}}
+\smNtDup\ of the \smNtTest\ \task{nt\_enhancers} test sequences, all of them positives, occur verbatim in
+the training split (original AUROC \smNtLeakA; \smNtLeakFreeA\ without them), so we also score a
+leak-free test (post hoc) that drops them. At $\alpha{=}1$ the one-sided equalizer keeps
+\smNtTestNeg\ test negatives and cannot balance the set (max$|$SMD$|$ \smNtSMD; released equalized split
+\smSMDntPub). The pre-specified within-design test, on the original test, fails (matched \smNtPreAm\
+against random \smNtPreAr; matched-vs-random \smNtPreWithinD), and so does the same test on the
+leak-free test (matched \smNtAm\ against random \smNtAr; \smNtWithinD): the verdict is ``not
+supported'' in every \task{nt\_enhancers} variant (Table~\ref{tab:psmdecision}; Fig.~\ref{fig:psmraw} for the
+original test). On the leak-free test
+(post hoc), with the original model or the original test held fixed, the set loses \smNtFixedD\ and
+\smNtTrainD\ AUROC beyond random negatives, and the two-sided 1:1 caliper
+design, which does balance \task{nt\_enhancers} (\smCalNtKept\ of each class kept; max$|$SMD$|$
+\smCalNtSMD), gives a \task{cohn}-like gap (\smCalNtMatched\ against \smCalNtRand, gap \smCalNtGap). In
+each of these designs the composition-only baseline loses at least as much (\smNtFixedComp,
+\smNtTrainComp\ and \smCalNtComp). As for \task{cohn}, this is reliance on composition-associated
+signal, not contamination specificity; the control's caliper gap is \smCalCtlGap.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.62\linewidth]{figs/psm_sensitivity_ntraw.pdf}
+\caption{As Fig.~\ref{fig:psm}, with the uncorrected \task{nt\_enhancers} test (\smNtDup\ of its test
+positives occur verbatim in training). This original test carries the pre-specified verdict (not
+supported); Figs.~\ref{fig:psm} and~\ref{fig:psmcal} use the leak-free test (post hoc). Source:
+\src{results/upgrades/figures/psm\_sensitivity\_ntraw.pdf}.}
+\label{fig:psmraw}
+\end{figure}
+
+\subsection{Why the equalized-split MCC is not used}
+Size-matched random negatives reproduce the equalized-split MCC collapse: for the $k$-mer model on
+\task{cohn}, random negatives give \smMCCrand\ (range \smMCCrandRange) against \smMCCpub\ on the
+released equalized split, from \smMCCzero\ (share reproduced \smMCCshare); for the composition-only
+baseline they reproduce \smCompMCCshare\ of its collapse (\smCompMCCzero\ to \smCompMCCrand, against
+\smCompMCCpub\ on the released equalized split; Table~\ref{tab:psmmcc}). The released split's \smMCCpub\
+is also the largest of \smDraws\ equally valid matching draws (range \smDrawMCC, median \smDrawMCCmed).
+Random removal at a retention comparable to the TATA-flag cleaning (\smMCCrandKeptRange\ of negatives
+kept) lowers the \task{cohn} MCC by about \smMCCrandDrop\ (\smMCCzero\ to \smMCCrandMin--\smMCCrandMax).
+
+\input{generated/tab_psm_mcc}
+
+\subsection{Dinucleotide-shuffled negatives}
+Against dinucleotide-preserving shuffles of the positives~\cite{altschul1985} (no mono- or
+dinucleotide composition gap by construction), the negative-class TATA skew disappears
+(\task{cohn} TATA AUROC \smShufTata; \smShufTataRange\ over \smHashDraws\ shuffle draws), while the positives remain
+separable from their own shuffles by higher-order structure ($k$-mer AUROC \smShufKmerCohn\ and
+\smShufKmerNt; Table~\ref{tab:shuffle}). The skew is thus a by-product of the composition gap. Like
+matching, the shuffle does not separate artifactual from biological composition. The shuffle depends
+on \task{PYTHONHASHSEED}, and the paper's exact draw was not recovered by the \smHashDraws-draw scan.
+
+\input{generated/tab_shuffle}
+
+\subsection{Control-motif panel}\label{sec:s4ctl}
+Fig.~\ref{fig:ctlmotif} and Table~\ref{tab:ctlmotif} give the control-motif panel. Random PWMs matched to the TBP information content produce no class skew
+(motif-only AUROC \smRandICcohn\ on \task{cohn}), so the scan does not manufacture one;
+column-scrambled TBP PWMs keep the TBP columns' AT-rich composition but not the ordered TATA pattern,
+and stay skewed. The skew is therefore composition-driven, not a scan artifact. The panel does not
+show contamination specificity.
+
+\input{generated/tab_ctlmotif}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.8\linewidth]{figs/route3_control_motif_panel.pdf}
+\caption{Control-motif panel (data and sources as in Table~\ref{tab:ctlmotif}; seed 42; at most \smTataSampleN\
+sequences per class). (a) TATA motif-only AUROC (positives $>$ negatives) of the real TBP PSSM (95\% CI),
+\smNscr\ column-scrambled TBP PWMs (composition kept, order destroyed) and \smNric\ random PWMs matched to
+TBP's information content (both mean $\pm$ SD), on \task{cohn} and \task{nt\_enhancers} (\task{nt\_enh});
+dashed line: no skew. (b) The same AUROC across 0.8--1.5 bits/pos on the original and the released
+equalized splits (95\% bootstrap bands). Re-plot of \src{results/upgrades/figures/route3\_specificity.pdf}
+(same code and data) with the legend of (b) moved.}
+\label{fig:ctlmotif}
+\end{figure}
+
+% =====================================================================
+\section{FM probes, frozen and fine-tuned}\label{sec:s5}
+
+\subsection{Frozen probes}
+A frozen probe's \emph{test effect} is the AUROC change of the same fixed head when composition-biased
+test negatives are removed (negative = loss), leaving the GC-matched subset (test negatives subsampled to
+the positives' GC histogram; the paper's GC-matched intervention). It is significant for both
+FMs on both contaminated sets, for both heads and under both poolings (Table~\ref{tab:frozen},
+Fig.~\ref{fig:frozen}). Whether the GC-balanced control is flat depends on the pooling: it is flat
+under HyenaDNA's [SEP] token (\smFrozCtlSep), not under mean pooling (\smFrozCtlMean). The small
+test effect is a floor: on composition-equalized negatives the same models lose
+\smFloorLo--\smFloorHi\ \task{cohn} AUROC, frozen or fine-tuned (Table~\ref{tab:ftcompare}), a loss that
+also includes genuine composition signal.
+
+\input{generated/tab_frozen}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.69\linewidth]{figs/fm_frozen_probe.pdf}
+\caption{Frozen FM probes: test effect (AUROC change, negative = loss; Section~\ref{sec:s5}) of the fixed LightGBM head on the
+GC-matched arm for HyenaDNA ([SEP] token) and DNABERT-2 (mean and [CLS] pooling), with 95\% bootstrap
+CIs (data as in Table~\ref{tab:frozen}). The GC-balanced control (\task{drosophila}) was probed with
+HyenaDNA only, [SEP] token. Seed 42. Re-plotted for this supplement from
+\src{fm\_cross\_architecture.csv}; same data as \src{results/upgrades/figures/fm\_cross\_architecture.png}.}
+\label{fig:frozen}
+\end{figure}
+
+\subsection{End-to-end fine-tuning}\label{sec:s5ft}
+Two FMs were fine-tuned end to end, \smNunits\ units in total: HyenaDNA-tiny-16k-d128~\cite{hyenadna}
+with all \smFTHParams\ parameters trainable (AdamW, learning rate $6\times10^{-4}$, 6 epochs), and
+DNABERT-2-117M~\cite{dnabert2} with LoRA~\cite{hu2022} (rank 8, $\alpha=16$, on the attention and GLU
+layers; \smFTDParams\ parameters trainable, \smFTDParamsPct; AdamW, $3\times10^{-4}$, at most 4 epochs
+with early stopping). Each has a linear head on mean-pooled states and class-weighted cross-entropy;
+the epoch is chosen on a 10\% validation carve of the training split; seeds 42--44; one fixed recipe
+per model, with no hyperparameter search. Every model scores the whole original test split, so the
+arms are the same weights scored on different test negatives: original ($A$), composition-equalized
+($B$) and a size-matched random subset of the original negatives ($C$). Models retrained on equalized
+($D$) or random ($E$) negatives are also reported. The contrasts and rules were fixed before any unit
+finished; the share of above-chance AUROC lost is a post hoc re-expression.
+
+On \task{cohn} both models lose AUROC on equalized test negatives and nothing on random ones
+(Table~\ref{tab:ft}): HyenaDNA \smFTHA\ to \smFTHB\ (random \smFTHC) and DNABERT-2 \smFTDA\ to \smFTDB\
+(random \smFTDC; by arm in Fig.~\ref{fig:ftarms}). Re-expressed, that is \smFTHShare\ and \smFTDShare\ of the
+above-chance AUROC (Fig.~\ref{fig:ftcompare}).
+Fine-tuned HyenaDNA's share is not significantly different from the $k$-mer model's in the same design
+(\smFTKmerShare; paired difference \smFTHvsKmer), and LoRA reduces but does not remove the reliance.
+Rule~1 is met for HyenaDNA only through its $B<0.6$ clause and is not met for DNABERT-2
+(Table~\ref{tab:ftrules}). $B$ is not a chance draw of a small negative set: it lies below all 1000
+random draws of as many negatives (Table~\ref{tab:ftranddraw}).
+
+\input{generated/tab_ft}
+\input{generated/tab_ftrules}
+
+The equalizer keeps more cCRE-overlapping negatives than the random control does (\task{cohn} test
+negatives: \smCcreEq\ against \smCcreRand; Table~\ref{tab:ftccre}). Without them the \task{cohn} drop
+shrinks but persists (\smCcreFTH\ and \smCcreFTD\ of the above-chance AUROC). On \task{nt\_enhancers}
+(\smFTNtEqNeg\ equalized test negatives) both models lose AUROC (HyenaDNA \smFTNtH; DNABERT-2 \smFTNtD), but
+without cCRE-overlapping negatives the loss is no longer separable from the random control ($T$ CIs
+\smCcreNtTH\ and \smCcreNtTD; Table~\ref{tab:ftccrefree}), so the fine-tuned drop is established for
+\task{cohn} only.
+
+The GC-balanced control also loses \smFTCtlShare\ of its above-chance AUROC (HyenaDNA only). The
+pre-specified rule~5 (the control's $B$ and $D$ above chance and its $S$ below that of each contaminated set, with
+disjoint CIs) is not met: $B$ and $D$ stay above chance, but its $S$, \smFTCtlS, overlaps that of
+\task{nt\_enhancers}, \smFTNtS\ (Table~\ref{tab:ftrules}). After fine-tuning, the control's GC-matched test
+effect is also no longer flat (\smFTCtlGA;
+Table~\ref{tab:ftgc}). Fine-tuning, like matching, shows reliance on composition-associated signal,
+not that the signal is an artifact. Post hoc, on the leak-free \task{nt\_enhancers} test the drop
+persists but carries the cCRE caveat, and on homology-clean data fine-tuned HyenaDNA still loses
+\smHcFTS\ on \task{cohn}, while on the homology-clean \task{nt\_enhancers} re-split its GC-matched
+shortcut vanishes ($S_\mathrm{gc}$ \smHcFTSgc; Table~\ref{tab:ftposthoc}).
+
+\emph{Caveats.} All three HyenaDNA \task{cohn} models retrained on equalized negatives collapsed to
+one-class predictors, so their $D$ is not evidence that the arm is unlearnable. Fine-tuned HyenaDNA
+reaches a \task{cohn} accuracy of \smFTBalAcc\ against 0.742 published for the same architecture after a
+sweep~\cite{hyenadna}, and an \task{nt\_enhancers} MCC of \smFTNtMCC\ against 0.626 published for a
+larger (1.6M) HyenaDNA~\cite{hyenadna}; the models are not leaderboard-tuned. On \task{nt\_enhancers}
+\smValLeakMin--\smValLeakMax\ of validation rows have an exact copy among the fitting rows, so
+validation AUROC overstates test AUROC (per-model means \smValAucH\ against \smTestAucH\ for HyenaDNA,
+\smValAucD\ against \smTestAucD\ for DNABERT-2); the test split is never used for selection. The only
+full-parameter model is the \smFTHParamsM-parameter HyenaDNA-tiny; full-parameter DNABERT-2 and NT-v2-500M runs
+are packaged but not run (Section~\ref{sec:s9}), and DNABERT-2 was not run on the GC-balanced control
+(Section~\ref{sec:s1tok}).
+
+\input{generated/tab_ftcompare}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.55\linewidth]{figs/fm_finetune_v2_compare.pdf}
+\caption{Share of above-chance AUROC lost when the same weights are scored on composition-equalized
+test negatives, $(A-B)/(A-0.5)$ (filled), and on size-matched random test negatives, $(A-C)/(A-0.5)$
+(open), for the $k$-mer model, frozen probes and fine-tuned FMs (post hoc, descriptive; 95\% CIs).
+\task{nt\_enhancers} is on its leak-free test (\smFTNtEqNeg\ equalized negatives; wide intervals, some past 1);
+\task{drosophila} is the GC-balanced control. The cCRE caveat of Table~\ref{tab:ftccrefree} applies.
+Source: \src{results/upgrades/figures/fm\_finetune\_v2\_compare.pdf}.}
+\label{fig:ftcompare}
+\end{figure}
+
+\input{generated/tab_ftccre}
+\input{generated/tab_ftccrefree}
+\input{generated/tab_ftranddraw}
+\input{generated/tab_ftposthoc}
+\input{generated/tab_ftgc}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.52\linewidth]{figs/fm_finetune_v2.pdf}
+\caption{Fine-tuned models: test AUROC by training arm $\to$ test negatives (seed mean, 95\% CI;
+ticks: individual seeds; in-figure ``released'' denotes the original benchmark negatives). The HyenaDNA \task{cohn} equalized$\to$equalized point is a degenerate
+one-class fit (all three seeds) and is not evidence that the arm is unlearnable. \task{nt\_enh.} is on
+its leak-free test. Source: \src{results/upgrades/figures/fm\_finetune\_v2.pdf}.}
+\label{fig:ftarms}
+\end{figure}
+
+% =====================================================================
+\section{Homology re-clustering}\label{sec:s6}
+
+All 15 tasks were re-clustered with MMseqs2~\cite{steinegger2017}: an all-vs-all nucleotide search on
+both strands, edges at $\ge$80\% identity (id80, primary; id50, strict) over $\ge$80\% of both
+sequences, and connected components as clusters, so near-duplicates chained through intermediates
+cannot straddle a split. Two protocols re-score every baseline, each against a control: a purge that
+scores the same trained model on the test split minus every test sequence with a training homolog,
+against 1000 random removals with the same per-class counts; and a cluster-aware re-split, against a
+random re-split, over three split seeds.
+
+A median \smHomMedian\ of test sequences have an id80 training homolog (maximum \smHomMax;
+\task{cohn} \smHomCohn). Against the random-removal null, the pre-specified test flags inflation in
+\smHomNflag\ of the \smHomNeval\ evaluable tasks; the effect exceeds 0.05 MCC (a post hoc cut) in
+\smHomNbig, one of which (\task{nt\_enhancers}) coincides with removing all \smNtDup\ verbatim strong
+enhancers (Table~\ref{tab:homtasks}; Fig.~\ref{fig:hom}).
+
+\emph{Labels} (Table~\ref{tab:homlabels}). The purge preserves every label it can score on the
+prevalence-adjusted MCC (the purged test set re-weighted so that each class has its original test
+proportion; post hoc), because purging can change the class mix, which by itself moves MCC;
+\task{human\_nontata\_promoters} passes only after that adjustment (raw purged MCC \smHomNontataRaw,
+adjusted \smHomNontataStd). Under cluster-aware re-splits \smHomLabelsSFortyTwo\
+labels are unchanged at seed 42 and \smHomLabelsMean\ by split-seed mean.
+\task{human\_nontata\_promoters} relabels because of homology (MCC \smHomNontataCl\ against
+\smHomNontataRa\ on random re-splits), and the two NT enhancer tasks become solved under random
+re-splits too, a re-pooling effect of their separately built test split. The label counts are partly
+true by construction (composition labels are task types; once a task fails its contamination vs.\
+shared-motif label is set by the model-free gate; the purge re-scores only the MCC and that gate), so
+the informative labels are the solved and positional ones.
+
+\emph{Routes.} Route~1 under homology control is in Section~\ref{sec:s2}. Route~2 persists: the splice
+rescue is \smHcSplice\ on homology-clean data against \smHcSpliceOrig\ on the same training arm, graded
+in bin resolution (Table~\ref{tab:homroutes}). For Route~3, TATA-flag cleaning of homology-clean
+\task{cohn} moves the TATA AUROC to \smHcTataFlag\ against \smHcTataPlacebo\ for a size-matched
+placebo, composition equalization stays below its size-matched placebo ($k$-mer AUROC \smHcEqK\
+against \smHcEqPlacebo\ in one draw; \smHcEqDrawRange\ over \smHcEqDraws\ equally valid matching draws,
+median \smHcEqDrawMed), the control-motif panel and the TSS depletion are preserved, and the \task{cohn}
+FM shortcut persists (frozen probes; fine-tuned HyenaDNA). On homology-clean \task{nt\_enhancers} the frozen probes
+shrink but every CI still excludes 0, while the fine-tuned GC-matched shortcut vanishes
+(Table~\ref{tab:ftposthoc}).
+
+\emph{Limits.} MMseqs2 cannot seed very short or mostly-N sequences: \smMissedEnh\ short exact twins in
+\task{human\_enhancers\_ensembl} (median \smMissedEnhLen\ bp) and \smMissedWorm\ masked all-N sequences in
+\task{demo\_human\_or\_worm} are reported as a sensitivity analysis, not merged into the graph.
+Many tests are uncorrected for multiplicity; the pre-specified rules and the named primary Route-1 test
+are the calls. The semi-synthetic dose-response is not re-run, by design (its random backgrounds have
+no natural homology), and DNABERT-2 fine-tuning on the homology-clean splits was not run
+(Section~\ref{sec:s9}).
+
+\input{generated/tab_hom_tasks}
+\input{generated/tab_hom_labels}
+\input{generated/tab_hom_routes}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.55\linewidth]{figs/homology_recluster_mcc.pdf}
+\caption{MCC of the best-$k$ LightGBM per task under homology control: provided split (open circle),
+test purged of training homologs (triangle; prevalence-adjusted MCC; raw purged MCC of
+\task{human\_nontata\_promoters} \smHomNontataRaw), cluster-aware re-split (filled; mean and range over
+split seeds 42--44) and random re-split (bar). Percent: test sequences with an id80 training homolog.
+Dashed line: the 0.7 ``solved'' threshold. The \task{nt\_enhancers} purge removes all \smNtDup\ verbatim
+strong enhancers; the NT-enhancer tasks rise under random re-splits as well (re-pooling). Purge n/e: a
+class is eliminated. Source: \src{results/upgrades/figures/homology\_recluster\_mcc.pdf}.}
+\label{fig:hom}
+\end{figure}
+
+% =====================================================================
+\section{Alternative interpretable classifiers}\label{sec:s7}
+
+$k$-mer spectra map onto transcription-factor motifs and are the established interpretable
+representation for regulatory sequence~\cite{lee2011,ghandi2014}; gradient-boosted trees capture
+non-linear $k$-mer effects on a CPU and expose the per-feature split gains that the paper's motif
+enrichment uses. To test whether the diagnosis depends on this classifier, every model-dependent
+diagnostic was refit with MCC-tuned L1/L2 logistic regression (LR; penalty and $C$ chosen by validation MCC)
+and an explainable boosting machine (EBM)~\cite{lou2013} on the 20-dimensional composition signature
+plus the 128 $k$-mers with the largest training-only ANOVA $F$. Only the classifier varies; the
+representation is the same $k$-mer spectrum. Model-free diagnostics (motif-only AUROCs, the TATA
+gate, the GC-content AUROC, coordinates, the control-motif panel) do not depend on the classifier and were not
+recomputed.
+
+Against the paper's Table~I labels, LR and the EBM each keep \smAltSame\ labels and \smAltFailKept\
+failure-route labels (Tables~\ref{tab:altagree} and~\ref{tab:altlabels}). The counts are partly true by
+construction; the informative checks are the solved and positional labels, and each change is a
+solved task that the weaker model fails (regulatory under LR; \task{human\_nontata\_promoters} under
+the 128-$k$-mer EBM, solved again with 512 $k$-mers). Splice is the only positional task under every
+model, and the dose-response slope persists, but the real-task correlation is not significant under
+LR or the EBM (Table~\ref{tab:altroutes}).
+
+No model-level Route-3 readout is contamination-specific (Tables~\ref{tab:altroute3}
+and~\ref{tab:altretrained}). Every task tested loses some AUROC beyond size-matched random negatives,
+the control included. Under overlap weighting \task{cohn} loses a larger share than the control under
+every model, but for LightGBM the composition-only baseline shows the same contrast, and under the EBM,
+which sees composition explicitly, the solved gate-positive \task{human\_nontata\_promoters} also loses
+more than the control. The weak-excess gate-positive \task{human\_enhancers\_ensembl} also loses AUROC
+beyond random negatives, but under overlap weighting a smaller share than the control with LightGBM and
+LR (with the EBM the CI of the difference includes 0); its label rests on the TATA gate alone (Table~\ref{tab:homlabels}). Retrained against random negatives, the \task{cohn}-minus-control difference is
+significant only for the MCC-tuned LR (\smRetrR; AUROC-tuned LR \smRetrA; LightGBM \smRetrL; EBM
+\smRetrE). The overlap shares of \task{nt\_enhancers} exceed 1 and are not interpretable. Motif
+attributions agree only partly across classifiers (Table~\ref{tab:altattr}). Only the classifier was
+varied: no gapped-$k$-mer SVM or other representation was run in this analysis.
+
+\input{generated/tab_alt_agree}
+\input{generated/tab_alt_labels}
+\input{generated/tab_alt_routes12}
+\input{generated/tab_alt_route3}
+\input{generated/tab_alt_retrained}
+\input{generated/tab_alt_attr}
+
+% =====================================================================
+\section{The GUE suite}\label{sec:s8}
+
+The unchanged pipeline and route thresholds were applied to the 28 datasets of GUE~\cite{dnabert2}
+(human, mouse, yeast and virus), with predictions stated before the run (Table~\ref{tab:guepred}). GUE
+is separately assembled but mostly not new DNA (Table~\ref{tab:guefam}): only \smGueNear\ of the 28
+datasets are near-disjoint from GB/NT (at most \smNearMax\ of sequences shared; only covid shares none),
+\smGueHumanTF\ of the human-TF sequences occur in GB/NT, and the promoter positives, most splice
+sequences and all yeast sequences are NT data.
+
+The rule gives \smGueFail\ failure routes (\smGuePos\ positional, \smGueShared\ shared-motif,
+\smGueContam\ contamination), \smGueSolved\ solved and \smGueHard\ ``hard'' labels (MCC below 0.7 with no
+single route; Table~\ref{tab:gue}).
+Every failure route falls on a dataset that shares at least \smGueMinShared\ of its sequences with
+GB/NT. The positional rule fires on splice ($\Delta$MCC \smGueDeltaSplice) and, against our pre-stated
+prediction, also on both TATA-promoter tasks (\smGueDeltaCore\ and \smGueDeltaThreeHundred).
+\task{prom\_300\_tata} has the same positives as \task{nt\_promoter\_tata}, yet on \task{nt\_promoter\_tata}
+the same code gives \smNtPromTataDelta, not significant: with identical positives, the route follows how
+the negatives were built. (The GUE negatives of the two TATA tasks differ from NT's, although
+\smPromLabelZero\ of their label-0 sequences also occur in the paper's tasks.)
+
+Only the three positional labels survive our post hoc checks. The five yeast shared-motif labels depend
+on a length-dependent richness threshold (Table~\ref{tab:guerule}), which also makes \smGueHardRich\ short tasks
+``hard''. The four yeast contamination labels fall on measured low-signal genomic windows (the
+low-signal class of each histone-mark dataset), not on sampled negatives, and genomic location accounts
+for only \smEmpShareLo--\smEmpShareHi\ of their TATA excess with two location strata
+(Table~\ref{tab:gueemp}); they are not evidence of negative-set contamination. Of the
+\smGuePredApplicable\ applicable pre-stated predictions, \smGuePredFail\ failed. A split artifact outside
+the three routes appears in the mouse-TF tasks, whose dinucleotide-shuffle negatives were split
+independently of their source positives: the composition-only baseline inverts (AUROC \smTwinAuc;
+Table~\ref{tab:guetwins}). When negatives are shuffles of the positives, each positive and its shuffle
+belong in the same split.
+
+On the development tasks the same driver reproduces \smPaperMCCRepro\ of the paper's 15 MCCs, and its rule reproduces
+\smCliAgree\ Table~I routes that it can emit (in-sample consistency, not calibration). The CPU $k$-mer
+baseline sits a median of \smGueGapMedian\ MCC points (MCC$\times$100) below DNABERT-2 as published, over
+the \smGueGapN\ MCC datasets; the comparison only locates the baseline. GUE was difficulty-filtered by its authors, so its
+route distribution is not representative of benchmarks in general.
+
+\input{generated/tab_gue_fam}
+\input{generated/tab_gue}
+\input{generated/tab_gue_pred}
+\input{generated/tab_gue_rule}
+\input{generated/tab_gue_emp}
+\input{generated/tab_gue_twins}
+
+% =====================================================================
+\section{Analyses packaged but not run (not results)}\label{sec:s9}
+
+Table~\ref{tab:deferred} lists analyses that were packaged or recommended but were not run. None of
+them produced a number in the paper or in this supplement; the paper states the corresponding gaps as
+limitations (full-parameter fine-tuning covers only the \smFTHParamsM-parameter HyenaDNA-tiny; the GC-balanced
+control covers HyenaDNA only; homology-clean fine-tuning covers HyenaDNA only).
+
+\input{generated/tab_deferred}
+
+\clearpage
+\section*{AI-use disclosure}
+% TODO(author): confirm this wording; keep it consistent with the paper's AI-use disclosure.
+Claude (Anthropic), run as Claude Code agents under the author's direction, wrote the analysis and
+table-generating code, ran the analyses, and drafted this supplement. The author designed the study,
+inspected and verified the outputs, and takes full responsibility for the content.
+
+\begin{thebibliography}{00}
+\bibitem{cohn2018} D. Cohn, O. Zuk, and T. Kaplan, ``Enhancer identification using transfer and
+adversarial deep learning of DNA sequences,'' bioRxiv 264200, 2018, doi:10.1101/264200.
+\bibitem{liu2016} B. Liu, L. Fang, R. Long, X. Lan, and K.-C. Chou, ``iEnhancer-2L: a two-layer
+predictor for identifying enhancers and their strength by pseudo $k$-tuple nucleotide composition,''
+\emph{Bioinformatics}, vol.~32, no.~3, pp.~362--369, 2016.
+\bibitem{ernst2011} J. Ernst \emph{et al.}, ``Mapping and analysis of chromatin state dynamics in nine
+human cell types,'' \emph{Nature}, vol.~473, no.~7345, pp.~43--49, 2011.
+\bibitem{liu2018} B. Liu, K. Li, D.-S. Huang, and K.-C. Chou, ``iEnhancer-EL: identifying enhancers and
+their strength with ensemble learning approach,'' \emph{Bioinformatics}, vol.~34, no.~22,
+pp.~3835--3842, 2018.
+\bibitem{geng2022} Q. Geng, R. Yang, and L. Zhang, ``A deep learning framework for enhancer prediction
+using word embedding and sequence generation,'' \emph{Biophys. Chem.}, vol.~286, p.~106822, 2022.
+\bibitem{costantini2006} M. Costantini, O. Clay, F. Auletta, and G. Bernardi, ``An isochore map of
+human chromosomes,'' \emph{Genome Res.}, vol.~16, no.~4, pp.~536--541, 2006.
+\bibitem{rosenbaum1983} P. R. Rosenbaum and D. B. Rubin, ``The central role of the propensity score in
+observational studies for causal effects,'' \emph{Biometrika}, vol.~70, no.~1, pp.~41--55, 1983.
+\bibitem{li2018} F. Li, K. L. Morgan, and A. M. Zaslavsky, ``Balancing covariates via propensity score
+weighting,'' \emph{J. Am. Stat. Assoc.}, vol.~113, no.~521, pp.~390--400, 2018.
+\bibitem{encode2020} ENCODE Project Consortium \emph{et al.}, ``Expanded encyclopaedias of DNA elements in
+the human and mouse genomes,'' \emph{Nature}, vol.~583, no.~7818, pp.~699--710, 2020.
+\bibitem{altschul1985} S. F. Altschul and B. W. Erickson, ``Significance of nucleotide sequence
+alignments: a method for random sequence permutation that preserves dinucleotide and codon usage,''
+\emph{Mol. Biol. Evol.}, vol.~2, no.~6, pp.~526--538, 1985.
+\bibitem{hyenadna} E. Nguyen \emph{et al.}, ``HyenaDNA: long-range genomic sequence modeling at single
+nucleotide resolution,'' in \emph{Proc. Adv. Neural Inf. Process. Syst. (NeurIPS)}, 2023.
+\bibitem{dnabert2} Z. Zhou, Y. Ji, W. Li, P. Dutta, R. Davuluri, and H. Liu, ``DNABERT-2: efficient
+foundation model and benchmark for multi-species genomes,'' in \emph{Proc. Int. Conf. Learn. Represent.
+(ICLR)}, 2024, arXiv:2306.15006.
+\bibitem{hu2022} E. J. Hu \emph{et al.}, ``LoRA: low-rank adaptation of large language models,'' in
+\emph{Proc. Int. Conf. Learn. Represent. (ICLR)}, 2022, arXiv:2106.09685.
+\bibitem{steinegger2017} M. Steinegger and J. S\"oding, ``MMseqs2 enables sensitive protein sequence
+searching for the analysis of massive data sets,'' \emph{Nat. Biotechnol.}, vol.~35, no.~11,
+pp.~1026--1028, 2017.
+\bibitem{lee2011} D. Lee, R. Karchin, and M. A. Beer, ``Discriminative prediction of mammalian enhancers
+from DNA sequence,'' \emph{Genome Res.}, vol.~21, no.~12, pp.~2167--2180, 2011.
+\bibitem{ghandi2014} M. Ghandi, D. Lee, M. Mohammad-Noori, and M. A. Beer, ``Enhanced regulatory sequence
+prediction using gapped $k$-mer features,'' \emph{PLoS Comput. Biol.}, vol.~10, no.~7, p.~e1003711, 2014.
+\bibitem{lou2013} Y. Lou, R. Caruana, J. Gehrke, and G. Hooker, ``Accurate intelligible models with
+pairwise interactions,'' in \emph{Proc. ACM SIGKDD}, 2013, pp.~623--631.
+\end{thebibliography}
+
+\clearpage
+\section*{Manifest of input files}
+\input{generated/manifest}
+
+\end{document}

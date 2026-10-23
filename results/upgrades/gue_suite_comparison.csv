@@ -1,0 +1,4 @@
+suite,n_datasets,routes,rule_routes,n_solved_tier,n_partial_tier,n_hard_tier,n_binary,n_comp_dominated_binary,n_comp_dominated_solved_binary,median_comp_fraction_binary,n_route3_signature,source
+GB,9,composition:3; solved:2; shared-motif:2; contamination (weak):1; contamination:1,solved:4; contamination:2; shared-motif:2; hard (no single route):1,4,2,3,8,5,3,0.89,3,gue_paper15_reference.csv (routes: submitted Table 1)
+NT,6,solved:3; contamination:1; shared-motif:1; positional:1,solved:3; contamination:1; hard (no single route):1; positional:1,3,1,2,4,4,3,0.978,1,gue_paper15_reference.csv (routes: submitted Table 1)
+GUE,28,n/a (no hand labels),hard (no single route):8; solved:8; shared-motif:5; contamination:4; positional:3,8,9,11,26,11,5,0.741,5,"gue_results.csv (rule_routes: diagnose._verdict, pre-registered)"

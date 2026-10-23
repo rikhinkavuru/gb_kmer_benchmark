@@ -1,0 +1,6 @@
+dataset,train_arm,eval_arm,n_seeds,auroc_mean,auroc_sd,auroc_min,auroc_max,mcc_mean,mcc_sd,n_test,n_train
+human_enhancers_cohn,comp_equalized,comp_equalized,3,0.504822,0.014689,0.493814,0.521501,0.0,0.0,3702,9738
+human_enhancers_cohn,gc_match,gc_match,3,0.662431,0.041151,0.636728,0.709893,-0.003582,0.006204,5800,15569
+human_enhancers_cohn,original,comp_equalized,3,0.513542,0.007589,0.506611,0.521652,0.011882,0.005034,3702,18759
+human_enhancers_cohn,original,gc_match,3,0.67198,0.018006,0.65137,0.684658,0.180375,0.119468,5800,18759
+human_enhancers_cohn,original,original,3,0.752212,0.010223,0.740688,0.760189,0.317882,0.09806,6948,18759

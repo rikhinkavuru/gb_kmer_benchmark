@@ -1,0 +1,4 @@
+dataset,n_train,n_test,results_csv_n_train,results_csv_n_test,n_train_pos,n_test_pos,snapshot_identical_to_loader,sha256_seq_label
+human_enhancers_cohn,20843,6948,20843,6948,10421,3474,True,6a9c882101fe30173d56f570baec2b9334d07ee6d7a42c867e2e7dda42f3fea5
+drosophila_enhancers_stark,5184,1730,5184,1730,2592,865,True,fb73f0805ffc39c6ebe5abf037f9f8270d6c27cd51b610cfa252287c630df90a
+nt_enhancers,14968,400,14968,400,7484,200,True,b37d68095abd0fed35426af399226c372172b166a00f61b880c160913826680e

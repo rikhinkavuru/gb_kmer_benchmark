@@ -1,0 +1,1119 @@
+HEADLINE (numbers from psm_sensitivity_{decision,paper_table,selection_bias,dissociation_stats,f2_selection_difficulty,between_dataset,leakage_check}.csv; [post hoc] = not pre-registered)
+----------------------------------------------------------------------------------------------------
+LEAKAGE: nt_enhancers: 100 of 400 test sequences occur verbatim in train (100 positives, labels consistent: True); original model mean score 0.958 on them vs 0.624 on the other positives; original AUROC 0.850 -> 0.735 without them. Rows nt_enhancers_leakfreeTest / nt_enhancers_leakfreeRefit below are the leak-free re-analyses (nt_enhancers_leakfreeTest is the primary nt result).
+LEAKAGE: no verbatim train/test duplicates in drosophila_enhancers_stark, human_enhancers_cohn.
+
+human_enhancers_cohn [contaminated]  decision rule verdict: SUPPORTED-WITH-SIZE-COMPONENT  (i-a size False, i-b separation True, ii-a weighting True, ii-b two-sided True; tau 0.030)
+  k-mer AUROC 0.805 -> random negatives at the paper's retention (4.5%) 0.765 (0.738-0.793) -> composition-matched 0.621 [0.582,0.658] (test 3474 pos / 228 neg): size effect +0.040 (> tau), matched-vs-random effect +0.144 (share of total drop 0.78; the pre-registered 'shortcut' term: it measures what composition MATCHING removes, whatever its cause)
+  [post hoc P7] two-level paired bootstrap (test sequences x random seeds): size +0.040 [+0.022,+0.059] (CI straddles tau 0.030 (R7b's fixed tau; the pre-registered tau here is 0.030); share of the total drop 0.22 [0.12,0.33]); matched-vs-random +0.144 [+0.102,+0.184] -> non-zero (R7a); its share of the total drop 0.78 [0.67,0.88]
+  [post hoc P7] composition-only model on the same arms: matched-vs-random +0.184 [+0.138,+0.223] (non-zero); k-mer minus composition-only: absolute -0.039 [-0.086,+0.007], relative (share of the random arm's above-chance AUROC) -0.245 [-0.433,-0.068] -> not distinguishable or scale-dependent (R7c). Over matched seeds 42-44: k-mer +0.141 [+0.107,+0.177], composition-only +0.173 [+0.133,+0.205] -> not distinguishable or scale-dependent
+  [post hoc P7] PAIRED designs, matched-vs-random effect, k-mer | composition-only | k-mer minus composition-only (absolute; relative) -> R7c: original model on the selected test (fixed_model) +0.209 [+0.169,+0.249] | +0.229 [+0.187,+0.270] | -0.020 [-0.047,+0.004]; -0.141 [-0.232,-0.052] -> not distinguishable or scale-dependent; selected-split model on the ORIGINAL test (train_only) +0.181 [+0.166,+0.195] | +0.216 [+0.199,+0.233] | -0.036 [-0.054,-0.017]; -0.247 [-0.318,-0.179] -> k-mer loses LESS than composition-only on both scales
+  training negatives changed, test undistorted (arm-trained models scored on the ORIGINAL test): random-trained 0.765 (0.758-0.773) vs matched-trained 0.584 [0.571,0.597]; [post hoc P7] matched-vs-random +0.181 [+0.166,+0.195], training-size effect +0.040 [+0.034,+0.046]
+  matched AUROC over selection seeds 42/43/44: 0.613-0.637; published split 0.613. Balance of the matched set: max|SMD| 0.071 (balanced, <=0.1); published split max|SMD| 0.059; composition-only AUROC 0.779 -> matched 0.549 (random 0.732)
+  overlap weighting, nothing discarded (neg ESS 79%): 0.671 [0.656,0.685] vs permuted-weight placebo 0.805 (+0.134)
+  two-sided 1:1 caliper-0.2 matching (keeps 61% of EACH class; discards the rest): 0.688 [0.673,0.704] vs random 1:1 of the same size 0.802 (+0.114)
+  fixed original model (no retraining): class-ratio change alone +0.001 (AUROC is prevalence-invariant, so ~0 is expected); composition-matched test negatives instead of random ones +0.209 (0.595 vs 0.803)
+  nothing removed AND nothing retrained: original model on the overlap-weighted original test 0.609 [0.593,0.624] vs placebo weights 0.806 (0.802-0.810); drop +0.197; share of above-chance AUROC lost 0.64 [0.61,0.68]
+  weighting diagnostic: composition-only AUROC under the same overlap weights 0.605 (retrained) / 0.554 (original model) vs placebo 0.778 / 0.779 -> weights leave residual composition signal in the retrained and original-model designs (composition-only > 0.5): the weighted drop there is conservative (rule, per design: composition-only weighted AUROC < 0.5)
+  MCC@0.5 (paper metric) 0.461 -> size-matched random 0.022 -> matched 0.000: size/imbalance part +0.439, matched-vs-random part +0.022 -> mostly size/imbalance (rule: larger part)
+  balanced MCC (class-balance-weighted, prior-corrected threshold) 0.462 -> random 0.117 -> matched 0.034: size part +0.344, matched-vs-random part +0.083 -> mostly size/imbalance; 1:1 design MCC@0.5 matched 0.277 vs random 1:1 0.448 (a matched-vs-random contrast, not before/after)
+  published-split MCC@0.5 collapse vs size-matched RANDOM negatives: k-mer 0.461 -> random 0.022 (0.000-0.091) vs published 0.064 (111% of the collapse -> fully); composition-only 0.410 -> random 0.144 (0.089-0.203) vs published 0.000 (65% of the collapse -> mostly) (rule: share (mcc0 - random) / (mcc0 - published) >= 1 fully, >= 0.5 mostly, > 0 partly, else not reproduced)
+  [post hoc] class-balanced training weights: random 0.761 (0.736-0.794) vs matched 0.603 [0.564,0.643] (seeds 0.603-0.640): size effect +0.043 (> tau: the size component persists with class weights), matched-vs-random effect +0.158; MCC@0.5 random 0.083 vs matched 0.042 (MCC@0.5 is not informative on these rows either: caveat 11)
+  label noise: mixture-model ESTIMATE (assumes hidden positives overlap ENCODE ELS at the labelled-positive rate): ELS overlap retained 0.337 vs discarded 0.236 (Bonferroni p 5.3e-06; all negatives 0.241, positives 0.907) -> hidden-positive fraction 0.144, AUROC cost 0.038 = 0.26x the matched-vs-random effect -> label noise cannot explain the matched-vs-random effect (rule: ratio < 0.5)
+  label-noise check, cCRE-purged pools: F5 re-match 0.686 vs random 0.779; F5b 1:1 0.755 vs 0.862 (drop +0.107 vs +0.114 unpurged)
+  retained vs discarded negatives, largest out-of-model SMDs: tata_any -0.49 (ret 0.346, disc 0.585, pos 0.352; p_bonf 1.4e-29); tata_count -0.35 (ret 0.624, disc 1.74, pos 0.71; p_bonf 6.4e-33); ccre_any +0.26 (ret 0.512, disc 0.382, pos 0.94; p_bonf 2.3e-08); trimer_l1_to_pos_centroid -0.25 (ret 0.422, disc 0.455, pos 0.409; p_bonf 1.7e-14)
+  kept-vs-discarded differences NOT significant after Bonferroni (p_bonf >= 0.05): tss500_overlap 0.043 vs 0.024 (p_bonf 0.77)
+  [post hoc, descriptive] across unique F1/F2/F3 arms, Spearman of the k-mer AUROC gap with the composition-only gap vs with selection depth (-log retained fraction), per design: within (n=24) +0.96 vs +0.39 -> gap tracks composition-signal removal more than selection depth; fixed_model (n=24) +0.98 vs +0.71 -> no clear separation of composition-signal removal and selection depth; train_only (n=24) +0.92 vs +0.65 -> no clear separation of composition-signal removal and selection depth (rule: 0.3 difference)
+  [post hoc] common-support trimming (F2) at q0.45 (6% of negatives kept; 90% of test positives lie OUTSIDE the kept negatives' propensity band, P8). RETRAINED models (within): k-mer gap vs size-matched random +0.002, composition-only gap -0.180 -> no level flagged in this design (rule: per design: kmer gap >= 0.05 and comp gap <= 0.02 (post hoc; not underpowered)). ORIGINAL model on the trimmed test (fixed_model): k-mer +0.181, composition-only +0.235 (flagged at 0 of 7 levels). TRIMMED-split model on the ORIGINAL test (train_only): k-mer +0.266, composition-only +0.280 (flagged at 0 of 7 levels).
+    P8 split of the within design, gap (random mean - trimmed) for IN-band | OUT-of-band test positives vs the arm's negatives: q0.45 k-mer +0.203 | -0.021, composition-only +0.226 | -0.225 -> R8: composition change from the tails; k-mer in-band loss not beyond composition-only (R8 rule in the run_posthoc.py FIX-ROUND-3 ADDENDUM; point estimates)
+  two-sided 1:1 caliper sweep (F3, pre-registered part 4b; within design; k-mer AUROC matched vs random 1:1 of the same size; max|SMD| of the matched set; % of each class kept): c2 0.765 vs 0.805 (gap +0.040, SMD 0.74, 89%); c1 0.702 vs 0.802 (gap +0.101, SMD 0.31, 73%); c0.5 0.693 vs 0.800 (gap +0.108, SMD 0.10, 65%); c0.2 0.688 vs 0.802 (gap +0.114, SMD 0.04, 61%); c0.01 0.694 vs 0.802 (gap +0.107, SMD 0.03, 60%)
+  positive-side matching (F4; ALL negatives kept, positives subsampled to the negatives' propensity histogram, 7.7% of positives kept, test 225 pos / 3474 neg): k-mer 0.622 [0.585,0.659] vs random positive subsets 0.780 (0.749-0.798), gap +0.157; composition-only 0.582 vs 0.752
+
+nt_enhancers [contaminated]  decision rule verdict: NOT SUPPORTED  (i-a size False, i-b separation False, ii-a weighting True, ii-b two-sided True; tau 0.039)
+  k-mer AUROC 0.850 -> random negatives at the paper's retention (4.9%) 0.807 (0.763-0.832) -> composition-matched 0.799 [0.722,0.871] (test 200 pos / 36 neg): size effect +0.043 (> tau), matched-vs-random effect +0.008 (share of total drop 0.16; the pre-registered 'shortcut' term: it measures what composition MATCHING removes, whatever its cause)
+  [post hoc P7] two-level paired bootstrap (test sequences x random seeds): size +0.043 [+0.009,+0.081] (CI straddles tau 0.030 (R7b's fixed tau; the pre-registered tau here is 0.039); share of the total drop 0.84 [-6.20,8.28]); matched-vs-random +0.008 [-0.074,+0.099] -> not distinguishable from 0 (R7a); its share of the total drop 0.16 [-7.28,7.20]
+  [post hoc P7] composition-only model on the same arms: matched-vs-random +0.148 [+0.024,+0.271] (non-zero); k-mer minus composition-only: absolute -0.140 [-0.242,-0.041], relative (share of the random arm's above-chance AUROC) -0.488 [-0.845,-0.156] -> k-mer loses LESS than composition-only on both scales (R7c). Over matched seeds 42-44: k-mer +0.050 [-0.037,+0.152], composition-only +0.127 [+0.011,+0.249] -> not distinguishable or scale-dependent
+  [post hoc P7] PAIRED designs, matched-vs-random effect, k-mer | composition-only | k-mer minus composition-only (absolute; relative) -> R7c: original model on the selected test (fixed_model) +0.163 [+0.085,+0.244] | +0.192 [+0.110,+0.281] | -0.030 [-0.081,+0.018]; -0.124 [-0.290,+0.024] -> not distinguishable or scale-dependent; selected-split model on the ORIGINAL test (train_only) +0.102 [+0.041,+0.170] | +0.280 [+0.209,+0.351] | -0.178 [-0.233,-0.121]; -0.664 [-0.877,-0.468] -> k-mer loses LESS than composition-only on both scales
+  training negatives changed, test undistorted (arm-trained models scored on the ORIGINAL test): random-trained 0.799 (0.776-0.816) vs matched-trained 0.698 [0.645,0.750]; [post hoc P7] matched-vs-random +0.102 [+0.041,+0.170], training-size effect +0.051 [+0.031,+0.073]
+  matched AUROC over selection seeds 42/43/44: 0.707-0.799; published split 0.748. Balance of the matched set: max|SMD| 0.299 (NOT balanced, >0.1); published split max|SMD| 0.286; composition-only AUROC 0.824 -> matched 0.640 (random 0.788)
+  overlap weighting, nothing discarded (neg ESS 47%): 0.591 [0.513,0.683] vs permuted-weight placebo 0.846 (+0.255)
+  two-sided 1:1 caliper-0.2 matching (keeps 32% of EACH class; discards the rest): 0.679 [0.611,0.750] vs random 1:1 of the same size 0.819 (+0.140)
+  fixed original model (no retraining): class-ratio change alone -0.003 (AUROC is prevalence-invariant, so ~0 is expected); composition-matched test negatives instead of random ones +0.163 (0.690 vs 0.852)
+  nothing removed AND nothing retrained: original model on the overlap-weighted original test 0.499 [0.422,0.600] vs placebo weights 0.855 (0.827-0.880); drop +0.355; share of above-chance AUROC lost 1.00 [0.74,1.24]
+  weighting diagnostic: composition-only AUROC under the same overlap weights 0.606 (retrained) / 0.436 (original model) vs placebo 0.817 / 0.828 -> weights OVER-correct in the original-model design (composition-only < 0.5 there): the weighted k-mer drop there overstates the effect of removing composition and only its direction is interpretable; weights leave residual composition signal in the retrained design (composition-only > 0.5): the weighted drop there is conservative (rule, per design: composition-only weighted AUROC < 0.5)
+  MCC@0.5 (paper metric) 0.514 -> size-matched random 0.208 -> matched 0.000: size/imbalance part +0.306, matched-vs-random part +0.208 -> mostly size/imbalance (rule: larger part)
+  balanced MCC (class-balance-weighted, prior-corrected threshold) 0.514 -> random 0.259 -> matched 0.227: size part +0.255, matched-vs-random part +0.032 -> mostly size/imbalance; 1:1 design MCC@0.5 matched 0.198 vs random 1:1 0.465 (a matched-vs-random contrast, not before/after)
+  published-split MCC@0.5 collapse vs size-matched RANDOM negatives: k-mer 0.514 -> random 0.208 (0.089-0.309) vs published 0.000 (60% of the collapse -> mostly); composition-only 0.522 -> random 0.187 (-0.014-0.324) vs published 0.101 (80% of the collapse -> mostly) (rule: share (mcc0 - random) / (mcc0 - published) >= 1 fully, >= 0.5 mostly, > 0 partly, else not reproduced)
+  [post hoc] class-balanced training weights: random 0.800 (0.770-0.846) vs matched 0.773 [0.685,0.856] (seeds 0.677-0.773): size effect +0.050 (> tau: the size component persists with class weights), matched-vs-random effect +0.027; MCC@0.5 random 0.268 vs matched 0.162 (MCC@0.5 is not informative on these rows either: caveat 11)
+  label noise: UNINFORMATIVE here, because the ELS enrichment of kept over discarded negatives is not significant (Bonferroni p 1), so the hidden-positive fraction is not distinguishable from 0 and the composition-matching effect itself is NOT SUPPORTED for this variant (rules: Bonferroni p >= 0.05; verdict NOT SUPPORTED); label noise is neither shown nor excluded. Details: mixture-model ESTIMATE (assumes hidden positives overlap ENCODE ELS at the labelled-positive rate): ELS overlap retained 0.131 vs discarded 0.076 (Bonferroni p 1; all negatives 0.084, positives 0.702) -> hidden-positive fraction 0.077, AUROC cost 0.024 = 2.97x the matched-vs-random effect -> the ratio rule alone would read 'label noise is not excluded as an explanation' (rule: ratio < 0.5)
+  retained vs discarded negatives, largest out-of-model SMDs: length_acgt +0.91 (ret 200, disc 199, pos 199; p_bonf 4.4e-73); genomic_mapped +0.91 (ret 0.623, disc 0.213, pos 0.33; p_bonf 5.8e-60); tata_any -0.44 (ret 0.14, disc 0.319, pos 0.102; p_bonf 9.9e-13); trimer_l1_to_pos_centroid -0.36 (ret 0.537, disc 0.579, pos 0.497; p_bonf 3e-19)
+  kept-vs-discarded differences NOT significant after Bonferroni (p_bonf >= 0.05): tss500_overlap 0.025 vs 0.009 (p_bonf 1); ccre_els 0.131 vs 0.076 (p_bonf 1)
+  [post hoc, descriptive] across unique F1/F2/F3 arms, Spearman of the k-mer AUROC gap with the composition-only gap vs with selection depth (-log retained fraction), per design: within (n=22) +0.65 vs -0.12 -> gap tracks composition-signal removal more than selection depth; fixed_model (n=22) +0.98 vs +0.70 -> no clear separation of composition-signal removal and selection depth; train_only (n=24) +0.76 vs +0.45 -> gap tracks composition-signal removal more than selection depth (rule: 0.3 difference)
+  [post hoc] common-support trimming (F2) at q0.3 (6% of negatives kept; 60% of test positives lie OUTSIDE the kept negatives' propensity band, P8). RETRAINED models (within): k-mer gap vs size-matched random -0.008, composition-only gap -0.017 -> no level flagged in this design (rule: per design: kmer gap >= 0.05 and comp gap <= 0.02 (post hoc; not underpowered)). ORIGINAL model on the trimmed test (fixed_model): k-mer +0.109, composition-only +0.169 (flagged at 0 of 5 levels). TRIMMED-split model on the ORIGINAL test (train_only): k-mer +0.158, composition-only +0.346 (flagged at 0 of 5 levels).
+    P8 split of the within design, gap (random mean - trimmed) for IN-band | OUT-of-band test positives vs the arm's negatives: q0.3 k-mer +0.099 | -0.079, composition-only +0.205 | -0.165 -> R8: composition change from the tails; k-mer in-band loss not beyond composition-only (R8 rule in the run_posthoc.py FIX-ROUND-3 ADDENDUM; point estimates)
+  two-sided 1:1 caliper sweep (F3, pre-registered part 4b; within design; k-mer AUROC matched vs random 1:1 of the same size; max|SMD| of the matched set; % of each class kept): c2 0.827 vs 0.843 (gap +0.016, SMD 1.23, 82%); c1 0.754 vs 0.826 (gap +0.071, SMD 0.55, 53%); c0.5 0.669 vs 0.823 (gap +0.154, SMD 0.16, 38%); c0.2 0.679 vs 0.819 (gap +0.140, SMD 0.08, 32%); c0.01 0.680 vs 0.819 (gap +0.139, SMD 0.09, 30%)
+  positive-side matching (F4; ALL negatives kept, positives subsampled to the negatives' propensity histogram, 3.1% of positives kept, test 25 pos / 200 neg): k-mer 0.510 [0.369,0.650] vs random positive subsets 0.803 (0.761-0.885), gap +0.293; composition-only 0.515 vs 0.797
+
+nt_enhancers_leakfreeTest [contaminated; leak-free test (post hoc)]  decision rule verdict: NOT SUPPORTED  (i-a size True, i-b separation False, ii-a weighting True, ii-b two-sided True; tau 0.060)  [post hoc: nt scored without the 100 test positives that occur verbatim in train]
+  k-mer AUROC 0.735 -> random negatives at the paper's retention (4.9%) 0.723 (0.689-0.751) -> composition-matched 0.684 [0.587,0.782] (test 100 pos / 36 neg): size effect +0.011 (<= tau), matched-vs-random effect +0.039 (share of total drop 0.78; the pre-registered 'shortcut' term: it measures what composition MATCHING removes, whatever its cause)
+  [post hoc P7] two-level paired bootstrap (test sequences x random seeds): size +0.011 [-0.029,+0.052] (CI straddles tau 0.030 (R7b's fixed tau; the pre-registered tau here is 0.060); share of the total drop 0.22 [-2.63,3.11]); matched-vs-random +0.039 [-0.077,+0.145] -> not distinguishable from 0 (R7a); its share of the total drop 0.78 [-2.11,3.63]
+  [post hoc P7] composition-only model on the same arms: matched-vs-random +0.134 [-0.008,+0.273] (not distinguishable from 0); k-mer minus composition-only: absolute -0.095 [-0.202,+0.017], relative (share of the random arm's above-chance AUROC) -0.502 [-1.105,+0.041] -> not distinguishable or scale-dependent (R7c). Over matched seeds 42-44: k-mer +0.091 [-0.029,+0.217], composition-only +0.106 [-0.036,+0.246] -> not distinguishable or scale-dependent
+  [post hoc P7] PAIRED designs, matched-vs-random effect, k-mer | composition-only | k-mer minus composition-only (absolute; relative) -> R7c: original model on the selected test (fixed_model) +0.200 [+0.117,+0.294] | +0.236 [+0.149,+0.329] | -0.035 [-0.088,+0.015]; -0.214 [-0.519,+0.036] -> not distinguishable or scale-dependent; selected-split model on the ORIGINAL test (train_only) +0.145 [+0.055,+0.235] | +0.265 [+0.154,+0.356] | -0.120 [-0.191,-0.039]; -0.731 [-1.218,-0.327] -> k-mer loses LESS than composition-only on both scales
+  training negatives changed, test undistorted (arm-trained models scored on the ORIGINAL test): random-trained 0.715 (0.696-0.734) vs matched-trained 0.570 [0.502,0.634]; [post hoc P7] matched-vs-random +0.145 [+0.055,+0.235], training-size effect +0.020 [-0.004,+0.042]
+  matched AUROC over selection seeds 42/43/44: 0.575-0.684; published split 0.628. Balance of the matched set: max|SMD| 0.305 (NOT balanced, >0.1); published split max|SMD| 0.291; composition-only AUROC 0.716 -> matched 0.564 (random 0.698)
+  overlap weighting, nothing discarded (neg ESS 47%): 0.406 [0.319,0.496] vs permuted-weight placebo 0.736 (+0.330)
+  two-sided 1:1 caliper-0.2 matching (keeps 32% of EACH class; discards the rest): 0.594 [0.506,0.679] vs random 1:1 of the same size 0.729 (+0.135)
+  fixed original model (no retraining): class-ratio change alone -0.001 (AUROC is prevalence-invariant, so ~0 is expected); composition-matched test negatives instead of random ones +0.200 (0.535 vs 0.735)
+  nothing removed AND nothing retrained: original model on the overlap-weighted original test 0.311 [0.234,0.397] vs placebo weights 0.738 (0.695-0.786); drop +0.427; share of above-chance AUROC lost 1.79 [1.36,2.51]
+  weighting diagnostic: composition-only AUROC under the same overlap weights 0.472 (retrained) / 0.285 (original model) vs placebo 0.712 / 0.717 -> weights OVER-correct in the retrained and original-model designs (composition-only < 0.5 there): the weighted k-mer drop there overstates the effect of removing composition and only its direction is interpretable (rule, per design: composition-only weighted AUROC < 0.5)
+  MCC@0.5 (paper metric) 0.311 -> size-matched random 0.191 -> matched 0.000: size/imbalance part +0.121, matched-vs-random part +0.191 -> mostly matched-vs-random (rule: larger part)
+  balanced MCC (class-balance-weighted, prior-corrected threshold) 0.326 -> random 0.226 -> matched 0.212: size part +0.099, matched-vs-random part +0.014 -> mostly size/imbalance; 1:1 design MCC@0.5 matched 0.094 vs random 1:1 0.305 (a matched-vs-random contrast, not before/after)
+  published-split MCC@0.5 collapse vs size-matched RANDOM negatives: k-mer 0.311 -> random 0.191 (0.065-0.290) vs published 0.000 (39% of the collapse -> partly); composition-only 0.310 -> random 0.131 (-0.079-0.268) vs published 0.060 (72% of the collapse -> mostly) (rule: share (mcc0 - random) / (mcc0 - published) >= 1 fully, >= 0.5 mostly, > 0 partly, else not reproduced)
+  [post hoc] class-balanced training weights: random 0.719 (0.679-0.764) vs matched 0.665 [0.564,0.768] (seeds 0.572-0.665): size effect +0.015 (<= tau: no size component with or without class weights), matched-vs-random effect +0.054; MCC@0.5 random 0.242 vs matched 0.137 (MCC@0.5 is not informative on these rows either: caveat 11)
+  label noise: UNINFORMATIVE here, because the ELS enrichment of kept over discarded negatives is not significant (Bonferroni p 1), so the hidden-positive fraction is not distinguishable from 0 and the composition-matching effect itself is NOT SUPPORTED for this variant (rules: Bonferroni p >= 0.05; verdict NOT SUPPORTED); label noise is neither shown nor excluded. Details: mixture-model ESTIMATE (assumes hidden positives overlap ENCODE ELS at the labelled-positive rate): ELS overlap retained 0.131 vs discarded 0.076 (Bonferroni p 1; all negatives 0.084, positives 0.702) -> hidden-positive fraction 0.077, AUROC cost 0.017 = 0.44x the matched-vs-random effect -> the ratio rule alone would read 'label noise cannot explain the matched-vs-random effect' (rule: ratio < 0.5)
+  [post hoc, descriptive] across unique F1/F2/F3 arms, Spearman of the k-mer AUROC gap with the composition-only gap vs with selection depth (-log retained fraction), per design: within (n=22) +0.81 vs +0.18 -> gap tracks composition-signal removal more than selection depth; fixed_model (n=22) +0.99 vs +0.63 -> gap tracks composition-signal removal more than selection depth; train_only (n=24) +0.86 vs +0.63 -> no clear separation of composition-signal removal and selection depth (rule: 0.3 difference)
+  [post hoc] common-support trimming (F2) at q0.3 (6% of negatives kept; 63% of test positives lie OUTSIDE the kept negatives' propensity band, P8). RETRAINED models (within): k-mer gap vs size-matched random -0.003, composition-only gap -0.043 -> no level flagged in this design (rule: per design: kmer gap >= 0.05 and comp gap <= 0.02 (post hoc; not underpowered)). ORIGINAL model on the trimmed test (fixed_model): k-mer +0.196, composition-only +0.246 (flagged at 0 of 5 levels). TRIMMED-split model on the ORIGINAL test (train_only): k-mer +0.169, composition-only +0.258 (flagged at 0 of 5 levels).
+    P8 split of the within design, gap (random mean - trimmed) for IN-band | OUT-of-band test positives vs the arm's negatives: q0.3 k-mer +0.217 | -0.133, composition-only +0.331 | -0.264 -> R8: composition change from the tails; k-mer in-band loss not beyond composition-only (R8 rule in the run_posthoc.py FIX-ROUND-3 ADDENDUM; point estimates)
+  two-sided 1:1 caliper sweep (F3, pre-registered part 4b; within design; k-mer AUROC matched vs random 1:1 of the same size; max|SMD| of the matched set; % of each class kept): c2 0.695 vs 0.733 (gap +0.038, SMD 1.22, 82%); c1 0.592 vs 0.724 (gap +0.132, SMD 0.54, 53%); c0.5 0.552 vs 0.731 (gap +0.179, SMD 0.15, 38%); c0.2 0.594 vs 0.729 (gap +0.135, SMD 0.07, 32%); c0.01 0.628 vs 0.729 (gap +0.102, SMD 0.08, 30%)
+  positive-side matching (F4; ALL negatives kept, positives subsampled to the negatives' propensity histogram, 3.0% of positives kept, test 17 pos / 200 neg, UNDERPOWERED): k-mer 0.464 [0.290,0.642] vs random positive subsets 0.746 (0.631-0.862), gap +0.282; composition-only 0.465 vs 0.726
+
+nt_enhancers_leakfreeRefit [contaminated; leak-free refit (post hoc)]  decision rule verdict: NOT SUPPORTED  (i-a size True, i-b separation False, ii-a weighting True, ii-b two-sided True; tau 0.042)  [post hoc: nt refit without the 107 train rows equal to a test sequence; full test]
+  k-mer AUROC 0.804 -> random negatives at the paper's retention (4.9%) 0.786 (0.743-0.818) -> composition-matched 0.706 [0.623,0.788] (test 200 pos / 36 neg): size effect +0.018 (<= tau), matched-vs-random effect +0.079 (share of total drop 0.82; the pre-registered 'shortcut' term: it measures what composition MATCHING removes, whatever its cause)
+  [post hoc P7] two-level paired bootstrap (test sequences x random seeds): size +0.018 [-0.018,+0.054] (CI straddles tau 0.030 (R7b's fixed tau; the pre-registered tau here is 0.042); share of the total drop 0.18 [-0.21,1.34]); matched-vs-random +0.079 [-0.012,+0.181] -> not distinguishable from 0 (R7a); its share of the total drop 0.82 [-0.34,1.21]
+  [post hoc P7] composition-only model on the same arms: matched-vs-random +0.174 [+0.050,+0.289] (non-zero); k-mer minus composition-only: absolute -0.094 [-0.185,+0.002], relative (share of the random arm's above-chance AUROC) -0.353 [-0.709,-0.038] -> not distinguishable or scale-dependent (R7c). Over matched seeds 42-44: k-mer +0.156 [+0.039,+0.286], composition-only +0.161 [+0.043,+0.283] -> not distinguishable or scale-dependent
+  [post hoc P7] PAIRED designs, matched-vs-random effect, k-mer | composition-only | k-mer minus composition-only (absolute; relative) -> R7c: original model on the selected test (fixed_model) +0.199 [+0.112,+0.290] | +0.221 [+0.130,+0.308] | -0.022 [-0.075,+0.034]; -0.064 [-0.250,+0.134] -> not distinguishable or scale-dependent; selected-split model on the ORIGINAL test (train_only) +0.212 [+0.142,+0.287] | +0.327 [+0.255,+0.397] | -0.115 [-0.171,-0.056]; -0.486 [-0.724,-0.254] -> k-mer loses LESS than composition-only on both scales
+  training negatives changed, test undistorted (arm-trained models scored on the ORIGINAL test): random-trained 0.782 (0.758-0.798) vs matched-trained 0.570 [0.512,0.627]; [post hoc P7] matched-vs-random +0.212 [+0.142,+0.287], training-size effect +0.022 [+0.004,+0.040]
+  matched AUROC over selection seeds 42/43/44: 0.563-0.706; published split 0.624. Balance of the matched set: max|SMD| 0.305 (NOT balanced, >0.1); published split max|SMD| 0.291; composition-only AUROC 0.805 -> matched 0.602 (random 0.775)
+  overlap weighting, nothing discarded (neg ESS 47%): 0.523 [0.446,0.608] vs permuted-weight placebo 0.803 (+0.280)
+  two-sided 1:1 caliper-0.2 matching (keeps 32% of EACH class; discards the rest): 0.601 [0.534,0.678] vs random 1:1 of the same size 0.799 (+0.198)
+  fixed original model (no retraining): class-ratio change alone -0.000 (AUROC is prevalence-invariant, so ~0 is expected); composition-matched test negatives instead of random ones +0.199 (0.605 vs 0.804)
+  nothing removed AND nothing retrained: original model on the overlap-weighted original test 0.390 [0.326,0.472] vs placebo weights 0.807 (0.780-0.833); drop +0.417
+  weighting diagnostic: composition-only AUROC under the same overlap weights 0.523 (retrained) / 0.395 (original model) vs placebo 0.798 / 0.807 -> weights OVER-correct in the original-model design (composition-only < 0.5 there): the weighted k-mer drop there overstates the effect of removing composition and only its direction is interpretable; weights leave residual composition signal in the retrained design (composition-only > 0.5): the weighted drop there is conservative (rule, per design: composition-only weighted AUROC < 0.5)
+  MCC@0.5 (paper metric) 0.465 -> size-matched random 0.225 -> matched -0.028: size/imbalance part +0.240, matched-vs-random part +0.253 -> mostly matched-vs-random (rule: larger part)
+  balanced MCC (class-balance-weighted, prior-corrected threshold) 0.465 -> random 0.297 -> matched 0.198: size part +0.168, matched-vs-random part +0.099 -> mostly size/imbalance; 1:1 design MCC@0.5 matched 0.101 vs random 1:1 0.435 (a matched-vs-random contrast, not before/after)
+  published-split MCC@0.5 collapse vs size-matched RANDOM negatives: k-mer 0.465 -> random 0.225 (0.089-0.309) vs published -0.028 (49% of the collapse -> partly); composition-only 0.510 -> random 0.185 (-0.005-0.324) vs published 0.218 (111% of the collapse -> fully) (rule: share (mcc0 - random) / (mcc0 - published) >= 1 fully, >= 0.5 mostly, > 0 partly, else not reproduced)
+  label noise: UNINFORMATIVE here, because the ELS enrichment of kept over discarded negatives is not significant (Bonferroni p 1), so the hidden-positive fraction is not distinguishable from 0 and the composition-matching effect itself is NOT SUPPORTED for this variant (rules: Bonferroni p >= 0.05; verdict NOT SUPPORTED); label noise is neither shown nor excluded. Details: mixture-model ESTIMATE (assumes hidden positives overlap ENCODE ELS at the labelled-positive rate): ELS overlap retained 0.131 vs discarded 0.076 (Bonferroni p 1; all negatives 0.084, positives 0.702) -> hidden-positive fraction 0.077, AUROC cost 0.022 = 0.28x the matched-vs-random effect -> the ratio rule alone would read 'label noise cannot explain the matched-vs-random effect' (rule: ratio < 0.5)
+  [post hoc, descriptive] across unique F1/F2/F3 arms, Spearman of the k-mer AUROC gap with the composition-only gap vs with selection depth (-log retained fraction), per design: within (n=22) +0.84 vs +0.46 -> gap tracks composition-signal removal more than selection depth; fixed_model (n=22) +0.99 vs +0.70 -> no clear separation of composition-signal removal and selection depth; train_only (n=24) +0.94 vs +0.69 -> no clear separation of composition-signal removal and selection depth (rule: 0.3 difference)
+  [post hoc] common-support trimming (F2) at q0.3 (6% of negatives kept). RETRAINED models (within): k-mer gap vs size-matched random +0.080, composition-only gap +0.022 -> no level flagged in this design (rule: per design: kmer gap >= 0.05 and comp gap <= 0.02 (post hoc; not underpowered)). ORIGINAL model on the trimmed test (fixed_model): k-mer +0.176, composition-only +0.205 (flagged at 0 of 5 levels). TRIMMED-split model on the ORIGINAL test (train_only): k-mer +0.257, composition-only +0.361 (flagged at 0 of 5 levels).
+  two-sided 1:1 caliper sweep (F3, pre-registered part 4b; within design; k-mer AUROC matched vs random 1:1 of the same size; max|SMD| of the matched set; % of each class kept): c2 0.771 vs 0.803 (gap +0.032, SMD 1.22, 82%); c1 0.668 vs 0.798 (gap +0.130, SMD 0.54, 53%); c0.5 0.590 vs 0.798 (gap +0.208, SMD 0.15, 38%); c0.2 0.601 vs 0.799 (gap +0.198, SMD 0.08, 32%); c0.01 0.620 vs 0.799 (gap +0.180, SMD 0.08, 30%)
+  positive-side matching (F4; ALL negatives kept, positives subsampled to the negatives' propensity histogram, 3.1% of positives kept, test 25 pos / 200 neg): k-mer 0.509 [0.356,0.657] vs random positive subsets 0.797 (0.749-0.882), gap +0.289; composition-only 0.481 vs 0.794
+
+drosophila_enhancers_stark [clean control]  decision rule verdict: SUPPORTED  (i-a size True, i-b separation True, ii-a weighting True, ii-b two-sided True; tau 0.030)
+  k-mer AUROC 0.763 -> random negatives at the paper's retention (42.9%) 0.754 (0.729-0.775) -> composition-matched 0.674 [0.632,0.719] (test 865 pos / 217 neg): size effect +0.009 (<= tau), matched-vs-random effect +0.081 (share of total drop 0.90; the pre-registered 'shortcut' term: it measures what composition MATCHING removes, whatever its cause)
+  [post hoc P7] two-level paired bootstrap (test sequences x random seeds): size +0.009 [-0.009,+0.028] (CI below tau 0.030 (R7b's fixed tau; the pre-registered tau here is 0.030); share of the total drop 0.10 [-0.11,0.35]); matched-vs-random +0.081 [+0.040,+0.123] -> non-zero (R7a); its share of the total drop 0.90 [0.65,1.11]
+  [post hoc P7] composition-only model on the same arms: matched-vs-random +0.041 [-0.004,+0.090] (not distinguishable from 0); k-mer minus composition-only: absolute +0.040 [-0.009,+0.092], relative (share of the random arm's above-chance AUROC) +0.064 [-0.189,+0.350] -> not distinguishable or scale-dependent (R7c). Over matched seeds 42-44: k-mer +0.091 [+0.058,+0.131], composition-only +0.080 [+0.031,+0.127] -> not distinguishable or scale-dependent
+  [post hoc P7] PAIRED designs, matched-vs-random effect, k-mer | composition-only | k-mer minus composition-only (absolute; relative) -> R7c: original model on the selected test (fixed_model) +0.072 [+0.039,+0.111] | +0.076 [+0.039,+0.116] | -0.004 [-0.042,+0.033]; -0.142 [-0.339,+0.035] -> not distinguishable or scale-dependent; selected-split model on the ORIGINAL test (train_only) +0.051 [+0.033,+0.070] | +0.098 [+0.075,+0.123] | -0.047 [-0.072,-0.024]; -0.382 [-0.518,-0.248] -> k-mer loses LESS than composition-only on both scales
+  training negatives changed, test undistorted (arm-trained models scored on the ORIGINAL test): random-trained 0.754 (0.743-0.767) vs matched-trained 0.703 [0.680,0.727]; [post hoc P7] matched-vs-random +0.051 [+0.033,+0.070], training-size effect +0.009 [-0.000,+0.018]
+  matched AUROC over selection seeds 42/43/44: 0.650-0.674; published split 0.661. Balance of the matched set: max|SMD| 0.055 (balanced, <=0.1); published split max|SMD| 0.054; composition-only AUROC 0.683 -> matched 0.621 (random 0.662)
+  overlap weighting, nothing discarded (neg ESS 90%): 0.695 [0.670,0.721] vs permuted-weight placebo 0.762 (+0.067)
+  two-sided 1:1 caliper-0.2 matching (keeps 72% of EACH class; discards the rest): 0.683 [0.651,0.713] vs random 1:1 of the same size 0.755 (+0.072)
+  fixed original model (no retraining): class-ratio change alone +0.001 (AUROC is prevalence-invariant, so ~0 is expected); composition-matched test negatives instead of random ones +0.072 (0.690 vs 0.762)
+  nothing removed AND nothing retrained: original model on the overlap-weighted original test 0.687 [0.662,0.714] vs placebo weights 0.763 (0.759-0.770); drop +0.076; share of above-chance AUROC lost 0.29 [0.25,0.34]
+  weighting diagnostic: composition-only AUROC under the same overlap weights 0.616 (retrained) / 0.600 (original model) vs placebo 0.683 / 0.684 -> weights leave residual composition signal in the retrained and original-model designs (composition-only > 0.5): the weighted drop there is conservative (rule, per design: composition-only weighted AUROC < 0.5)
+  MCC@0.5 (paper metric) 0.398 -> size-matched random 0.425 -> matched 0.252: size/imbalance part -0.027, matched-vs-random part +0.174 -> mostly matched-vs-random (rule: larger part)
+  balanced MCC (class-balance-weighted, prior-corrected threshold) 0.398 -> random 0.420 -> matched 0.283: size part -0.022, matched-vs-random part +0.137 -> mostly matched-vs-random; 1:1 design MCC@0.5 matched 0.248 vs random 1:1 0.380 (a matched-vs-random contrast, not before/after)
+  published-split MCC@0.5 collapse vs size-matched RANDOM negatives: k-mer 0.398 -> random 0.425 (0.398-0.477) vs published 0.177 (-12% of the collapse -> not reproduced); composition-only 0.253 -> random 0.257 (0.220-0.315) vs published 0.049 (-2% of the collapse -> not reproduced) (rule: share (mcc0 - random) / (mcc0 - published) >= 1 fully, >= 0.5 mostly, > 0 partly, else not reproduced)
+  [post hoc] class-balanced training weights: random 0.752 (0.733-0.770) vs matched 0.684 [0.641,0.725] (seeds 0.663-0.684): size effect +0.011 (<= tau: no size component with or without class weights), matched-vs-random effect +0.069; MCC@0.5 random 0.417 vs matched 0.275 (MCC@0.5 is not informative on these rows either: caveat 11)
+  retained vs discarded negatives, largest out-of-model SMDs: trimer_l1_to_pos_centroid -0.34 (ret 0.232, disc 0.267, pos 0.207; p_bonf 7.4e-29); lowcomplexity_frac +0.23 (ret 0.0712, disc 0.0545, pos 0.0746; p_bonf 9.7e-16); sp1_gcbox_any +0.15 (ret 0.205, disc 0.149, pos 0.246; p_bonf 0.0037); sp1_gcbox_count +0.13 (ret 0.257, disc 0.188, pos 0.314; p_bonf 0.0036)
+  kept-vs-discarded differences NOT significant after Bonferroni (p_bonf >= 0.05): tata_any 0.953 vs 0.927 (p_bonf 0.25)
+  [post hoc, descriptive] across unique F1/F2/F3 arms, Spearman of the k-mer AUROC gap with the composition-only gap vs with selection depth (-log retained fraction), per design: within (n=24) +0.07 vs +0.86 -> gap tracks selection depth (-log retention) more than composition-signal removal; fixed_model (n=24) +0.99 vs +0.76 -> no clear separation of composition-signal removal and selection depth; train_only (n=24) +0.97 vs +0.81 -> no clear separation of composition-signal removal and selection depth (rule: 0.3 difference)
+  [post hoc] common-support trimming (F2) at q0.3, q0.4, q0.45 (6% to 25% of negatives kept; 60% to 90% of test positives lie OUTSIDE the kept negatives' propensity band, P8). RETRAINED models (within): k-mer gap vs size-matched random +0.091 to +0.167, composition-only gap -0.023 to +0.014 -> flagged at 3 of 7 levels (rule: per design: kmer gap >= 0.05 and comp gap <= 0.02 (post hoc; not underpowered)). ORIGINAL model on the trimmed test (fixed_model): k-mer +0.130 to +0.152, composition-only +0.148 to +0.193 (flagged at 0 of 7 levels). TRIMMED-split model on the ORIGINAL test (train_only): k-mer +0.128 to +0.132, composition-only +0.122 to +0.183 (flagged at 0 of 7 levels).
+    P8 split of the within design, gap (random mean - trimmed) for IN-band | OUT-of-band test positives vs the arm's negatives: q0.3 k-mer +0.164 | +0.112, composition-only +0.152 | -0.093 -> R8: composition change from the tails; k-mer in-band loss not beyond composition-only; q0.4 k-mer +0.119 | +0.084, composition-only +0.110 | -0.056 -> R8: composition change from the tails; k-mer in-band loss not beyond composition-only; q0.45 k-mer +0.142 | +0.170, composition-only +0.087 | +0.005 -> R8: not attributed to the tails; k-mer loses in-band signal beyond composition-only (R8 rule in the run_posthoc.py FIX-ROUND-3 ADDENDUM; point estimates)
+    at the other levels (q0.02, q0.05, q0.1, q0.2; 40% to 87% kept) the retrained composition-only AUROC also falls vs random (gap +0.042 to +0.078; k-mer +0.021 to +0.091)
+  two-sided 1:1 caliper sweep (F3, pre-registered part 4b; within design; k-mer AUROC matched vs random 1:1 of the same size; max|SMD| of the matched set; % of each class kept): c2 0.732 vs 0.761 (gap +0.029, SMD 0.13, 91%); c1 0.696 vs 0.756 (gap +0.060, SMD 0.04, 80%); c0.5 0.686 vs 0.755 (gap +0.069, SMD 0.03, 75%); c0.2 0.683 vs 0.755 (gap +0.072, SMD 0.03, 72%); c0.01 0.681 vs 0.755 (gap +0.074, SMD 0.03, 69%)
+  positive-side matching (F4; ALL negatives kept, positives subsampled to the negatives' propensity histogram, 13.0% of positives kept, test 83 pos / 865 neg): k-mer 0.662 [0.604,0.715] vs random positive subsets 0.727 (0.675-0.780), gap +0.065; composition-only 0.596 vs 0.648
+
+[post hoc] BETWEEN-DATASET CONTRAST (psm_sensitivity_between_dataset.csv): share of above-chance AUROC lost under overlap weighting, S = (placebo - overlap) / (placebo - 0.5), 1000 shared bootstrap resamples
+  per dataset: k-mer S | composition-only S under the SAME weights (= how much composition signal the weights remove) | k-mer S / composition-only S (run_posthoc.py P6)
+    fixed_model_overlap  human_enhancers_cohn         k-mer 0.644 [0.606,0.685] | comp-only 0.806 [0.760,0.855] | ratio 0.80 [0.77,0.83]
+    within_overlap       human_enhancers_cohn         k-mer 0.441 [0.403,0.477] | comp-only 0.622 [0.577,0.665] | ratio 0.71 [0.64,0.78]
+    fixed_model_overlap  nt_enhancers                 k-mer 1.001 [0.742,1.235] | comp-only 1.196 [0.942,1.467] | ratio 0.84 [0.71,0.95]  NOT INTERPRETABLE (weighted AUROC < 0.5)
+    within_overlap       nt_enhancers                 k-mer 0.738 [0.505,0.959] | comp-only 0.666 [0.453,0.925] | ratio 1.11 [0.79,1.53]
+    fixed_model_overlap  nt_enhancers_leakfreeTest    k-mer 1.794 [1.364,2.506] | comp-only 1.989 [1.515,2.855] | ratio 0.90 [0.72,1.10]  NOT INTERPRETABLE (weighted AUROC < 0.5)
+    within_overlap       nt_enhancers_leakfreeTest    k-mer 1.398 [1.013,1.994] | comp-only 1.131 [0.723,1.699] | ratio 1.24 [0.84,1.90]  NOT INTERPRETABLE (weighted AUROC < 0.5)
+    fixed_model_overlap  drosophila_enhancers_stark   k-mer 0.290 [0.248,0.336] | comp-only 0.454 [0.376,0.545] | ratio 0.64 [0.52,0.75]
+    within_overlap       drosophila_enhancers_stark   k-mer 0.257 [0.209,0.310] | comp-only 0.364 [0.278,0.460] | ratio 0.71 [0.54,0.95]
+  fixed_model_overlap  human_enhancers_cohn - drosophila_enhancers_stark       k-mer share diff +0.353 [+0.293,+0.413]  drop diff +0.120 [+0.110,+0.131]  -> CI excludes 0
+                                                                               comp-only share diff +0.352 [+0.247,+0.442]; difference of contrasts +0.002 [-0.070,+0.088]; ratio difference +0.159 [+0.040,+0.272]
+  within_overlap       human_enhancers_cohn - drosophila_enhancers_stark       k-mer share diff +0.183 [+0.119,+0.244]  drop diff +0.067 [+0.052,+0.082]  -> CI excludes 0
+                                                                               comp-only share diff +0.258 [+0.153,+0.356]; difference of contrasts -0.074 [-0.186,+0.031]; ratio difference +0.002 [-0.263,+0.191]
+  fixed_model_overlap  nt_enhancers_leakfreeTest - drosophila_enhancers_stark  k-mer share diff +1.504 [+1.070,+2.220]  drop diff +0.351 [+0.298,+0.398]  -> CI excludes 0
+                                                                               comp-only share diff +1.535 [+1.058,+2.412]; difference of contrasts -0.031 [-0.492,+0.362]; ratio difference +0.263 [+0.057,+0.485]  NOT INTERPRETABLE (a weighted AUROC < 0.5)
+  within_overlap       nt_enhancers_leakfreeTest - drosophila_enhancers_stark  k-mer share diff +1.141 [+0.756,+1.742]  drop diff +0.263 [+0.187,+0.333]  -> CI excludes 0
+                                                                               comp-only share diff +0.766 [+0.349,+1.346]; difference of contrasts +0.375 [-0.123,+0.891]; ratio difference +0.530 [+0.050,+1.246]  NOT INTERPRETABLE (a weighted AUROC < 0.5)
+  fixed_model_overlap  nt_enhancers - drosophila_enhancers_stark               k-mer share diff +0.711 [+0.450,+0.959]  drop diff +0.279 [+0.214,+0.331]  -> CI excludes 0
+                                                                               comp-only share diff +0.741 [+0.469,+1.019]; difference of contrasts -0.030 [-0.200,+0.132]; ratio difference +0.198 [+0.034,+0.363]  NOT INTERPRETABLE (a weighted AUROC < 0.5)
+  within_overlap       nt_enhancers - drosophila_enhancers_stark               k-mer share diff +0.481 [+0.243,+0.722]  drop diff +0.188 [+0.119,+0.252]  -> CI excludes 0
+                                                                               comp-only share diff +0.301 [+0.064,+0.587]; difference of contrasts +0.180 [-0.061,+0.403]; ratio difference +0.403 [+0.010,+0.848]
+  fixed_model_overlap  human_enhancers_cohn - nt_enhancers_leakfreeTest        k-mer share diff -1.151 [-1.869,-0.715]  drop diff -0.230 [-0.279,-0.178]  -> CI excludes 0
+                                                                               comp-only share diff -1.183 [-2.058,-0.706]; difference of contrasts +0.032 [-0.348,+0.489]; ratio difference -0.103 [-0.309,+0.080]  NOT INTERPRETABLE (a weighted AUROC < 0.5)
+  within_overlap       human_enhancers_cohn - nt_enhancers_leakfreeTest        k-mer share diff -0.957 [-1.560,-0.567]  drop diff -0.196 [-0.266,-0.118]  -> CI excludes 0
+                                                                               comp-only share diff -0.509 [-1.078,-0.103]; difference of contrasts -0.449 [-0.969,+0.040]; ratio difference -0.528 [-1.184,-0.121]  NOT INTERPRETABLE (a weighted AUROC < 0.5)
+  READING cohn - drosophila, fixed_model_overlap (PRIMARY; rule fixed in the run_posthoc.py P6 docstring, post hoc: both CIs must exclude 0, positive): NOT met (scale-dependent): per unit of composition signal removed cohn loses more on the ratio scale only; on the other scale the difference of contrasts is +0.002 [-0.070,+0.088] (CI includes 0). Most of the k-mer contrast reflects cohn's larger removable composition signal; evidence of greater per-unit reliance is weak (the weights remove 81% of cohn's vs 45% of the control's above-chance composition-only AUROC (contrast +0.352); difference of contrasts +0.002 [-0.070,+0.088]; k-mer/comp ratio 0.80 vs 0.64, difference +0.159 [+0.040,+0.272]). Either way this contrast does not separate artifact from biology.
+  READING cohn - drosophila, within_overlap (secondary; rule fixed in the run_posthoc.py P6 docstring, post hoc: both CIs must exclude 0, positive): NOT met: the k-mer contrast is accounted for by how much composition-only signal the same weights remove, on both scales; it reflects cohn's larger removable composition signal, not a greater reliance per unit of composition (the weights remove 62% of cohn's vs 36% of the control's above-chance composition-only AUROC (contrast +0.258); difference of contrasts -0.074 [-0.186,+0.031]; k-mer/comp ratio 0.71 vs 0.71, difference +0.002 [-0.263,+0.191]). Either way this contrast does not separate artifact from biology.
+  NOTE: share > 1 (weighted AUROC below 0.5) for nt_enhancers/fixed_model_overlap (1.00), nt_enhancers_leakfreeTest/fixed_model_overlap (1.79), nt_enhancers_leakfreeTest/within_overlap (1.40): the overlap weights over-correct there (see the weighting diagnostic), so contrasts involving these rows are not interpretable as shares; the cohn - drosophila contrast is the interpretable one.
+----------------------------------------------------------------------------------------------------
+WHAT THIS EXPERIMENT SHOWS AND DOES NOT SHOW (numbers from decision / decomposition_ci / between_dataset /
+dissociation_stats / f2_selection_difficulty / f2_band / caliper_sweep; the qualitative split follows the rules printed)
+  (A) Most of cohn's drop comes from composition matching; a smaller part comes from sample loss; changing the
+      test's class ratio contributes nothing (as expected: AUROC does not depend on prevalence). Total drop +0.184 = size +0.040 (22% [12%,33%]; [+0.022,+0.059] CI straddles tau 0.030; it is why the pre-registered verdict is SUPPORTED-WITH-SIZE-COMPONENT; with class-balanced training +0.043) + matched-vs-random +0.144 (78%; [+0.102,+0.184]).
+      Designs without the reduced, distorted test: class-ratio change alone +0.001; same undistorted original test with only the training negatives changed +0.181 [+0.166,+0.195]; nothing removed and nothing retrained (original model, overlap-weighted test) +0.197; overlap-weighted retraining +0.134; balanced 1:1 matching +0.114; positive-side matching, which keeps EVERY negative, +0.157 (0.622 vs random positive subsets 0.780).
+      Across calipers 2 -> 0.01 SD (two-sided 1:1) random 1:1 subsets stay at 0.800-0.805 while the matched gap goes +0.040 (max|SMD| 0.74) -> +0.101 (max|SMD| 0.31) -> +0.108 (max|SMD| 0.10) -> +0.114 (max|SMD| 0.04) -> +0.107 (max|SMD| 0.03).
+      Across arms (each once) the k-mer gap's Spearman with the composition-only gap vs with selection depth: within +0.96 vs +0.39 (composition); fixed_model +0.98 vs +0.71 (no clear separation); train_only +0.92 vs +0.65 (no clear separation) (rule: difference >= 0.3); the composition-only correlation is the larger in every design.
+      At the paper's retention the k-mer loss does not exceed the composition-only loss: within +0.144 vs +0.184 (difference -0.039 [-0.086,+0.007] absolute, -0.245 [-0.433,-0.068] relative -> not distinguishable or scale-dependent); original model on the matched test +0.209 vs +0.229 -> not distinguishable or scale-dependent; original test +0.181 vs +0.216 -> k-mer loses LESS than composition-only on both scales.
+      (In the train_only design the k-mer model loses less than the composition-only model in EVERY dataset variant, so that reading is a property of the design, not evidence about any one dataset.)
+      Common-support trimming (F2) is NOT used as evidence about retention: it keeps every positive but only negatives inside the positives' central propensity band (90% of cohn test positives outside it at q0.45), so the retrained composition-only AUROC RISES (0.919 vs random 0.740) while the retrained k-mer AUROC stays level (0.772 vs 0.774); with the original model or the original test held fixed the same trimming costs k-mer +0.181 / +0.266 and composition-only +0.235 / +0.280. Split by band (P8), the retrained models lose alike among IN-band positives (k-mer +0.203, composition-only +0.226 vs random) and the composition-only model gains among OUT-of-band positives (-0.225; k-mer -0.021): where the kept negatives resemble the positives in composition, both models lose, as under matching.
+  (B) It does NOT show that the removed signal is an artifact (a 'shortcut') rather than biology. Matching removes
+      composition-associated signal indiscriminately, artifactual or biological, and not completely: the composition-only AUROC falls 0.779 -> 0.581 [0.544,0.624] on the published cohn split (0.549 [0.508,0.585] on the seed-42 re-draw); both CIs exclude 0.5 (rule: lower CI > 0.5).
+      The clean control also loses AUROC under matching: matched-vs-random +0.081 [+0.040,+0.123] (verdict SUPPORTED; cohn SUPPORTED-WITH-SIZE-COMPONENT; its composition-only AUROC starts at 0.683).
+      The control's k-mer vs composition-only matched-vs-random loss, per design (P7): retrained, seed 42 +0.081 [+0.040,+0.123] vs +0.041 [-0.004,+0.090] (seeds 42-44 +0.091 vs +0.080) -> not distinguishable or scale-dependent; original model on the matched test +0.072 [+0.039,+0.111] vs +0.076 [+0.039,+0.116] -> not distinguishable or scale-dependent; original test +0.051 [+0.033,+0.070] vs +0.098 [+0.075,+0.123] -> k-mer loses LESS than composition-only on both scales. Across arms, Spearman of the two gaps: within +0.07, fixed_model +0.99, train_only +0.97.
+      Reading (post hoc; rule: in both paired designs R7c is not 'MORE' and the cross-arm Spearman is >= 0.9): the control's loss is consistent with matching removing composition-associated signal from the clean control too; only the retrained seed-42 comparison hints at an extra k-mer loss, and it is not distinguishable (R7c) and not stable across selection seeds. Selection-induced difficulty is not shown.
+      The cohn-vs-control contrast in k-mer share lost (+0.353) matches the contrast in composition-only share removed by the same weights (+0.352; difference +0.002 [-0.070,+0.088]).
+      Per unit of composition signal removed (cohn minus control): additive scale original-model +0.002 [-0.070,+0.088], retrained -0.074 [-0.186,+0.031]; ratio scale original-model +0.159 [+0.040,+0.272], retrained +0.002 [-0.263,+0.191].
+      Cohn loses more per unit only on the ratio scale, original-model design -> weak, scale- and design-dependent evidence of greater per-unit reliance (the P6 rule needs both scales in the primary design).
+      So the contrast is not evidence of specificity; even a greater per-unit reliance would not separate artifact from biology.
+      The artifact reading rests on the paper's independent evidence (dinucleotide-shuffled negatives, the
+      information-content-matched control-motif panel, coordinate analysis), which this module does not re-test.
+  (C) CAUTION (post hoc): a one-sided propensity selection changes a task in ways mean balance does not show. In the control, at 3 common-support trimming levels (q0.3, q0.4, q0.45; 6%-25% of negatives kept) the RETRAINED k-mer AUROC falls 0.091-0.167 against random while the retrained composition-only AUROC moves by at most 0.023. This is not shown to be difficulty unrelated to composition: with the original model on the trimmed test the composition-only AUROC falls 0.148-0.193 (k-mer 0.130-0.152), with the trimmed-split model on the original test 0.122-0.183 (k-mer 0.128-0.132), and no level is flagged in those designs (0 and 0 of 7). Split by band (P8; 60%-90% of test positives lie outside the kept negatives' band): among IN-band positives the retrained k-mer and composition-only models both lose (k-mer +0.119 to +0.164, composition-only +0.087 to +0.152; R8 'k-mer loses in-band beyond composition-only' at 1 of 3 levels); among OUT-of-band positives the composition-only gap is -0.093 to +0.005 (R8 'composition change from the tails' at 2 of 3 levels) while the k-mer gap is +0.084 to +0.170: the flag mixes composition removal in the band with a retrained k-mer model that does not gain (here it loses) on the positives left outside the band; only that last part is specific to the k-mer model. The point for practice: benchmark every cleaned split against size-matched random negatives, and read it in a paired design (original model or original test held fixed), not only after retraining.
+----------------------------------------------------------------------------------------------------
+
+====================================================================================================
+PSM SENSITIVITY (Reviewer 1, comment 4): shortcut removal vs sample reduction vs test distortion
+====================================================================================================
+Primary: k-mer LightGBM AUROC; F1 = tempered propensity-histogram matching (alpha=1 == paper);
+random = uniform negatives at the SAME per-split counts (10 seeds). 95% bootstrap CIs, 1000 resamples.
+
+--- human_enhancers_cohn [contaminated]  retained negatives at alpha=1: 4.5% ---
+  original AUROC A0 = 0.805 [0.795,0.814]  tau = 0.030
+  matched  AUROC Am = 0.621 [0.582,0.658] (selection seeds 0.613-0.637); paper split 0.613
+  random   AUROC Ar = 0.765 (10 seeds 0.738-0.793)
+  drop: total +0.184 = size +0.040 + matched-vs-random +0.144  -> matched-vs-random share 0.78 (named 'shortcut' in the pre-registration)
+  (i-a) size <= tau: False   (i-b) separation: True
+  overlap weighting (nothing discarded; neg ESS 79.0%): Aw = 0.671 [0.656,0.685] vs permuted-weight placebo 0.805 (0.800-0.810); drop +0.134 = 0.93x the F1 shortcut drop -> (ii-a) True
+  two-sided 1:1 caliper 0.2 (keeps 61.2% of each class, balanced): A2 = 0.688 [0.673,0.704] vs random 1:1 0.802 (0.798-0.807); drop +0.114 = 0.79x -> (ii-b) True
+  VERDICT (pre-registered rule): SUPPORTED-WITH-SIZE-COMPONENT
+  paper metric MCC(0.5): 0.461 -> matched 0.000; random 0.022 (0.000-0.091) => size/imbalance part +0.439, matched-vs-random part +0.022
+  balanced MCC (class-balanced, prior-corrected threshold): 0.462 -> matched 0.034 [-0.029,0.080]; random 0.117 (0.075-0.160)
+  fixed model (trained once on original): matched test 0.595 [0.556,0.631] vs size/ratio-matched random test 0.803 (0.791-0.822); test-distortion effect +0.001, test-shortcut effect +0.209
+  training only (arm-trained model on ORIGINAL test): random-reduced train 0.765 (0.758-0.773) -> training-size effect +0.040; composition-matched train 0.584
+  composition-only AUROC: original 0.779; matched 0.549; random 0.732
+  ATT odds weighting: AUROC 0.629 vs placebo 0.805; neg ESS 16.78%
+  label-noise (selection-bias) checks [reported, not decision-driving]:
+    cCRE-ELS overlap: positives 0.907, all negatives 0.241, retained negatives 0.337 (n=627) -> estimated hidden-positive fraction rho=0.144 (mixture-model estimate); label-noise AUROC cost 0.038 = 0.26x the measured shortcut drop
+    cCRE-free test negatives only: original 0.861; matched 0.646 [0.596,0.696] (n_neg=119) vs random 0.817 (0.783-0.848); drop +0.171; fixed model 0.696 vs 0.862
+    F5 cCRE-purged re-match (every cCRE-overlapping negative removed first; keeps 0.9% of negatives, max|SMD| 0.175): matched 0.686 [0.610,0.762] vs random 0.779 (0.740-0.834); drop +0.092
+    F5b cCRE-purged two-sided 1:1 caliper 0.2 (keeps 41.7% of negatives, max|SMD| 0.075): matched 0.755 [0.738,0.772] vs random 0.862 (0.855-0.874); drop +0.107
+  [descriptive, post hoc] share of above-chance AUROC lost: F1 0.55, overlap weighting 0.44, two-sided 1:1 0.38
+
+--- nt_enhancers [contaminated]  retained negatives at alpha=1: 4.9% ---
+  original AUROC A0 = 0.850 [0.812,0.889]  tau = 0.039
+  matched  AUROC Am = 0.799 [0.722,0.871] (selection seeds 0.707-0.799); paper split 0.748
+  random   AUROC Ar = 0.807 (10 seeds 0.763-0.832)
+  drop: total +0.051 = size +0.043 + matched-vs-random +0.008  -> matched-vs-random share 0.16 (named 'shortcut' in the pre-registration)
+  (i-a) size <= tau: False   (i-b) separation: False
+  overlap weighting (nothing discarded; neg ESS 46.5%): Aw = 0.591 [0.513,0.683] vs permuted-weight placebo 0.846 (0.825-0.865); drop +0.255 = 31.99x the F1 shortcut drop -> (ii-a) True
+  two-sided 1:1 caliper 0.2 (keeps 31.8% of each class, balanced): A2 = 0.679 [0.611,0.750] vs random 1:1 0.819 (0.804-0.847); drop +0.140 = 17.50x -> (ii-b) True
+  VERDICT (pre-registered rule): NOT SUPPORTED
+  paper metric MCC(0.5): 0.514 -> matched 0.000; random 0.208 (0.089-0.309) => size/imbalance part +0.306, matched-vs-random part +0.208
+  balanced MCC (class-balanced, prior-corrected threshold): 0.514 -> matched 0.227 [0.073,0.346]; random 0.259 (0.129-0.342)
+  fixed model (trained once on original): matched test 0.690 [0.596,0.777] vs size/ratio-matched random test 0.852 (0.816-0.896); test-distortion effect -0.003, test-shortcut effect +0.163
+  training only (arm-trained model on ORIGINAL test): random-reduced train 0.799 (0.776-0.816) -> training-size effect +0.051; composition-matched train 0.698
+  composition-only AUROC: original 0.824; matched 0.640; random 0.788
+  ATT odds weighting: AUROC 0.551 vs placebo 0.821; neg ESS 0.08%  -> UNSTABLE (ESS<5%), not interpreted
+  label-noise (selection-bias) checks [reported, not decision-driving]:
+    cCRE-ELS overlap: positives 0.702, all negatives 0.084, retained negatives 0.131 (n=236) -> estimated hidden-positive fraction rho=0.077 (mixture-model estimate); label-noise AUROC cost 0.024 = 2.97x the measured shortcut drop
+    cCRE-free test negatives only: original 0.879; matched 0.804 [0.716,0.882] (n_neg=23) vs random 0.846 (0.814-0.884); drop +0.043; fixed model 0.773 vs 0.878
+  [descriptive, post hoc] share of above-chance AUROC lost: F1 0.03, overlap weighting 0.74, two-sided 1:1 0.44
+
+--- nt_enhancers_leakfreeTest [contaminated; leak-free test (post hoc)]  retained negatives at alpha=1: 4.9% ---
+  original AUROC A0 = 0.735 [0.670,0.790]  tau = 0.060
+  matched  AUROC Am = 0.684 [0.587,0.782] (selection seeds 0.575-0.684); paper split 0.628
+  random   AUROC Ar = 0.723 (10 seeds 0.689-0.751)
+  drop: total +0.050 = size +0.011 + matched-vs-random +0.039  -> matched-vs-random share 0.78 (named 'shortcut' in the pre-registration)
+  (i-a) size <= tau: True   (i-b) separation: False
+  overlap weighting (nothing discarded; neg ESS 46.5%): Aw = 0.406 [0.319,0.496] vs permuted-weight placebo 0.736 (0.702-0.767); drop +0.330 = 8.41x the F1 shortcut drop -> (ii-a) True
+  two-sided 1:1 caliper 0.2 (keeps 31.8% of each class, balanced): A2 = 0.594 [0.506,0.679] vs random 1:1 0.729 (0.702-0.761); drop +0.135 = 3.44x -> (ii-b) True
+  VERDICT (pre-registered rule): NOT SUPPORTED
+  paper metric MCC(0.5): 0.311 -> matched 0.000; random 0.191 (0.065-0.290) => size/imbalance part +0.121, matched-vs-random part +0.191
+  balanced MCC (class-balanced, prior-corrected threshold): 0.326 -> matched 0.212 [0.003,0.348]; random 0.226 (0.067-0.331)
+  fixed model (trained once on original): matched test 0.535 [0.434,0.644] vs size/ratio-matched random test 0.735 (0.694-0.792); test-distortion effect -0.001, test-shortcut effect +0.200
+  training only (arm-trained model on ORIGINAL test): random-reduced train 0.715 (0.696-0.734) -> training-size effect +0.020; composition-matched train 0.570
+  composition-only AUROC: original 0.716; matched 0.564; random 0.698
+  ATT odds weighting: AUROC 0.386 vs placebo 0.717; neg ESS 0.08%  -> UNSTABLE (ESS<5%), not interpreted
+  label-noise (selection-bias) checks [reported, not decision-driving]:
+    cCRE-ELS overlap: positives 0.702, all negatives 0.084, retained negatives 0.131 (n=236) -> estimated hidden-positive fraction rho=0.077 (mixture-model estimate); label-noise AUROC cost 0.017 = 0.44x the measured shortcut drop
+    cCRE-free test negatives only: original 0.770; matched 0.688 [0.577,0.795] (n_neg=23) vs random 0.764 (0.731-0.804); drop +0.077; fixed model 0.596 vs 0.767
+  [descriptive, post hoc] share of above-chance AUROC lost: F1 0.18, overlap weighting 1.40, two-sided 1:1 0.59
+
+--- nt_enhancers_leakfreeRefit [contaminated; leak-free refit (post hoc)]  retained negatives at alpha=1: 4.9% ---
+  original AUROC A0 = 0.804 [0.760,0.844]  tau = 0.042
+  matched  AUROC Am = 0.706 [0.623,0.788] (selection seeds 0.563-0.706); paper split 0.624
+  random   AUROC Ar = 0.786 (10 seeds 0.743-0.818)
+  drop: total +0.097 = size +0.018 + matched-vs-random +0.079  -> matched-vs-random share 0.82 (named 'shortcut' in the pre-registration)
+  (i-a) size <= tau: True   (i-b) separation: False
+  overlap weighting (nothing discarded; neg ESS 46.5%): Aw = 0.523 [0.446,0.608] vs permuted-weight placebo 0.803 (0.773-0.830); drop +0.280 = 3.53x the F1 shortcut drop -> (ii-a) True
+  two-sided 1:1 caliper 0.2 (keeps 31.8% of each class, balanced): A2 = 0.601 [0.534,0.678] vs random 1:1 0.799 (0.780-0.830); drop +0.198 = 2.50x -> (ii-b) True
+  VERDICT (pre-registered rule): NOT SUPPORTED
+  paper metric MCC(0.5): 0.465 -> matched -0.028; random 0.225 (0.089-0.309) => size/imbalance part +0.240, matched-vs-random part +0.253
+  balanced MCC (class-balanced, prior-corrected threshold): 0.465 -> matched 0.198 [0.011,0.328]; random 0.297 (0.246-0.405)
+  fixed model (trained once on original): matched test 0.605 [0.511,0.701] vs size/ratio-matched random test 0.804 (0.764-0.852); test-distortion effect -0.000, test-shortcut effect +0.199
+  training only (arm-trained model on ORIGINAL test): random-reduced train 0.782 (0.758-0.798) -> training-size effect +0.022; composition-matched train 0.570
+  composition-only AUROC: original 0.805; matched 0.602; random 0.775
+  ATT odds weighting: AUROC 0.447 vs placebo 0.785; neg ESS 0.08%  -> UNSTABLE (ESS<5%), not interpreted
+  label-noise (selection-bias) checks [reported, not decision-driving]:
+    cCRE-ELS overlap: positives 0.702, all negatives 0.084, retained negatives 0.131 (n=236) -> estimated hidden-positive fraction rho=0.077 (mixture-model estimate); label-noise AUROC cost 0.022 = 0.28x the measured shortcut drop
+    cCRE-free test negatives only: original 0.838; matched 0.729 [0.633,0.823] (n_neg=23) vs random 0.825 (0.778-0.889); drop +0.096; fixed model 0.674 vs 0.835
+  [descriptive, post hoc] share of above-chance AUROC lost: F1 0.28, overlap weighting 0.92, two-sided 1:1 0.66
+
+--- drosophila_enhancers_stark [clean control]  retained negatives at alpha=1: 42.9% ---
+  original AUROC A0 = 0.763 [0.743,0.786]  tau = 0.030
+  matched  AUROC Am = 0.674 [0.632,0.719] (selection seeds 0.650-0.674); paper split 0.661
+  random   AUROC Ar = 0.754 (10 seeds 0.729-0.775)
+  drop: total +0.089 = size +0.009 + matched-vs-random +0.081  -> matched-vs-random share 0.90 (named 'shortcut' in the pre-registration)
+  (i-a) size <= tau: True   (i-b) separation: True
+  overlap weighting (nothing discarded; neg ESS 90.2%): Aw = 0.695 [0.670,0.721] vs permuted-weight placebo 0.762 (0.757-0.767); drop +0.067 = 0.84x the F1 shortcut drop -> (ii-a) True
+  two-sided 1:1 caliper 0.2 (keeps 72.5% of each class, balanced): A2 = 0.683 [0.651,0.713] vs random 1:1 0.755 (0.745-0.765); drop +0.072 = 0.89x -> (ii-b) True
+  VERDICT (pre-registered rule): SUPPORTED
+  paper metric MCC(0.5): 0.398 -> matched 0.252; random 0.425 (0.398-0.477) => size/imbalance part -0.027, matched-vs-random part +0.174
+  balanced MCC (class-balanced, prior-corrected threshold): 0.398 -> matched 0.283 [0.211,0.352]; random 0.420 (0.371-0.453)
+  fixed model (trained once on original): matched test 0.690 [0.648,0.731] vs size/ratio-matched random test 0.762 (0.746-0.773); test-distortion effect +0.001, test-shortcut effect +0.072
+  training only (arm-trained model on ORIGINAL test): random-reduced train 0.754 (0.743-0.767) -> training-size effect +0.009; composition-matched train 0.703
+  composition-only AUROC: original 0.683; matched 0.621; random 0.662
+  ATT odds weighting: AUROC 0.668 vs placebo 0.765; neg ESS 62.32%
+  label-noise (selection-bias) checks [reported, not decision-driving]:
+  [descriptive, post hoc] share of above-chance AUROC lost: F1 0.32, overlap weighting 0.26, two-sided 1:1 0.28
+
+Sweep (F1, within design, k-mer AUROC matched | random mean [min,max] | gap), by retained-negative fraction:
+  human_enhancers_cohn
+    ret  92.9%  maxSMD 0.987  matched 0.804 [0.794,0.814]  random 0.806 [0.802,0.808]  gap +0.001  | balMCC 0.449 vs 0.455
+    ret  83.3%  maxSMD 0.957  matched 0.799 [0.789,0.809]  random 0.805 [0.804,0.809]  gap +0.007  | balMCC 0.439 vs 0.452
+    ret  69.7%  maxSMD 0.907  matched 0.787 [0.776,0.799]  random 0.803 [0.800,0.808]  gap +0.016  | balMCC 0.420 vs 0.449
+    ret  49.1%  maxSMD 0.810  matched 0.771 [0.757,0.784]  random 0.801 [0.796,0.807]  gap +0.029  | balMCC 0.402 vs 0.444
+    ret  35.0%  maxSMD 0.709  matched 0.745 [0.728,0.759]  random 0.798 [0.794,0.808]  gap +0.053  | balMCC 0.366 vs 0.439
+    ret  25.2%  maxSMD 0.610  matched 0.725 [0.707,0.744]  random 0.797 [0.789,0.809]  gap +0.071  | balMCC 0.332 vs 0.431
+    ret  18.4%  maxSMD 0.509  matched 0.712 [0.693,0.732]  random 0.794 [0.783,0.801]  gap +0.082  | balMCC 0.281 vs 0.412
+    ret  13.6%  maxSMD 0.414  matched 0.670 [0.645,0.693]  random 0.790 [0.773,0.803]  gap +0.119  | balMCC 0.195 vs 0.371
+    ret  10.2%  maxSMD 0.319  matched 0.665 [0.639,0.690]  random 0.787 [0.766,0.800]  gap +0.122  | balMCC 0.146 vs 0.327
+    ret   7.7%  maxSMD 0.236  matched 0.648 [0.618,0.677]  random 0.782 [0.760,0.807]  gap +0.134  | balMCC 0.120 vs 0.263
+    ret   5.8%  maxSMD 0.148  matched 0.619 [0.586,0.653]  random 0.779 [0.759,0.804]  gap +0.160  | balMCC 0.047 vs 0.196
+    ret   4.5%  maxSMD 0.071  matched 0.621 [0.582,0.658]  random 0.765 [0.738,0.793]  gap +0.144  | balMCC 0.034 vs 0.117
+  nt_enhancers
+    ret  90.8%  maxSMD 1.519  matched 0.844 [0.808,0.882]  random 0.845 [0.842,0.851]  gap +0.001  | balMCC 0.511 vs 0.526
+    ret  78.7%  maxSMD 1.474  matched 0.837 [0.795,0.879]  random 0.847 [0.839,0.864]  gap +0.009  | balMCC 0.531 vs 0.519
+    ret  62.4%  maxSMD 1.387  matched 0.830 [0.787,0.872]  random 0.846 [0.827,0.860]  gap +0.016  | balMCC 0.523 vs 0.508
+    ret  40.4%  maxSMD 1.197  matched 0.797 [0.742,0.845]  random 0.841 [0.831,0.857]  gap +0.045  | balMCC 0.425 vs 0.466
+    ret  27.1%  maxSMD 1.001  matched 0.802 [0.751,0.850]  random 0.837 [0.818,0.857]  gap +0.035  | balMCC 0.409 vs 0.426
+    ret  19.0%  maxSMD 0.818  matched 0.793 [0.735,0.846]  random 0.828 [0.801,0.840]  gap +0.035  | balMCC 0.394 vs 0.415
+    ret  13.8%  maxSMD 0.664  matched 0.762 [0.699,0.820]  random 0.827 [0.805,0.845]  gap +0.065  | balMCC 0.243 vs 0.360
+    ret  10.6%  maxSMD 0.514  matched 0.759 [0.699,0.828]  random 0.819 [0.781,0.853]  gap +0.060  | balMCC 0.210 vs 0.331
+    ret   8.4%  maxSMD 0.366  matched 0.760 [0.687,0.823]  random 0.821 [0.785,0.867]  gap +0.061  | balMCC 0.196 vs 0.313
+    ret   6.8%  maxSMD 0.323  matched 0.796 [0.727,0.856]  random 0.807 [0.754,0.836]  gap +0.011  | balMCC 0.201 vs 0.302
+    ret   5.7%  maxSMD 0.316  matched 0.802 [0.726,0.862]  random 0.806 [0.761,0.851]  gap +0.004  | balMCC 0.194 vs 0.266
+    ret   4.9%  maxSMD 0.299  matched 0.799 [0.722,0.871]  random 0.807 [0.763,0.832]  gap +0.008  | balMCC 0.227 vs 0.259
+  drosophila_enhancers_stark
+    ret  97.2%  maxSMD 0.255  matched 0.756 [0.731,0.779]  random 0.761 [0.753,0.767]  gap +0.006  | balMCC 0.370 vs 0.392
+    ret  93.9%  maxSMD 0.246  matched 0.758 [0.734,0.779]  random 0.759 [0.751,0.767]  gap +0.001  | balMCC 0.374 vs 0.393
+    ret  88.9%  maxSMD 0.223  matched 0.745 [0.719,0.769]  random 0.762 [0.756,0.771]  gap +0.017  | balMCC 0.362 vs 0.401
+    ret  80.0%  maxSMD 0.198  matched 0.735 [0.709,0.762]  random 0.760 [0.755,0.771]  gap +0.025  | balMCC 0.370 vs 0.400
+    ret  72.5%  maxSMD 0.171  matched 0.726 [0.699,0.754]  random 0.763 [0.750,0.776]  gap +0.036  | balMCC 0.349 vs 0.411
+    ret  66.3%  maxSMD 0.139  matched 0.710 [0.680,0.741]  random 0.758 [0.743,0.772]  gap +0.047  | balMCC 0.319 vs 0.414
+    ret  60.9%  maxSMD 0.119  matched 0.711 [0.679,0.742]  random 0.756 [0.746,0.774]  gap +0.045  | balMCC 0.308 vs 0.419
+    ret  56.2%  maxSMD 0.097  matched 0.697 [0.664,0.728]  random 0.758 [0.741,0.778]  gap +0.061  | balMCC 0.293 vs 0.423
+    ret  52.1%  maxSMD 0.075  matched 0.688 [0.653,0.724]  random 0.759 [0.741,0.775]  gap +0.070  | balMCC 0.280 vs 0.422
+    ret  48.6%  maxSMD 0.057  matched 0.689 [0.653,0.725]  random 0.759 [0.735,0.785]  gap +0.070  | balMCC 0.293 vs 0.436
+    ret  45.7%  maxSMD 0.049  matched 0.692 [0.653,0.729]  random 0.754 [0.731,0.780]  gap +0.061  | balMCC 0.304 vs 0.434
+    ret  42.9%  maxSMD 0.055  matched 0.674 [0.632,0.719]  random 0.754 [0.729,0.775]  gap +0.081  | balMCC 0.283 vs 0.420
+  nt_enhancers_leakfreeRefit
+    ret  90.8%  maxSMD 1.514  matched 0.797 [0.759,0.839]  random 0.805 [0.798,0.816]  gap +0.008  | balMCC 0.439 vs 0.452
+    ret  78.7%  maxSMD 1.469  matched 0.793 [0.749,0.835]  random 0.805 [0.795,0.820]  gap +0.013  | balMCC 0.470 vs 0.461
+    ret  62.4%  maxSMD 1.382  matched 0.779 [0.731,0.826]  random 0.804 [0.793,0.824]  gap +0.025  | balMCC 0.421 vs 0.442
+    ret  40.4%  maxSMD 1.192  matched 0.748 [0.690,0.801]  random 0.807 [0.792,0.827]  gap +0.059  | balMCC 0.411 vs 0.449
+    ret  27.1%  maxSMD 0.996  matched 0.734 [0.675,0.788]  random 0.801 [0.778,0.829]  gap +0.068  | balMCC 0.370 vs 0.407
+    ret  19.0%  maxSMD 0.813  matched 0.712 [0.646,0.777]  random 0.799 [0.765,0.817]  gap +0.087  | balMCC 0.310 vs 0.393
+    ret  13.8%  maxSMD 0.659  matched 0.691 [0.623,0.758]  random 0.799 [0.764,0.822]  gap +0.108  | balMCC 0.259 vs 0.362
+    ret  10.6%  maxSMD 0.508  matched 0.675 [0.606,0.754]  random 0.796 [0.753,0.838]  gap +0.121  | balMCC 0.201 vs 0.337
+    ret   8.4%  maxSMD 0.360  matched 0.629 [0.548,0.704]  random 0.801 [0.773,0.849]  gap +0.172  | balMCC 0.144 vs 0.313
+    ret   6.8%  maxSMD 0.323  matched 0.679 [0.592,0.758]  random 0.786 [0.739,0.827]  gap +0.107  | balMCC 0.193 vs 0.289
+    ret   5.7%  maxSMD 0.316  matched 0.681 [0.588,0.762]  random 0.782 [0.739,0.820]  gap +0.101  | balMCC 0.151 vs 0.272
+    ret   4.9%  maxSMD 0.305  matched 0.706 [0.623,0.788]  random 0.786 [0.743,0.818]  gap +0.079  | balMCC 0.198 vs 0.297
+  nt_enhancers_leakfreeTest
+    ret  90.8%  maxSMD 1.515  matched 0.726 [0.663,0.787]  random 0.730 [0.723,0.740]  gap +0.004  | balMCC 0.319 vs 0.343
+    ret  78.7%  maxSMD 1.469  matched 0.721 [0.656,0.782]  random 0.732 [0.722,0.756]  gap +0.012  | balMCC 0.349 vs 0.339
+    ret  62.4%  maxSMD 1.382  matched 0.709 [0.642,0.777]  random 0.732 [0.714,0.753]  gap +0.023  | balMCC 0.352 vs 0.338
+    ret  40.4%  maxSMD 1.192  matched 0.668 [0.597,0.736]  random 0.732 [0.719,0.747]  gap +0.064  | balMCC 0.230 vs 0.311
+    ret  27.1%  maxSMD 0.996  matched 0.670 [0.593,0.743]  random 0.733 [0.708,0.756]  gap +0.063  | balMCC 0.229 vs 0.285
+    ret  19.0%  maxSMD 0.813  matched 0.666 [0.587,0.745]  random 0.730 [0.703,0.741]  gap +0.064  | balMCC 0.247 vs 0.295
+    ret  13.8%  maxSMD 0.659  matched 0.616 [0.527,0.696]  random 0.731 [0.706,0.756]  gap +0.116  | balMCC 0.103 vs 0.256
+    ret  10.6%  maxSMD 0.508  matched 0.614 [0.516,0.702]  random 0.726 [0.691,0.762]  gap +0.112  | balMCC 0.116 vs 0.242
+    ret   8.4%  maxSMD 0.360  matched 0.608 [0.515,0.700]  random 0.730 [0.686,0.788]  gap +0.122  | balMCC 0.139 vs 0.241
+    ret   6.8%  maxSMD 0.324  matched 0.666 [0.567,0.759]  random 0.722 [0.680,0.755]  gap +0.055  | balMCC 0.185 vs 0.247
+    ret   5.7%  maxSMD 0.316  matched 0.670 [0.567,0.758]  random 0.721 [0.677,0.772]  gap +0.051  | balMCC 0.165 vs 0.225
+    ret   4.9%  maxSMD 0.305  matched 0.684 [0.587,0.782]  random 0.723 [0.689,0.751]  gap +0.039  | balMCC 0.212 vs 0.226
+
+2x2 cross at the paper's retention (k-mer AUROC; model trained on matched|random x test matched|random):
+  human_enhancers_cohn         F1_hist_a1_matched42     MM 0.621  RM(random model, matched test) 0.579  MR 0.583  RR 0.765  | test effect +0.186, training effect on matched test -0.042
+  human_enhancers_cohn         paper_equalized_matched  MM 0.613  RM(random model, matched test) 0.574  MR 0.596  RR 0.765  | test effect +0.191, training effect on matched test -0.039
+  nt_enhancers                 F1_hist_a1_matched42     MM 0.799  RM(random model, matched test) 0.560  MR 0.682  RR 0.807  | test effect +0.246, training effect on matched test -0.238
+  nt_enhancers                 paper_equalized_matched  MM 0.748  RM(random model, matched test) 0.586  MR 0.655  RR 0.807  | test effect +0.221, training effect on matched test -0.162
+  drosophila_enhancers_stark   F1_hist_a1_matched42     MM 0.674  RM(random model, matched test) 0.668  MR 0.700  RR 0.754  | test effect +0.087, training effect on matched test -0.006
+  drosophila_enhancers_stark   paper_equalized_matched  MM 0.661  RM(random model, matched test) 0.633  MR 0.706  RR 0.754  | test effect +0.121, training effect on matched test -0.027
+  nt_enhancers_leakfreeRefit   F1_hist_a1_matched42     MM 0.706  RM(random model, matched test) 0.548  MR 0.562  RR 0.786  | test effect +0.238, training effect on matched test -0.159
+  nt_enhancers_leakfreeRefit   paper_equalized_matched  MM 0.624  RM(random model, matched test) 0.570  MR 0.524  RR 0.786  | test effect +0.216, training effect on matched test -0.054
+  nt_enhancers_leakfreeTest    F1_hist_a1_matched42     MM 0.684  RM(random model, matched test) 0.465  MR 0.557  RR 0.723  | test effect +0.259, training effect on matched test -0.219
+  nt_enhancers_leakfreeTest    paper_equalized_matched  MM 0.628  RM(random model, matched test) 0.488  MR 0.519  RR 0.723  | test effect +0.235, training effect on matched test -0.139
+
+Secondary family F2 (common-support trimming), within, k-mer AUROC:
+  human_enhancers_cohn
+    ret  83.5%  maxSMD 0.805  matched 0.775 random 0.805 [0.802,0.810]
+    ret  71.6%  maxSMD 0.643  matched 0.753 random 0.804 [0.801,0.809]
+    ret  57.6%  maxSMD 0.493  matched 0.749 random 0.803 [0.796,0.809]
+    ret  38.6%  maxSMD 0.437  matched 0.765 random 0.801 [0.796,0.813]
+    ret  24.7%  maxSMD 0.407  matched 0.787 random 0.797 [0.790,0.805]
+    ret  11.7%  maxSMD 0.400  matched 0.802 random 0.787 [0.766,0.802]
+    ret   5.5%  maxSMD 0.377  matched 0.772 random 0.774 [0.742,0.805]
+  nt_enhancers
+    ret  52.1%  maxSMD 1.018  matched 0.833 random 0.840 [0.827,0.852]
+    ret  33.1%  maxSMD 0.706  matched 0.835 random 0.836 [0.822,0.857]
+    ret  21.2%  maxSMD 0.452  matched 0.825 random 0.832 [0.795,0.849]
+    ret  10.8%  maxSMD 0.358  matched 0.817 random 0.821 [0.784,0.861]
+    ret   6.0%  maxSMD 0.324  matched 0.810 random 0.802 [0.743,0.844]
+    ret   2.7%  maxSMD 0.362  matched 0.823 random 0.790 [0.662,0.907]  UNDERPOWERED
+    ret   1.3%  maxSMD 0.386  matched 0.672 random 0.725 [0.418,0.974]  UNDERPOWERED
+  drosophila_enhancers_stark
+    ret  87.2%  maxSMD 0.184  matched 0.736 random 0.758 [0.749,0.766]
+    ret  73.8%  maxSMD 0.113  matched 0.696 random 0.757 [0.745,0.770]
+    ret  59.6%  maxSMD 0.080  matched 0.679 random 0.755 [0.749,0.766]
+    ret  40.3%  maxSMD 0.059  matched 0.664 random 0.755 [0.734,0.783]
+    ret  25.4%  maxSMD 0.098  matched 0.619 random 0.751 [0.730,0.769]
+    ret  13.5%  maxSMD 0.153  matched 0.635 random 0.726 [0.683,0.749]
+    ret   6.3%  maxSMD 0.136  matched 0.538 random 0.705 [0.598,0.764]
+  nt_enhancers_leakfreeRefit
+    ret  52.1%  maxSMD 1.012  matched 0.769 random 0.801 [0.789,0.813]
+    ret  33.1%  maxSMD 0.699  matched 0.743 random 0.801 [0.784,0.835]
+    ret  21.2%  maxSMD 0.445  matched 0.714 random 0.801 [0.764,0.829]
+    ret  10.8%  maxSMD 0.357  matched 0.732 random 0.798 [0.761,0.830]
+    ret   6.0%  maxSMD 0.323  matched 0.708 random 0.788 [0.749,0.825]
+    ret   2.7%  maxSMD 0.361  matched 0.702 random 0.785 [0.686,0.898]  UNDERPOWERED
+    ret   1.3%  maxSMD 0.386  matched 0.613 random 0.716 [0.445,0.955]  UNDERPOWERED
+  nt_enhancers_leakfreeTest
+    ret  52.1%  maxSMD 1.012  matched 0.708 random 0.728 [0.713,0.741]
+    ret  33.1%  maxSMD 0.699  matched 0.715 random 0.730 [0.716,0.753]
+    ret  21.2%  maxSMD 0.446  matched 0.695 random 0.733 [0.691,0.751]
+    ret  10.8%  maxSMD 0.357  matched 0.695 random 0.728 [0.697,0.764]
+    ret   6.0%  maxSMD 0.323  matched 0.721 random 0.718 [0.657,0.757]
+    ret   2.7%  maxSMD 0.361  matched 0.770 random 0.720 [0.600,0.848]  UNDERPOWERED
+    ret   1.3%  maxSMD 0.386  matched 0.644 random 0.662 [0.368,0.958]  UNDERPOWERED
+
+Two-sided 1:1 caliper matching (F3) caliper-sensitivity, within, k-mer AUROC (retained = each class):
+  human_enhancers_cohn
+    c2     ret  89.2%  maxSMD 0.741  matched 0.765 [0.754,0.777]  random 0.805 [0.801,0.809]  balMCC 0.389 vs 0.450
+    c1     ret  73.3%  maxSMD 0.309  matched 0.702 [0.688,0.714]  random 0.802 [0.797,0.808]  balMCC 0.283 vs 0.449
+    c0.5   ret  64.8%  maxSMD 0.096  matched 0.693 [0.677,0.707]  random 0.800 [0.794,0.806]  balMCC 0.277 vs 0.442
+    c0.2   ret  61.2%  maxSMD 0.042  matched 0.688 [0.673,0.704]  random 0.802 [0.798,0.807]  balMCC 0.277 vs 0.448
+    c0.01  ret  59.8%  maxSMD 0.028  matched 0.694 [0.679,0.709]  random 0.802 [0.797,0.807]  balMCC 0.279 vs 0.445
+  nt_enhancers
+    c2     ret  81.8%  maxSMD 1.226  matched 0.827 [0.786,0.870]  random 0.843 [0.828,0.855]  balMCC 0.503 vs 0.509
+    c1     ret  52.7%  maxSMD 0.546  matched 0.754 [0.698,0.809]  random 0.826 [0.812,0.837]  balMCC 0.346 vs 0.470
+    c0.5   ret  38.0%  maxSMD 0.157  matched 0.669 [0.599,0.730]  random 0.823 [0.803,0.851]  balMCC 0.205 vs 0.470
+    c0.2   ret  31.8%  maxSMD 0.082  matched 0.679 [0.611,0.750]  random 0.819 [0.804,0.847]  balMCC 0.198 vs 0.465
+    c0.01  ret  29.6%  maxSMD 0.087  matched 0.680 [0.600,0.758]  random 0.819 [0.793,0.851]  balMCC 0.263 vs 0.474
+  drosophila_enhancers_stark
+    c2     ret  91.4%  maxSMD 0.134  matched 0.732 [0.708,0.757]  random 0.761 [0.753,0.770]  balMCC 0.350 vs 0.390
+    c1     ret  80.2%  maxSMD 0.042  matched 0.696 [0.669,0.723]  random 0.756 [0.747,0.763]  balMCC 0.278 vs 0.384
+    c0.5   ret  74.7%  maxSMD 0.034  matched 0.686 [0.657,0.717]  random 0.755 [0.743,0.763]  balMCC 0.268 vs 0.383
+    c0.2   ret  72.5%  maxSMD 0.033  matched 0.683 [0.651,0.713]  random 0.755 [0.745,0.765]  balMCC 0.248 vs 0.380
+    c0.01  ret  68.9%  maxSMD 0.031  matched 0.681 [0.650,0.713]  random 0.755 [0.745,0.761]  balMCC 0.240 vs 0.382
+  nt_enhancers_leakfreeRefit
+    c2     ret  81.8%  maxSMD 1.222  matched 0.771 [0.722,0.821]  random 0.803 [0.793,0.820]  balMCC 0.370 vs 0.441
+    c1     ret  52.7%  maxSMD 0.542  matched 0.668 [0.603,0.731]  random 0.798 [0.779,0.817]  balMCC 0.242 vs 0.441
+    c0.5   ret  38.0%  maxSMD 0.155  matched 0.590 [0.513,0.659]  random 0.798 [0.779,0.824]  balMCC 0.050 vs 0.432
+    c0.2   ret  31.8%  maxSMD 0.079  matched 0.601 [0.534,0.678]  random 0.799 [0.780,0.830]  balMCC 0.100 vs 0.434
+    c0.01  ret  29.6%  maxSMD 0.083  matched 0.620 [0.539,0.699]  random 0.799 [0.770,0.834]  balMCC 0.179 vs 0.440
+  nt_enhancers_leakfreeTest
+    c2     ret  81.8%  maxSMD 1.219  matched 0.695 [0.625,0.761]  random 0.733 [0.718,0.754]  balMCC 0.312 vs 0.338
+    c1     ret  52.7%  maxSMD 0.535  matched 0.592 [0.512,0.669]  random 0.724 [0.687,0.743]  balMCC 0.129 vs 0.318
+    c0.5   ret  38.0%  maxSMD 0.146  matched 0.552 [0.468,0.640]  random 0.731 [0.688,0.763]  balMCC 0.070 vs 0.330
+    c0.2   ret  31.8%  maxSMD 0.074  matched 0.594 [0.506,0.679]  random 0.729 [0.702,0.761]  balMCC 0.097 vs 0.323
+    c0.01  ret  29.6%  maxSMD 0.082  matched 0.628 [0.528,0.723]  random 0.729 [0.665,0.778]  balMCC 0.199 vs 0.335
+
+Positive-side matching (F4) and ATT weighting, within, k-mer AUROC:
+  human_enhancers_cohn         F4_posside  matched 0.622 [0.585,0.659] vs random/placebo 0.780 [0.749,0.798]; retained pos 7.7%, neg ESS 100.0%
+  nt_enhancers                 F4_posside  matched 0.510 [0.369,0.650] vs random/placebo 0.803 [0.761,0.885]; retained pos 3.1%, neg ESS 100.0%
+  drosophila_enhancers_stark   F4_posside  matched 0.662 [0.604,0.715] vs random/placebo 0.727 [0.675,0.780]; retained pos 13.0%, neg ESS 100.0%
+  nt_enhancers_leakfreeRefit   F4_posside  matched 0.509 [0.356,0.657] vs random/placebo 0.797 [0.749,0.882]; retained pos 3.1%, neg ESS 100.0%
+  nt_enhancers_leakfreeTest    F4_posside  matched 0.464 [0.290,0.642] vs random/placebo 0.746 [0.631,0.862]; retained pos 3.0%, neg ESS 100.0%
+  human_enhancers_cohn         W_att       matched 0.629 [0.584,0.664] vs random/placebo 0.805 [0.788,0.820]; retained pos 100.0%, neg ESS 16.8%
+  nt_enhancers                 W_att       matched 0.551 [0.342,0.776] vs random/placebo 0.821 [0.680,0.919]; retained pos 100.0%, neg ESS 0.1%
+  drosophila_enhancers_stark   W_att       matched 0.668 [0.640,0.698] vs random/placebo 0.765 [0.754,0.772]; retained pos 100.0%, neg ESS 62.3%
+  nt_enhancers_leakfreeRefit   W_att       matched 0.447 [0.273,0.670] vs random/placebo 0.785 [0.645,0.910]; retained pos 98.6%, neg ESS 0.1%
+  nt_enhancers_leakfreeTest    W_att       matched 0.386 [0.235,0.587] vs random/placebo 0.717 [0.594,0.857]; retained pos 98.7%, neg ESS 0.1%
+
+Selection bias (features OUTSIDE the propensity model), retained vs discarded negatives (p = uncorrected Fisher / Mann-Whitney; p_bonf = Bonferroni over all 158 tests):
+  human_enhancers_cohn / F1_hist_a1_seed42 (retained 627, discarded 13269)
+    length_acgt                  pos 500 | retained 500 | discarded 500 | random 500   SMD ret-vs-disc +nan, ret-vs-pos +nan  p=1.0e+00 p_bonf=1.0e+00
+    n_frac                       pos 0 | retained 0 | discarded 0 | random 0   SMD ret-vs-disc +nan, ret-vs-pos +nan  p=1.0e+00 p_bonf=1.0e+00
+    trimer_l1_to_pos_centroid    pos 0.409 | retained 0.4218 | discarded 0.4547 | random 0.4518   SMD ret-vs-disc -0.25, ret-vs-pos +0.10  p=1.1e-16 p_bonf=1.7e-14
+    trimer_markov1_residual      pos 0.2238 | retained 0.2279 | discarded 0.2191 | random 0.2202   SMD ret-vs-disc +0.21, ret-vs-pos +0.10  p=1.8e-07 p_bonf=2.8e-05
+    tata_any                     pos 0.3518 | retained 0.3461 | discarded 0.5848 | random 0.5758   SMD ret-vs-disc -0.49, ret-vs-pos -0.01  p=8.7e-32 p_bonf=1.4e-29
+    tata_count                   pos 0.7101 | retained 0.6236 | discarded 1.736 | random 1.766   SMD ret-vs-disc -0.35, ret-vs-pos -0.05  p=4.0e-35 p_bonf=6.4e-33
+    sp1_gcbox_any                pos 0.1298 | retained 0.09569 | discarded 0.04364 | random 0.0445   SMD ret-vs-disc +0.21, ret-vs-pos -0.11  p=7.3e-08 p_bonf=1.2e-05
+    sp1_gcbox_count              pos 0.183 | retained 0.1404 | discarded 0.05486 | random 0.05853   SMD ret-vs-disc +0.18, ret-vs-pos -0.08  p=9.4e-10 p_bonf=1.5e-07
+    lowcomplexity_frac           pos 0.04304 | retained 0.06482 | discarded 0.06234 | random 0.0643   SMD ret-vs-disc +0.02, ret-vs-pos +0.19  p=7.2e-01 p_bonf=1.0e+00
+    tss500_overlap               pos 0.156 | retained 0.04306 | discarded 0.02359 | random 0.026   SMD ret-vs-disc +0.11, ret-vs-pos -0.38  p=4.9e-03 p_bonf=7.7e-01
+    log10_dist_tss               pos 3.675 | retained 4.236 | discarded 4.352 | random 4.347   SMD ret-vs-disc -0.18, ret-vs-pos +0.76  p=8.1e-05 p_bonf=1.3e-02
+    repeatmasker_frac            pos 0.2862 | retained 0.5387 | discarded 0.5517 | random 0.5547   SMD ret-vs-disc -0.03, ret-vs-pos +0.71  p=3.7e-01 p_bonf=1.0e+00
+    rmsk_simple_lowcomp_frac     pos 0.01273 | retained 0.01403 | discarded 0.0148 | random 0.01596   SMD ret-vs-disc -0.01, ret-vs-pos +0.02  p=2.5e-01 p_bonf=1.0e+00
+    ccre_any                     pos 0.9397 | retained 0.512 | discarded 0.3822 | random 0.3906   SMD ret-vs-disc +0.26, ret-vs-pos -1.09  p=1.5e-10 p_bonf=2.3e-08
+    ccre_els                     pos 0.9074 | retained 0.3365 | discarded 0.2363 | random 0.2392   SMD ret-vs-disc +0.22, ret-vs-pos -1.46  p=3.4e-08 p_bonf=5.3e-06
+    ccre_pls                     pos 0.06664 | retained 0.01116 | discarded 0.002788 | random 0.00303   SMD ret-vs-disc +0.10, ret-vs-pos -0.29  p=3.3e-03 p_bonf=5.2e-01
+  human_enhancers_cohn / F3_1to1_c0.2 (retained 8503, discarded 5393)
+    length_acgt                  pos 500 | retained 500 | discarded 500 | random 500   SMD ret-vs-disc +nan, ret-vs-pos +nan  p=1.0e+00 p_bonf=1.0e+00
+    n_frac                       pos 0 | retained 0 | discarded 0 | random 0   SMD ret-vs-disc +nan, ret-vs-pos +nan  p=1.0e+00 p_bonf=1.0e+00
+    trimer_l1_to_pos_centroid    pos 0.409 | retained 0.4114 | discarded 0.5193 | random 0.4531   SMD ret-vs-disc -0.93, ret-vs-pos +0.02  p=0.0e+00 p_bonf=0.0e+00
+    trimer_markov1_residual      pos 0.2238 | retained 0.2244 | discarded 0.2119 | random 0.2196   SMD ret-vs-disc +0.31, ret-vs-pos +0.01  p=4.8e-91 p_bonf=7.6e-89
+    tata_any                     pos 0.3518 | retained 0.468 | discarded 0.7413 | random 0.5752   SMD ret-vs-disc -0.58, ret-vs-pos +0.24  p=6.8e-228 p_bonf=1.1e-225
+    tata_count                   pos 0.7101 | retained 0.9793 | discarded 2.801 | random 1.703   SMD ret-vs-disc -0.40, ret-vs-pos +0.13  p=0.0e+00 p_bonf=0.0e+00
+    sp1_gcbox_any                pos 0.1298 | retained 0.05598 | discarded 0.03022 | random 0.04578   SMD ret-vs-disc +0.13, ret-vs-pos -0.26  p=4.7e-13 p_bonf=7.4e-11
+    sp1_gcbox_count              pos 0.183 | retained 0.0728 | discarded 0.03653 | random 0.0595   SMD ret-vs-disc +0.11, ret-vs-pos -0.22  p=1.9e-12 p_bonf=3.0e-10
+    lowcomplexity_frac           pos 0.04304 | retained 0.06162 | discarded 0.06376 | random 0.06253   SMD ret-vs-disc -0.02, ret-vs-pos +0.17  p=3.1e-01 p_bonf=1.0e+00
+    tss500_overlap               pos 0.156 | retained 0.02999 | discarded 0.01576 | random 0.02484   SMD ret-vs-disc +0.10, ret-vs-pos -0.44  p=7.1e-08 p_bonf=1.1e-05
+    log10_dist_tss               pos 3.675 | retained 4.294 | discarded 4.431 | random 4.348   SMD ret-vs-disc -0.22, ret-vs-pos +0.87  p=2.5e-39 p_bonf=4.0e-37
+    repeatmasker_frac            pos 0.2862 | retained 0.5638 | discarded 0.5312 | random 0.5504   SMD ret-vs-disc +0.08, ret-vs-pos +0.79  p=5.7e-05 p_bonf=8.9e-03
+    rmsk_simple_lowcomp_frac     pos 0.01273 | retained 0.01269 | discarded 0.01802 | random 0.01472   SMD ret-vs-disc -0.09, ret-vs-pos -0.00  p=5.5e-07 p_bonf=8.7e-05
+    ccre_any                     pos 0.9397 | retained 0.4427 | discarded 0.3019 | random 0.3899   SMD ret-vs-disc +0.29, ret-vs-pos -1.28  p=1.2e-62 p_bonf=1.9e-60
+    ccre_els                     pos 0.9074 | retained 0.2895 | discarded 0.1641 | random 0.2417   SMD ret-vs-disc +0.30, ret-vs-pos -1.62  p=5.3e-66 p_bonf=8.3e-64
+    ccre_pls                     pos 0.06664 | retained 0.004587 | discarded 0.0009271 | random 0.003199   SMD ret-vs-disc +0.07, ret-vs-pos -0.34  p=7.6e-05 p_bonf=1.2e-02
+  human_enhancers_cohn / F5_ccrefree_a1_seed42 (retained 128, discarded 13768)
+    length_acgt                  pos 500 | retained 500 | discarded 500 | random 500   SMD ret-vs-disc +nan, ret-vs-pos +nan  p=1.0e+00 p_bonf=1.0e+00
+    n_frac                       pos 0 | retained 0 | discarded 0 | random 0   SMD ret-vs-disc +nan, ret-vs-pos +nan  p=1.0e+00 p_bonf=1.0e+00
+    trimer_l1_to_pos_centroid    pos 0.409 | retained 0.4438 | discarded 0.4533 | random 0.4781   SMD ret-vs-disc -0.06, ret-vs-pos +0.23  p=4.3e-03 p_bonf=6.8e-01
+    trimer_markov1_residual      pos 0.2238 | retained 0.2447 | discarded 0.2193 | random 0.2187   SMD ret-vs-disc +0.51, ret-vs-pos +0.43  p=2.3e-08 p_bonf=3.6e-06
+    tata_any                     pos 0.3518 | retained 0.3281 | discarded 0.5763 | random 0.6273   SMD ret-vs-disc -0.51, ret-vs-pos -0.05  p=2.3e-08 p_bonf=3.7e-06
+    tata_count                   pos 0.7101 | retained 0.5859 | discarded 1.696 | random 2.105   SMD ret-vs-disc -0.36, ret-vs-pos -0.08  p=8.1e-09 p_bonf=1.3e-06
+    sp1_gcbox_any                pos 0.1298 | retained 0.125 | discarded 0.04525 | random 0.03828   SMD ret-vs-disc +0.29, ret-vs-pos -0.01  p=2.6e-04 p_bonf=4.0e-02
+    sp1_gcbox_count              pos 0.183 | retained 0.1719 | discarded 0.05767 | random 0.05469   SMD ret-vs-disc +0.23, ret-vs-pos -0.02  p=1.9e-05 p_bonf=3.0e-03
+    lowcomplexity_frac           pos 0.04304 | retained 0.1123 | discarded 0.06199 | random 0.06612   SMD ret-vs-disc +0.34, ret-vs-pos +0.50  p=1.1e-04 p_bonf=1.7e-02
+    tss500_overlap               pos 0.156 | retained 0.05469 | discarded 0.02419 | random 0.01797   SMD ret-vs-disc +0.16, ret-vs-pos -0.33  p=3.8e-02 p_bonf=1.0e+00
+    log10_dist_tss               pos 3.675 | retained 4.171 | discarded 4.348 | random 4.402   SMD ret-vs-disc -0.27, ret-vs-pos +0.67  p=3.5e-03 p_bonf=5.5e-01
+    repeatmasker_frac            pos 0.2862 | retained 0.6753 | discarded 0.55 | random 0.6466   SMD ret-vs-disc +0.34, ret-vs-pos +1.14  p=6.3e-04 p_bonf=1.0e-01
+    rmsk_simple_lowcomp_frac     pos 0.01273 | retained 0.02442 | discarded 0.01467 | random 0.01391   SMD ret-vs-disc +0.11, ret-vs-pos +0.14  p=9.4e-01 p_bonf=1.0e+00
+    ccre_any                     pos 0.9397 | retained 0 | discarded 0.3916 | random 0   SMD ret-vs-disc -1.13, ret-vs-pos -5.58  p=5.6e-28 p_bonf=8.8e-26
+    ccre_els                     pos 0.9074 | retained 0 | discarded 0.2431 | random 0   SMD ret-vs-disc -0.80, ret-vs-pos -4.43  p=6.8e-16 p_bonf=1.1e-13
+    ccre_pls                     pos 0.06664 | retained 0 | discarded 0.003196 | random 0   SMD ret-vs-disc -0.08, ret-vs-pos -0.38  p=1.0e+00 p_bonf=1.0e+00
+  human_enhancers_cohn / F5b_ccrefree_1to1_c0.2 (retained 5795, discarded 8101)
+    length_acgt                  pos 500 | retained 500 | discarded 500 | random 500   SMD ret-vs-disc +nan, ret-vs-pos +nan  p=1.0e+00 p_bonf=1.0e+00
+    n_frac                       pos 0 | retained 0 | discarded 0 | random 0   SMD ret-vs-disc +nan, ret-vs-pos +nan  p=1.0e+00 p_bonf=1.0e+00
+    trimer_l1_to_pos_centroid    pos 0.409 | retained 0.4358 | discarded 0.4657 | random 0.4748   SMD ret-vs-disc -0.24, ret-vs-pos +0.23  p=8.2e-44 p_bonf=1.3e-41
+    trimer_markov1_residual      pos 0.2238 | retained 0.2222 | discarded 0.2176 | random 0.2182   SMD ret-vs-disc +0.11, ret-vs-pos -0.04  p=4.0e-13 p_bonf=6.2e-11
+    tata_any                     pos 0.3518 | retained 0.5332 | discarded 0.6033 | random 0.6177   SMD ret-vs-disc -0.14, ret-vs-pos +0.37  p=2.1e-16 p_bonf=3.4e-14
+    tata_count                   pos 0.7101 | retained 1.219 | discarded 2.021 | random 1.959   SMD ret-vs-disc -0.20, ret-vs-pos +0.23  p=1.9e-33 p_bonf=2.9e-31
+    sp1_gcbox_any                pos 0.1298 | retained 0.04055 | discarded 0.04987 | random 0.03836   SMD ret-vs-disc -0.04, ret-vs-pos -0.32  p=9.7e-03 p_bonf=1.0e+00
+    sp1_gcbox_count              pos 0.183 | retained 0.04884 | discarded 0.06579 | random 0.04702   SMD ret-vs-disc -0.05, ret-vs-pos -0.30  p=8.4e-03 p_bonf=1.0e+00
+    lowcomplexity_frac           pos 0.04304 | retained 0.06732 | discarded 0.05897 | random 0.0693   SMD ret-vs-disc +0.07, ret-vs-pos +0.22  p=1.2e-06 p_bonf=1.9e-04
+    tss500_overlap               pos 0.156 | retained 0.02243 | discarded 0.02592 | random 0.01893   SMD ret-vs-disc -0.02, ret-vs-pos -0.48  p=2.0e-01 p_bonf=1.0e+00
+    log10_dist_tss               pos 3.675 | retained 4.357 | discarded 4.34 | random 4.391   SMD ret-vs-disc +0.03, ret-vs-pos +0.97  p=4.5e-01 p_bonf=1.0e+00
+    repeatmasker_frac            pos 0.2862 | retained 0.6487 | discarded 0.4813 | random 0.6185   SMD ret-vs-disc +0.45, ret-vs-pos +1.06  p=8.0e-143 p_bonf=1.3e-140
+    rmsk_simple_lowcomp_frac     pos 0.01273 | retained 0.01122 | discarded 0.01729 | random 0.01461   SMD ret-vs-disc -0.10, ret-vs-pos -0.03  p=2.4e-11 p_bonf=3.8e-09
+    ccre_any                     pos 0.9397 | retained 0 | discarded 0.6656 | random 0   SMD ret-vs-disc -2.00, ret-vs-pos -5.58  p=0.0e+00 p_bonf=0.0e+00
+    ccre_els                     pos 0.9074 | retained 0 | discarded 0.4132 | random 0   SMD ret-vs-disc -1.19, ret-vs-pos -4.43  p=0.0e+00 p_bonf=0.0e+00
+    ccre_pls                     pos 0.06664 | retained 0 | discarded 0.005431 | random 0   SMD ret-vs-disc -0.10, ret-vs-pos -0.38  p=5.7e-11 p_bonf=8.9e-09
+  nt_enhancers / F1_hist_a1_seed42 (retained 379, discarded 7305)
+    length_acgt                  pos 199.3 | retained 199.6 | discarded 199.2 | random 199.3   SMD ret-vs-disc +0.91, ret-vs-pos +0.61  p=2.8e-75 p_bonf=4.4e-73
+    n_frac                       pos 0 | retained 0 | discarded 0 | random 0   SMD ret-vs-disc +nan, ret-vs-pos +nan  p=1.0e+00 p_bonf=1.0e+00
+    trimer_l1_to_pos_centroid    pos 0.497 | retained 0.5374 | discarded 0.5789 | random 0.5821   SMD ret-vs-disc -0.36, ret-vs-pos +0.37  p=1.9e-21 p_bonf=3.0e-19
+    trimer_markov1_residual      pos 0.3402 | retained 0.33 | discarded 0.3254 | random 0.324   SMD ret-vs-disc +0.09, ret-vs-pos -0.21  p=1.6e-01 p_bonf=1.0e+00
+    tata_any                     pos 0.102 | retained 0.1398 | discarded 0.3187 | random 0.3303   SMD ret-vs-disc -0.44, ret-vs-pos +0.12  p=6.3e-15 p_bonf=9.9e-13
+    tata_count                   pos 0.1501 | retained 0.2111 | discarded 0.5945 | random 0.609   SMD ret-vs-disc -0.35, ret-vs-pos +0.08  p=4.4e-14 p_bonf=7.0e-12
+    sp1_gcbox_any                pos 0.03748 | retained 0.02375 | discarded 0.01246 | random 0.01478   SMD ret-vs-disc +0.08, ret-vs-pos -0.08  p=9.6e-02 p_bonf=1.0e+00
+    sp1_gcbox_count              pos 0.04399 | retained 0.02639 | discarded 0.01506 | random 0.01689   SMD ret-vs-disc +0.07, ret-vs-pos -0.08  p=5.9e-02 p_bonf=1.0e+00
+    lowcomplexity_frac           pos 0.01326 | retained 0.04719 | discarded 0.015 | random 0.02253   SMD ret-vs-disc +0.26, ret-vs-pos +0.28  p=4.7e-11 p_bonf=7.4e-09
+    genomic_mapped               pos 0.3303 | retained 0.6227 | discarded 0.2134 | random 0.296   SMD ret-vs-disc +0.91, ret-vs-pos +0.61  p=3.7e-62 p_bonf=5.8e-60
+    tss500_overlap               pos 0.1588 | retained 0.02542 | discarded 0.00898 | random 0.01344   SMD ret-vs-disc +0.13, ret-vs-pos -0.47  p=3.8e-02 p_bonf=1.0e+00
+    log10_dist_tss               pos 3.615 | retained 4.304 | discarded 4.42 | random 4.375   SMD ret-vs-disc -0.19, ret-vs-pos +0.92  p=4.0e-02 p_bonf=1.0e+00
+    repeatmasker_frac            pos 0.2952 | retained 0.6327 | discarded 0.5468 | random 0.5583   SMD ret-vs-disc +0.20, ret-vs-pos +0.82  p=9.7e-03 p_bonf=1.0e+00
+    rmsk_simple_lowcomp_frac     pos 0.01314 | retained 0.01557 | discarded 0.01153 | random 0.01255   SMD ret-vs-disc +0.05, ret-vs-pos +0.03  p=4.8e-01 p_bonf=1.0e+00
+    ccre_any                     pos 0.7797 | retained 0.2924 | discarded 0.1725 | random 0.1676   SMD ret-vs-disc +0.29, ret-vs-pos -1.12  p=3.4e-05 p_bonf=5.4e-03
+    ccre_els                     pos 0.7017 | retained 0.1314 | discarded 0.07633 | random 0.08295   SMD ret-vs-disc +0.18, ret-vs-pos -1.42  p=7.5e-03 p_bonf=1.0e+00
+    ccre_pls                     pos 0.04295 | retained 0 | discarded 0.0006414 | random 0.001755   SMD ret-vs-disc -0.04, ret-vs-pos -0.30  p=1.0e+00 p_bonf=1.0e+00
+  nt_enhancers / F3_1to1_c0.2 (retained 2444, discarded 5240)
+    length_acgt                  pos 199.3 | retained 199.4 | discarded 199.2 | random 199.2   SMD ret-vs-disc +0.44, ret-vs-pos +0.07  p=7.3e-74 p_bonf=1.2e-71
+    n_frac                       pos 0 | retained 0 | discarded 0 | random 0   SMD ret-vs-disc +nan, ret-vs-pos +nan  p=1.0e+00 p_bonf=1.0e+00
+    trimer_l1_to_pos_centroid    pos 0.497 | retained 0.5283 | discarded 0.5995 | random 0.5783   SMD ret-vs-disc -0.70, ret-vs-pos +0.32  p=1.5e-214 p_bonf=2.4e-212
+    trimer_markov1_residual      pos 0.3402 | retained 0.331 | discarded 0.3231 | random 0.3254   SMD ret-vs-disc +0.17, ret-vs-pos -0.20  p=3.2e-11 p_bonf=5.0e-09
+    tata_any                     pos 0.102 | retained 0.1673 | discarded 0.3763 | random 0.3169   SMD ret-vs-disc -0.48, ret-vs-pos +0.19  p=4.9e-81 p_bonf=7.8e-79
+    tata_count                   pos 0.1501 | retained 0.2553 | discarded 0.725 | random 0.5878   SMD ret-vs-disc -0.39, ret-vs-pos +0.13  p=5.0e-81 p_bonf=7.9e-79
+    sp1_gcbox_any                pos 0.03748 | retained 0.02005 | discarded 0.009733 | random 0.01342   SMD ret-vs-disc +0.09, ret-vs-pos -0.10  p=3.3e-04 p_bonf=5.1e-02
+    sp1_gcbox_count              pos 0.04399 | retained 0.02455 | discarded 0.01145 | random 0.01612   SMD ret-vs-disc +0.08, ret-vs-pos -0.08  p=2.0e-04 p_bonf=3.2e-02
+    lowcomplexity_frac           pos 0.01326 | retained 0.02323 | discarded 0.01349 | random 0.01788   SMD ret-vs-disc +0.10, ret-vs-pos +0.10  p=2.0e-05 p_bonf=3.2e-03
+    genomic_mapped               pos 0.3303 | retained 0.3621 | discarded 0.1737 | random 0.2482   SMD ret-vs-disc +0.44, ret-vs-pos +0.07  p=1.1e-70 p_bonf=1.8e-68
+    tss500_overlap               pos 0.1588 | retained 0.01921 | discarded 0.003297 | random 0.01255   SMD ret-vs-disc +0.15, ret-vs-pos -0.51  p=1.2e-03 p_bonf=1.9e-01
+    log10_dist_tss               pos 3.615 | retained 4.348 | discarded 4.459 | random 4.4   SMD ret-vs-disc -0.19, ret-vs-pos +1.00  p=3.2e-04 p_bonf=5.1e-02
+    repeatmasker_frac            pos 0.2952 | retained 0.5929 | discarded 0.5243 | random 0.5507   SMD ret-vs-disc +0.16, ret-vs-pos +0.73  p=1.8e-03 p_bonf=2.9e-01
+    rmsk_simple_lowcomp_frac     pos 0.01314 | retained 0.00952 | discarded 0.01454 | random 0.01117   SMD ret-vs-disc -0.07, ret-vs-pos -0.06  p=4.5e-02 p_bonf=1.0e+00
+    ccre_any                     pos 0.7797 | retained 0.2305 | discarded 0.1473 | random 0.1848   SMD ret-vs-disc +0.21, ret-vs-pos -1.31  p=7.4e-06 p_bonf=1.2e-03
+    ccre_els                     pos 0.7017 | retained 0.1062 | discarded 0.06154 | random 0.08534   SMD ret-vs-disc +0.16, ret-vs-pos -1.53  p=6.3e-04 p_bonf=1.0e-01
+    ccre_pls                     pos 0.04295 | retained 0.00113 | discarded 0 | random 0.001156   SMD ret-vs-disc +0.05, ret-vs-pos -0.29  p=4.9e-01 p_bonf=1.0e+00
+  drosophila_enhancers_stark / F1_hist_a1_seed42 (retained 1482, discarded 1975)
+    length_acgt                  pos 2118 | retained 2120 | discarded 2117 | random 2117   SMD ret-vs-disc +0.01, ret-vs-pos +0.01  p=2.2e-01 p_bonf=1.0e+00
+    n_frac                       pos 0 | retained 0 | discarded 0 | random 0   SMD ret-vs-disc +nan, ret-vs-pos +nan  p=1.0e+00 p_bonf=1.0e+00
+    trimer_l1_to_pos_centroid    pos 0.2067 | retained 0.2323 | discarded 0.2675 | random 0.2521   SMD ret-vs-disc -0.34, ret-vs-pos +0.37  p=4.7e-31 p_bonf=7.4e-29
+    trimer_markov1_residual      pos 0.1454 | retained 0.1441 | discarded 0.144 | random 0.1443   SMD ret-vs-disc +0.00, ret-vs-pos -0.05  p=2.9e-04 p_bonf=4.5e-02
+    tata_any                     pos 0.9728 | retained 0.9534 | discarded 0.9271 | random 0.937   SMD ret-vs-disc +0.11, ret-vs-pos -0.10  p=1.6e-03 p_bonf=2.5e-01
+    tata_count                   pos 7.458 | retained 7.316 | discarded 7.104 | random 7.167   SMD ret-vs-disc +0.02, ret-vs-pos -0.02  p=3.0e-02 p_bonf=1.0e+00
+    sp1_gcbox_any                pos 0.2465 | retained 0.2051 | discarded 0.1494 | random 0.1753   SMD ret-vs-disc +0.15, ret-vs-pos -0.10  p=2.3e-05 p_bonf=3.7e-03
+    sp1_gcbox_count              pos 0.3136 | retained 0.2571 | discarded 0.1884 | random 0.2182   SMD ret-vs-disc +0.13, ret-vs-pos -0.09  p=2.3e-05 p_bonf=3.6e-03
+    lowcomplexity_frac           pos 0.07457 | retained 0.07122 | discarded 0.05451 | random 0.06172   SMD ret-vs-disc +0.23, ret-vs-pos -0.05  p=6.1e-18 p_bonf=9.7e-16
+  drosophila_enhancers_stark / F3_1to1_c0.2 (retained 2505, discarded 952)
+    length_acgt                  pos 2118 | retained 2127 | discarded 2096 | random 2117   SMD ret-vs-disc +0.10, ret-vs-pos +0.03  p=5.2e-01 p_bonf=1.0e+00
+    n_frac                       pos 0 | retained 0 | discarded 0 | random 0   SMD ret-vs-disc +nan, ret-vs-pos +nan  p=1.0e+00 p_bonf=1.0e+00
+    trimer_l1_to_pos_centroid    pos 0.2067 | retained 0.2344 | discarded 0.3 | random 0.2521   SMD ret-vs-disc -0.56, ret-vs-pos +0.40  p=1.2e-77 p_bonf=1.9e-75
+    trimer_markov1_residual      pos 0.1454 | retained 0.1435 | discarded 0.1454 | random 0.1441   SMD ret-vs-disc -0.04, ret-vs-pos -0.07  p=1.1e-06 p_bonf=1.7e-04
+    tata_any                     pos 0.9728 | retained 0.9593 | discarded 0.8834 | random 0.9389   SMD ret-vs-disc +0.28, ret-vs-pos -0.07  p=5.6e-15 p_bonf=8.8e-13
+    tata_count                   pos 7.458 | retained 7.331 | discarded 6.836 | random 7.178   SMD ret-vs-disc +0.05, ret-vs-pos -0.02  p=3.4e-09 p_bonf=5.4e-07
+    sp1_gcbox_any                pos 0.2465 | retained 0.1964 | discarded 0.1124 | random 0.1742   SMD ret-vs-disc +0.23, ret-vs-pos -0.12  p=1.9e-09 p_bonf=2.9e-07
+    sp1_gcbox_count              pos 0.3136 | retained 0.2475 | discarded 0.1397 | random 0.2189   SMD ret-vs-disc +0.21, ret-vs-pos -0.11  p=5.4e-09 p_bonf=8.6e-07
+    lowcomplexity_frac           pos 0.07457 | retained 0.06917 | discarded 0.04194 | random 0.06146   SMD ret-vs-disc +0.39, ret-vs-pos -0.07  p=2.7e-36 p_bonf=4.3e-34
+
+CAVEATS: (1) matched and random arms change the test set, so within-arm comparisons are unpaired; the
+fixed-model and weighting designs are the paired/removal-free complements. (2) nt_enhancers' test split has
+200 negatives, so its alpha=1 test keeps only 36 negatives (wide CIs), and at alpha=1 its matched set is NOT
+balanced (max|SMD| 0.299; composition-only AUROC on it 0.640 uncorrected / 0.564 leak-free test; the published nt split max|SMD| 0.286).
+(3) nt_enhancers LEAKAGE: 100 of its 200 test positives occur verbatim (same label) in the training split and
+are always kept by negative-side selection, so every uncorrected nt number is inflated; the leak-free rows
+(nt_enhancers_leakfreeTest = same models, those 100 test positives removed; nt_enhancers_leakfreeRefit = refit
+without the 107 training copies) are the ones to report. (4) Weighting balances the 20 features only in
+expectation (overlap weights: exact mean balance for the linear propensity terms); nonlinear composition
+structure survives (composition-only LightGBM AUROC under weighting), so weighting does not 'equalize' composition.
+(5) The within-arm verdict uses selection seed 42 only (pre-registered); the seed range and the published split
+are printed next to it. (6) MCC at the 0.5 threshold is prevalence- and calibration-dependent: on a
+~94%-positive test set a model trained on ~96% positives predicts almost everything positive, so its collapse
+is reproduced by size-matched RANDOM negatives and is not evidence of shortcut removal; even class-balanced MCC
+at the prior-corrected threshold falls mostly through the size/imbalance part. Use AUROC against the random
+control, and MCC only from the balanced 1:1 design. (7) Composition matching removes composition-associated
+signal indiscriminately, artifactual or biological, and not completely (the composition-only AUROC on the
+published cohn split is 0.581 [0.544,0.624], from 0.779); calling the removed signal a 'shortcut' rests on
+the paper's independent evidence (dinucleotide-shuffled negatives, control-motif panel, genomic localization).
+The clean control also loses AUROC under matching; in the paired designs (original model or original test
+held fixed) that loss follows the control's own composition-only loss (rule and numbers in (B) above), so
+matching removes composition-associated signal from the clean control too, and a matched-vs-random loss is
+not by itself evidence of an artifact. It loses a smaller share under overlap weighting, but run_posthoc.py P6 shows that this
+contrast is largely accounted for by how much composition-only signal the same weights remove (fully on the
+additive scale; see the READING lines for the ratio scale), and even a greater per-unit reliance would not
+separate artifact from biology, so it is NOT evidence of specificity to an artifact. (8) Selected negatives are
+not a random sample (part (6)). Common-support trimming (F2) keeps every positive but only negatives inside the
+positives' central propensity band, so it both removes composition signal (in the band) and creates it (for the
+positives outside the band; P8). In the clean control at the strictest levels the RETRAINED k-mer AUROC falls while
+the retrained composition-only AUROC does not, but with the original model or the original test held fixed both
+fall together (f2_selection_difficulty, per design). So F2 does not isolate difficulty unrelated to composition;
+it shows that a propensity-based selection can change a task in ways mean balance does not reveal, which is why
+cleaned splits must be benchmarked against size-matched random negatives, in a paired design.
+(9) The label-noise figure is a mixture-model estimate, not a worst case.
+For nt_enhancers it is 2.97x (nt_enhancers, verdict NOT SUPPORTED), 0.44x (nt_enhancers_leakfreeTest, verdict NOT SUPPORTED), 0.28x (nt_enhancers_leakfreeRefit, verdict NOT SUPPORTED) the matched-vs-random effect; the nt ELS enrichment behind it has Bonferroni p 1 and the nt composition-matching effect is not supported in any variant, so for nt the check says little either way (label noise is neither shown nor excluded).
+(10) Overlap weights come from a LINEAR logistic propensity model. Where the composition-only LightGBM
+scored under the same weights falls below 0.5, the weights invert the nonlinear composition signal, so that
+weighted k-mer AUROC overstates the effect of removing composition and only its direction is interpretable.
+Composition-only AUROC under the weights, retrained / original model (flag: < 0.5):
+  human_enhancers_cohn         0.605 / 0.554
+  nt_enhancers                 0.606 / 0.436 (<0.5)
+  nt_enhancers_leakfreeTest    0.472 (<0.5) / 0.285 (<0.5)
+  nt_enhancers_leakfreeRefit   0.523 / 0.395 (<0.5)
+  drosophila_enhancers_stark   0.616 / 0.600
+(11) MCC@0.5 on the class-balanced-training rows (bw_*, post hoc P3) is not informative either: class-balanced
+LightGBM still calls almost every test sequence of a ~94%-positive matched test positive, so its MCC@0.5 moves
+with a handful of predictions (cohn published split: 0.064 with class-balanced weights vs 0.064 without, while AUROC differs, 0.587 vs 0.613). Use AUROC there too.
+
+====================================================================================================
+COMPACT TABLE (psm_sensitivity_paper_table.csv). k-mer LightGBM. matched rows: value [95% CI];
+random/placebo rows: mean over 10 seeds (min-max). bal-MCC = class-balance-weighted MCC at the prior-
+corrected threshold; MCC@0.5 = the paper's metric; AP-neg lift = negative-class PR-AUC / negative prevalence.
+For weighting rows 'retained' is the negatives' effective sample size.
+====================================================================================================
+  human_enhancers_cohn
+    original (all negatives)                             ret 100.0% test 3474/3474  AUROC 0.805 [0.795,0.814]  bal-MCC 0.462 [0.442,0.482]  MCC@0.5 0.461 [0.442,0.482]  bal20-MCC 0.462  AP-neg lift 1.61  comp-AUROC 0.779
+    composition-matched (paper retention; F1 a=1)        ret   4.5% test 3474/228  AUROC 0.621 [0.582,0.658]  bal-MCC 0.034 [-0.029,0.080]  MCC@0.5 0.000 [0.000,0.000]  bal20-MCC 0.042  AP-neg lift 1.63  comp-AUROC 0.549
+    size-matched random negatives (10 seeds)             ret   4.5% test 3474/228  AUROC 0.765 (0.738-0.793)  bal-MCC 0.117 (0.075-0.160)  MCC@0.5 0.022 (0.000-0.091)  bal20-MCC 0.118  AP-neg lift 3.69  comp-AUROC 0.732
+    overlap weighting, nothing discarded                 ret  79.0% test 3474/3474  AUROC 0.671 [0.656,0.685]  bal-MCC 0.253 [0.228,0.279]  MCC@0.5 0.251 [0.226,0.278]  bal20-MCC nan  AP-neg lift 1.36  comp-AUROC 0.605
+    permuted-weight placebo (10 seeds)                   ret  79.0% test 3474/3474  AUROC 0.805 (0.800-0.810)  bal-MCC 0.453 (0.442-0.463)  MCC@0.5 0.453 (0.442-0.463)  bal20-MCC nan  AP-neg lift 1.61  comp-AUROC 0.778
+    two-sided 1:1 caliper 0.2 SD                         ret  61.2% test 2158/2158  AUROC 0.688 [0.673,0.704]  bal-MCC 0.277 [0.250,0.306]  MCC@0.5 0.277 [0.250,0.305]  bal20-MCC 0.277  AP-neg lift 1.39  comp-AUROC 0.604
+    random 1:1 subsets, same n (10 seeds)                ret  61.2% test 2158/2158  AUROC 0.802 (0.798-0.807)  bal-MCC 0.448 (0.436-0.467)  MCC@0.5 0.448 (0.436-0.467)  bal20-MCC 0.448  AP-neg lift 1.61  comp-AUROC 0.774
+    positive-side matching (all negatives kept)          ret 100.0% test 225/3474  AUROC 0.622 [0.585,0.659]  bal-MCC 0.046 [-0.027,0.099]  MCC@0.5 0.000 [0.000,0.000]  bal20-MCC 0.054  AP-neg lift 1.02  comp-AUROC 0.582
+    random positive subsets, same n (10 seeds)           ret 100.0% test 225/3474  AUROC 0.780 (0.749-0.798)  bal-MCC 0.307 (0.252-0.348)  MCC@0.5 0.187 (0.162-0.229)  bal20-MCC 0.300  AP-neg lift 1.04  comp-AUROC 0.752
+    fixed original model -> overlap-weighted ORIGINAL test ret  79.0% test 3474/3474  AUROC 0.609 [0.593,0.624]  bal-MCC 0.163 [0.136,0.190]  MCC@0.5 0.163 [0.136,0.190]  bal20-MCC nan  AP-neg lift 1.24  comp-AUROC 0.554
+    fixed original model -> placebo-weighted ORIGINAL test ret  79.0% test 3474/3474  AUROC 0.806 (0.802-0.810)  bal-MCC 0.463 (0.457-0.471)  MCC@0.5 0.463 (0.457-0.471)  bal20-MCC nan  AP-neg lift 1.61  comp-AUROC 0.779
+    fixed original model -> matched test                 ret   4.5% test 3474/228  AUROC 0.595 [0.556,0.631]  bal-MCC 0.136 [0.069,0.199]  MCC@0.5 0.069 [0.034,0.104]  bal20-MCC 0.146  AP-neg lift 1.48  comp-AUROC 0.547
+    fixed original model -> random test, same n/ratio    ret   4.5% test 3474/228  AUROC 0.803 (0.791-0.822)  bal-MCC 0.460 (0.436-0.472)  MCC@0.5 0.240 (0.227-0.245)  bal20-MCC 0.469  AP-neg lift 4.71  comp-AUROC 0.776
+    matched-trained model -> ORIGINAL test               ret   4.5% test 3474/3474  AUROC 0.584 [0.571,0.597]  bal-MCC 0.030 [0.008,0.048]  MCC@0.5 0.017 [0.000,0.027]  bal20-MCC 0.030  AP-neg lift 1.18  comp-AUROC 0.517
+    random-reduced-trained model -> ORIGINAL test        ret   4.5% test 3474/3474  AUROC 0.765 (0.758-0.773)  bal-MCC 0.133 (0.113-0.148)  MCC@0.5 0.030 (0.012-0.043)  bal20-MCC 0.133  AP-neg lift 1.53  comp-AUROC 0.733
+    [post hoc] composition-matched, class-balanced training weights ret   4.5% test 3474/228  AUROC 0.603 [0.564,0.643]  bal-MCC 0.042 [-0.021,0.084]  MCC@0.5 0.042 [-0.007,0.109]  bal20-MCC 0.047  AP-neg lift 1.72  comp-AUROC 0.556
+    [post hoc] size-matched random, class-balanced training weights (10 seeds) ret   4.5% test 3474/228  AUROC 0.761 (0.736-0.794)  bal-MCC 0.066 (-0.012-0.121)  MCC@0.5 0.083 (-0.004-0.147)  bal20-MCC 0.068  AP-neg lift 3.54  comp-AUROC 0.720
+    [post hoc] published split, class-balanced training weights ret   4.5% test 3474/228  AUROC 0.587 [0.552,0.624]  bal-MCC 0.047 [0.000,0.085]  MCC@0.5 0.064 [0.000,0.116]  bal20-MCC 0.047  AP-neg lift 1.53  comp-AUROC 0.564
+    published comp-equalized split (paper)               ret   4.5% test 3474/228  AUROC 0.613 [0.577,0.654]  bal-MCC 0.066 [0.000,0.108]  MCC@0.5 0.064 [0.000,0.116]  bal20-MCC 0.066  AP-neg lift 1.76  comp-AUROC 0.581
+  nt_enhancers
+    original (all negatives)                             ret 100.0% test 200/200  AUROC 0.850 [0.812,0.889]  bal-MCC 0.514 [0.430,0.596]  MCC@0.5 0.514 [0.428,0.593]  bal20-MCC 0.514  AP-neg lift 1.63  comp-AUROC 0.824
+    composition-matched (paper retention; F1 a=1)        ret   4.9% test 200/36  AUROC 0.799 [0.722,0.871]  bal-MCC 0.227 [0.073,0.346]  MCC@0.5 0.000 [0.000,0.000]  bal20-MCC 0.227  AP-neg lift 2.92  comp-AUROC 0.640
+    size-matched random negatives (10 seeds)             ret   4.9% test 200/36  AUROC 0.807 (0.763-0.832)  bal-MCC 0.259 (0.129-0.342)  MCC@0.5 0.208 (0.089-0.309)  bal20-MCC 0.265  AP-neg lift 3.27  comp-AUROC 0.788
+    overlap weighting, nothing discarded                 ret  46.5% test 200/200  AUROC 0.591 [0.513,0.683]  bal-MCC 0.118 [-0.013,0.274]  MCC@0.5 0.110 [-0.019,0.264]  bal20-MCC nan  AP-neg lift 1.06  comp-AUROC 0.606
+    permuted-weight placebo (10 seeds)                   ret  46.5% test 200/200  AUROC 0.846 (0.825-0.865)  bal-MCC 0.531 (0.475-0.581)  MCC@0.5 0.516 (0.464-0.555)  bal20-MCC nan  AP-neg lift 1.46  comp-AUROC 0.817
+    two-sided 1:1 caliper 0.2 SD                         ret  31.8% test 111/111  AUROC 0.679 [0.611,0.750]  bal-MCC 0.198 [0.073,0.325]  MCC@0.5 0.198 [0.073,0.324]  bal20-MCC 0.198  AP-neg lift 1.36  comp-AUROC 0.648
+    random 1:1 subsets, same n (10 seeds)                ret  31.8% test 111/111  AUROC 0.819 (0.804-0.847)  bal-MCC 0.465 (0.414-0.519)  MCC@0.5 0.465 (0.414-0.519)  bal20-MCC 0.465  AP-neg lift 1.61  comp-AUROC 0.806
+    positive-side matching (all negatives kept)          ret 100.0% test 25/200  AUROC 0.510 [0.369,0.650]  bal-MCC 0.204 [0.000,0.333]  MCC@0.5 0.189 [0.000,0.345]  bal20-MCC 0.204  AP-neg lift 1.00  comp-AUROC 0.515
+    random positive subsets, same n (10 seeds)           ret 100.0% test 25/200  AUROC 0.803 (0.761-0.885)  bal-MCC 0.211 (0.042-0.299)  MCC@0.5 0.176 (0.000-0.268)  bal20-MCC 0.223  AP-neg lift 1.09  comp-AUROC 0.797
+    fixed original model -> overlap-weighted ORIGINAL test ret  46.5% test 200/200  AUROC 0.499 [0.422,0.600]  bal-MCC -0.026 [-0.156,0.121]  MCC@0.5 -0.025 [-0.153,0.120]  bal20-MCC nan  AP-neg lift 0.93  comp-AUROC 0.436
+    fixed original model -> placebo-weighted ORIGINAL test ret  46.5% test 200/200  AUROC 0.855 (0.827-0.880)  bal-MCC 0.532 (0.486-0.582)  MCC@0.5 0.519 (0.476-0.563)  bal20-MCC nan  AP-neg lift 1.47  comp-AUROC 0.828
+    fixed original model -> matched test                 ret   4.9% test 200/36  AUROC 0.690 [0.596,0.777]  bal-MCC 0.225 [0.043,0.402]  MCC@0.5 0.178 [0.033,0.326]  bal20-MCC 0.246  AP-neg lift 1.65  comp-AUROC 0.636
+    fixed original model -> random test, same n/ratio    ret   4.9% test 200/36  AUROC 0.852 (0.816-0.896)  bal-MCC 0.501 (0.409-0.621)  MCC@0.5 0.405 (0.333-0.497)  bal20-MCC 0.518  AP-neg lift 3.16  comp-AUROC 0.829
+    matched-trained model -> ORIGINAL test               ret   4.9% test 200/200  AUROC 0.698 [0.645,0.750]  bal-MCC 0.107 [0.021,0.169]  MCC@0.5 0.000 [0.000,0.000]  bal20-MCC 0.107  AP-neg lift 1.35  comp-AUROC 0.499
+    random-reduced-trained model -> ORIGINAL test        ret   4.9% test 200/200  AUROC 0.799 (0.776-0.816)  bal-MCC 0.241 (0.197-0.273)  MCC@0.5 0.155 (0.095-0.190)  bal20-MCC 0.241  AP-neg lift 1.60  comp-AUROC 0.779
+    [post hoc] composition-matched, class-balanced training weights ret   4.9% test 200/36  AUROC 0.773 [0.685,0.856]  bal-MCC 0.148 [-0.069,0.270]  MCC@0.5 0.162 [-0.033,0.332]  bal20-MCC 0.149  AP-neg lift 2.72  comp-AUROC 0.625
+    [post hoc] size-matched random, class-balanced training weights (10 seeds) ret   4.9% test 200/36  AUROC 0.800 (0.770-0.846)  bal-MCC 0.224 (0.065-0.378)  MCC@0.5 0.268 (0.057-0.469)  bal20-MCC 0.227  AP-neg lift 3.27  comp-AUROC 0.781
+    [post hoc] published split, class-balanced training weights ret   4.9% test 200/36  AUROC 0.732 [0.638,0.814]  bal-MCC 0.090 [-0.085,0.212]  MCC@0.5 0.089 [-0.044,0.267]  bal20-MCC 0.095  AP-neg lift 2.35  comp-AUROC 0.631
+    published comp-equalized split (paper)               ret   4.9% test 200/36  AUROC 0.748 [0.660,0.826]  bal-MCC 0.129 [-0.112,0.267]  MCC@0.5 0.000 [0.000,0.000]  bal20-MCC 0.134  AP-neg lift 2.25  comp-AUROC 0.637
+  nt_enhancers_leakfreeTest
+    original (all negatives)                             ret 100.0% test 100/200  AUROC 0.735 [0.670,0.790]  bal-MCC 0.326 [0.205,0.430]  MCC@0.5 0.311 [0.196,0.417]  bal20-MCC 0.316  AP-neg lift 1.23  comp-AUROC 0.716
+    composition-matched (paper retention; F1 a=1)        ret   4.9% test 100/36  AUROC 0.684 [0.587,0.782]  bal-MCC 0.212 [0.003,0.348]  MCC@0.5 0.000 [0.000,0.000]  bal20-MCC 0.207  AP-neg lift 1.76  comp-AUROC 0.564
+    size-matched random negatives (10 seeds)             ret   4.9% test 100/36  AUROC 0.723 (0.689-0.751)  bal-MCC 0.226 (0.067-0.331)  MCC@0.5 0.191 (0.065-0.290)  bal20-MCC 0.239  AP-neg lift 1.98  comp-AUROC 0.698
+    overlap weighting, nothing discarded                 ret  46.5% test 100/200  AUROC 0.406 [0.319,0.496]  bal-MCC -0.103 [-0.258,0.067]  MCC@0.5 -0.101 [-0.236,0.057]  bal20-MCC nan  AP-neg lift 0.92  comp-AUROC 0.472
+    permuted-weight placebo (10 seeds)                   ret  46.5% test 100/200  AUROC 0.736 (0.702-0.767)  bal-MCC 0.363 (0.296-0.448)  MCC@0.5 0.318 (0.267-0.394)  bal20-MCC nan  AP-neg lift 1.16  comp-AUROC 0.712
+    two-sided 1:1 caliper 0.2 SD                         ret  31.8% test 62/111  AUROC 0.594 [0.506,0.679]  bal-MCC 0.097 [-0.066,0.248]  MCC@0.5 0.094 [-0.059,0.238]  bal20-MCC 0.097  AP-neg lift 1.15  comp-AUROC 0.540
+    random 1:1 subsets, same n (10 seeds)                ret  31.8% test 62/111  AUROC 0.729 (0.702-0.761)  bal-MCC 0.323 (0.247-0.402)  MCC@0.5 0.305 (0.233-0.385)  bal20-MCC 0.319  AP-neg lift 1.24  comp-AUROC 0.712
+    positive-side matching (all negatives kept)          ret 100.0% test 17/200  AUROC 0.464 [0.290,0.642]  bal-MCC 0.174 [0.000,0.333]  MCC@0.5 0.000 [0.000,0.000]  bal20-MCC 0.174  AP-neg lift 0.99  comp-AUROC 0.465
+    random positive subsets, same n (10 seeds)           ret 100.0% test 17/200  AUROC 0.746 (0.631-0.862)  bal-MCC 0.198 (-0.071-0.420)  MCC@0.5 0.087 (-0.027-0.463)  bal20-MCC 0.204  AP-neg lift 1.03  comp-AUROC 0.726
+    fixed original model -> overlap-weighted ORIGINAL test ret  46.5% test 100/200  AUROC 0.311 [0.234,0.397]  bal-MCC -0.276 [-0.412,-0.145]  MCC@0.5 -0.253 [-0.380,-0.135]  bal20-MCC nan  AP-neg lift 0.82  comp-AUROC 0.285
+    fixed original model -> placebo-weighted ORIGINAL test ret  46.5% test 100/200  AUROC 0.738 (0.695-0.786)  bal-MCC 0.345 (0.273-0.442)  MCC@0.5 0.305 (0.234-0.381)  bal20-MCC nan  AP-neg lift 1.16  comp-AUROC 0.717
+    fixed original model -> matched test                 ret   4.9% test 100/36  AUROC 0.535 [0.434,0.644]  bal-MCC 0.019 [-0.169,0.221]  MCC@0.5 0.017 [-0.143,0.197]  bal20-MCC 0.049  AP-neg lift 1.05  comp-AUROC 0.486
+    fixed original model -> random test, same n/ratio    ret   4.9% test 100/36  AUROC 0.735 (0.694-0.792)  bal-MCC 0.313 (0.214-0.442)  MCC@0.5 0.275 (0.190-0.384)  bal20-MCC 0.340  AP-neg lift 1.84  comp-AUROC 0.721
+    matched-trained model -> ORIGINAL test               ret   4.9% test 100/200  AUROC 0.570 [0.502,0.634]  bal-MCC 0.084 [-0.030,0.170]  MCC@0.5 0.000 [0.000,0.000]  bal20-MCC 0.090  AP-neg lift 1.07  comp-AUROC 0.423
+    random-reduced-trained model -> ORIGINAL test        ret   4.9% test 100/200  AUROC 0.715 (0.696-0.734)  bal-MCC 0.207 (0.167-0.258)  MCC@0.5 0.124 (0.062-0.156)  bal20-MCC 0.189  AP-neg lift 1.24  comp-AUROC 0.689
+    [post hoc] composition-matched, class-balanced training weights ret   4.9% test 100/36  AUROC 0.665 [0.564,0.768]  bal-MCC 0.128 [-0.098,0.262]  MCC@0.5 0.137 [-0.066,0.303]  bal20-MCC 0.124  AP-neg lift 1.66  comp-AUROC 0.567
+    [post hoc] size-matched random, class-balanced training weights (10 seeds) ret   4.9% test 100/36  AUROC 0.719 (0.679-0.764)  bal-MCC 0.210 (0.025-0.378)  MCC@0.5 0.242 (0.023-0.444)  bal20-MCC 0.222  AP-neg lift 1.99  comp-AUROC 0.692
+    [post hoc] published split, class-balanced training weights ret   4.9% test 100/36  AUROC 0.636 [0.533,0.740]  bal-MCC 0.065 [-0.103,0.200]  MCC@0.5 0.065 [-0.078,0.237]  bal20-MCC 0.065  AP-neg lift 1.50  comp-AUROC 0.554
+    published comp-equalized split (paper)               ret   4.9% test 100/36  AUROC 0.628 [0.520,0.733]  bal-MCC 0.067 [-0.153,0.242]  MCC@0.5 0.000 [0.000,0.000]  bal20-MCC 0.073  AP-neg lift 1.40  comp-AUROC 0.566
+  nt_enhancers_leakfreeRefit
+    original (all negatives)                             ret 100.0% test 200/200  AUROC 0.804 [0.760,0.844]  bal-MCC 0.465 [0.385,0.549]  MCC@0.5 0.465 [0.385,0.549]  bal20-MCC 0.465  AP-neg lift 1.57  comp-AUROC 0.805
+    composition-matched (paper retention; F1 a=1)        ret   4.9% test 200/36  AUROC 0.706 [0.623,0.788]  bal-MCC 0.198 [0.011,0.328]  MCC@0.5 -0.028 [-0.052,0.000]  bal20-MCC 0.194  AP-neg lift 1.99  comp-AUROC 0.602
+    size-matched random negatives (10 seeds)             ret   4.9% test 200/36  AUROC 0.786 (0.743-0.818)  bal-MCC 0.297 (0.246-0.405)  MCC@0.5 0.225 (0.089-0.309)  bal20-MCC 0.302  AP-neg lift 3.20  comp-AUROC 0.775
+    overlap weighting, nothing discarded                 ret  46.5% test 200/200  AUROC 0.523 [0.446,0.608]  bal-MCC 0.043 [-0.094,0.187]  MCC@0.5 0.042 [-0.091,0.183]  bal20-MCC nan  AP-neg lift 1.04  comp-AUROC 0.523
+    permuted-weight placebo (10 seeds)                   ret  46.5% test 200/200  AUROC 0.803 (0.773-0.830)  bal-MCC 0.451 (0.397-0.505)  MCC@0.5 0.443 (0.390-0.494)  bal20-MCC nan  AP-neg lift 1.42  comp-AUROC 0.798
+    two-sided 1:1 caliper 0.2 SD                         ret  31.8% test 111/111  AUROC 0.601 [0.534,0.678]  bal-MCC 0.100 [-0.017,0.227]  MCC@0.5 0.101 [-0.019,0.232]  bal20-MCC 0.100  AP-neg lift 1.27  comp-AUROC 0.603
+    random 1:1 subsets, same n (10 seeds)                ret  31.8% test 111/111  AUROC 0.799 (0.780-0.830)  bal-MCC 0.434 (0.382-0.501)  MCC@0.5 0.435 (0.391-0.501)  bal20-MCC 0.434  AP-neg lift 1.59  comp-AUROC 0.791
+    positive-side matching (all negatives kept)          ret 100.0% test 25/200  AUROC 0.509 [0.356,0.657]  bal-MCC 0.000 [0.000,0.000]  MCC@0.5 0.000 [0.000,0.000]  bal20-MCC 0.000  AP-neg lift 0.99  comp-AUROC 0.481
+    random positive subsets, same n (10 seeds)           ret 100.0% test 25/200  AUROC 0.797 (0.749-0.882)  bal-MCC 0.179 (-0.101-0.358)  MCC@0.5 0.100 (-0.024-0.268)  bal20-MCC 0.191  AP-neg lift 1.08  comp-AUROC 0.794
+    fixed original model -> overlap-weighted ORIGINAL test ret  46.5% test 200/200  AUROC 0.390 [0.326,0.472]  bal-MCC -0.159 [-0.267,-0.030]  MCC@0.5 -0.157 [-0.262,-0.029]  bal20-MCC nan  AP-neg lift 0.86  comp-AUROC 0.395
+    fixed original model -> placebo-weighted ORIGINAL test ret  46.5% test 200/200  AUROC 0.807 (0.780-0.833)  bal-MCC 0.477 (0.414-0.542)  MCC@0.5 0.470 (0.410-0.534)  bal20-MCC nan  AP-neg lift 1.42  comp-AUROC 0.807
+    fixed original model -> matched test                 ret   4.9% test 200/36  AUROC 0.605 [0.511,0.701]  bal-MCC 0.109 [-0.075,0.288]  MCC@0.5 0.081 [-0.054,0.221]  bal20-MCC 0.128  AP-neg lift 1.43  comp-AUROC 0.587
+    fixed original model -> random test, same n/ratio    ret   4.9% test 200/36  AUROC 0.804 (0.764-0.852)  bal-MCC 0.455 (0.381-0.547)  MCC@0.5 0.347 (0.293-0.413)  bal20-MCC 0.470  AP-neg lift 2.93  comp-AUROC 0.807
+    matched-trained model -> ORIGINAL test               ret   4.9% test 200/200  AUROC 0.570 [0.512,0.627]  bal-MCC 0.076 [-0.016,0.160]  MCC@0.5 -0.050 [-0.090,0.000]  bal20-MCC 0.076  AP-neg lift 1.12  comp-AUROC 0.437
+    random-reduced-trained model -> ORIGINAL test        ret   4.9% test 200/200  AUROC 0.782 (0.758-0.798)  bal-MCC 0.254 (0.168-0.305)  MCC@0.5 0.163 (0.095-0.211)  bal20-MCC 0.254  AP-neg lift 1.57  comp-AUROC 0.764
+    published comp-equalized split (paper)               ret   4.9% test 200/36  AUROC 0.624 [0.520,0.723]  bal-MCC 0.112 [-0.076,0.273]  MCC@0.5 -0.028 [-0.052,0.000]  bal20-MCC 0.119  AP-neg lift 1.58  comp-AUROC 0.587
+  drosophila_enhancers_stark
+    original (all negatives)                             ret 100.0% test 865/865  AUROC 0.763 [0.743,0.786]  bal-MCC 0.398 [0.355,0.441]  MCC@0.5 0.398 [0.355,0.441]  bal20-MCC 0.398  AP-neg lift 1.61  comp-AUROC 0.683
+    composition-matched (paper retention; F1 a=1)        ret  42.9% test 865/217  AUROC 0.674 [0.632,0.719]  bal-MCC 0.283 [0.211,0.352]  MCC@0.5 0.252 [0.176,0.327]  bal20-MCC 0.283  AP-neg lift 2.14  comp-AUROC 0.621
+    size-matched random negatives (10 seeds)             ret  42.9% test 865/217  AUROC 0.754 (0.729-0.775)  bal-MCC 0.420 (0.371-0.453)  MCC@0.5 0.425 (0.398-0.477)  bal20-MCC 0.432  AP-neg lift 2.88  comp-AUROC 0.662
+    overlap weighting, nothing discarded                 ret  90.2% test 865/865  AUROC 0.695 [0.670,0.721]  bal-MCC 0.290 [0.243,0.337]  MCC@0.5 0.290 [0.243,0.338]  bal20-MCC nan  AP-neg lift 1.47  comp-AUROC 0.616
+    permuted-weight placebo (10 seeds)                   ret  90.2% test 865/865  AUROC 0.762 (0.757-0.767)  bal-MCC 0.393 (0.370-0.426)  MCC@0.5 0.393 (0.370-0.426)  bal20-MCC nan  AP-neg lift 1.61  comp-AUROC 0.683
+    two-sided 1:1 caliper 0.2 SD                         ret  72.5% test 607/607  AUROC 0.683 [0.651,0.713]  bal-MCC 0.248 [0.190,0.302]  MCC@0.5 0.248 [0.190,0.302]  bal20-MCC 0.248  AP-neg lift 1.42  comp-AUROC 0.560
+    random 1:1 subsets, same n (10 seeds)                ret  72.5% test 607/607  AUROC 0.755 (0.745-0.765)  bal-MCC 0.380 (0.354-0.401)  MCC@0.5 0.380 (0.354-0.401)  bal20-MCC 0.380  AP-neg lift 1.58  comp-AUROC 0.678
+    positive-side matching (all negatives kept)          ret 100.0% test 83/865  AUROC 0.662 [0.604,0.715]  bal-MCC 0.049 [-0.059,0.128]  MCC@0.5 0.000 [0.000,0.000]  bal20-MCC 0.058  AP-neg lift 1.05  comp-AUROC 0.596
+    random positive subsets, same n (10 seeds)           ret 100.0% test 83/865  AUROC 0.727 (0.675-0.780)  bal-MCC 0.072 (0.033-0.148)  MCC@0.5 0.028 (-0.010-0.105)  bal20-MCC 0.081  AP-neg lift 1.06  comp-AUROC 0.648
+    fixed original model -> overlap-weighted ORIGINAL test ret  90.2% test 865/865  AUROC 0.687 [0.662,0.714]  bal-MCC 0.272 [0.227,0.320]  MCC@0.5 0.272 [0.227,0.321]  bal20-MCC nan  AP-neg lift 1.46  comp-AUROC 0.600
+    fixed original model -> placebo-weighted ORIGINAL test ret  90.2% test 865/865  AUROC 0.763 (0.759-0.770)  bal-MCC 0.398 (0.390-0.407)  MCC@0.5 0.398 (0.390-0.407)  bal20-MCC nan  AP-neg lift 1.61  comp-AUROC 0.684
+    fixed original model -> matched test                 ret  42.9% test 865/217  AUROC 0.690 [0.648,0.731]  bal-MCC 0.283 [0.215,0.353]  MCC@0.5 0.241 [0.180,0.301]  bal20-MCC 0.295  AP-neg lift 2.31  comp-AUROC 0.607
+    fixed original model -> random test, same n/ratio    ret  42.9% test 865/217  AUROC 0.762 (0.746-0.773)  bal-MCC 0.403 (0.371-0.437)  MCC@0.5 0.343 (0.316-0.371)  bal20-MCC 0.415  AP-neg lift 2.93  comp-AUROC 0.683
+    matched-trained model -> ORIGINAL test               ret  42.9% test 865/865  AUROC 0.703 [0.680,0.727]  bal-MCC 0.318 [0.277,0.360]  MCC@0.5 0.302 [0.261,0.341]  bal20-MCC 0.318  AP-neg lift 1.46  comp-AUROC 0.570
+    random-reduced-trained model -> ORIGINAL test        ret  42.9% test 865/865  AUROC 0.754 (0.743-0.767)  bal-MCC 0.419 (0.401-0.426)  MCC@0.5 0.418 (0.408-0.428)  bal20-MCC 0.419  AP-neg lift 1.59  comp-AUROC 0.669
+    [post hoc] composition-matched, class-balanced training weights ret  42.9% test 865/217  AUROC 0.684 [0.641,0.725]  bal-MCC 0.290 [0.223,0.351]  MCC@0.5 0.275 [0.202,0.342]  bal20-MCC 0.290  AP-neg lift 2.24  comp-AUROC 0.615
+    [post hoc] size-matched random, class-balanced training weights (10 seeds) ret  42.9% test 865/217  AUROC 0.752 (0.733-0.770)  bal-MCC 0.423 (0.399-0.470)  MCC@0.5 0.417 (0.389-0.472)  bal20-MCC 0.431  AP-neg lift 2.87  comp-AUROC 0.664
+    [post hoc] published split, class-balanced training weights ret  42.9% test 865/217  AUROC 0.644 [0.602,0.687]  bal-MCC 0.206 [0.137,0.277]  MCC@0.5 0.187 [0.118,0.260]  bal20-MCC 0.212  AP-neg lift 1.85  comp-AUROC 0.550
+    published comp-equalized split (paper)               ret  42.9% test 865/217  AUROC 0.661 [0.623,0.702]  bal-MCC 0.218 [0.146,0.289]  MCC@0.5 0.177 [0.100,0.249]  bal20-MCC 0.222  AP-neg lift 1.94  comp-AUROC 0.548
+
+F1 sweep, imbalance-robust metrics (within design; matched | random mean). bal20 = MCC over 20 explicit
+class-balanced test draws (majority subsampled) at the prior-corrected threshold; AP-neg with its prevalence:
+  human_enhancers_cohn
+    ret  92.9% test neg 3255 (prev 0.484)  bacc_pc 0.724|0.727  bal20 0.448|0.455  MCC@0.5 0.448|0.455  AP-neg 0.798|0.799  comp-only AUROC 0.775 [0.764,0.785]|0.779  comp MCC@0.5 0.396|0.406
+    ret  83.3% test neg 2957 (prev 0.460)  bacc_pc 0.719|0.726  bal20 0.438|0.451  MCC@0.5 0.443|0.453  AP-neg 0.778|0.785  comp-only AUROC 0.769 [0.757,0.780]|0.778  comp MCC@0.5 0.384|0.408
+    ret  69.7% test neg 2526 (prev 0.421)  bacc_pc 0.710|0.724  bal20 0.420|0.448  MCC@0.5 0.419|0.451  AP-neg 0.739|0.757  comp-only AUROC 0.761 [0.749,0.774]|0.778  comp MCC@0.5 0.378|0.404
+    ret  49.1% test neg 1852 (prev 0.348)  bacc_pc 0.700|0.721  bal20 0.402|0.444  MCC@0.5 0.367|0.429  AP-neg 0.659|0.701  comp-only AUROC 0.738 [0.724,0.751]|0.775  comp MCC@0.5 0.320|0.389
+    ret  35.0% test neg 1376 (prev 0.284)  bacc_pc 0.679|0.716  bal20 0.366|0.439  MCC@0.5 0.285|0.389  AP-neg 0.564|0.640  comp-only AUROC 0.713 [0.697,0.729]|0.773  comp MCC@0.5 0.278|0.368
+    ret  25.2% test neg 1031 (prev 0.229)  bacc_pc 0.655|0.706  bal20 0.332|0.429  MCC@0.5 0.198|0.345  AP-neg 0.464|0.581  comp-only AUROC 0.684 [0.665,0.702]|0.770  comp MCC@0.5 0.210|0.347
+    ret  18.4% test neg  781 (prev 0.184)  bacc_pc 0.616|0.687  bal20 0.281|0.412  MCC@0.5 0.158|0.300  AP-neg 0.394|0.521  comp-only AUROC 0.650 [0.629,0.671]|0.768  comp MCC@0.5 0.142|0.329
+    ret  13.6% test neg  597 (prev 0.147)  bacc_pc 0.562|0.654  bal20 0.195|0.371  MCC@0.5 0.072|0.229  AP-neg 0.289|0.454  comp-only AUROC 0.626 [0.602,0.652]|0.762  comp MCC@0.5 0.137|0.299
+    ret  10.2% test neg  465 (prev 0.118)  bacc_pc 0.531|0.618  bal20 0.151|0.325  MCC@0.5 0.000|0.172  AP-neg 0.237|0.402  comp-only AUROC 0.591 [0.563,0.617]|0.759  comp MCC@0.5 0.088|0.250
+    ret   7.7% test neg  364 (prev 0.095)  bacc_pc 0.519|0.577  bal20 0.118|0.263  MCC@0.5 0.050|0.118  AP-neg 0.192|0.341  comp-only AUROC 0.578 [0.545,0.609]|0.751  comp MCC@0.5 0.090|0.209
+    ret   5.8% test neg  285 (prev 0.076)  bacc_pc 0.504|0.542  bal20 0.060|0.196  MCC@0.5 0.000|0.046  AP-neg 0.130|0.282  comp-only AUROC 0.537 [0.503,0.576]|0.742  comp MCC@0.5 0.063|0.179
+    ret   4.5% test neg  228 (prev 0.062)  bacc_pc 0.502|0.516  bal20 0.042|0.118  MCC@0.5 0.000|0.022  AP-neg 0.101|0.228  comp-only AUROC 0.549 [0.508,0.585]|0.732  comp MCC@0.5 -0.006|0.144
+  nt_enhancers
+    ret  90.8% test neg  192 (prev 0.490)  bacc_pc 0.754|0.761  bal20 0.512|0.526  MCC@0.5 0.502|0.521  AP-neg 0.799|0.807  comp-only AUROC 0.821 [0.780,0.860]|0.827  comp MCC@0.5 0.522|0.533
+    ret  78.7% test neg  178 (prev 0.471)  bacc_pc 0.764|0.757  bal20 0.529|0.517  MCC@0.5 0.523|0.513  AP-neg 0.787|0.796  comp-only AUROC 0.821 [0.779,0.864]|0.828  comp MCC@0.5 0.533|0.521
+    ret  62.4% test neg  157 (prev 0.440)  bacc_pc 0.758|0.750  bal20 0.525|0.508  MCC@0.5 0.469|0.479  AP-neg 0.736|0.776  comp-only AUROC 0.809 [0.764,0.852]|0.823  comp MCC@0.5 0.508|0.490
+    ret  40.4% test neg  130 (prev 0.394)  bacc_pc 0.708|0.724  bal20 0.431|0.472  MCC@0.5 0.397|0.428  AP-neg 0.684|0.746  comp-only AUROC 0.789 [0.735,0.837]|0.822  comp MCC@0.5 0.399|0.466
+    ret  27.1% test neg  104 (prev 0.342)  bacc_pc 0.696|0.699  bal20 0.413|0.428  MCC@0.5 0.315|0.370  AP-neg 0.640|0.705  comp-only AUROC 0.766 [0.702,0.819]|0.815  comp MCC@0.5 0.308|0.407
+    ret  19.0% test neg   86 (prev 0.301)  bacc_pc 0.682|0.687  bal20 0.398|0.412  MCC@0.5 0.223|0.318  AP-neg 0.614|0.666  comp-only AUROC 0.746 [0.684,0.807]|0.807  comp MCC@0.5 0.197|0.374
+    ret  13.8% test neg   70 (prev 0.259)  bacc_pc 0.598|0.650  bal20 0.261|0.373  MCC@0.5 0.223|0.289  AP-neg 0.520|0.626  comp-only AUROC 0.724 [0.651,0.796]|0.804  comp MCC@0.5 0.092|0.312
+    ret  10.6% test neg   62 (prev 0.237)  bacc_pc 0.569|0.630  bal20 0.203|0.336  MCC@0.5 0.111|0.267  AP-neg 0.478|0.596  comp-only AUROC 0.709 [0.628,0.785]|0.802  comp MCC@0.5 0.288|0.265
+    ret   8.4% test neg   54 (prev 0.213)  bacc_pc 0.552|0.616  bal20 0.191|0.320  MCC@0.5 0.063|0.286  AP-neg 0.459|0.579  comp-only AUROC 0.667 [0.583,0.747]|0.800  comp MCC@0.5 0.182|0.253
+    ret   6.8% test neg   44 (prev 0.180)  bacc_pc 0.543|0.603  bal20 0.204|0.314  MCC@0.5 0.000|0.263  AP-neg 0.463|0.537  comp-only AUROC 0.622 [0.515,0.719]|0.807  comp MCC@0.5 0.175|0.224
+    ret   5.7% test neg   41 (prev 0.170)  bacc_pc 0.544|0.580  bal20 0.205|0.268  MCC@0.5 0.000|0.237  AP-neg 0.415|0.525  comp-only AUROC 0.639 [0.524,0.746]|0.793  comp MCC@0.5 0.211|0.196
+    ret   4.9% test neg   36 (prev 0.153)  bacc_pc 0.553|0.575  bal20 0.227|0.265  MCC@0.5 0.000|0.208  AP-neg 0.445|0.498  comp-only AUROC 0.640 [0.538,0.746]|0.788  comp MCC@0.5 0.204|0.187
+  drosophila_enhancers_stark
+    ret  97.2% test neg  823 (prev 0.488)  bacc_pc 0.684|0.694  bal20 0.369|0.390  MCC@0.5 0.372|0.395  AP-neg 0.785|0.796  comp-only AUROC 0.665 [0.640,0.690]|0.674  comp MCC@0.5 0.232|0.248
+    ret  93.9% test neg  782 (prev 0.475)  bacc_pc 0.685|0.695  bal20 0.372|0.393  MCC@0.5 0.377|0.397  AP-neg 0.781|0.787  comp-only AUROC 0.654 [0.628,0.677]|0.675  comp MCC@0.5 0.214|0.252
+    ret  88.9% test neg  720 (prev 0.454)  bacc_pc 0.678|0.698  bal20 0.363|0.399  MCC@0.5 0.381|0.411  AP-neg 0.758|0.777  comp-only AUROC 0.654 [0.627,0.681]|0.676  comp MCC@0.5 0.214|0.256
+    ret  80.0% test neg  615 (prev 0.416)  bacc_pc 0.681|0.696  bal20 0.374|0.401  MCC@0.5 0.375|0.417  AP-neg 0.722|0.753  comp-only AUROC 0.647 [0.618,0.675]|0.676  comp MCC@0.5 0.201|0.262
+    ret  72.5% test neg  527 (prev 0.379)  bacc_pc 0.669|0.700  bal20 0.349|0.411  MCC@0.5 0.344|0.429  AP-neg 0.688|0.732  comp-only AUROC 0.633 [0.603,0.663]|0.675  comp MCC@0.5 0.190|0.266
+    ret  66.3% test neg  459 (prev 0.347)  bacc_pc 0.653|0.700  bal20 0.321|0.420  MCC@0.5 0.337|0.432  AP-neg 0.642|0.706  comp-only AUROC 0.618 [0.585,0.648]|0.677  comp MCC@0.5 0.166|0.274
+    ret  60.9% test neg  401 (prev 0.317)  bacc_pc 0.645|0.701  bal20 0.306|0.420  MCC@0.5 0.337|0.431  AP-neg 0.605|0.683  comp-only AUROC 0.604 [0.570,0.640]|0.677  comp MCC@0.5 0.165|0.274
+    ret  56.2% test neg  349 (prev 0.287)  bacc_pc 0.635|0.701  bal20 0.293|0.425  MCC@0.5 0.304|0.446  AP-neg 0.555|0.667  comp-only AUROC 0.588 [0.547,0.624]|0.676  comp MCC@0.5 0.122|0.271
+    ret  52.1% test neg  306 (prev 0.261)  bacc_pc 0.626|0.699  bal20 0.274|0.423  MCC@0.5 0.323|0.440  AP-neg 0.527|0.644  comp-only AUROC 0.595 [0.559,0.633]|0.669  comp MCC@0.5 0.139|0.271
+    ret  48.6% test neg  271 (prev 0.239)  bacc_pc 0.634|0.704  bal20 0.294|0.440  MCC@0.5 0.265|0.436  AP-neg 0.493|0.624  comp-only AUROC 0.599 [0.557,0.640]|0.671  comp MCC@0.5 0.140|0.276
+    ret  45.7% test neg  245 (prev 0.221)  bacc_pc 0.635|0.701  bal20 0.305|0.437  MCC@0.5 0.288|0.440  AP-neg 0.484|0.604  comp-only AUROC 0.611 [0.570,0.655]|0.669  comp MCC@0.5 0.153|0.259
+    ret  42.9% test neg  217 (prev 0.201)  bacc_pc 0.622|0.692  bal20 0.283|0.432  MCC@0.5 0.252|0.425  AP-neg 0.428|0.578  comp-only AUROC 0.621 [0.577,0.668]|0.662  comp MCC@0.5 0.144|0.257
+  nt_enhancers_leakfreeRefit
+    ret  90.8% test neg  192 (prev 0.490)  bacc_pc 0.719|0.726  bal20 0.439|0.452  MCC@0.5 0.444|0.450  AP-neg 0.773|0.784  comp-only AUROC 0.801 [0.759,0.842]|0.805  comp MCC@0.5 0.449|0.489
+    ret  78.7% test neg  178 (prev 0.471)  bacc_pc 0.735|0.730  bal20 0.467|0.459  MCC@0.5 0.452|0.454  AP-neg 0.753|0.770  comp-only AUROC 0.788 [0.745,0.834]|0.804  comp MCC@0.5 0.506|0.479
+    ret  62.4% test neg  157 (prev 0.440)  bacc_pc 0.710|0.719  bal20 0.423|0.442  MCC@0.5 0.444|0.452  AP-neg 0.703|0.750  comp-only AUROC 0.768 [0.720,0.812]|0.800  comp MCC@0.5 0.404|0.473
+    ret  40.4% test neg  130 (prev 0.394)  bacc_pc 0.704|0.719  bal20 0.420|0.456  MCC@0.5 0.358|0.430  AP-neg 0.636|0.721  comp-only AUROC 0.739 [0.683,0.796]|0.803  comp MCC@0.5 0.381|0.456
+    ret  27.1% test neg  104 (prev 0.342)  bacc_pc 0.683|0.693  bal20 0.375|0.410  MCC@0.5 0.286|0.380  AP-neg 0.575|0.668  comp-only AUROC 0.721 [0.657,0.778]|0.795  comp MCC@0.5 0.281|0.398
+    ret  19.0% test neg   86 (prev 0.301)  bacc_pc 0.646|0.677  bal20 0.319|0.392  MCC@0.5 0.202|0.327  AP-neg 0.520|0.636  comp-only AUROC 0.690 [0.628,0.754]|0.789  comp MCC@0.5 0.162|0.357
+    ret  13.8% test neg   70 (prev 0.259)  bacc_pc 0.613|0.653  bal20 0.280|0.377  MCC@0.5 0.135|0.295  AP-neg 0.447|0.602  comp-only AUROC 0.659 [0.585,0.739]|0.787  comp MCC@0.5 0.161|0.316
+    ret  10.6% test neg   62 (prev 0.237)  bacc_pc 0.567|0.634  bal20 0.204|0.342  MCC@0.5 0.077|0.289  AP-neg 0.381|0.573  comp-only AUROC 0.654 [0.575,0.738]|0.787  comp MCC@0.5 0.249|0.272
+    ret   8.4% test neg   54 (prev 0.213)  bacc_pc 0.544|0.615  bal20 0.148|0.320  MCC@0.5 -0.033|0.299  AP-neg 0.315|0.560  comp-only AUROC 0.611 [0.519,0.693]|0.787  comp MCC@0.5 0.192|0.248
+    ret   6.8% test neg   44 (prev 0.180)  bacc_pc 0.553|0.597  bal20 0.213|0.299  MCC@0.5 -0.030|0.229  AP-neg 0.313|0.506  comp-only AUROC 0.584 [0.471,0.684]|0.788  comp MCC@0.5 0.111|0.200
+    ret   5.7% test neg   41 (prev 0.170)  bacc_pc 0.536|0.584  bal20 0.168|0.273  MCC@0.5 -0.029|0.235  AP-neg 0.296|0.497  comp-only AUROC 0.591 [0.479,0.698]|0.781  comp MCC@0.5 0.089|0.191
+    ret   4.9% test neg   36 (prev 0.153)  bacc_pc 0.548|0.590  bal20 0.194|0.302  MCC@0.5 -0.028|0.225  AP-neg 0.304|0.488  comp-only AUROC 0.602 [0.499,0.710]|0.775  comp MCC@0.5 0.183|0.185
+  nt_enhancers_leakfreeTest
+    ret  90.8% test neg  192 (prev 0.658)  bacc_pc 0.659|0.671  bal20 0.325|0.345  MCC@0.5 0.296|0.327  AP-neg 0.807|0.816  comp-only AUROC 0.711 [0.643,0.773]|0.720  comp MCC@0.5 0.318|0.331
+    ret  78.7% test neg  178 (prev 0.640)  bacc_pc 0.674|0.669  bal20 0.344|0.343  MCC@0.5 0.334|0.330  AP-neg 0.798|0.805  comp-only AUROC 0.713 [0.651,0.778]|0.721  comp MCC@0.5 0.346|0.332
+    ret  62.4% test neg  157 (prev 0.611)  bacc_pc 0.676|0.669  bal20 0.344|0.333  MCC@0.5 0.299|0.308  AP-neg 0.747|0.786  comp-only AUROC 0.693 [0.621,0.763]|0.715  comp MCC@0.5 0.335|0.311
+    ret  40.4% test neg  130 (prev 0.565)  bacc_pc 0.615|0.654  bal20 0.226|0.309  MCC@0.5 0.239|0.278  AP-neg 0.701|0.758  comp-only AUROC 0.666 [0.598,0.734]|0.719  comp MCC@0.5 0.224|0.311
+    ret  27.1% test neg  104 (prev 0.510)  bacc_pc 0.614|0.638  bal20 0.226|0.284  MCC@0.5 0.201|0.248  AP-neg 0.656|0.721  comp-only AUROC 0.643 [0.568,0.717]|0.715  comp MCC@0.5 0.156|0.274
+    ret  19.0% test neg   86 (prev 0.462)  bacc_pc 0.619|0.639  bal20 0.238|0.291  MCC@0.5 0.150|0.221  AP-neg 0.632|0.686  comp-only AUROC 0.615 [0.532,0.690]|0.708  comp MCC@0.5 0.078|0.257
+    ret  13.8% test neg   70 (prev 0.412)  bacc_pc 0.545|0.613  bal20 0.109|0.265  MCC@0.5 0.188|0.215  AP-neg 0.540|0.647  comp-only AUROC 0.600 [0.511,0.685]|0.706  comp MCC@0.5 -0.016|0.209
+    ret  10.6% test neg   62 (prev 0.383)  bacc_pc 0.542|0.600  bal20 0.128|0.250  MCC@0.5 0.100|0.208  AP-neg 0.497|0.619  comp-only AUROC 0.598 [0.500,0.684]|0.707  comp MCC@0.5 0.230|0.173
+    ret   8.4% test neg   54 (prev 0.351)  bacc_pc 0.540|0.594  bal20 0.137|0.246  MCC@0.5 0.036|0.250  AP-neg 0.479|0.602  comp-only AUROC 0.570 [0.469,0.665]|0.707  comp MCC@0.5 0.135|0.172
+    ret   6.8% test neg   44 (prev 0.306)  bacc_pc 0.540|0.588  bal20 0.172|0.253  MCC@0.5 0.000|0.239  AP-neg 0.482|0.564  comp-only AUROC 0.538 [0.434,0.637]|0.712  comp MCC@0.5 0.130|0.154
+    ret   5.7% test neg   41 (prev 0.291)  bacc_pc 0.539|0.571  bal20 0.173|0.238  MCC@0.5 0.000|0.218  AP-neg 0.431|0.552  comp-only AUROC 0.570 [0.458,0.674]|0.702  comp MCC@0.5 0.174|0.136
+    ret   4.9% test neg   36 (prev 0.265)  bacc_pc 0.551|0.568  bal20 0.207|0.239  MCC@0.5 0.000|0.191  AP-neg 0.466|0.525  comp-only AUROC 0.564 [0.455,0.692]|0.698  comp MCC@0.5 0.162|0.131
+
+F1 sweep, fixed original model scored on the arm's test subset (test-distribution change only) and the
+arm-trained model scored on the ORIGINAL test (training change only); k-mer AUROC, matched | random mean:
+  human_enhancers_cohn
+    fixed_model: 92.9%:0.801|0.804  83.3%:0.796|0.804  69.7%:0.786|0.804  49.1%:0.770|0.804  35.0%:0.749|0.806  25.2%:0.731|0.805  18.4%:0.705|0.807  13.6%:0.685|0.809  10.2%:0.659|0.808  7.7%:0.635|0.806  5.8%:0.613|0.808  4.5%:0.595|0.803
+    train_only: 92.9%:0.807|0.806  83.3%:0.806|0.806  69.7%:0.804|0.804  49.1%:0.802|0.801  35.0%:0.793|0.798  25.2%:0.783|0.796  18.4%:0.781|0.792  13.6%:0.753|0.789  10.2%:0.726|0.783  7.7%:0.691|0.780  5.8%:0.651|0.774  4.5%:0.584|0.765
+  nt_enhancers
+    fixed_model: 90.8%:0.848|0.850  78.7%:0.843|0.851  62.4%:0.832|0.852  40.4%:0.818|0.854  27.1%:0.800|0.853  19.0%:0.792|0.852  13.8%:0.765|0.854  10.6%:0.756|0.856  8.4%:0.744|0.855  6.8%:0.727|0.851  5.7%:0.713|0.851  4.9%:0.690|0.852
+    train_only: 90.8%:0.846|0.845  78.7%:0.845|0.845  62.4%:0.847|0.842  40.4%:0.835|0.835  27.1%:0.843|0.831  19.0%:0.840|0.824  13.8%:0.822|0.820  10.6%:0.814|0.812  8.4%:0.765|0.810  6.8%:0.772|0.805  5.7%:0.735|0.804  4.9%:0.698|0.799
+  drosophila_enhancers_stark
+    fixed_model: 97.2%:0.758|0.762  93.9%:0.754|0.762  88.9%:0.747|0.761  80.0%:0.739|0.761  72.5%:0.730|0.762  66.3%:0.724|0.761  60.9%:0.713|0.760  56.2%:0.709|0.762  52.1%:0.706|0.764  48.6%:0.698|0.766  45.7%:0.695|0.763  42.9%:0.690|0.762
+    train_only: 97.2%:0.761|0.762  93.9%:0.766|0.760  88.9%:0.761|0.763  80.0%:0.760|0.761  72.5%:0.753|0.762  66.3%:0.746|0.757  60.9%:0.745|0.757  56.2%:0.741|0.755  52.1%:0.731|0.755  48.6%:0.720|0.754  45.7%:0.712|0.753  42.9%:0.703|0.754
+  nt_enhancers_leakfreeRefit
+    fixed_model: 90.8%:0.802|0.804  78.7%:0.796|0.806  62.4%:0.782|0.806  40.4%:0.761|0.808  27.1%:0.740|0.806  19.0%:0.737|0.804  13.8%:0.700|0.806  10.6%:0.688|0.809  8.4%:0.674|0.807  6.8%:0.655|0.803  5.7%:0.638|0.802  4.9%:0.605|0.804
+    train_only: 90.8%:0.800|0.805  78.7%:0.801|0.803  62.4%:0.802|0.802  40.4%:0.790|0.801  27.1%:0.784|0.796  19.0%:0.767|0.794  13.8%:0.760|0.794  10.6%:0.742|0.790  8.4%:0.657|0.786  6.8%:0.620|0.783  5.7%:0.598|0.778  4.9%:0.570|0.782
+  nt_enhancers_leakfreeTest
+    fixed_model: 90.8%:0.732|0.735  78.7%:0.725|0.736  62.4%:0.710|0.737  40.4%:0.690|0.738  27.1%:0.665|0.737  19.0%:0.660|0.735  13.8%:0.624|0.736  10.6%:0.612|0.739  8.4%:0.597|0.738  6.8%:0.582|0.735  5.7%:0.563|0.733  4.9%:0.535|0.735
+    train_only: 90.8%:0.728|0.729  78.7%:0.732|0.730  62.4%:0.734|0.729  40.4%:0.719|0.727  27.1%:0.730|0.729  19.0%:0.728|0.727  13.8%:0.697|0.726  10.6%:0.678|0.720  8.4%:0.614|0.722  6.8%:0.633|0.719  5.7%:0.588|0.719  4.9%:0.570|0.715
+
+[DESCRIPTIVE, POST HOC] across all non-underpowered F1/F2/F3 arms (psm_sensitivity_dissociation_stats.csv): k-mer AUROC gap (random - matched) vs composition-only AUROC gap and vs -log(retained fraction) (selection depth), per design (within = retrained; fixed_model = original models on the selected test; train_only = selected-split models on the original test)
+  human_enhancers_cohn         within       n=24  Spearman(gap, comp gap) +0.96  Spearman(gap, -log ret) +0.39  OLS per-SD: comp gap +0.045, -log ret +0.016 (R2 0.95)
+  human_enhancers_cohn         fixed_model  n=24  Spearman(gap, comp gap) +0.98  Spearman(gap, -log ret) +0.71  OLS per-SD: comp gap +0.061, -log ret +0.005 (R2 0.99)
+  human_enhancers_cohn         train_only   n=24  Spearman(gap, comp gap) +0.92  Spearman(gap, -log ret) +0.65  OLS per-SD: comp gap +0.070, -log ret +0.024 (R2 0.87)
+  nt_enhancers                 within       n=22  Spearman(gap, comp gap) +0.65  Spearman(gap, -log ret) -0.12  OLS per-SD: comp gap +0.037, -log ret -0.023 (R2 0.53)
+  nt_enhancers                 fixed_model  n=22  Spearman(gap, comp gap) +0.98  Spearman(gap, -log ret) +0.70  OLS per-SD: comp gap +0.047, -log ret +0.003 (R2 0.97)
+  nt_enhancers                 train_only   n=24  Spearman(gap, comp gap) +0.76  Spearman(gap, -log ret) +0.45  OLS per-SD: comp gap +0.089, -log ret -0.029 (R2 0.71)
+  nt_enhancers_leakfreeTest    within       n=22  Spearman(gap, comp gap) +0.81  Spearman(gap, -log ret) +0.18  OLS per-SD: comp gap +0.040, -log ret -0.007 (R2 0.64)
+  nt_enhancers_leakfreeTest    fixed_model  n=22  Spearman(gap, comp gap) +0.99  Spearman(gap, -log ret) +0.63  OLS per-SD: comp gap +0.067, -log ret +0.001 (R2 0.99)
+  nt_enhancers_leakfreeTest    train_only   n=24  Spearman(gap, comp gap) +0.86  Spearman(gap, -log ret) +0.63  OLS per-SD: comp gap +0.085, -log ret -0.022 (R2 0.84)
+  nt_enhancers_leakfreeRefit   within       n=22  Spearman(gap, comp gap) +0.84  Spearman(gap, -log ret) +0.46  OLS per-SD: comp gap +0.050, -log ret -0.006 (R2 0.70)
+  nt_enhancers_leakfreeRefit   fixed_model  n=22  Spearman(gap, comp gap) +0.99  Spearman(gap, -log ret) +0.70  OLS per-SD: comp gap +0.066, -log ret -0.003 (R2 0.99)
+  nt_enhancers_leakfreeRefit   train_only   n=24  Spearman(gap, comp gap) +0.94  Spearman(gap, -log ret) +0.69  OLS per-SD: comp gap +0.110, -log ret -0.018 (R2 0.90)
+  drosophila_enhancers_stark   within       n=24  Spearman(gap, comp gap) +0.07  Spearman(gap, -log ret) +0.86  OLS per-SD: comp gap +0.016, -log ret +0.038 (R2 0.87)
+  drosophila_enhancers_stark   fixed_model  n=24  Spearman(gap, comp gap) +0.99  Spearman(gap, -log ret) +0.76  OLS per-SD: comp gap +0.040, -log ret -0.001 (R2 0.96)
+  drosophila_enhancers_stark   train_only   n=24  Spearman(gap, comp gap) +0.97  Spearman(gap, -log ret) +0.81  OLS per-SD: comp gap +0.025, -log ret +0.019 (R2 0.96)
+
+[DESCRIPTIVE, POST HOC] same retention, different residual composition signal (psm_sensitivity_dissociation.csv; k-mer AUROC matched | size-matched random; comp = composition-only AUROC).
+  The random controls of F1, F2, F3 and F5 draw negatives from the same priority stream (10000+r), so random
+  arms of different families are nested/overlapping, not independent; an F1 row can partner several F2/F3 rows.
+  Within design only (both models retrained on the selected split). Do NOT read these pairs as showing that
+  retention alone does or does not produce the drop: F2 keeps every positive but only negatives inside the
+  positives' central propensity band, so it can also CREATE composition signal for the positives outside the
+  band (psm_sensitivity_f2_band.csv), and in the paired designs (fixed_model, train_only) F2 trimming lowers
+  composition-only and k-mer AUROC together (psm_sensitivity_f2_selection_difficulty.csv).
+  e.g. cohn F2 q0.45: retrained composition-only AUROC 0.919 vs random 0.740 (90% of test positives outside the kept negatives' band); fixed_model composition-only 0.538 vs 0.773.
+  human_enhancers_cohn
+    F2_trim q0.02  ret  83.5% maxSMD 0.80 comp 0.752 -> k-mer 0.775|0.805   vs   F1 a0.05  ret  83.3% maxSMD 0.96 comp 0.769 -> k-mer 0.799|0.805
+    F2_trim q0.05  ret  71.6% maxSMD 0.64 comp 0.743 -> k-mer 0.753|0.804   vs   F1 a0.1   ret  69.7% maxSMD 0.91 comp 0.761 -> k-mer 0.787|0.803
+    F2_trim q0.1   ret  57.6% maxSMD 0.49 comp 0.738 -> k-mer 0.749|0.803   vs   F1 a0.2   ret  49.1% maxSMD 0.81 comp 0.738 -> k-mer 0.771|0.801
+    F2_trim q0.2   ret  38.6% maxSMD 0.44 comp 0.763 -> k-mer 0.765|0.801   vs   F1 a0.3   ret  35.0% maxSMD 0.71 comp 0.713 -> k-mer 0.745|0.798
+    F2_trim q0.3   ret  24.7% maxSMD 0.41 comp 0.816 -> k-mer 0.787|0.797   vs   F1 a0.4   ret  25.2% maxSMD 0.61 comp 0.684 -> k-mer 0.725|0.797
+    F2_trim q0.4   ret  11.7% maxSMD 0.40 comp 0.888 -> k-mer 0.802|0.787   vs   F1 a0.7   ret  10.2% maxSMD 0.32 comp 0.591 -> k-mer 0.665|0.787
+    F2_trim q0.45  ret   5.5% maxSMD 0.38 comp 0.919 -> k-mer 0.772|0.774   vs   F1 a0.9   ret   5.8% maxSMD 0.15 comp 0.537 -> k-mer 0.619|0.779
+    F3_1to1 c2     ret  89.2% maxSMD 0.74 comp 0.731 -> k-mer 0.765|0.805   vs   F1 a0.02  ret  92.9% maxSMD 0.99 comp 0.775 -> k-mer 0.804|0.806
+    F3_1to1 c1     ret  73.3% maxSMD 0.31 comp 0.652 -> k-mer 0.702|0.802   vs   F1 a0.1   ret  69.7% maxSMD 0.91 comp 0.761 -> k-mer 0.787|0.803
+    F3_1to1 c0.5   ret  64.8% maxSMD 0.10 comp 0.604 -> k-mer 0.693|0.800   vs   F1 a0.1   ret  69.7% maxSMD 0.91 comp 0.761 -> k-mer 0.787|0.803
+    F3_1to1 c0.2   ret  61.2% maxSMD 0.04 comp 0.604 -> k-mer 0.688|0.802   vs   F1 a0.1   ret  69.7% maxSMD 0.91 comp 0.761 -> k-mer 0.787|0.803
+    F3_1to1 c0.01  ret  59.8% maxSMD 0.03 comp 0.604 -> k-mer 0.694|0.802   vs   F1 a0.1   ret  69.7% maxSMD 0.91 comp 0.761 -> k-mer 0.787|0.803
+  nt_enhancers
+    F2_trim q0.02  ret  52.1% maxSMD 1.02 comp 0.818 -> k-mer 0.833|0.840   vs   F1 a0.1   ret  62.4% maxSMD 1.39 comp 0.809 -> k-mer 0.830|0.846
+    F2_trim q0.05  ret  33.1% maxSMD 0.71 comp 0.793 -> k-mer 0.835|0.836   vs   F1 a0.3   ret  27.1% maxSMD 1.00 comp 0.766 -> k-mer 0.802|0.837
+    F2_trim q0.1   ret  21.2% maxSMD 0.45 comp 0.807 -> k-mer 0.825|0.832   vs   F1 a0.4   ret  19.0% maxSMD 0.82 comp 0.746 -> k-mer 0.793|0.828
+    F2_trim q0.2   ret  10.8% maxSMD 0.36 comp 0.814 -> k-mer 0.817|0.821   vs   F1 a0.6   ret  10.6% maxSMD 0.51 comp 0.709 -> k-mer 0.759|0.819
+    F2_trim q0.3   ret   6.0% maxSMD 0.32 comp 0.815 -> k-mer 0.810|0.802   vs   F1 a0.9   ret   5.7% maxSMD 0.32 comp 0.639 -> k-mer 0.802|0.806
+    F2_trim q0.4   ret   2.7% maxSMD 0.36 comp 0.820 -> k-mer 0.823|0.790   vs   F1 a1     ret   4.9% maxSMD 0.30 comp 0.640 -> k-mer 0.799|0.807  UNDERPOWERED  (no F1 level within 25% retention: not a like-for-like pair)
+    F2_trim q0.45  ret   1.3% maxSMD 0.39 comp 0.770 -> k-mer 0.672|0.725   vs   F1 a1     ret   4.9% maxSMD 0.30 comp 0.640 -> k-mer 0.799|0.807  UNDERPOWERED  (no F1 level within 25% retention: not a like-for-like pair)
+    F3_1to1 c2     ret  81.8% maxSMD 1.23 comp 0.793 -> k-mer 0.827|0.843   vs   F1 a0.05  ret  78.7% maxSMD 1.47 comp 0.821 -> k-mer 0.837|0.847
+    F3_1to1 c1     ret  52.7% maxSMD 0.55 comp 0.734 -> k-mer 0.754|0.826   vs   F1 a0.1   ret  62.4% maxSMD 1.39 comp 0.809 -> k-mer 0.830|0.846
+    F3_1to1 c0.5   ret  38.0% maxSMD 0.16 comp 0.655 -> k-mer 0.669|0.823   vs   F1 a0.2   ret  40.4% maxSMD 1.20 comp 0.789 -> k-mer 0.797|0.841
+    F3_1to1 c0.2   ret  31.8% maxSMD 0.08 comp 0.648 -> k-mer 0.679|0.819   vs   F1 a0.3   ret  27.1% maxSMD 1.00 comp 0.766 -> k-mer 0.802|0.837
+    F3_1to1 c0.01  ret  29.6% maxSMD 0.09 comp 0.663 -> k-mer 0.680|0.819   vs   F1 a0.3   ret  27.1% maxSMD 1.00 comp 0.766 -> k-mer 0.802|0.837
+  drosophila_enhancers_stark
+    F2_trim q0.02  ret  87.2% maxSMD 0.18 comp 0.631 -> k-mer 0.736|0.758   vs   F1 a0.1   ret  88.9% maxSMD 0.22 comp 0.654 -> k-mer 0.745|0.762
+    F2_trim q0.05  ret  73.8% maxSMD 0.11 comp 0.597 -> k-mer 0.696|0.757   vs   F1 a0.3   ret  72.5% maxSMD 0.17 comp 0.633 -> k-mer 0.726|0.763
+    F2_trim q0.1   ret  59.6% maxSMD 0.08 comp 0.605 -> k-mer 0.679|0.755   vs   F1 a0.5   ret  60.9% maxSMD 0.12 comp 0.604 -> k-mer 0.711|0.756
+    F2_trim q0.2   ret  40.3% maxSMD 0.06 comp 0.628 -> k-mer 0.664|0.755   vs   F1 a1     ret  42.9% maxSMD 0.06 comp 0.621 -> k-mer 0.674|0.754
+    F2_trim q0.3   ret  25.4% maxSMD 0.10 comp 0.660 -> k-mer 0.619|0.751   vs   F1 a1     ret  42.9% maxSMD 0.06 comp 0.621 -> k-mer 0.674|0.754  (no F1 level within 25% retention: not a like-for-like pair)
+    F2_trim q0.4   ret  13.5% maxSMD 0.15 comp 0.676 -> k-mer 0.635|0.726   vs   F1 a1     ret  42.9% maxSMD 0.06 comp 0.621 -> k-mer 0.674|0.754  (no F1 level within 25% retention: not a like-for-like pair)
+    F2_trim q0.45  ret   6.3% maxSMD 0.14 comp 0.624 -> k-mer 0.538|0.705   vs   F1 a1     ret  42.9% maxSMD 0.06 comp 0.621 -> k-mer 0.674|0.754  (no F1 level within 25% retention: not a like-for-like pair)
+    F3_1to1 c2     ret  91.4% maxSMD 0.13 comp 0.619 -> k-mer 0.732|0.761   vs   F1 a0.1   ret  88.9% maxSMD 0.22 comp 0.654 -> k-mer 0.745|0.762
+    F3_1to1 c1     ret  80.2% maxSMD 0.04 comp 0.578 -> k-mer 0.696|0.756   vs   F1 a0.2   ret  80.0% maxSMD 0.20 comp 0.647 -> k-mer 0.735|0.760
+    F3_1to1 c0.5   ret  74.7% maxSMD 0.03 comp 0.564 -> k-mer 0.686|0.755   vs   F1 a0.3   ret  72.5% maxSMD 0.17 comp 0.633 -> k-mer 0.726|0.763
+    F3_1to1 c0.2   ret  72.5% maxSMD 0.03 comp 0.560 -> k-mer 0.683|0.755   vs   F1 a0.3   ret  72.5% maxSMD 0.17 comp 0.633 -> k-mer 0.726|0.763
+    F3_1to1 c0.01  ret  68.9% maxSMD 0.03 comp 0.571 -> k-mer 0.681|0.755   vs   F1 a0.4   ret  66.3% maxSMD 0.14 comp 0.618 -> k-mer 0.710|0.758
+  nt_enhancers_leakfreeTest
+    F2_trim q0.02  ret  52.1% maxSMD 1.01 comp 0.710 -> k-mer 0.708|0.728   vs   F1 a0.1   ret  62.4% maxSMD 1.38 comp 0.693 -> k-mer 0.709|0.732
+    F2_trim q0.05  ret  33.1% maxSMD 0.70 comp 0.690 -> k-mer 0.715|0.730   vs   F1 a0.3   ret  27.1% maxSMD 1.00 comp 0.643 -> k-mer 0.670|0.733
+    F2_trim q0.1   ret  21.2% maxSMD 0.45 comp 0.717 -> k-mer 0.695|0.733   vs   F1 a0.4   ret  19.0% maxSMD 0.81 comp 0.615 -> k-mer 0.666|0.730
+    F2_trim q0.2   ret  10.8% maxSMD 0.36 comp 0.742 -> k-mer 0.695|0.728   vs   F1 a0.6   ret  10.6% maxSMD 0.51 comp 0.598 -> k-mer 0.614|0.726
+    F2_trim q0.3   ret   6.0% maxSMD 0.32 comp 0.749 -> k-mer 0.721|0.718   vs   F1 a0.9   ret   5.7% maxSMD 0.32 comp 0.570 -> k-mer 0.670|0.721
+    F2_trim q0.4   ret   2.7% maxSMD 0.36 comp 0.768 -> k-mer 0.770|0.720   vs   F1 a1     ret   4.9% maxSMD 0.30 comp 0.564 -> k-mer 0.684|0.723  UNDERPOWERED  (no F1 level within 25% retention: not a like-for-like pair)
+    F2_trim q0.45  ret   1.3% maxSMD 0.39 comp 0.698 -> k-mer 0.644|0.662   vs   F1 a1     ret   4.9% maxSMD 0.30 comp 0.564 -> k-mer 0.684|0.723  UNDERPOWERED  (no F1 level within 25% retention: not a like-for-like pair)
+    F3_1to1 c2     ret  81.8% maxSMD 1.22 comp 0.665 -> k-mer 0.695|0.733   vs   F1 a0.05  ret  78.7% maxSMD 1.47 comp 0.713 -> k-mer 0.721|0.732
+    F3_1to1 c1     ret  52.7% maxSMD 0.54 comp 0.580 -> k-mer 0.592|0.724   vs   F1 a0.1   ret  62.4% maxSMD 1.38 comp 0.693 -> k-mer 0.709|0.732
+    F3_1to1 c0.5   ret  38.0% maxSMD 0.15 comp 0.531 -> k-mer 0.552|0.731   vs   F1 a0.2   ret  40.4% maxSMD 1.19 comp 0.666 -> k-mer 0.668|0.732
+    F3_1to1 c0.2   ret  31.8% maxSMD 0.07 comp 0.540 -> k-mer 0.594|0.729   vs   F1 a0.3   ret  27.1% maxSMD 1.00 comp 0.643 -> k-mer 0.670|0.733
+    F3_1to1 c0.01  ret  29.6% maxSMD 0.08 comp 0.558 -> k-mer 0.628|0.729   vs   F1 a0.3   ret  27.1% maxSMD 1.00 comp 0.643 -> k-mer 0.670|0.733
+  nt_enhancers_leakfreeRefit
+    F2_trim q0.02  ret  52.1% maxSMD 1.01 comp 0.780 -> k-mer 0.769|0.801   vs   F1 a0.1   ret  62.4% maxSMD 1.38 comp 0.768 -> k-mer 0.779|0.804
+    F2_trim q0.05  ret  33.1% maxSMD 0.70 comp 0.731 -> k-mer 0.743|0.801   vs   F1 a0.3   ret  27.1% maxSMD 1.00 comp 0.721 -> k-mer 0.734|0.801
+    F2_trim q0.1   ret  21.2% maxSMD 0.45 comp 0.746 -> k-mer 0.714|0.801   vs   F1 a0.4   ret  19.0% maxSMD 0.81 comp 0.690 -> k-mer 0.712|0.799
+    F2_trim q0.2   ret  10.8% maxSMD 0.36 comp 0.760 -> k-mer 0.732|0.798   vs   F1 a0.6   ret  10.6% maxSMD 0.51 comp 0.654 -> k-mer 0.675|0.796
+    F2_trim q0.3   ret   6.0% maxSMD 0.32 comp 0.765 -> k-mer 0.708|0.788   vs   F1 a0.9   ret   5.7% maxSMD 0.32 comp 0.591 -> k-mer 0.681|0.782
+    F2_trim q0.4   ret   2.7% maxSMD 0.36 comp 0.802 -> k-mer 0.702|0.785   vs   F1 a1     ret   4.9% maxSMD 0.31 comp 0.602 -> k-mer 0.706|0.786  UNDERPOWERED  (no F1 level within 25% retention: not a like-for-like pair)
+    F2_trim q0.45  ret   1.3% maxSMD 0.39 comp 0.714 -> k-mer 0.613|0.716   vs   F1 a1     ret   4.9% maxSMD 0.31 comp 0.602 -> k-mer 0.706|0.786  UNDERPOWERED  (no F1 level within 25% retention: not a like-for-like pair)
+    F3_1to1 c2     ret  81.8% maxSMD 1.22 comp 0.773 -> k-mer 0.771|0.803   vs   F1 a0.05  ret  78.7% maxSMD 1.47 comp 0.788 -> k-mer 0.793|0.805
+    F3_1to1 c1     ret  52.7% maxSMD 0.54 comp 0.674 -> k-mer 0.668|0.798   vs   F1 a0.1   ret  62.4% maxSMD 1.38 comp 0.768 -> k-mer 0.779|0.804
+    F3_1to1 c0.5   ret  38.0% maxSMD 0.15 comp 0.600 -> k-mer 0.590|0.798   vs   F1 a0.2   ret  40.4% maxSMD 1.19 comp 0.739 -> k-mer 0.748|0.807
+    F3_1to1 c0.2   ret  31.8% maxSMD 0.08 comp 0.603 -> k-mer 0.601|0.799   vs   F1 a0.3   ret  27.1% maxSMD 1.00 comp 0.721 -> k-mer 0.734|0.801
+    F3_1to1 c0.01  ret  29.6% maxSMD 0.08 comp 0.612 -> k-mer 0.620|0.799   vs   F1 a0.3   ret  27.1% maxSMD 1.00 comp 0.721 -> k-mer 0.734|0.801
+
+====================================================================================================
+POST HOC ANALYSES (run_posthoc.py; not pre-registered; added after verification reviews)
+====================================================================================================
+Leakage audit (psm_sensitivity_leakage_check.csv):
+  drosophila_enhancers_stark   test in train 0 (0 pos / 0 neg); train rows equal to a test seq 0; reverse-complement-only matches 0; original AUROC 0.763 -> leak-free 0.763
+  human_enhancers_cohn         test in train 0 (0 pos / 0 neg); train rows equal to a test seq 0; reverse-complement-only matches 0; original AUROC 0.805 -> leak-free 0.805
+  nt_enhancers                 test in train 100 (100 pos / 0 neg); train rows equal to a test seq 107; reverse-complement-only matches 0; original AUROC 0.850 -> leak-free 0.735
+Interval-overlap audit, P0b (psm_sensitivity_leakage_interval.csv; hg38; descriptive, nothing removed elsewhere):
+  human_enhancers_cohn         mapped test 6948/6948: overlap a training interval >=1 bp 47 (0 pos / 47 neg), >=50% 21; original AUROC 0.805 -> 0.804 without them; in the F1 a=1 matched (seed 42) test 1 of 228 negatives
+  nt_enhancers                 mapped test 400/400: overlap a training interval >=1 bp 100 (100 pos / 0 neg), >=50% 100; original AUROC 0.850 -> 0.735 without them; in the F1 a=1 matched (seed 42) test 0 of 36 negatives
+
+Between-dataset contrast (psm_sensitivity_between_dataset.csv), overlap weighting vs permuted-weight placebo:
+  fixed_model_overlap  human_enhancers_cohn         overlap 0.609 [0.593,0.624] placebo 0.806; drop +0.197 [+0.190,+0.204]; share of above-chance AUROC lost 0.644 [0.606,0.685]; composition-only: overlap 0.554 vs placebo 0.779, share lost 0.806 [0.760,0.855]; k-mer minus comp share -0.162 [-0.196,-0.130]
+  within_overlap       human_enhancers_cohn         overlap 0.671 [0.656,0.685] placebo 0.805; drop +0.134 [+0.124,+0.144]; share of above-chance AUROC lost 0.441 [0.403,0.477]; composition-only: overlap 0.605 vs placebo 0.778, share lost 0.622 [0.577,0.665]; k-mer minus comp share -0.181 [-0.231,-0.132]
+  fixed_model_overlap  nt_enhancers                 overlap 0.499 [0.422,0.600] placebo 0.855; drop +0.355 [+0.290,+0.407]; share of above-chance AUROC lost 1.001 [0.742,1.235]; composition-only: overlap 0.436 vs placebo 0.828, share lost 1.196 [0.942,1.467]; k-mer minus comp share -0.194 [-0.365,-0.049]
+  within_overlap       nt_enhancers                 overlap 0.591 [0.513,0.683] placebo 0.846; drop +0.255 [+0.185,+0.320]; share of above-chance AUROC lost 0.738 [0.505,0.959]; composition-only: overlap 0.606 vs placebo 0.817, share lost 0.666 [0.453,0.925]; k-mer minus comp share +0.073 [-0.161,+0.277]
+  fixed_model_overlap  nt_enhancers_leakfreeTest    overlap 0.311 [0.234,0.397] placebo 0.738; drop +0.427 [+0.376,+0.475]; share of above-chance AUROC lost 1.794 [1.364,2.506]; composition-only: overlap 0.285 vs placebo 0.717, share lost 1.989 [1.515,2.855]; k-mer minus comp share -0.195 [-0.645,+0.173]
+  within_overlap       nt_enhancers_leakfreeTest    overlap 0.406 [0.319,0.496] placebo 0.736; drop +0.330 [+0.254,+0.397]; share of above-chance AUROC lost 1.398 [1.013,1.994]; composition-only: overlap 0.472 vs placebo 0.712, share lost 1.131 [0.723,1.699]; k-mer minus comp share +0.268 [-0.228,+0.778]
+  fixed_model_overlap  drosophila_enhancers_stark   overlap 0.687 [0.662,0.714] placebo 0.763; drop +0.076 [+0.069,+0.084]; share of above-chance AUROC lost 0.290 [0.248,0.336]; composition-only: overlap 0.600 vs placebo 0.684, share lost 0.454 [0.376,0.545]; k-mer minus comp share -0.164 [-0.248,-0.099]
+  within_overlap       drosophila_enhancers_stark   overlap 0.695 [0.670,0.721] placebo 0.762; drop +0.067 [+0.056,+0.079]; share of above-chance AUROC lost 0.257 [0.209,0.310]; composition-only: overlap 0.616 vs placebo 0.683, share lost 0.364 [0.278,0.460]; k-mer minus comp share -0.107 [-0.202,-0.013]
+
+Common-support trimming (F2): k-mer vs composition-only gap to size-matched random, per design; P8 = in-band / out-of-band test positives (psm_sensitivity_f2_selection_difficulty.csv, psm_sensitivity_f2_band.csv):
+  human_enhancers_cohn         q0.02  kept  83.5% pos outside band   4%  gap k-mer | comp-only: within +0.030 | +0.025; fixed model +0.031 | +0.036; train only +0.005 | +0.099; P8 within in-band +0.032 | +0.040, out-of-band -0.027 | -0.310
+  human_enhancers_cohn         q0.05  kept  71.6% pos outside band  10%  gap k-mer | comp-only: within +0.051 | +0.035; fixed model +0.058 | +0.067; train only +0.029 | +0.190; P8 within in-band +0.063 | +0.073, out-of-band -0.060 | -0.304
+  human_enhancers_cohn         q0.1   kept  57.6% pos outside band  20%  gap k-mer | comp-only: within +0.054 | +0.038; fixed model +0.088 | +0.105; train only +0.091 | +0.269; P8 within in-band +0.098 | +0.119, out-of-band -0.122 | -0.286
+  human_enhancers_cohn         q0.2   kept  38.6% pos outside band  40%  gap k-mer | comp-only: within +0.036 | +0.012; fixed model +0.140 | +0.166; train only +0.192 | +0.356; P8 within in-band +0.143 | +0.184, out-of-band -0.124 | -0.246
+  human_enhancers_cohn         q0.3   kept  24.7% pos outside band  60%  gap k-mer | comp-only: within +0.010 | -0.045; fixed model +0.161 | +0.199; train only +0.245 | +0.334; P8 within in-band +0.174 | +0.238, out-of-band -0.100 | -0.234
+  human_enhancers_cohn         q0.4   kept  11.7% pos outside band  80%  gap k-mer | comp-only: within -0.016 | -0.130; fixed model +0.175 | +0.227; train only +0.271 | +0.298; P8 within in-band +0.167 | +0.257, out-of-band -0.061 | -0.226
+  human_enhancers_cohn         q0.45  kept   5.5% pos outside band  90%  gap k-mer | comp-only: within +0.002 | -0.180; fixed model +0.181 | +0.235; train only +0.266 | +0.280; P8 within in-band +0.203 | +0.226, out-of-band -0.021 | -0.225
+  nt_enhancers                 q0.02  kept  52.1% pos outside band   4%  gap k-mer | comp-only: within +0.008 | +0.006; fixed model +0.026 | +0.031; train only -0.010 | +0.040; P8 within in-band +0.013 | +0.021, out-of-band -0.113 | -0.363
+  nt_enhancers                 q0.05  kept  33.1% pos outside band  10%  gap k-mer | comp-only: within +0.001 | +0.026; fixed model +0.034 | +0.040; train only -0.010 | +0.101; P8 within in-band +0.022 | +0.066, out-of-band -0.180 | -0.336
+  nt_enhancers                 q0.1   kept  21.2% pos outside band  20%  gap k-mer | comp-only: within +0.007 | +0.004; fixed model +0.061 | +0.079; train only +0.017 | +0.196; P8 within in-band +0.051 | +0.090, out-of-band -0.170 | -0.339
+  nt_enhancers                 q0.2   kept  10.8% pos outside band  40%  gap k-mer | comp-only: within +0.004 | -0.011; fixed model +0.084 | +0.125; train only +0.121 | +0.298; P8 within in-band +0.091 | +0.132, out-of-band -0.126 | -0.225
+  nt_enhancers                 q0.3   kept   6.0% pos outside band  60%  gap k-mer | comp-only: within -0.008 | -0.017; fixed model +0.109 | +0.169; train only +0.158 | +0.346; P8 within in-band +0.099 | +0.205, out-of-band -0.079 | -0.165
+  nt_enhancers                 q0.4   kept   2.7% pos outside band  80%  gap k-mer | comp-only: within -0.033 | -0.047; fixed model +0.141 | +0.186; train only +0.197 | +0.330; P8 within in-band +0.090 | +0.149, out-of-band -0.064 | -0.096  UNDERPOWERED
+  nt_enhancers                 q0.45  kept   1.3% pos outside band  90%  gap k-mer | comp-only: within +0.053 | +0.010; fixed model +0.105 | +0.113; train only +0.149 | +0.298; P8 within in-band +0.298 | +0.345, out-of-band +0.026 | -0.028  UNDERPOWERED
+  nt_enhancers_leakfreeTest    q0.02  kept  52.1% pos outside band   7%  gap k-mer | comp-only: within +0.020 | +0.008; fixed model +0.043 | +0.045; train only -0.006 | +0.050; P8 within in-band +0.032 | +0.040, out-of-band -0.130 | -0.415
+  nt_enhancers_leakfreeTest    q0.05  kept  33.1% pos outside band  17%  gap k-mer | comp-only: within +0.016 | +0.027; fixed model +0.056 | +0.059; train only +0.004 | +0.101; P8 within in-band +0.062 | +0.113, out-of-band -0.212 | -0.394
+  nt_enhancers_leakfreeTest    q0.1   kept  21.2% pos outside band  28%  gap k-mer | comp-only: within +0.038 | -0.004; fixed model +0.109 | +0.121; train only +0.057 | +0.165; P8 within in-band +0.144 | +0.175, out-of-band -0.235 | -0.465
+  nt_enhancers_leakfreeTest    q0.2   kept  10.8% pos outside band  47%  gap k-mer | comp-only: within +0.033 | -0.035; fixed model +0.153 | +0.188; train only +0.166 | +0.235; P8 within in-band +0.227 | +0.230, out-of-band -0.185 | -0.334
+  nt_enhancers_leakfreeTest    q0.3   kept   6.0% pos outside band  63%  gap k-mer | comp-only: within -0.003 | -0.043; fixed model +0.196 | +0.246; train only +0.169 | +0.258; P8 within in-band +0.217 | +0.331, out-of-band -0.133 | -0.264
+  nt_enhancers_leakfreeTest    q0.4   kept   2.7% pos outside band  80%  gap k-mer | comp-only: within -0.050 | -0.077; fixed model +0.239 | +0.270; train only +0.179 | +0.247; P8 within in-band +0.162 | +0.254, out-of-band -0.104 | -0.160  UNDERPOWERED
+  nt_enhancers_leakfreeTest    q0.45  kept   1.3% pos outside band  91%  gap k-mer | comp-only: within +0.018 | +0.001; fixed model +0.209 | +0.217; train only +0.117 | +0.236; P8 within in-band +0.367 | +0.602, out-of-band -0.016 | -0.058  UNDERPOWERED
+  nt_enhancers_leakfreeRefit   q0.02  kept  52.1%  gap k-mer | comp-only: within +0.031 | +0.021; fixed model +0.035 | +0.035; train only +0.007 | +0.054
+  nt_enhancers_leakfreeRefit   q0.05  kept  33.1%  gap k-mer | comp-only: within +0.057 | +0.069; fixed model +0.047 | +0.046; train only +0.040 | +0.145
+  nt_enhancers_leakfreeRefit   q0.1   kept  21.2%  gap k-mer | comp-only: within +0.087 | +0.046; fixed model +0.091 | +0.092; train only +0.106 | +0.222
+  nt_enhancers_leakfreeRefit   q0.2   kept  10.8%  gap k-mer | comp-only: within +0.065 | +0.025; fixed model +0.136 | +0.150; train only +0.214 | +0.333
+  nt_enhancers_leakfreeRefit   q0.3   kept   6.0%  gap k-mer | comp-only: within +0.080 | +0.022; fixed model +0.176 | +0.205; train only +0.257 | +0.361
+  nt_enhancers_leakfreeRefit   q0.4   kept   2.7%  gap k-mer | comp-only: within +0.083 | -0.032; fixed model +0.226 | +0.217; train only +0.261 | +0.325  UNDERPOWERED
+  nt_enhancers_leakfreeRefit   q0.45  kept   1.3%  gap k-mer | comp-only: within +0.103 | +0.043; fixed model +0.183 | +0.125; train only +0.197 | +0.316  UNDERPOWERED
+  drosophila_enhancers_stark   q0.02  kept  87.2% pos outside band   4%  gap k-mer | comp-only: within +0.021 | +0.042; fixed model +0.026 | +0.041; train only -0.001 | +0.013; P8 within in-band +0.023 | +0.047, out-of-band -0.017 | -0.069
+  drosophila_enhancers_stark   q0.05  kept  73.8% pos outside band  10%  gap k-mer | comp-only: within +0.062 | +0.078; fixed model +0.060 | +0.077; train only +0.014 | +0.045; P8 within in-band +0.068 | +0.096, out-of-band +0.011 | -0.081
+  drosophila_enhancers_stark   q0.1   kept  59.6% pos outside band  20%  gap k-mer | comp-only: within +0.076 | +0.070; fixed model +0.086 | +0.109; train only +0.029 | +0.083; P8 within in-band +0.091 | +0.118, out-of-band +0.017 | -0.120
+  drosophila_enhancers_stark   q0.2   kept  40.3% pos outside band  40%  gap k-mer | comp-only: within +0.091 | +0.044; fixed model +0.097 | +0.137; train only +0.088 | +0.153; P8 within in-band +0.126 | +0.148, out-of-band +0.038 | -0.113
+  drosophila_enhancers_stark   q0.3   kept  25.4% pos outside band  60%  gap k-mer | comp-only: within +0.132 | +0.004; fixed model +0.147 | +0.148; train only +0.131 | +0.183; P8 within in-band +0.164 | +0.152, out-of-band +0.112 | -0.093  FLAG(within)
+  drosophila_enhancers_stark   q0.4   kept  13.5% pos outside band  80%  gap k-mer | comp-only: within +0.091 | -0.023; fixed model +0.130 | +0.180; train only +0.128 | +0.149; P8 within in-band +0.119 | +0.110, out-of-band +0.084 | -0.056  FLAG(within)
+  drosophila_enhancers_stark   q0.45  kept   6.3% pos outside band  90%  gap k-mer | comp-only: within +0.167 | +0.014; fixed model +0.152 | +0.193; train only +0.132 | +0.122; P8 within in-band +0.142 | +0.087, out-of-band +0.170 | +0.005  FLAG(within)
+
+P7 decomposition CIs at F1 alpha=1 (psm_sensitivity_decomposition_ci.csv; two-level paired bootstrap: test sequences x random [x matched] seeds, B=1000; post hoc):
+  human_enhancers_cohn         within     kmer            seeds 42    A0 0.805 Ar 0.765 Am 0.621; size +0.040 [+0.022,+0.059] (CI straddles tau); matched-vs-random +0.144 [+0.102,+0.184]; relative 0.545 [0.398,0.683]
+  human_enhancers_cohn         within     kmer            seeds 42-44 A0 0.805 Ar 0.765 Am 0.624; size +0.040 [+0.022,+0.059] (CI straddles tau); matched-vs-random +0.141 [+0.107,+0.177]; relative 0.534 [0.415,0.655]
+  human_enhancers_cohn         within     comp            seeds 42    A0 0.779 Ar 0.732 Am 0.549; size +0.046 [+0.030,+0.064] (CI straddles tau); matched-vs-random +0.184 [+0.138,+0.223]; relative 0.791 [0.618,0.939]
+  human_enhancers_cohn         within     comp            seeds 42-44 A0 0.779 Ar 0.732 Am 0.560; size +0.046 [+0.030,+0.064] (CI straddles tau); matched-vs-random +0.173 [+0.133,+0.205]; relative 0.743 [0.592,0.873]
+  human_enhancers_cohn         train_only kmer            seeds 42    A0 0.805 Ar 0.765 Am 0.584; size +0.040 [+0.034,+0.046] (CI above tau); matched-vs-random +0.181 [+0.166,+0.195]; relative 0.682 [0.633,0.732]
+  human_enhancers_cohn         train_only kmer            seeds 42-44 A0 0.805 Ar 0.765 Am 0.608; size +0.040 [+0.034,+0.046] (CI above tau); matched-vs-random +0.157 [+0.135,+0.181]; relative 0.592 [0.515,0.676]
+  human_enhancers_cohn         train_only comp            seeds 42    A0 0.779 Ar 0.733 Am 0.517; size +0.046 [+0.039,+0.053] (CI above tau); matched-vs-random +0.216 [+0.199,+0.233]; relative 0.929 [0.871,0.987]
+  human_enhancers_cohn         train_only comp            seeds 42-44 A0 0.779 Ar 0.733 Am 0.541; size +0.046 [+0.039,+0.053] (CI above tau); matched-vs-random +0.191 [+0.164,+0.219]; relative 0.823 [0.714,0.934]
+  human_enhancers_cohn         fixed_model kmer            seeds 42    A0 0.805 Ar 0.803 Am 0.595; size +0.001 [-0.012,+0.015] (n/a (fixed_model)); matched-vs-random +0.209 [+0.169,+0.249]; relative 0.688 [0.563,0.820]
+  human_enhancers_cohn         fixed_model kmer            seeds 42-44 A0 0.805 Ar 0.803 Am 0.612; size +0.001 [-0.012,+0.015] (n/a (fixed_model)); matched-vs-random +0.192 [+0.158,+0.230]; relative 0.632 [0.524,0.753]
+  human_enhancers_cohn         fixed_model comp            seeds 42    A0 0.779 Ar 0.776 Am 0.547; size +0.003 [-0.011,+0.020] (n/a (fixed_model)); matched-vs-random +0.229 [+0.187,+0.270]; relative 0.830 [0.680,0.974]
+  human_enhancers_cohn         fixed_model comp            seeds 42-44 A0 0.779 Ar 0.776 Am 0.558; size +0.003 [-0.011,+0.020] (n/a (fixed_model)); matched-vs-random +0.218 [+0.181,+0.254]; relative 0.791 [0.667,0.913]
+  human_enhancers_cohn         within     kmer_minus_comp seeds 42    matched-vs-random diff -0.039 [-0.086,+0.007]  relative diff -0.245 [-0.433,-0.068] -> not distinguishable or scale-dependent
+  human_enhancers_cohn         within     kmer_minus_comp seeds 42-44 matched-vs-random diff -0.031 [-0.068,+0.010]  relative diff -0.209 [-0.346,-0.052] -> not distinguishable or scale-dependent
+  human_enhancers_cohn         train_only kmer_minus_comp seeds 42    matched-vs-random diff -0.036 [-0.054,-0.017]  relative diff -0.247 [-0.318,-0.179] -> k-mer loses LESS than composition-only on both scales
+  human_enhancers_cohn         train_only kmer_minus_comp seeds 42-44 matched-vs-random diff -0.035 [-0.051,-0.018]  relative diff -0.231 [-0.297,-0.164] -> k-mer loses LESS than composition-only on both scales
+  human_enhancers_cohn         fixed_model kmer_minus_comp seeds 42    matched-vs-random diff -0.020 [-0.047,+0.004]  relative diff -0.141 [-0.232,-0.052] -> not distinguishable or scale-dependent
+  human_enhancers_cohn         fixed_model kmer_minus_comp seeds 42-44 matched-vs-random diff -0.026 [-0.050,-0.002]  relative diff -0.159 [-0.233,-0.078] -> k-mer loses LESS than composition-only on both scales
+  nt_enhancers                 within     kmer            seeds 42    A0 0.850 Ar 0.807 Am 0.799; size +0.043 [+0.009,+0.081] (CI straddles tau); matched-vs-random +0.008 [-0.074,+0.099]; relative 0.026 [-0.269,0.302]
+  nt_enhancers                 within     kmer            seeds 42-44 A0 0.850 Ar 0.807 Am 0.757; size +0.043 [+0.009,+0.081] (CI straddles tau); matched-vs-random +0.050 [-0.037,+0.152]; relative 0.162 [-0.129,0.466]
+  nt_enhancers                 within     comp            seeds 42    A0 0.824 Ar 0.788 Am 0.640; size +0.037 [+0.001,+0.075] (CI straddles tau); matched-vs-random +0.148 [+0.024,+0.271]; relative 0.514 [0.090,0.902]
+  nt_enhancers                 within     comp            seeds 42-44 A0 0.824 Ar 0.788 Am 0.661; size +0.037 [+0.001,+0.075] (CI straddles tau); matched-vs-random +0.127 [+0.011,+0.249]; relative 0.440 [0.038,0.842]
+  nt_enhancers                 train_only kmer            seeds 42    A0 0.850 Ar 0.799 Am 0.698; size +0.051 [+0.031,+0.073] (CI above tau); matched-vs-random +0.102 [+0.041,+0.170]; relative 0.340 [0.142,0.532]
+  nt_enhancers                 train_only kmer            seeds 42-44 A0 0.850 Ar 0.799 Am 0.681; size +0.051 [+0.031,+0.073] (CI above tau); matched-vs-random +0.118 [+0.053,+0.189]; relative 0.396 [0.193,0.599]
+  nt_enhancers                 train_only comp            seeds 42    A0 0.824 Ar 0.779 Am 0.499; size +0.046 [+0.029,+0.064] (CI straddles tau); matched-vs-random +0.280 [+0.209,+0.351]; relative 1.004 [0.819,1.200]
+  nt_enhancers                 train_only comp            seeds 42-44 A0 0.824 Ar 0.779 Am 0.546; size +0.046 [+0.029,+0.064] (CI straddles tau); matched-vs-random +0.233 [+0.161,+0.309]; relative 0.835 [0.609,1.061]
+  nt_enhancers                 fixed_model kmer            seeds 42    A0 0.850 Ar 0.852 Am 0.690; size -0.003 [-0.027,+0.022] (n/a (fixed_model)); matched-vs-random +0.163 [+0.085,+0.244]; relative 0.462 [0.238,0.709]
+  nt_enhancers                 fixed_model kmer            seeds 42-44 A0 0.850 Ar 0.852 Am 0.687; size -0.003 [-0.027,+0.022] (n/a (fixed_model)); matched-vs-random +0.165 [+0.093,+0.239]; relative 0.469 [0.260,0.705]
+  nt_enhancers                 fixed_model comp            seeds 42    A0 0.824 Ar 0.829 Am 0.636; size -0.004 [-0.036,+0.026] (n/a (fixed_model)); matched-vs-random +0.192 [+0.110,+0.281]; relative 0.585 [0.329,0.879]
+  nt_enhancers                 fixed_model comp            seeds 42-44 A0 0.824 Ar 0.829 Am 0.630; size -0.004 [-0.036,+0.026] (n/a (fixed_model)); matched-vs-random +0.199 [+0.118,+0.278]; relative 0.606 [0.352,0.889]
+  nt_enhancers                 within     kmer_minus_comp seeds 42    matched-vs-random diff -0.140 [-0.242,-0.041]  relative diff -0.488 [-0.845,-0.156] -> k-mer loses LESS than composition-only on both scales
+  nt_enhancers                 within     kmer_minus_comp seeds 42-44 matched-vs-random diff -0.077 [-0.174,+0.023]  relative diff -0.277 [-0.611,+0.058] -> not distinguishable or scale-dependent
+  nt_enhancers                 train_only kmer_minus_comp seeds 42    matched-vs-random diff -0.178 [-0.233,-0.121]  relative diff -0.664 [-0.877,-0.468] -> k-mer loses LESS than composition-only on both scales
+  nt_enhancers                 train_only kmer_minus_comp seeds 42-44 matched-vs-random diff -0.115 [-0.186,-0.040]  relative diff -0.439 [-0.686,-0.183] -> k-mer loses LESS than composition-only on both scales
+  nt_enhancers                 fixed_model kmer_minus_comp seeds 42    matched-vs-random diff -0.030 [-0.081,+0.018]  relative diff -0.124 [-0.290,+0.024] -> not distinguishable or scale-dependent
+  nt_enhancers                 fixed_model kmer_minus_comp seeds 42-44 matched-vs-random diff -0.034 [-0.086,+0.014]  relative diff -0.137 [-0.312,+0.012] -> not distinguishable or scale-dependent
+  nt_enhancers_leakfreeTest    within     kmer            seeds 42    A0 0.735 Ar 0.723 Am 0.684; size +0.011 [-0.029,+0.052] (CI straddles tau); matched-vs-random +0.039 [-0.077,+0.145]; relative 0.176 [-0.453,0.597]
+  nt_enhancers_leakfreeTest    within     kmer            seeds 42-44 A0 0.735 Ar 0.723 Am 0.633; size +0.011 [-0.029,+0.052] (CI straddles tau); matched-vs-random +0.091 [-0.029,+0.217]; relative 0.406 [-0.161,0.878]
+  nt_enhancers_leakfreeTest    within     comp            seeds 42    A0 0.716 Ar 0.698 Am 0.564; size +0.018 [-0.022,+0.058] (CI straddles tau); matched-vs-random +0.134 [-0.008,+0.273]; relative 0.678 [-0.055,1.267]
+  nt_enhancers_leakfreeTest    within     comp            seeds 42-44 A0 0.716 Ar 0.698 Am 0.592; size +0.018 [-0.022,+0.058] (CI straddles tau); matched-vs-random +0.106 [-0.036,+0.246]; relative 0.534 [-0.252,1.175]
+  nt_enhancers_leakfreeTest    train_only kmer            seeds 42    A0 0.735 Ar 0.715 Am 0.570; size +0.020 [-0.004,+0.042] (CI straddles tau); matched-vs-random +0.145 [+0.055,+0.235]; relative 0.676 [0.313,0.990]
+  nt_enhancers_leakfreeTest    train_only kmer            seeds 42-44 A0 0.735 Ar 0.715 Am 0.555; size +0.020 [-0.004,+0.042] (CI straddles tau); matched-vs-random +0.160 [+0.074,+0.249]; relative 0.743 [0.410,1.054]
+  nt_enhancers_leakfreeTest    train_only comp            seeds 42    A0 0.716 Ar 0.689 Am 0.423; size +0.028 [+0.006,+0.051] (CI straddles tau); matched-vs-random +0.265 [+0.154,+0.356]; relative 1.406 [1.023,1.783]
+  nt_enhancers_leakfreeTest    train_only comp            seeds 42-44 A0 0.716 Ar 0.689 Am 0.479; size +0.028 [+0.006,+0.051] (CI straddles tau); matched-vs-random +0.209 [+0.100,+0.304]; relative 1.111 [0.675,1.503]
+  nt_enhancers_leakfreeTest    fixed_model kmer            seeds 42    A0 0.735 Ar 0.735 Am 0.535; size -0.001 [-0.034,+0.033] (n/a (fixed_model)); matched-vs-random +0.200 [+0.117,+0.294]; relative 0.851 [0.482,1.340]
+  nt_enhancers_leakfreeTest    fixed_model kmer            seeds 42-44 A0 0.735 Ar 0.735 Am 0.529; size -0.001 [-0.034,+0.033] (n/a (fixed_model)); matched-vs-random +0.206 [+0.126,+0.288]; relative 0.877 [0.530,1.390]
+  nt_enhancers_leakfreeTest    fixed_model comp            seeds 42    A0 0.716 Ar 0.721 Am 0.486; size -0.005 [-0.042,+0.035] (n/a (fixed_model)); matched-vs-random +0.236 [+0.149,+0.329]; relative 1.065 [0.635,1.668]
+  nt_enhancers_leakfreeTest    fixed_model comp            seeds 42-44 A0 0.716 Ar 0.721 Am 0.483; size -0.005 [-0.042,+0.035] (n/a (fixed_model)); matched-vs-random +0.239 [+0.158,+0.324]; relative 1.078 [0.691,1.751]
+  nt_enhancers_leakfreeTest    within     kmer_minus_comp seeds 42    matched-vs-random diff -0.095 [-0.202,+0.017]  relative diff -0.502 [-1.105,+0.041] -> not distinguishable or scale-dependent
+  nt_enhancers_leakfreeTest    within     kmer_minus_comp seeds 42-44 matched-vs-random diff -0.015 [-0.122,+0.104]  relative diff -0.128 [-0.683,+0.520] -> not distinguishable or scale-dependent
+  nt_enhancers_leakfreeTest    train_only kmer_minus_comp seeds 42    matched-vs-random diff -0.120 [-0.191,-0.039]  relative diff -0.731 [-1.218,-0.327] -> k-mer loses LESS than composition-only on both scales
+  nt_enhancers_leakfreeTest    train_only kmer_minus_comp seeds 42-44 matched-vs-random diff -0.050 [-0.130,+0.033]  relative diff -0.368 [-0.822,+0.058] -> not distinguishable or scale-dependent
+  nt_enhancers_leakfreeTest    fixed_model kmer_minus_comp seeds 42    matched-vs-random diff -0.035 [-0.088,+0.015]  relative diff -0.214 [-0.519,+0.036] -> not distinguishable or scale-dependent
+  nt_enhancers_leakfreeTest    fixed_model kmer_minus_comp seeds 42-44 matched-vs-random diff -0.032 [-0.080,+0.013]  relative diff -0.201 [-0.522,+0.035] -> not distinguishable or scale-dependent
+  nt_enhancers_leakfreeRefit   within     kmer            seeds 42    A0 0.804 Ar 0.786 Am 0.706; size +0.018 [-0.018,+0.054] (CI straddles tau); matched-vs-random +0.079 [-0.012,+0.181]; relative 0.278 [-0.048,0.589]
+  nt_enhancers_leakfreeRefit   within     kmer            seeds 42-44 A0 0.804 Ar 0.786 Am 0.630; size +0.018 [-0.018,+0.054] (CI straddles tau); matched-vs-random +0.156 [+0.039,+0.286]; relative 0.547 [0.155,0.944]
+  nt_enhancers_leakfreeRefit   within     comp            seeds 42    A0 0.805 Ar 0.775 Am 0.602; size +0.030 [-0.009,+0.069] (CI straddles tau); matched-vs-random +0.174 [+0.050,+0.289]; relative 0.631 [0.202,1.025]
+  nt_enhancers_leakfreeRefit   within     comp            seeds 42-44 A0 0.805 Ar 0.775 Am 0.614; size +0.030 [-0.009,+0.069] (CI straddles tau); matched-vs-random +0.161 [+0.043,+0.283]; relative 0.585 [0.160,0.977]
+  nt_enhancers_leakfreeRefit   train_only kmer            seeds 42    A0 0.804 Ar 0.782 Am 0.570; size +0.022 [+0.004,+0.040] (CI straddles tau); matched-vs-random +0.212 [+0.142,+0.287]; relative 0.751 [0.531,0.961]
+  nt_enhancers_leakfreeRefit   train_only kmer            seeds 42-44 A0 0.804 Ar 0.782 Am 0.548; size +0.022 [+0.004,+0.040] (CI straddles tau); matched-vs-random +0.233 [+0.161,+0.308]; relative 0.828 [0.604,1.040]
+  nt_enhancers_leakfreeRefit   train_only comp            seeds 42    A0 0.805 Ar 0.764 Am 0.437; size +0.041 [+0.023,+0.060] (CI straddles tau); matched-vs-random +0.327 [+0.255,+0.397]; relative 1.237 [1.038,1.437]
+  nt_enhancers_leakfreeRefit   train_only comp            seeds 42-44 A0 0.805 Ar 0.764 Am 0.487; size +0.041 [+0.023,+0.060] (CI straddles tau); matched-vs-random +0.277 [+0.205,+0.356]; relative 1.048 [0.813,1.283]
+  nt_enhancers_leakfreeRefit   fixed_model kmer            seeds 42    A0 0.804 Ar 0.804 Am 0.605; size -0.000 [-0.032,+0.032] (n/a (fixed_model)); matched-vs-random +0.199 [+0.112,+0.290]; relative 0.654 [0.371,0.961]
+  nt_enhancers_leakfreeRefit   fixed_model kmer            seeds 42-44 A0 0.804 Ar 0.804 Am 0.604; size -0.000 [-0.032,+0.032] (n/a (fixed_model)); matched-vs-random +0.200 [+0.123,+0.280]; relative 0.657 [0.404,0.953]
+  nt_enhancers_leakfreeRefit   fixed_model comp            seeds 42    A0 0.805 Ar 0.807 Am 0.587; size -0.002 [-0.038,+0.035] (n/a (fixed_model)); matched-vs-random +0.221 [+0.130,+0.308]; relative 0.718 [0.422,1.047]
+  nt_enhancers_leakfreeRefit   fixed_model comp            seeds 42-44 A0 0.805 Ar 0.807 Am 0.590; size -0.002 [-0.038,+0.035] (n/a (fixed_model)); matched-vs-random +0.217 [+0.130,+0.304]; relative 0.706 [0.430,1.025]
+  nt_enhancers_leakfreeRefit   within     kmer_minus_comp seeds 42    matched-vs-random diff -0.094 [-0.185,+0.002]  relative diff -0.353 [-0.709,-0.038] -> not distinguishable or scale-dependent
+  nt_enhancers_leakfreeRefit   within     kmer_minus_comp seeds 42-44 matched-vs-random diff -0.005 [-0.115,+0.115]  relative diff -0.039 [-0.422,+0.395] -> not distinguishable or scale-dependent
+  nt_enhancers_leakfreeRefit   train_only kmer_minus_comp seeds 42    matched-vs-random diff -0.115 [-0.171,-0.056]  relative diff -0.486 [-0.724,-0.254] -> k-mer loses LESS than composition-only on both scales
+  nt_enhancers_leakfreeRefit   train_only kmer_minus_comp seeds 42-44 matched-vs-random diff -0.044 [-0.117,+0.030]  relative diff -0.220 [-0.497,+0.056] -> not distinguishable or scale-dependent
+  nt_enhancers_leakfreeRefit   fixed_model kmer_minus_comp seeds 42    matched-vs-random diff -0.022 [-0.075,+0.034]  relative diff -0.064 [-0.250,+0.134] -> not distinguishable or scale-dependent
+  nt_enhancers_leakfreeRefit   fixed_model kmer_minus_comp seeds 42-44 matched-vs-random diff -0.017 [-0.069,+0.035]  relative diff -0.048 [-0.231,+0.139] -> not distinguishable or scale-dependent
+  drosophila_enhancers_stark   within     kmer            seeds 42    A0 0.763 Ar 0.754 Am 0.674; size +0.009 [-0.009,+0.028] (CI below tau); matched-vs-random +0.081 [+0.040,+0.123]; relative 0.317 [0.156,0.470]
+  drosophila_enhancers_stark   within     kmer            seeds 42-44 A0 0.763 Ar 0.754 Am 0.663; size +0.009 [-0.009,+0.028] (CI below tau); matched-vs-random +0.091 [+0.058,+0.131]; relative 0.359 [0.229,0.491]
+  drosophila_enhancers_stark   within     comp            seeds 42    A0 0.683 Ar 0.662 Am 0.621; size +0.021 [+0.000,+0.043] (CI straddles tau); matched-vs-random +0.041 [-0.004,+0.090]; relative 0.253 [-0.024,0.522]
+  drosophila_enhancers_stark   within     comp            seeds 42-44 A0 0.683 Ar 0.662 Am 0.582; size +0.021 [+0.000,+0.043] (CI straddles tau); matched-vs-random +0.080 [+0.031,+0.127]; relative 0.494 [0.215,0.748]
+  drosophila_enhancers_stark   train_only kmer            seeds 42    A0 0.763 Ar 0.754 Am 0.703; size +0.009 [-0.000,+0.018] (CI below tau); matched-vs-random +0.051 [+0.033,+0.070]; relative 0.201 [0.128,0.274]
+  drosophila_enhancers_stark   train_only kmer            seeds 42-44 A0 0.763 Ar 0.754 Am 0.702; size +0.009 [-0.000,+0.018] (CI below tau); matched-vs-random +0.052 [+0.034,+0.069]; relative 0.203 [0.136,0.271]
+  drosophila_enhancers_stark   train_only comp            seeds 42    A0 0.683 Ar 0.669 Am 0.570; size +0.014 [+0.002,+0.028] (CI below tau); matched-vs-random +0.098 [+0.075,+0.123]; relative 0.583 [0.445,0.722]
+  drosophila_enhancers_stark   train_only comp            seeds 42-44 A0 0.683 Ar 0.669 Am 0.567; size +0.014 [+0.002,+0.028] (CI below tau); matched-vs-random +0.101 [+0.079,+0.126]; relative 0.601 [0.482,0.726]
+  drosophila_enhancers_stark   fixed_model kmer            seeds 42    A0 0.763 Ar 0.762 Am 0.690; size +0.001 [-0.012,+0.016] (n/a (fixed_model)); matched-vs-random +0.072 [+0.039,+0.111]; relative 0.275 [0.148,0.420]
+  drosophila_enhancers_stark   fixed_model kmer            seeds 42-44 A0 0.763 Ar 0.762 Am 0.659; size +0.001 [-0.012,+0.016] (n/a (fixed_model)); matched-vs-random +0.103 [+0.063,+0.142]; relative 0.394 [0.244,0.542]
+  drosophila_enhancers_stark   fixed_model comp            seeds 42    A0 0.683 Ar 0.683 Am 0.607; size -0.000 [-0.018,+0.019] (n/a (fixed_model)); matched-vs-random +0.076 [+0.039,+0.116]; relative 0.418 [0.217,0.637]
+  drosophila_enhancers_stark   fixed_model comp            seeds 42-44 A0 0.683 Ar 0.683 Am 0.578; size -0.000 [-0.018,+0.019] (n/a (fixed_model)); matched-vs-random +0.106 [+0.065,+0.149]; relative 0.576 [0.369,0.826]
+  drosophila_enhancers_stark   within     kmer_minus_comp seeds 42    matched-vs-random diff +0.040 [-0.009,+0.092]  relative diff +0.064 [-0.189,+0.350] -> not distinguishable or scale-dependent
+  drosophila_enhancers_stark   within     kmer_minus_comp seeds 42-44 matched-vs-random diff +0.011 [-0.036,+0.059]  relative diff -0.135 [-0.382,+0.131] -> not distinguishable or scale-dependent
+  drosophila_enhancers_stark   train_only kmer_minus_comp seeds 42    matched-vs-random diff -0.047 [-0.072,-0.024]  relative diff -0.382 [-0.518,-0.248] -> k-mer loses LESS than composition-only on both scales
+  drosophila_enhancers_stark   train_only kmer_minus_comp seeds 42-44 matched-vs-random diff -0.050 [-0.071,-0.028]  relative diff -0.397 [-0.527,-0.277] -> k-mer loses LESS than composition-only on both scales
+  drosophila_enhancers_stark   fixed_model kmer_minus_comp seeds 42    matched-vs-random diff -0.004 [-0.042,+0.033]  relative diff -0.142 [-0.339,+0.035] -> not distinguishable or scale-dependent
+  drosophila_enhancers_stark   fixed_model kmer_minus_comp seeds 42-44 matched-vs-random diff -0.002 [-0.032,+0.032]  relative diff -0.183 [-0.354,-0.018] -> not distinguishable or scale-dependent
+
+F2 selection bias (psm_sensitivity_selection_bias_f2.csv): retained vs discarded negatives vs positives (|SMD ret-vs-disc| >= 0.2 shown):
+  drosophila_enhancers_stark / F2_trim_q0.3 (kept 25.4%)
+    trimer_l1_to_pos_centroid    pos 0.2067 | retained 0.2202 | discarded 0.2634 | random 0.2533  SMD ret-vs-disc -0.45, ret-vs-pos +0.21
+    tata_any                     pos 0.9728 | retained 0.9772 | discarded 0.9251 | random 0.9346  SMD ret-vs-disc +0.24, ret-vs-pos +0.03
+    in_model_logit_propensity    pos 0.1836 | retained 0.1795 | discarded -0.3164 | random -0.1858  SMD ret-vs-disc +0.95, ret-vs-pos -0.01
+  drosophila_enhancers_stark / F2_trim_q0.45 (kept 6.3%)
+    trimer_l1_to_pos_centroid    pos 0.2067 | retained 0.2222 | discarded 0.2545 | random 0.2491  SMD ret-vs-disc -0.34, ret-vs-pos +0.24
+    tata_any                     pos 0.9728 | retained 0.9772 | discarded 0.9358 | random 0.9416  SMD ret-vs-disc +0.20, ret-vs-pos +0.03
+    in_model_logit_propensity    pos 0.1836 | retained 0.1936 | discarded -0.2163 | random -0.1724  SMD ret-vs-disc +0.85, ret-vs-pos +0.03
+  drosophila_enhancers_stark / F1_hist_a1_seed42 (kept 42.9%)
+    trimer_l1_to_pos_centroid    pos 0.2067 | retained 0.2323 | discarded 0.2675 | random 0.2521  SMD ret-vs-disc -0.34, ret-vs-pos +0.37
+    lowcomplexity_frac           pos 0.07457 | retained 0.07122 | discarded 0.05451 | random 0.06172  SMD ret-vs-disc +0.23, ret-vs-pos -0.05
+    in_model_logit_propensity    pos 0.1836 | retained 0.1803 | discarded -0.4684 | random -0.1804  SMD ret-vs-disc +1.12, ret-vs-pos -0.01
+  human_enhancers_cohn / F2_trim_q0.3 (kept 24.7%)
+    trimer_l1_to_pos_centroid    pos 0.409 | retained 0.3652 | discarded 0.4822 | random 0.4529  SMD ret-vs-disc -1.09, ret-vs-pos -0.42
+    trimer_markov1_residual      pos 0.2238 | retained 0.2294 | discarded 0.2163 | random 0.2199  SMD ret-vs-disc +0.33, ret-vs-pos +0.15
+    tata_any                     pos 0.3518 | retained 0.3691 | discarded 0.6414 | random 0.5757  SMD ret-vs-disc -0.57, ret-vs-pos +0.04
+    gc                           pos 0.4679 | retained 0.4505 | discarded 0.3736 | random 0.3928  SMD ret-vs-disc +1.31, ret-vs-pos -0.24
+    in_model_logit_propensity    pos 0.5871 | retained 0.4122 | discarded -0.841 | random -0.5301  SMD ret-vs-disc +1.69, ret-vs-pos -0.20
+    ccre_any                     pos 0.9397 | retained 0.4808 | discarded 0.3575 | random 0.384  SMD ret-vs-disc +0.25, ret-vs-pos -1.17
+    ccre_els                     pos 0.9074 | retained 0.3301 | discarded 0.2115 | random 0.2379  SMD ret-vs-disc +0.27, ret-vs-pos -1.48
+  human_enhancers_cohn / F2_trim_q0.45 (kept 5.5%)
+    trimer_l1_to_pos_centroid    pos 0.409 | retained 0.3598 | discarded 0.4587 | random 0.4514  SMD ret-vs-disc -0.92, ret-vs-pos -0.48
+    trimer_markov1_residual      pos 0.2238 | retained 0.2309 | discarded 0.2189 | random 0.2203  SMD ret-vs-disc +0.31, ret-vs-pos +0.19
+    tata_any                     pos 0.3518 | retained 0.3602 | discarded 0.5866 | random 0.574  SMD ret-vs-disc -0.47, ret-vs-pos +0.02
+    gc                           pos 0.4679 | retained 0.4562 | discarded 0.3889 | random 0.3933  SMD ret-vs-disc +1.15, ret-vs-pos -0.16
+    in_model_logit_propensity    pos 0.5871 | retained 0.4871 | discarded -0.5906 | random -0.5208  SMD ret-vs-disc +1.47, ret-vs-pos -0.12
+  human_enhancers_cohn / F1_hist_a1_seed42 (kept 4.5%)
+    trimer_l1_to_pos_centroid    pos 0.409 | retained 0.4218 | discarded 0.4547 | random 0.4518  SMD ret-vs-disc -0.25, ret-vs-pos +0.10
+    trimer_markov1_residual      pos 0.2238 | retained 0.2279 | discarded 0.2191 | random 0.2202  SMD ret-vs-disc +0.21, ret-vs-pos +0.10
+    tata_any                     pos 0.3518 | retained 0.3461 | discarded 0.5848 | random 0.5758  SMD ret-vs-disc -0.49, ret-vs-pos -0.01
+    sp1_gcbox_any                pos 0.1298 | retained 0.09569 | discarded 0.04364 | random 0.0445  SMD ret-vs-disc +0.21, ret-vs-pos -0.11
+    gc                           pos 0.4679 | retained 0.4645 | discarded 0.3892 | random 0.3933  SMD ret-vs-disc +0.93, ret-vs-pos -0.04
+    in_model_logit_propensity    pos 0.5871 | retained 0.5679 | discarded -0.5828 | random -0.5285  SMD ret-vs-disc +1.08, ret-vs-pos -0.02
+    ccre_any                     pos 0.9397 | retained 0.512 | discarded 0.3822 | random 0.3906  SMD ret-vs-disc +0.26, ret-vs-pos -1.09
+    ccre_els                     pos 0.9074 | retained 0.3365 | discarded 0.2363 | random 0.2392  SMD ret-vs-disc +0.22, ret-vs-pos -1.46
+  nt_enhancers / F2_trim_q0.3 (kept 6.0%)
+    length_acgt                  pos 199.3 | retained 199.6 | discarded 199.2 | random 199.3  SMD ret-vs-disc +0.90, ret-vs-pos +0.59
+    trimer_l1_to_pos_centroid    pos 0.497 | retained 0.5083 | discarded 0.5812 | random 0.581  SMD ret-vs-disc -0.72, ret-vs-pos +0.12
+    tata_any                     pos 0.102 | retained 0.1002 | discarded 0.3232 | random 0.3272  SMD ret-vs-disc -0.57, ret-vs-pos -0.01
+    gc                           pos 0.4816 | retained 0.4643 | discarded 0.3945 | random 0.3966  SMD ret-vs-disc +1.17, ret-vs-pos -0.30
+    in_model_logit_propensity    pos 1.772 | retained 1.545 | discarded -2.073 | random -1.762  SMD ret-vs-disc +2.70, ret-vs-pos -0.17
+    genomic_mapped               pos 0.3303 | retained 0.6122 | discarded 0.2096 | random 0.2926  SMD ret-vs-disc +0.90, ret-vs-pos +0.59
+    ccre_els                     pos 0.7017 | retained 0.1388 | discarded 0.07332 | random 0.08816  SMD ret-vs-disc +0.21, ret-vs-pos -1.39
+  nt_enhancers / F2_trim_q0.45 (kept 1.3%)
+    length_acgt                  pos 199.3 | retained 199.7 | discarded 199.2 | random 199.3  SMD ret-vs-disc +1.00, ret-vs-pos +0.73
+    trimer_l1_to_pos_centroid    pos 0.497 | retained 0.5029 | discarded 0.5778 | random 0.5801  SMD ret-vs-disc -0.77, ret-vs-pos +0.07
+    tata_any                     pos 0.102 | retained 0.1531 | discarded 0.3119 | random 0.3316  SMD ret-vs-disc -0.38, ret-vs-pos +0.15
+    gc                           pos 0.4816 | retained 0.4699 | discarded 0.3977 | random 0.3966  SMD ret-vs-disc +1.19, ret-vs-pos -0.20
+    in_model_logit_propensity    pos 1.772 | retained 1.742 | discarded -1.903 | random -1.817  SMD ret-vs-disc +2.64, ret-vs-pos -0.02
+    genomic_mapped               pos 0.3303 | retained 0.6735 | discarded 0.2279 | random 0.2531  SMD ret-vs-disc +1.00, ret-vs-pos +0.73
+    repeatmasker_frac            pos 0.2952 | retained 0.6601 | discarded 0.5542 | random 0.5489  SMD ret-vs-disc +0.25, ret-vs-pos +0.90
+    ccre_any                     pos 0.7797 | retained 0.2727 | discarded 0.1851 | random 0.1551  SMD ret-vs-disc +0.21, ret-vs-pos -1.18
+    ccre_els                     pos 0.7017 | retained 0.1667 | discarded 0.08039 | random 0.06856  SMD ret-vs-disc +0.26, ret-vs-pos -1.28
+  nt_enhancers / F1_hist_a1_seed42 (kept 4.9%)
+    length_acgt                  pos 199.3 | retained 199.6 | discarded 199.2 | random 199.3  SMD ret-vs-disc +0.91, ret-vs-pos +0.61
+    trimer_l1_to_pos_centroid    pos 0.497 | retained 0.5374 | discarded 0.5789 | random 0.5821  SMD ret-vs-disc -0.36, ret-vs-pos +0.37
+    tata_any                     pos 0.102 | retained 0.1398 | discarded 0.3187 | random 0.3303  SMD ret-vs-disc -0.44, ret-vs-pos +0.12
+    lowcomplexity_frac           pos 0.01326 | retained 0.04719 | discarded 0.015 | random 0.02253  SMD ret-vs-disc +0.26, ret-vs-pos +0.28
+    gc                           pos 0.4816 | retained 0.4709 | discarded 0.3949 | random 0.3959  SMD ret-vs-disc +1.17, ret-vs-pos -0.17
+    in_model_logit_propensity    pos 1.772 | retained 1.766 | discarded -2.045 | random -1.745  SMD ret-vs-disc +2.05, ret-vs-pos -0.00
+    genomic_mapped               pos 0.3303 | retained 0.6227 | discarded 0.2134 | random 0.296  SMD ret-vs-disc +0.91, ret-vs-pos +0.61
+    ccre_any                     pos 0.7797 | retained 0.2924 | discarded 0.1725 | random 0.1676  SMD ret-vs-disc +0.29, ret-vs-pos -1.12

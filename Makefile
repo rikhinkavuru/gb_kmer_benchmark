@@ -17,7 +17,8 @@ UP := src/upgrades
 
 .PHONY: help test setup-fm setup-coords all \
         upgrade1 upgrade1-extract upgrade1-probe upgrade2 upgrade3 upgrade4 upgrade5 \
-        upgrade6 upgrade7 upgrade8 upgrade9 upgrade10
+        upgrade6 upgrade7 upgrade8 upgrade9 upgrade10 \
+        finetune presence-null route3-specificity-extra paperfigs
 
 help:
 	@echo "Setup:    setup-fm (torch/transformers), setup-coords (mappy)"
@@ -96,6 +97,33 @@ test:
 	$(PY) $(UP)/disc_dose/tests/test_slopes.py
 	$(PY) $(UP)/fm_probe/tests/test_dnabert.py
 	$(PY) $(UP)/fm_probe/tests/test_reproduce_from_cache.py
+	$(PY) $(UP)/fm_finetune/tests/test_sanity.py
+	$(PY) $(UP)/presence_null/tests/test_sanity.py
+
+# ---- PSB revision additions ----
+# E1: fine-tuned FM arm (needs setup-fm; MPS or CPU). Trains 3 arms x 3 seeds per dataset.
+finetune:
+	$(PY) -W ignore $(UP)/fm_finetune/run_fm_finetune.py --dataset human_enhancers_cohn
+	$(PY) -W ignore $(UP)/fm_finetune/run_fm_finetune.py --dataset nt_enhancers \
+		--out results/upgrades/fm_finetune_nt.csv
+# E2: motif-presence null extended to all 15 tasks, with confidence intervals (torch-free)
+presence-null:
+	$(PY) $(UP)/presence_null/run_presence_null.py
+# E3: Route-3 specificity on the two remaining large GB tasks (torch-free, slow)
+route3-specificity-extra:
+	$(PY) $(UP)/composition_clean/run_composition_clean.py \
+		--datasets human_ocr_ensembl,human_enhancers_ensembl \
+		--out results/upgrades/composition_clean_specificity.csv \
+		--balance-out results/upgrades/composition_clean_specificity_balance.csv \
+		--splits-dir cleaned_splits_specificity
+	$(PY) $(UP)/shuffled_neg/run_shuffled_neg.py \
+		--datasets human_ocr_ensembl,human_enhancers_ensembl \
+		--out results/upgrades/shuffled_neg_specificity.csv
+# paper figures (schematic + the two composite panels)
+paperfigs:
+	$(PY) $(UP)/paperfigs/make_fig_routes.py
+	$(PY) $(UP)/paperfigs/make_fig_task_landscape.py
+	$(PY) $(UP)/paperfigs/make_fig_fm_combined.py
 
 # ---- DEPTH upgrades (deepen existing claims; reuse cached artifacts) ----
 .PHONY: depth depth1-extract depth1-probe

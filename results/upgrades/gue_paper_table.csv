@@ -1,0 +1,8 @@
+name,n_datasets,frac_in_any_gb_nt_range,mean_kmer,mean_comp_only,mean_DNABERT2,comp_fraction_range,n_comp_dominated,max_pos_delta,n_route3_signature,routes,note
+Core promoter (70 bp),3,0.50-0.77,58.2,55.8,70.5,0.85-0.99,3,0.231,0,hard (no single route):2; positional:1,
+Promoter (300 bp),3,0.50-0.66,66.8,63.3,84.2,0.74-0.98,2,0.248,0,solved:2; positional:1,
+"TF binding, human",5,0.20-0.45,63.1,51.7,70.1,0.66-0.94,3,0.021,0,hard (no single route):3; solved:2,
+Splice site (3-class),1,0.68-0.68,34.7,19.6,85.0,0.64-0.64,0,0.407,0,positional:1,
+"TF binding, mouse",5,0.00-0.00,63.5,-77.4,68.0,-1.78--0.91,0,0.023,0,hard (no single route):3; solved:2,composition-only inverted by shuffle twins split across train/test (gue_twins.csv)
+Yeast histone marks,10,1.00-1.00,51.5,36.5,56.0,0.48-0.94,3,0.006,5,shared-motif:5; contamination:4; solved:1,"Route-3 signature 5: location explains 1, partly 1, not 3 (PH5); negatives are low-signal genomic windows"
+Covid variant (9-class),1,0.00-0.00,76.8,58.0,71.0,0.85-0.85,1,-0.022,0,solved:1,covid: macro-F1 x100; archive partition differs from Table 12

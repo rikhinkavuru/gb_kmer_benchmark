@@ -1,0 +1,507 @@
+fm_finetune v2 -- END-TO-END FINE-TUNING vs THE NEGATIVE-SET COMPOSITION SHORTCUT
+(camera-ready response to Reviewer 1, comment 2)
+generated 2026-09-26 15:09 by src/upgrades/fm_finetune/write_interpretation_ft_v2.py; every number below is read from results/upgrades/fm_finetune_v2_{paper_table,summary,runs,score_composition_summary,v1_vs_v2,split_manifest,preds_check,compare,compare_paired,posthoc_*,baselines_repro}.csv or the cited module CSVs
+
+STATUS (trained units; per-sequence predictions in results/upgrades/fm_finetune_v2_preds/)
+  hyenadna     human_enhancers_cohn        original: 3/3 seeds (42,43,44); comp_equalized: 3/3 seeds (42,43,44); random: 3/3 seeds (42,43,44); gc_match: 3/3 seeds (42,43,44)
+  hyenadna     nt_enhancers                original: 3/3 seeds (42,43,44); comp_equalized: 3/3 seeds (42,43,44); random: 3/3 seeds (42,43,44); gc_match: 3/3 seeds (42,43,44)
+  hyenadna     drosophila_enhancers_stark  original: 3/3 seeds (42,43,44); comp_equalized: 3/3 seeds (42,43,44); random: 3/3 seeds (42,43,44); gc_match: 3/3 seeds (42,43,44)
+  dnabert2     human_enhancers_cohn        original: 3/3 seeds (42,43,44); comp_equalized: 3/3 seeds (42,43,44); random: 3/3 seeds (42,43,44)
+  dnabert2     nt_enhancers                original: 3/3 seeds (42,43,44); comp_equalized: 3/3 seeds (42,43,44); random: 3/3 seeds (42,43,44)
+  dnabert2full human_enhancers_cohn        original: 0/3 seeds; comp_equalized: 0/3 seeds; random: 0/3 seeds   [PENDING: GPU job 2, gpu_deferred/]
+  ntv2_500m    human_enhancers_cohn        original: 0/3 seeds; comp_equalized: 0/3 seeds; random: 0/3 seeds   [PENDING: GPU job 3, gpu_deferred/]
+  ntv2_500m    drosophila_enhancers_stark  original: 0/3 seeds; comp_equalized: 0/3 seeds; random: 0/3 seeds   [PENDING: GPU job 5, gpu_deferred/]
+  ntv2_500m    nt_enhancers                original: 0/3 seeds; comp_equalized: 0/3 seeds; random: 0/3 seeds   [PENDING: GPU job 6, gpu_deferred/]
+  dnabert2full nt_enhancers                original: 0/3 seeds; comp_equalized: 0/3 seeds; random: 0/3 seeds   [PENDING: GPU job 7, gpu_deferred/]
+  integrity (verify_preds_ft_v2.py): 54/54 units pass (test rows = every released test sequence, labels = verified split files, validation rows inside the arm's train set, best epoch = arg-max validation AUROC, stored probabilities reproduce the trainer's logged test AUROC to <= 9.2e-05)
+
+SUMMARY FOR THE WRITER -- does end-to-end fine-tuning remove the composition shortcut? [pre] = pre-registered (Part 1), [post hoc] = Parts 2-3 (no decision rule attached). A = released->released AUROC, B = same weights on composition-equalized negatives, C = same weights on size-matched random negatives, D/E = retrained on equalized/random negatives. S = A-B and T = C-B are pre-registered; the share lost, (A-X)/(A-0.5), is a post hoc descriptive re-expression of them.
+ (1) Same weights, three test sets:
+  HyenaDNA full-FT   cohn                                         [pre]      A 0.796 -> B 0.581 [0.542,0.618] (n=3702), S 0.214 [0.180,0.252]; C 0.804, T 0.223 [0.181,0.271]; share lost [post hoc] 72% [60%,86%] vs random -3% [-12%,6%]; rule 1 True (only via 'B < 0.6'; B's CI excludes 0.5), rule 2 True; B vs 1000 random 228-negative draws: 2.5-97.5% 0.768-0.824, min 0.753, B below all draws (p = 0.001) [post hoc]
+  HyenaDNA full-FT   nt_enhancers (released test, 100 leaked)     [pre]      A 0.762 -> B 0.593 [0.504,0.684] (n=236), S 0.169 [0.095,0.241]; C 0.797, T 0.204 [0.099,0.309]; share lost [post hoc] 64% [35%,98%] vs random -13% [-37%,10%]; rule 1 True (only via 'B < 0.6'; B's CI excludes 0.5), rule 2 True; B vs 1000 random 36-negative draws: 2.5-97.5% 0.690-0.822, min 0.634, B below all draws (p = 0.001) [post hoc]
+  HyenaDNA full-FT   nt_enhancers LEAK-FREE test (100+/36- on B)  [post hoc] A 0.697 -> B 0.525 [0.424,0.620] (n=136), S 0.172 [0.105,0.247]; C 0.732, T 0.207 [0.098,0.312]; share lost [post hoc] 87% [48%,148%] vs random -18% [-56%,17%]; no verdict (post hoc set; the pre-registered rule-1 verdict on the released split is True); B's CI covers 0.5 for 5/5 baselines on this set too, so a covering CI is weak evidence here; B vs 1000 random 36-negative draws: 2.5-97.5% 0.624-0.761, min 0.582, B below all draws (p = 0.001) [post hoc]
+  HyenaDNA full-FT   drosophila (GC-balanced control)             [pre]      A 0.828 -> B 0.742 [0.707,0.779] (n=1082), S 0.086 [0.056,0.114]; C 0.846, T 0.105 [0.065,0.142]; share lost [post hoc] 26% [17%,35%] vs random -6% [-14%,2%]; rule 1 False, rule 2 True, rule 5 False; B vs 1000 random 217-negative draws: 2.5-97.5% 0.801-0.854, min 0.784, B below all draws (p = 0.001) [post hoc]
+  DNABERT-2 LoRA-FT  cohn                                         [pre]      A 0.848 -> B 0.720 [0.683,0.752] (n=3702), S 0.128 [0.095,0.161]; C 0.863, T 0.143 [0.103,0.183]; share lost [post hoc] 37% [27%,46%] vs random -4% [-11%,2%]; rule 1 False, rule 2 True; B vs 1000 random 228-negative draws: 2.5-97.5% 0.822-0.870, min 0.803, B below all draws (p = 0.001) [post hoc]
+  DNABERT-2 LoRA-FT  nt_enhancers (released test, 100 leaked)     [pre]      A 0.820 -> B 0.680 [0.592,0.773] (n=236), S 0.140 [0.069,0.216]; C 0.833, T 0.153 [0.049,0.265]; share lost [post hoc] 44% [20%,70%] vs random -4% [-23%,16%]; rule 1 False, rule 2 True; B vs 1000 random 36-negative draws: 2.5-97.5% 0.752-0.880, min 0.702, B below all draws (p = 0.001) [post hoc]
+  DNABERT-2 LoRA-FT  nt_enhancers LEAK-FREE test (100+/36- on B)  [post hoc] A 0.739 -> B 0.582 [0.474,0.682] (n=136), S 0.158 [0.079,0.242]; C 0.756, T 0.175 [0.065,0.295]; share lost [post hoc] 66% [32%,112%] vs random -7% [-36%,22%]; no verdict (post hoc set; the pre-registered rule-1 verdict on the released split is False); B's CI covers 0.5 for 5/5 baselines on this set too, so a covering CI is weak evidence here; B vs 1000 random 36-negative draws: 2.5-97.5% 0.668-0.805, min 0.620, B below all draws (p = 0.001) [post hoc]
+ (2) Retrained on equalized (D) vs random (E) negatives [pre]:
+  HyenaDNA full-FT   cohn                                         D 0.522 [0.502,0.541] vs E 0.775; U 0.254 [0.217,0.289]; rule 3: composition removal (random arm preserves signal). DEGENERATE: 3/3 equalized-arm units are one-class, near-constant fits (unit_diagnostics); D is an optimization collapse of this recipe, not evidence that the arm is unlearnable (same arm: DNABERT-2 LoRA-FT 0.703 [0.665,0.735]; HyenaDNA frozen mean 0.638 [0.599,0.675]; HyenaDNA frozen [SEP] 0.524 [0.482,0.563]; DNABERT-2 frozen mean 0.695 [0.656,0.733]; DNABERT-2 frozen [CLS] 0.648 [0.602,0.684]; k-mer LightGBM 0.613 [0.576,0.651])
+  HyenaDNA full-FT   nt_enhancers (released test, 100 leaked)     D 0.643 [0.538,0.747] vs E 0.822; U 0.179 [0.061,0.297]; rule 3: composition removal (random arm preserves signal)
+  HyenaDNA full-FT   drosophila (GC-balanced control)             D 0.726 [0.690,0.765] vs E 0.819; U 0.093 [0.051,0.132]; rule 3: composition removal (random arm preserves signal)
+  DNABERT-2 LoRA-FT  cohn                                         D 0.703 [0.665,0.735] vs E 0.833; U 0.130 [0.090,0.173]; rule 3: composition removal (random arm preserves signal)
+  DNABERT-2 LoRA-FT  nt_enhancers (released test, 100 leaked)     D 0.693 [0.597,0.781] vs E 0.816; U 0.122 [0.017,0.232]; rule 3: composition removal (random arm preserves signal)
+     Retrain-side caveat for nt_enhancers: psm_sensitivity's own matching gives verdict 'NOT SUPPORTED' for the retrained k-mer model (matched 0.799 vs size-matched random 0.807), while its fixed-model test agrees with B-vs-C here (matched test 0.690 vs random test 0.852). So rest the nt_enhancers fine-tuning claim on the same-weights B vs C contrast, not on D/E, U or rule 3.
+ (3) Latent positives (ENCODE cCRE v4) [post hoc]: the equalizer keeps negatives that overlap regulatory elements more often than the size-matched random control does:
+  human_enhancers_cohn   test ccre_any: equalized negatives 0.504 (115/228) vs random 0.316 (Fisher p 6e-05) vs released negatives not kept 0.376 (p 0.000137); positives 0.935
+  human_enhancers_cohn   test ccre_els: equalized negatives 0.333 (76/228) vs random 0.206 (Fisher p 0.00304) vs released negatives not kept 0.239 (p 0.00186); positives 0.905
+  nt_enhancers           test ccre_any: equalized negatives 0.389 (14/36) vs random 0.139 (Fisher p 0.0309) vs released negatives not kept 0.165 (p 0.00524); positives 0.835
+  nt_enhancers           test ccre_els: equalized negatives 0.250 (9/36) vs random 0.083 (Fisher p 0.111) vs released negatives not kept 0.110 (p 0.0334); positives 0.765
+  Re-scored with every cCRE-overlapping (or ELS-overlapping) test negative removed (training unchanged):
+    HyenaDNA full-FT   cohn                                         ccre_any_free  A 0.848 -> B 0.654 [0.604,0.701] (neg 113), C 0.828; S 0.194 [0.149,0.242]; share lost 56% [43%,70%] (unfiltered 72%), random 6% [-2%,14%]
+    HyenaDNA full-FT   cohn                                         ccre_els_free  A 0.834 -> B 0.642 [0.596,0.685] (neg 152), C 0.831; S 0.193 [0.152,0.238]; share lost 58% [45%,71%] (unfiltered 72%), random 1% [-6%,8%]
+    HyenaDNA full-FT   nt_enhancers (released test, 100 leaked)     ccre_any_free  A 0.796 -> B 0.691 [0.578,0.789] (neg 22), C 0.800; S 0.105 [0.020,0.204]; share lost 35% [7%,72%] (unfiltered 64%), random -1% [-22%,21%]
+    HyenaDNA full-FT   nt_enhancers (released test, 100 leaked)     ccre_els_free  A 0.787 -> B 0.637 [0.527,0.742] (neg 27), C 0.804; S 0.150 [0.066,0.247]; share lost 52% [23%,90%] (unfiltered 64%), random -6% [-30%,17%]
+    HyenaDNA full-FT   nt_enhancers LEAK-FREE test (100+/36- on B)  ccre_any_free  A 0.731 -> B 0.618 [0.495,0.731] (neg 22), C 0.738; S 0.113 [0.033,0.211]; share lost 49% [14%,103%] (unfiltered 87%), random -3% [-34%,26%]
+    HyenaDNA full-FT   nt_enhancers LEAK-FREE test (100+/36- on B)  ccre_els_free  A 0.723 -> B 0.568 [0.460,0.677] (neg 27), C 0.742; S 0.155 [0.073,0.243]; share lost 70% [31%,123%] (unfiltered 87%), random -9% [-42%,21%]
+    DNABERT-2 LoRA-FT  cohn                                         ccre_any_free  A 0.901 -> B 0.804 [0.762,0.842] (neg 113), C 0.905; S 0.098 [0.063,0.135]; share lost 24% [16%,34%] (unfiltered 37%), random -1% [-6%,4%]
+    DNABERT-2 LoRA-FT  cohn                                         ccre_els_free  A 0.889 -> B 0.784 [0.746,0.817] (neg 152), C 0.899; S 0.104 [0.073,0.140]; share lost 27% [19%,36%] (unfiltered 37%), random -3% [-8%,2%]
+    DNABERT-2 LoRA-FT  nt_enhancers (released test, 100 leaked)     ccre_any_free  A 0.852 -> B 0.774 [0.670,0.870] (neg 22), C 0.839; S 0.078 [0.001,0.170]; share lost 22% [0%,49%] (unfiltered 44%), random 4% [-14%,25%]
+    DNABERT-2 LoRA-FT  nt_enhancers (released test, 100 leaked)     ccre_els_free  A 0.845 -> B 0.733 [0.624,0.826] (neg 27), C 0.838; S 0.111 [0.034,0.204]; share lost 32% [10%,61%] (unfiltered 44%), random 2% [-15%,21%]
+    DNABERT-2 LoRA-FT  nt_enhancers LEAK-FREE test (100+/36- on B)  ccre_any_free  A 0.775 -> B 0.677 [0.559,0.784] (neg 22), C 0.768; S 0.098 [0.011,0.189]; share lost 36% [4%,75%] (unfiltered 66%), random 3% [-23%,31%]
+    DNABERT-2 LoRA-FT  nt_enhancers LEAK-FREE test (100+/36- on B)  ccre_els_free  A 0.766 -> B 0.637 [0.526,0.745] (neg 27), C 0.765; S 0.129 [0.045,0.221]; share lost 48% [17%,88%] (unfiltered 66%), random 1% [-25%,26%]
+    cohn, cCRE-free, every model (share lost; unfiltered in brackets): DNABERT-2 LoRA-FT 24% [16%,34%] (37%); DNABERT-2 frozen [CLS] 28% [15%,41%] (44%); DNABERT-2 frozen mean 27% [17%,40%] (43%); HyenaDNA full-FT 56% [43%,70%] (72%); HyenaDNA frozen mean 35% [22%,48%] (58%); HyenaDNA frozen [SEP] 43% [26%,60%] (66%); k-mer LightGBM 46% [33%,58%] (66%)
+ (4) Same shortcut as the paper's frozen probes and k-mer model? Paired differences in share lost, fine-tuned minus baseline on identical arms and resamples [post hoc]:
+    HyenaDNA full-FT   cohn                                         vs DNABERT-2 frozen [CLS] +0.29 [+0.20,+0.39] (more); vs DNABERT-2 frozen mean +0.29 [+0.20,+0.40] (more); vs HyenaDNA frozen mean +0.14 [+0.05,+0.24] (more); vs HyenaDNA frozen [SEP] +0.07 [-0.08,+0.22] (not distinguishable from); vs k-mer LightGBM +0.06 [-0.01,+0.14] (not distinguishable from)
+    HyenaDNA full-FT   nt_enhancers LEAK-FREE test (100+/36- on B)  vs DNABERT-2 frozen [CLS] -0.08 [-0.49,+0.37] (not distinguishable from); vs DNABERT-2 frozen mean -0.03 [-0.31,+0.29] (not distinguishable from); vs HyenaDNA frozen mean +0.02 [-0.35,+0.32] (not distinguishable from); vs HyenaDNA frozen [SEP] -0.17 [-1.09,+0.35] (not distinguishable from); vs k-mer LightGBM +0.10 [-0.10,+0.37] (not distinguishable from)
+    HyenaDNA full-FT   drosophila (GC-balanced control)             vs HyenaDNA frozen mean -0.12 [-0.27,+0.01] (not distinguishable from); vs HyenaDNA frozen [SEP] +0.25 [+0.05,+0.47] (more); vs k-mer LightGBM -0.18 [-0.31,-0.05] (less)
+    DNABERT-2 LoRA-FT  cohn                                         vs DNABERT-2 frozen [CLS] -0.07 [-0.14,+0.00] (not distinguishable from); vs DNABERT-2 frozen mean -0.06 [-0.11,-0.01] (less); vs HyenaDNA frozen mean -0.21 [-0.31,-0.13] (less); vs HyenaDNA frozen [SEP] -0.29 [-0.44,-0.14] (less); vs k-mer LightGBM -0.29 [-0.39,-0.21] (less)
+    DNABERT-2 LoRA-FT  nt_enhancers LEAK-FREE test (100+/36- on B)  vs DNABERT-2 frozen [CLS] -0.29 [-0.69,+0.02] (not distinguishable from); vs DNABERT-2 frozen mean -0.24 [-0.54,-0.00] (less); vs HyenaDNA frozen mean -0.20 [-0.65,+0.08] (not distinguishable from); vs HyenaDNA frozen [SEP] -0.38 [-1.40,+0.16] (not distinguishable from); vs k-mer LightGBM -0.11 [-0.45,+0.16] (not distinguishable from)
+ (5) GC-matched test effect G-A (the paper's frozen test_effect, same weights) [post hoc paired]:
+    HyenaDNA full-FT   cohn                                         G-A -0.060 [-0.065,-0.055]; minus DNABERT-2 frozen [CLS] (-0.047) -0.013 [-0.017,-0.010] (larger drop); minus DNABERT-2 frozen mean (-0.047) -0.013 [-0.016,-0.010] (larger drop); minus HyenaDNA frozen mean (-0.058) -0.002 [-0.005,+0.001] (similar); minus HyenaDNA frozen [SEP] (-0.048) -0.012 [-0.017,-0.007] (larger drop); minus k-mer LightGBM (-0.059) -0.001 [-0.003,+0.002] (similar)
+    HyenaDNA full-FT   nt_enhancers (released test, 100 leaked)     G-A -0.109 [-0.143,-0.080]; minus DNABERT-2 frozen [CLS] (-0.077) -0.032 [-0.057,-0.008] (larger drop); minus DNABERT-2 frozen mean (-0.072) -0.037 [-0.062,-0.016] (larger drop); minus HyenaDNA frozen mean (-0.080) -0.029 [-0.050,-0.010] (larger drop); minus HyenaDNA frozen [SEP] (-0.079) -0.030 [-0.061,-0.004] (larger drop); minus k-mer LightGBM (-0.076) -0.033 [-0.055,-0.013] (larger drop)
+    HyenaDNA full-FT   nt_enhancers LEAK-FREE test (100+/36- on B)  G-A -0.111 [-0.146,-0.079]; minus DNABERT-2 frozen [CLS] (-0.111) -0.000 [-0.030,+0.031] (similar); minus DNABERT-2 frozen mean (-0.110) -0.001 [-0.024,+0.024] (similar); minus HyenaDNA frozen mean (-0.108) -0.004 [-0.026,+0.021] (similar); minus HyenaDNA frozen [SEP] (-0.113) +0.001 [-0.037,+0.034] (similar); minus k-mer LightGBM (-0.119) +0.007 [-0.013,+0.029] (similar)
+    HyenaDNA full-FT   drosophila (GC-balanced control)             G-A -0.025 [-0.030,-0.019]; minus HyenaDNA frozen mean (-0.039) +0.014 [+0.008,+0.020] (smaller drop); minus HyenaDNA frozen [SEP] (+0.005) -0.030 [-0.040,-0.020] (larger drop); minus k-mer LightGBM (-0.035) +0.011 [+0.006,+0.016] (smaller drop)
+    DNABERT-2 LoRA-FT  cohn                                         G-A -0.041 [-0.045,-0.036]; minus DNABERT-2 frozen [CLS] (-0.047) +0.006 [+0.003,+0.009] (smaller drop); minus DNABERT-2 frozen mean (-0.047) +0.006 [+0.004,+0.008] (smaller drop); minus HyenaDNA frozen mean (-0.058) +0.017 [+0.014,+0.020] (smaller drop); minus HyenaDNA frozen [SEP] (-0.048) +0.007 [+0.002,+0.012] (smaller drop); minus k-mer LightGBM (-0.059) +0.018 [+0.015,+0.022] (smaller drop)
+    DNABERT-2 LoRA-FT  nt_enhancers (released test, 100 leaked)     G-A -0.082 [-0.110,-0.056]; minus DNABERT-2 frozen [CLS] (-0.077) -0.005 [-0.030,+0.020] (similar); minus DNABERT-2 frozen mean (-0.072) -0.010 [-0.030,+0.009] (similar); minus HyenaDNA frozen mean (-0.080) -0.002 [-0.023,+0.019] (similar); minus HyenaDNA frozen [SEP] (-0.079) -0.003 [-0.029,+0.023] (similar); minus k-mer LightGBM (-0.076) -0.006 [-0.026,+0.013] (similar)
+    DNABERT-2 LoRA-FT  nt_enhancers LEAK-FREE test (100+/36- on B)  G-A -0.095 [-0.129,-0.064]; minus DNABERT-2 frozen [CLS] (-0.111) +0.016 [-0.016,+0.049] (similar); minus DNABERT-2 frozen mean (-0.110) +0.015 [-0.011,+0.040] (similar); minus HyenaDNA frozen mean (-0.108) +0.013 [-0.013,+0.040] (similar); minus HyenaDNA frozen [SEP] (-0.113) +0.017 [-0.017,+0.051] (similar); minus k-mer LightGBM (-0.119) +0.024 [-0.001,+0.052] (similar)
+ (6) Score-composition coupling beyond the label [post hoc; CV R^2 of the logit on 20-d composition, released-trained models, released test]: DNABERT-2 LoRA-FT/cohn pooled 0.52, within-pos 0.50, within-neg 0.35, gain over label 0.26; DNABERT-2 LoRA-FT/nt_enh pooled 0.53, within-pos 0.37, within-neg 0.31, gain over label 0.26; HyenaDNA full-FT/dros pooled 0.30, within-pos 0.08, within-neg 0.28, gain over label 0.13; HyenaDNA full-FT/cohn pooled 0.76, within-pos 0.77, within-neg 0.67, gain over label 0.53; HyenaDNA full-FT/nt_enh pooled 0.58, within-pos 0.46, within-neg 0.41, gain over label 0.39
+ (7) Multiplicity [post hoc]: 5 pre-registered fine-tuned cells; S's Bonferroni (99%) CI excludes 0 in 5/5: DNABERT-2 LoRA-FT/cohn [0.088,0.173]; DNABERT-2 LoRA-FT/nt_enh [0.043,0.254]; HyenaDNA full-FT/dros [0.046,0.126]; HyenaDNA full-FT/cohn [0.169,0.266]; HyenaDNA full-FT/nt_enh [0.075,0.270]; T: DNABERT-2 LoRA-FT/cohn [0.088,0.198]; DNABERT-2 LoRA-FT/nt_enh [0.016,0.321]; HyenaDNA full-FT/dros [0.055,0.150]; HyenaDNA full-FT/cohn [0.165,0.290]; HyenaDNA full-FT/nt_enh [0.068,0.360]
+  Reading rules fixed before the results (gpu_deferred/README.md): rule 1 met -> 'the fine-tuned model rides the shortcut'; rule 1 not met but S > 0 -> 'fine-tuning reduces but does not remove reliance on composition'. Leak-free nt_enhancers numbers, the baseline comparison and Part 3 are post hoc.
+
+DESIGN. Same positives in every arm; only the negatives change. Arms: released split; composition-equalized (GC + 16-dinucleotide propensity-matched negatives, cleaned_splits_v2; the paper's published equalized split); RANDOM control = negatives drawn uniformly at random (seeded) to EXACTLY the equalized arm's negative count in train and test, i.e. the same size and class imbalance but the released composition gap; gc_match (HyenaDNA only) = the paper's GC-matched split. Every model scores every sequence of the released test split, so 'orig->X' is the same weights on arm X's test subset. Notation (seed-mean test AUROC): A orig->orig, B orig->comp_eq, C orig->random, D comp_eq->comp_eq, E random->random, F random->comp_eq, G orig->gc_match. S=A-B (shortcut worth), T=C-B (test size/imbalance control), U=E-D (train size/imbalance control), R=(E-.5)/(A-.5). CIs: 95% percentile, 1000 bootstrap resamples of the released test sequences (seed 42), seeds averaged inside each resample; +- is the SD over seeds 42/43/44. Decision rules 1-4 were written in eval_ft_v2.py at 22:00 EDT 2026-09-23, rule 5 and the score-composition analysis at 22:26:57 (agent transcript; the docstring's own label says '22:30'); the first unit finished at 22:33:24 (fm_finetune_v2_run.log) and the first drosophila unit started at 08:53 the next day. The share lost, the leak-free analysis, the baselines and everything in Part 3 are post hoc. Imbalance-robust metrics for every cell: AUROC (prevalence-free), 20 class-balanced resamples (AUROC, balanced accuracy, MCC at p=0.5), and PR-AUC (AP) next to its prevalence baseline; all columns in fm_finetune_v2_summary.csv / _metrics.csv.
+
+Composition-only readout of each arm (20-d mono+dinucleotide LR fit on the arm's train, AUROC on its test; manifest comp_only_lr_auroc_test):
+  human_enhancers_cohn        original 0.764 (test 3474+/3474-), random 0.777 (test 3474+/228-), comp_equalized 0.527 (test 3474+/228-)
+  nt_enhancers                original 0.786 (test 200+/200-), random 0.807 (test 200+/36-), comp_equalized 0.559 (test 200+/36-)
+  drosophila_enhancers_stark  original 0.689 (test 865+/865-), random 0.693 (test 865+/217-), comp_equalized 0.522 (test 865+/217-)
+
+####################################################################################################
+PART 1 -- PRE-REGISTERED ANALYSIS (eval_ft_v2.py, unchanged), released test splits
+####################################################################################################
+====================================================================================================
+DNABERT-2-117M, LoRA (r=8, alpha=16) + linear head | human_enhancers_cohn | trainable 1,476,098 of 118,544,642 params | seeds per train arm: comp_equalized:42,43,44;original:42,43,44;random:42,43,44
+  A orig->orig         AUROC 0.848±0.004 [0.839,0.857]        | balanced-resample AUROC 0.848, bal.acc 0.764, MCC 0.529 | AP 0.840 vs prevalence 0.500
+  B orig->comp_eq      AUROC 0.720±0.014 [0.683,0.752]        | balanced-resample AUROC 0.726, bal.acc 0.656, MCC 0.326 | AP 0.971 vs prevalence 0.938
+  C orig->random       AUROC 0.863±0.007 [0.837,0.887]        | balanced-resample AUROC 0.867, bal.acc 0.788, MCC 0.577 | AP 0.988 vs prevalence 0.938
+  D comp_eq->comp_eq   AUROC 0.703±0.031 [0.665,0.735]        | balanced-resample AUROC 0.704, bal.acc 0.637, MCC 0.323 | AP 0.965 vs prevalence 0.938
+  E random->random     AUROC 0.833±0.020 [0.806,0.857]        | balanced-resample AUROC 0.838, bal.acc 0.673, MCC 0.424 | AP 0.984 vs prevalence 0.938
+  F random->comp_eq    AUROC 0.646±0.062 [0.611,0.680]        | balanced-resample AUROC 0.652, bal.acc 0.559, MCC 0.196 | AP 0.959 vs prevalence 0.938
+  G orig->gc_match     AUROC 0.808±0.006 [0.797,0.819]        | balanced-resample AUROC 0.808, bal.acc 0.725, MCC 0.454 | AP 0.855 vs prevalence 0.599
+  I comp_eq->orig      AUROC 0.710±0.033 [0.701,0.721]        | balanced-resample AUROC 0.710, bal.acc 0.625, MCC 0.298 | AP 0.673 vs prevalence 0.500
+  J random->orig       AUROC 0.809±0.018 [0.800,0.818]        | balanced-resample AUROC 0.809, bal.acc 0.663, MCC 0.402 | AP 0.782 vs prevalence 0.500
+  S = A-B shortcut worth       0.128 [0.095,0.161]   (seed SD 0.012)
+  T = C-B test-imbalance ctl   0.143 [0.103,0.183]   (seed SD 0.014)
+  C-A (should be ~0)           0.015 [-0.009,0.038]   (seed SD 0.004)
+  U = E-D train-size ctl       0.130 [0.090,0.173]   (seed SD 0.027)
+  R = (E-.5)/(A-.5)            0.956 [0.884,1.025]   (seed SD 0.056)
+  A-G (GC-matched test)        0.041 [0.036,0.045]   (seed SD 0.004)
+  share of above-chance AUROC lost on comp_eq negatives, (A-B)/(A-.5) [post hoc]: 0.369 [0.273,0.462]; on size-matched random negatives (A-C)/(A-.5): -0.043 [-0.109,0.025]
+  rule1_rides_shortcut: False
+  rule2_drop_not_test_imbalance: True
+  rule3_collapse_cause: composition removal (random arm preserves signal)
+  score-composition coupling, train arm comp_equalized: CV R^2 0.044; composition projection AUROC 0.674 vs model 0.710 on the released test split (recovers 0.82 of above-chance AUROC)
+  score-composition coupling, train arm original      : CV R^2 0.519; composition projection AUROC 0.761 vs model 0.848 on the released test split (recovers 0.75 of above-chance AUROC)
+  score-composition coupling, train arm random        : CV R^2 0.448; composition projection AUROC 0.753 vs model 0.809 on the released test split (recovers 0.82 of above-chance AUROC)
+====================================================================================================
+DNABERT-2-117M, LoRA (r=8, alpha=16) + linear head | nt_enhancers | trainable 1,476,098 of 118,544,642 params | seeds per train arm: comp_equalized:42,43,44;original:42,43,44;random:42,43,44
+  A orig->orig         AUROC 0.820±0.002 [0.778,0.860]        | balanced-resample AUROC 0.820, bal.acc 0.751, MCC 0.506 | AP 0.800 vs prevalence 0.500
+  B orig->comp_eq      AUROC 0.680±0.005 [0.592,0.773]        | balanced-resample AUROC 0.672, bal.acc 0.613, MCC 0.248 | AP 0.909 vs prevalence 0.847
+  C orig->random       AUROC 0.833±0.001 [0.755,0.898]        | balanced-resample AUROC 0.829, bal.acc 0.780, MCC 0.563 | AP 0.957 vs prevalence 0.847
+  D comp_eq->comp_eq   AUROC 0.693±0.012 [0.597,0.781]        | balanced-resample AUROC 0.687, bal.acc 0.628, MCC 0.268 | AP 0.916 vs prevalence 0.847
+  E random->random     AUROC 0.816±0.015 [0.745,0.876]        | balanced-resample AUROC 0.816, bal.acc 0.653, MCC 0.380 | AP 0.959 vs prevalence 0.847
+  F random->comp_eq    AUROC 0.634±0.020 [0.538,0.731]        | balanced-resample AUROC 0.634, bal.acc 0.556, MCC 0.187 | AP 0.895 vs prevalence 0.847
+  G orig->gc_match     AUROC 0.738±0.002 [0.682,0.796]        | balanced-resample AUROC 0.733, bal.acc 0.671, MCC 0.357 | AP 0.824 vs prevalence 0.660
+  I comp_eq->orig      AUROC 0.717±0.018 [0.671,0.762]        | balanced-resample AUROC 0.717, bal.acc 0.636, MCC 0.285 | AP 0.724 vs prevalence 0.500
+  J random->orig       AUROC 0.798±0.019 [0.757,0.838]        | balanced-resample AUROC 0.798, bal.acc 0.667, MCC 0.406 | AP 0.785 vs prevalence 0.500
+  S = A-B shortcut worth       0.140 [0.069,0.216]   (seed SD 0.007)
+  T = C-B test-imbalance ctl   0.153 [0.049,0.265]   (seed SD 0.006)
+  C-A (should be ~0)           0.013 [-0.054,0.071]   (seed SD 0.001)
+  U = E-D train-size ctl       0.122 [0.017,0.232]   (seed SD 0.025)
+  R = (E-.5)/(A-.5)            0.985 [0.781,1.184]   (seed SD 0.047)
+  A-G (GC-matched test)        0.082 [0.056,0.110]   (seed SD 0.002)
+  share of above-chance AUROC lost on comp_eq negatives, (A-B)/(A-.5) [post hoc]: 0.438 [0.201,0.699]; on size-matched random negatives (A-C)/(A-.5): -0.040 [-0.233,0.164]
+  rule1_rides_shortcut: False
+  rule2_drop_not_test_imbalance: True
+  rule3_collapse_cause: composition removal (random arm preserves signal)
+  score-composition coupling, train arm comp_equalized: CV R^2 0.069; composition projection AUROC 0.754 vs model 0.717 on the released test split (recovers 1.17 of above-chance AUROC)
+  score-composition coupling, train arm original      : CV R^2 0.530; composition projection AUROC 0.800 vs model 0.820 on the released test split (recovers 0.94 of above-chance AUROC)
+  score-composition coupling, train arm random        : CV R^2 0.510; composition projection AUROC 0.786 vs model 0.798 on the released test split (recovers 0.96 of above-chance AUROC)
+====================================================================================================
+HyenaDNA-tiny-16k-d128, FULL fine-tune | drosophila_enhancers_stark | trainable 436,354 of 436,354 params | seeds per train arm: comp_equalized:42,43,44;gc_match:42,43,44;original:42,43,44;random:42,43,44
+  A orig->orig         AUROC 0.828±0.005 [0.809,0.846]        | balanced-resample AUROC 0.828, bal.acc 0.762, MCC 0.529 | AP 0.781 vs prevalence 0.500
+  B orig->comp_eq      AUROC 0.742±0.006 [0.707,0.779]        | balanced-resample AUROC 0.742, bal.acc 0.682, MCC 0.381 | AP 0.901 vs prevalence 0.799
+  C orig->random       AUROC 0.846±0.000 [0.815,0.878]        | balanced-resample AUROC 0.847, bal.acc 0.779, MCC 0.561 | AP 0.941 vs prevalence 0.799
+  D comp_eq->comp_eq   AUROC 0.726±0.007 [0.690,0.765]        | balanced-resample AUROC 0.730, bal.acc 0.668, MCC 0.352 | AP 0.891 vs prevalence 0.799
+  E random->random     AUROC 0.819±0.026 [0.785,0.851]        | balanced-resample AUROC 0.822, bal.acc 0.749, MCC 0.504 | AP 0.931 vs prevalence 0.799
+  F random->comp_eq    AUROC 0.709±0.022 [0.673,0.746]        | balanced-resample AUROC 0.713, bal.acc 0.656, MCC 0.331 | AP 0.882 vs prevalence 0.799
+  G orig->gc_match     AUROC 0.803±0.006 [0.783,0.823]        | balanced-resample AUROC 0.803, bal.acc 0.740, MCC 0.489 | AP 0.785 vs prevalence 0.543
+  H gc_match->gc_match AUROC 0.803±0.001 [0.782,0.823]        | balanced-resample AUROC 0.803, bal.acc 0.738, MCC 0.479 | AP 0.790 vs prevalence 0.543
+  I comp_eq->orig      AUROC 0.773±0.015 [0.754,0.793]        | balanced-resample AUROC 0.773, bal.acc 0.709, MCC 0.426 | AP 0.722 vs prevalence 0.500
+  J random->orig       AUROC 0.807±0.015 [0.787,0.824]        | balanced-resample AUROC 0.807, bal.acc 0.743, MCC 0.490 | AP 0.751 vs prevalence 0.500
+  S = A-B shortcut worth       0.086 [0.056,0.114]   (seed SD 0.008)
+  T = C-B test-imbalance ctl   0.105 [0.065,0.142]   (seed SD 0.006)
+  C-A (should be ~0)           0.019 [-0.007,0.045]   (seed SD 0.005)
+  U = E-D train-size ctl       0.093 [0.051,0.132]   (seed SD 0.032)
+  R = (E-.5)/(A-.5)            0.973 [0.887,1.053]   (seed SD 0.092)
+  A-G (GC-matched test)        0.025 [0.019,0.030]   (seed SD 0.001)
+  share of above-chance AUROC lost on comp_eq negatives, (A-B)/(A-.5) [post hoc]: 0.262 [0.167,0.350]; on size-matched random negatives (A-C)/(A-.5): -0.057 [-0.138,0.021]
+  rule1_rides_shortcut: False
+  rule2_drop_not_test_imbalance: True
+  rule3_collapse_cause: composition removal (random arm preserves signal)
+  rule5_aligned_control_not_destroyed: False
+  rule5_compared_to: human_enhancers_cohn,nt_enhancers
+  score-composition coupling, train arm comp_equalized: CV R^2 0.159; composition projection AUROC 0.686 vs model 0.773 on the released test split (recovers 0.68 of above-chance AUROC)
+  score-composition coupling, train arm gc_match      : CV R^2 0.280; composition projection AUROC 0.710 vs model 0.824 on the released test split (recovers 0.65 of above-chance AUROC)
+  score-composition coupling, train arm original      : CV R^2 0.302; composition projection AUROC 0.711 vs model 0.828 on the released test split (recovers 0.64 of above-chance AUROC)
+  score-composition coupling, train arm random        : CV R^2 0.338; composition projection AUROC 0.705 vs model 0.807 on the released test split (recovers 0.67 of above-chance AUROC)
+====================================================================================================
+HyenaDNA-tiny-16k-d128, FULL fine-tune | human_enhancers_cohn | trainable 436,354 of 436,354 params | seeds per train arm: comp_equalized:42,43,44;gc_match:42,43,44;original:42,43,44;random:42,43,44
+  A orig->orig         AUROC 0.796±0.005 [0.785,0.805]        | balanced-resample AUROC 0.796, bal.acc 0.716, MCC 0.433 | AP 0.787 vs prevalence 0.500
+  B orig->comp_eq      AUROC 0.581±0.010 [0.542,0.618]        | balanced-resample AUROC 0.589, bal.acc 0.555, MCC 0.119 | AP 0.951 vs prevalence 0.938
+  C orig->random       AUROC 0.804±0.006 [0.776,0.830]        | balanced-resample AUROC 0.810, bal.acc 0.720, MCC 0.443 | AP 0.983 vs prevalence 0.938
+  D comp_eq->comp_eq   AUROC 0.522±0.028 [0.502,0.541]        | balanced-resample AUROC 0.523, bal.acc 0.500, MCC 0.000 | AP 0.939 vs prevalence 0.938
+  E random->random     AUROC 0.775±0.003 [0.745,0.805]        | balanced-resample AUROC 0.780, bal.acc 0.666, MCC 0.364 | AP 0.979 vs prevalence 0.938
+  F random->comp_eq    AUROC 0.521±0.005 [0.480,0.560]        | balanced-resample AUROC 0.527, bal.acc 0.509, MCC 0.024 | AP 0.941 vs prevalence 0.938
+  G orig->gc_match     AUROC 0.736±0.007 [0.724,0.747]        | balanced-resample AUROC 0.737, bal.acc 0.664, MCC 0.332 | AP 0.801 vs prevalence 0.599
+  H gc_match->gc_match AUROC 0.739±0.013 [0.727,0.750]        | balanced-resample AUROC 0.739, bal.acc 0.673, MCC 0.346 | AP 0.801 vs prevalence 0.599
+  I comp_eq->orig      AUROC 0.497±0.088 [0.490,0.503]        | balanced-resample AUROC 0.497, bal.acc 0.500, MCC 0.000 | AP 0.497 vs prevalence 0.500
+  J random->orig       AUROC 0.759±0.004 [0.747,0.770]        | balanced-resample AUROC 0.759, bal.acc 0.665, MCC 0.359 | AP 0.747 vs prevalence 0.500
+  S = A-B shortcut worth       0.214 [0.180,0.252]   (seed SD 0.007)
+  T = C-B test-imbalance ctl   0.223 [0.181,0.271]   (seed SD 0.006)
+  C-A (should be ~0)           0.008 [-0.017,0.035]   (seed SD 0.002)
+  U = E-D train-size ctl       0.254 [0.217,0.289]   (seed SD 0.025)
+  R = (E-.5)/(A-.5)            0.932 [0.837,1.027]   (seed SD 0.017)
+  A-G (GC-matched test)        0.060 [0.055,0.065]   (seed SD 0.003)
+  share of above-chance AUROC lost on comp_eq negatives, (A-B)/(A-.5) [post hoc]: 0.725 [0.605,0.860]; on size-matched random negatives (A-C)/(A-.5): -0.029 [-0.119,0.059]
+  rule1_rides_shortcut: True
+  rule2_drop_not_test_imbalance: True
+  rule3_collapse_cause: composition removal (random arm preserves signal)
+  score-composition coupling, train arm comp_equalized: CV R^2 0.552; composition projection AUROC 0.484 vs model 0.497 on the released test split (model near chance; ratio not interpretable)
+  score-composition coupling, train arm gc_match      : CV R^2 0.630; composition projection AUROC 0.752 vs model 0.771 on the released test split (recovers 0.93 of above-chance AUROC)
+  score-composition coupling, train arm original      : CV R^2 0.764; composition projection AUROC 0.763 vs model 0.796 on the released test split (recovers 0.89 of above-chance AUROC)
+  score-composition coupling, train arm random        : CV R^2 0.824; composition projection AUROC 0.754 vs model 0.759 on the released test split (recovers 0.98 of above-chance AUROC)
+====================================================================================================
+HyenaDNA-tiny-16k-d128, FULL fine-tune | nt_enhancers | trainable 436,354 of 436,354 params | seeds per train arm: comp_equalized:42,43,44;gc_match:42,43,44;original:42,43,44;random:42,43,44
+  A orig->orig         AUROC 0.762±0.010 [0.718,0.806]        | balanced-resample AUROC 0.762, bal.acc 0.713, MCC 0.428 | AP 0.747 vs prevalence 0.500
+  B orig->comp_eq      AUROC 0.593±0.005 [0.504,0.684]        | balanced-resample AUROC 0.585, bal.acc 0.568, MCC 0.146 | AP 0.884 vs prevalence 0.847
+  C orig->random       AUROC 0.797±0.012 [0.718,0.864]        | balanced-resample AUROC 0.792, bal.acc 0.730, MCC 0.461 | AP 0.950 vs prevalence 0.847
+  D comp_eq->comp_eq   AUROC 0.643±0.020 [0.538,0.747]        | balanced-resample AUROC 0.630, bal.acc 0.623, MCC 0.260 | AP 0.878 vs prevalence 0.847
+  E random->random     AUROC 0.822±0.013 [0.753,0.883]        | balanced-resample AUROC 0.820, bal.acc 0.675, MCC 0.380 | AP 0.958 vs prevalence 0.847
+  F random->comp_eq    AUROC 0.570±0.031 [0.483,0.663]        | balanced-resample AUROC 0.569, bal.acc 0.495, MCC -0.020 | AP 0.883 vs prevalence 0.847
+  G orig->gc_match     AUROC 0.653±0.006 [0.595,0.712]        | balanced-resample AUROC 0.648, bal.acc 0.605, MCC 0.220 | AP 0.774 vs prevalence 0.660
+  H gc_match->gc_match AUROC 0.624±0.015 [0.565,0.685]        | balanced-resample AUROC 0.620, bal.acc 0.590, MCC 0.199 | AP 0.737 vs prevalence 0.660
+  I comp_eq->orig      AUROC 0.659±0.032 [0.608,0.709]        | balanced-resample AUROC 0.659, bal.acc 0.628, MCC 0.272 | AP 0.612 vs prevalence 0.500
+  J random->orig       AUROC 0.784±0.012 [0.741,0.825]        | balanced-resample AUROC 0.784, bal.acc 0.672, MCC 0.372 | AP 0.778 vs prevalence 0.500
+  S = A-B shortcut worth       0.169 [0.095,0.241]   (seed SD 0.012)
+  T = C-B test-imbalance ctl   0.204 [0.099,0.309]   (seed SD 0.013)
+  C-A (should be ~0)           0.035 [-0.024,0.092]   (seed SD 0.005)
+  U = E-D train-size ctl       0.179 [0.061,0.297]   (seed SD 0.016)
+  R = (E-.5)/(A-.5)            1.233 [0.989,1.490]   (seed SD 0.091)
+  A-G (GC-matched test)        0.109 [0.080,0.143]   (seed SD 0.004)
+  share of above-chance AUROC lost on comp_eq negatives, (A-B)/(A-.5) [post hoc]: 0.644 [0.351,0.981]; on size-matched random negatives (A-C)/(A-.5): -0.134 [-0.372,0.100]
+  rule1_rides_shortcut: True
+  rule2_drop_not_test_imbalance: True
+  rule3_collapse_cause: composition removal (random arm preserves signal)
+  score-composition coupling, train arm comp_equalized: CV R^2 0.166; composition projection AUROC 0.706 vs model 0.659 on the released test split (recovers 1.31 of above-chance AUROC)
+  score-composition coupling, train arm gc_match      : CV R^2 0.286; composition projection AUROC 0.746 vs model 0.696 on the released test split (recovers 1.26 of above-chance AUROC)
+  score-composition coupling, train arm original      : CV R^2 0.580; composition projection AUROC 0.796 vs model 0.762 on the released test split (recovers 1.13 of above-chance AUROC)
+  score-composition coupling, train arm random        : CV R^2 0.738; composition projection AUROC 0.790 vs model 0.784 on the released test split (recovers 1.02 of above-chance AUROC)
+====================================================================================================
+
+BETWEEN FINE-TUNED MODELS (post hoc, descriptive; same test sequences, paired bootstrap):
+  human_enhancers_cohn: S_hyena_minus_S_dnabert2 = 0.086 [0.058,0.115] (hyenadna 0.214, seeds 42,43,44; dnabert2 0.128, seeds 42,43,44)
+  human_enhancers_cohn: fraclost_hyena_minus_dnabert2 = 0.356 [0.267,0.457] (hyenadna 0.725, seeds 42,43,44; dnabert2 0.369, seeds 42,43,44)
+  nt_enhancers: S_hyena_minus_S_dnabert2 = 0.028 [-0.014,0.076] (hyenadna 0.169, seeds 42,43,44; dnabert2 0.140, seeds 42,43,44)
+  nt_enhancers: fraclost_hyena_minus_dnabert2 = 0.206 [0.044,0.388] (hyenadna 0.644, seeds 42,43,44; dnabert2 0.438, seeds 42,43,44)
+
+v1 (run_fm_finetune.py, cited in the June/v2 manuscript) vs v2 re-run, HyenaDNA on cohn. v1 fed nearly single-class mini-batches (class-sorted lists + stable length sort on equal-length 500 bp sequences) and saved no predictions; v2 permutes before the length sort, otherwise the identical recipe:
+  comp_equalized -> comp_equalized v1 0.505 (SD 0.015, n=3)  v2 0.522 (SD 0.028, n=3)
+        gc_match -> gc_match       v1 0.662 (SD 0.041, n=3)  v2 0.739 (SD 0.013, n=3)
+        original -> comp_equalized v1 0.514 (SD 0.008, n=3)  v2 0.581 (SD 0.010, n=3)
+        original -> gc_match       v1 0.672 (SD 0.018, n=3)  v2 0.736 (SD 0.007, n=3)
+        original -> original       v1 0.752 (SD 0.010, n=3)  v2 0.796 (SD 0.005, n=3)
+
+HOW TO READ IT (pre-registered quantities)
+  dnabert2/human_enhancers_cohn (3 seeds; B arm 3702 sequences): the released-split model scores 0.848; the same weights score 0.720 [0.683,0.752] against composition-equalized negatives (S = 0.128 [0.095,0.161]), i.e. 37% [27,46] of its above-chance AUROC [share lost: post hoc, descriptive], but 0.863 against an equally small, equally outnumbered random subset of the released negatives (T = 0.143 [0.103,0.183]); rule 2 is met: the drop is not a test-size/imbalance artifact. Pre-registered rule 1 is NOT met: B >= 0.6 with a CI above 0.5, so this model relies on composition for part of its score but not for all of it ('fine-tuning reduces but does not remove reliance on composition'). Retrained under the same budget, random negatives give 0.833 and equalized negatives 0.703 [0.665,0.735] (U = 0.130 [0.090,0.173]). D's CI excludes 0.5: part of the signal is learnable without the composition gap on this dataset. The random-trained model scores 0.646 [0.611,0.680] on equalized negatives vs 0.833 on its own test, i.e. 56% of what it learned from a few hundred released-composition negatives does not transfer to composition-equalized ones.
+  dnabert2/nt_enhancers (3 seeds; B arm 236 sequences): the released-split model scores 0.820; the same weights score 0.680 [0.592,0.773] against composition-equalized negatives (S = 0.140 [0.069,0.216]), i.e. 44% [20,70] of its above-chance AUROC [share lost: post hoc, descriptive], but 0.833 against an equally small, equally outnumbered random subset of the released negatives (T = 0.153 [0.049,0.265]); rule 2 is met: the drop is not a test-size/imbalance artifact. Pre-registered rule 1 is NOT met: B >= 0.6 with a CI above 0.5, so this model relies on composition for part of its score but not for all of it ('fine-tuning reduces but does not remove reliance on composition'). Retrained under the same budget, random negatives give 0.816 and equalized negatives 0.693 [0.597,0.781] (U = 0.122 [0.017,0.232]). D's CI excludes 0.5: part of the signal is learnable without the composition gap on this dataset. The random-trained model scores 0.634 [0.538,0.731] on equalized negatives vs 0.816 on its own test, i.e. 58% of what it learned from a few hundred released-composition negatives does not transfer to composition-equalized ones.
+  hyenadna/drosophila_enhancers_stark (3 seeds; B arm 1082 sequences): the released-split model scores 0.828; the same weights score 0.742 [0.707,0.779] against composition-equalized negatives (S = 0.086 [0.056,0.114]), i.e. 26% [17,35] of its above-chance AUROC [share lost: post hoc, descriptive], but 0.846 against an equally small, equally outnumbered random subset of the released negatives (T = 0.105 [0.065,0.142]); rule 2 is met: the drop is not a test-size/imbalance artifact. Pre-registered rule 1 is NOT met (B's CI lies above 0.5), as expected on the GC-balanced control; its pre-registered test is rule 5. Retrained under the same budget, random negatives give 0.819 and equalized negatives 0.726 [0.690,0.765] (U = 0.093 [0.051,0.132]). D's CI excludes 0.5: part of the signal is learnable without the composition gap on this dataset. The random-trained model scores 0.709 [0.673,0.746] on equalized negatives vs 0.819 on its own test, i.e. 35% of what it learned from a few hundred released-composition negatives does not transfer to composition-equalized ones.
+  hyenadna/human_enhancers_cohn (3 seeds; B arm 3702 sequences): the released-split model scores 0.796; the same weights score 0.581 [0.542,0.618] against composition-equalized negatives (S = 0.214 [0.180,0.252]), i.e. 72% [60,86] of its above-chance AUROC [share lost: post hoc, descriptive], but 0.804 against an equally small, equally outnumbered random subset of the released negatives (T = 0.223 [0.181,0.271]); rule 2 is met: the drop is not a test-size/imbalance artifact. Pre-registered rule 1 is met only through its 'B < 0.6' clause: B's CI [0.542,0.618] excludes 0.5, so quote B with its CI and do not call it 'at chance'. Retrained under the same budget, random negatives give 0.775 and equalized negatives 0.522 [0.502,0.541] (U = 0.254 [0.217,0.289]). D is NOT a learnability measure here: all 3 equalized-arm units are degenerate fits (every test probability on one side of 0.5, near-constant scores, validation AUROC < 0.6 at every epoch; fm_finetune_v2_unit_diagnostics.csv), i.e. this recipe collapsed on the heavily imbalanced equalized train arm. Other models learn the same arm: DNABERT-2 LoRA-FT 0.703 [0.665,0.735]; HyenaDNA frozen mean 0.638 [0.599,0.675]; HyenaDNA frozen [SEP] 0.524 [0.482,0.563]; DNABERT-2 frozen mean 0.695 [0.656,0.733]; DNABERT-2 frozen [CLS] 0.648 [0.602,0.684]; k-mer LightGBM 0.613 [0.576,0.651] (fm_finetune_v2_compare.csv). U and rule 3 therefore partly reflect this optimization collapse. The random-trained model scores 0.521 [0.480,0.560] on equalized negatives vs 0.775 on its own test, i.e. 93% of what it learned from a few hundred released-composition negatives does not transfer to composition-equalized ones.
+  hyenadna/nt_enhancers (3 seeds; B arm 236 sequences): the released-split model scores 0.762; the same weights score 0.593 [0.504,0.684] against composition-equalized negatives (S = 0.169 [0.095,0.241]), i.e. 64% [35,98] of its above-chance AUROC [share lost: post hoc, descriptive], but 0.797 against an equally small, equally outnumbered random subset of the released negatives (T = 0.204 [0.099,0.309]); rule 2 is met: the drop is not a test-size/imbalance artifact. Pre-registered rule 1 is met only through its 'B < 0.6' clause: B's CI [0.504,0.684] excludes 0.5, so quote B with its CI and do not call it 'at chance'. Retrained under the same budget, random negatives give 0.822 and equalized negatives 0.643 [0.538,0.747] (U = 0.179 [0.061,0.297]). D's CI excludes 0.5: part of the signal is learnable without the composition gap on this dataset. The random-trained model scores 0.570 [0.483,0.663] on equalized negatives vs 0.822 on its own test, i.e. 78% of what it learned from a few hundred released-composition negatives does not transfer to composition-equalized ones.
+  Score-composition coupling: CV R^2 is the reliance measure (share of the logit's variance that is a linear function of 20-d composition). The projection-AUROC ratio is bounded by how discriminative composition itself is on the released test split (composition-only AUROC listed above), so it can be high even at low R^2 (e.g. a model trained on equalized negatives); ratios >1 mean the projection separates the classes better than the logit.
+
+####################################################################################################
+PART 2 -- POST HOC (added 2026-09-26 after all 54 units were scored; posthoc_ft_v2.py)
+####################################################################################################
+P1. LEAK-FREE nt_enhancers. 100 of the 400 released test sequences (all label [1]) are verbatim training sequences (nt_enhancers_duplication.csv; re-derived by exact match, fm_finetune_v2_leakfree_dups.csv). Dropping them leaves 300 test sequences (100+/200-; comp_eq and random arms 100+/36-). Same computations, bootstrap over the 300 leak-free sequences:
+====================================================================================================
+DNABERT-2-117M, LoRA (r=8, alpha=16) + linear head | nt_enhancers_leakfree | trainable 1,476,098 of 118,544,642 params | seeds per train arm: comp_equalized:42,43,44;original:42,43,44;random:42,43,44
+  A orig->orig         AUROC 0.739±0.004 [0.680,0.797]        | balanced-resample AUROC 0.737, bal.acc 0.677, MCC 0.355 | AP 0.595 vs prevalence 0.333
+  B orig->comp_eq      AUROC 0.582±0.004 [0.474,0.682]        | balanced-resample AUROC 0.581, bal.acc 0.542, MCC 0.087 | AP 0.795 vs prevalence 0.735
+  C orig->random       AUROC 0.756±0.008 [0.662,0.843]        | balanced-resample AUROC 0.756, bal.acc 0.708, MCC 0.420 | AP 0.888 vs prevalence 0.735
+  D comp_eq->comp_eq   AUROC 0.654±0.022 [0.554,0.750]        | balanced-resample AUROC 0.658, bal.acc 0.601, MCC 0.209 | AP 0.826 vs prevalence 0.735
+  E random->random     AUROC 0.749±0.019 [0.655,0.834]        | balanced-resample AUROC 0.757, bal.acc 0.643, MCC 0.352 | AP 0.890 vs prevalence 0.735
+  F random->comp_eq    AUROC 0.553±0.023 [0.441,0.660]        | balanced-resample AUROC 0.561, bal.acc 0.546, MCC 0.153 | AP 0.772 vs prevalence 0.735
+  G orig->gc_match     AUROC 0.644±0.006 [0.571,0.717]        | balanced-resample AUROC 0.645, bal.acc 0.602, MCC 0.205 | AP 0.639 vs prevalence 0.493
+  I comp_eq->orig      AUROC 0.672±0.016 [0.605,0.731]        | balanced-resample AUROC 0.674, bal.acc 0.600, MCC 0.206 | AP 0.527 vs prevalence 0.333
+  J random->orig       AUROC 0.733±0.018 [0.673,0.787]        | balanced-resample AUROC 0.733, bal.acc 0.646, MCC 0.350 | AP 0.574 vs prevalence 0.333
+  S = A-B shortcut worth       0.158 [0.079,0.242]   (seed SD 0.007)
+  T = C-B test-imbalance ctl   0.175 [0.065,0.295]   (seed SD 0.010)
+  C-A (should be ~0)           0.017 [-0.052,0.087]   (seed SD 0.004)
+  U = E-D train-size ctl       0.095 [-0.024,0.219]   (seed SD 0.038)
+  R = (E-.5)/(A-.5)            1.042 [0.706,1.419]   (seed SD 0.094)
+  A-G (GC-matched test)        0.095 [0.064,0.129]   (seed SD 0.003)
+  share of above-chance AUROC lost on comp_eq negatives, (A-B)/(A-.5) [post hoc]: 0.659 [0.320,1.119]; on size-matched random negatives (A-C)/(A-.5): -0.071 [-0.362,0.224]
+  rule1_rides_shortcut: True
+  rule2_drop_not_test_imbalance: True
+  rule3_collapse_cause: size/imbalance NOT excluded (U CI includes 0)
+  dnabert2/nt_enhancers_leakfree (3 seeds; B arm 136 sequences, POST HOC derived test set): the released-split model scores 0.739; the same weights score 0.582 [0.474,0.682] against composition-equalized negatives (S = 0.158 [0.079,0.242]), i.e. 66% [32,112] of its above-chance AUROC [share lost: post hoc, descriptive], but 0.756 against an equally small, equally outnumbered random subset of the released negatives (T = 0.175 [0.065,0.295]); rule 2 re-applied post hoc is met: the drop is not a test-size/imbalance artifact. Rule 1 re-applied post hoc (not a pre-registered verdict) is met: B's CI covers 0.5. With so few equalized negatives a CI covering 0.5 is weak evidence of chance by itself; see the random-draw reference (Part 3, Q4) and the baselines' B on the same set. Retrained under the same budget, random negatives give 0.749 and equalized negatives 0.654 [0.554,0.750] (U = 0.095 [-0.024,0.219]). D's CI excludes 0.5: part of the signal is learnable without the composition gap on this dataset. The random-trained model scores 0.553 [0.441,0.660] on equalized negatives vs 0.749 on its own test, i.e. 79% of what it learned from a few hundred released-composition negatives does not transfer to composition-equalized ones.
+====================================================================================================
+HyenaDNA-tiny-16k-d128, FULL fine-tune | nt_enhancers_leakfree | trainable 436,354 of 436,354 params | seeds per train arm: comp_equalized:42,43,44;gc_match:42,43,44;original:42,43,44;random:42,43,44
+  A orig->orig         AUROC 0.697±0.016 [0.634,0.756]        | balanced-resample AUROC 0.696, bal.acc 0.663, MCC 0.325 | AP 0.557 vs prevalence 0.333
+  B orig->comp_eq      AUROC 0.525±0.009 [0.424,0.620]        | balanced-resample AUROC 0.538, bal.acc 0.533, MCC 0.069 | AP 0.772 vs prevalence 0.735
+  C orig->random       AUROC 0.732±0.014 [0.634,0.818]        | balanced-resample AUROC 0.746, bal.acc 0.695, MCC 0.390 | AP 0.883 vs prevalence 0.735
+  D comp_eq->comp_eq   AUROC 0.616±0.036 [0.508,0.722]        | balanced-resample AUROC 0.616, bal.acc 0.613, MCC 0.238 | AP 0.778 vs prevalence 0.735
+  E random->random     AUROC 0.768±0.014 [0.673,0.844]        | balanced-resample AUROC 0.784, bal.acc 0.648, MCC 0.314 | AP 0.903 vs prevalence 0.735
+  F random->comp_eq    AUROC 0.508±0.033 [0.414,0.603]        | balanced-resample AUROC 0.523, bal.acc 0.467, MCC -0.098 | AP 0.771 vs prevalence 0.735
+  G orig->gc_match     AUROC 0.586±0.014 [0.511,0.661]        | balanced-resample AUROC 0.585, bal.acc 0.554, MCC 0.110 | AP 0.600 vs prevalence 0.493
+  H gc_match->gc_match AUROC 0.588±0.028 [0.516,0.666]        | balanced-resample AUROC 0.588, bal.acc 0.561, MCC 0.130 | AP 0.572 vs prevalence 0.493
+  I comp_eq->orig      AUROC 0.633±0.024 [0.569,0.695]        | balanced-resample AUROC 0.631, bal.acc 0.603, MCC 0.215 | AP 0.430 vs prevalence 0.333
+  J random->orig       AUROC 0.729±0.015 [0.664,0.787]        | balanced-resample AUROC 0.729, bal.acc 0.634, MCC 0.283 | AP 0.603 vs prevalence 0.333
+  S = A-B shortcut worth       0.172 [0.105,0.247]   (seed SD 0.016)
+  T = C-B test-imbalance ctl   0.207 [0.098,0.312]   (seed SD 0.017)
+  C-A (should be ~0)           0.035 [-0.033,0.101]   (seed SD 0.004)
+  U = E-D train-size ctl       0.152 [0.012,0.280]   (seed SD 0.038)
+  R = (E-.5)/(A-.5)            1.366 [0.981,1.830]   (seed SD 0.170)
+  A-G (GC-matched test)        0.111 [0.079,0.146]   (seed SD 0.006)
+  share of above-chance AUROC lost on comp_eq negatives, (A-B)/(A-.5) [post hoc]: 0.873 [0.483,1.484]; on size-matched random negatives (A-C)/(A-.5): -0.178 [-0.560,0.174]
+  rule1_rides_shortcut: True
+  rule2_drop_not_test_imbalance: True
+  rule3_collapse_cause: composition removal (random arm preserves signal)
+  hyenadna/nt_enhancers_leakfree (3 seeds; B arm 136 sequences, POST HOC derived test set): the released-split model scores 0.697; the same weights score 0.525 [0.424,0.620] against composition-equalized negatives (S = 0.172 [0.105,0.247]), i.e. 87% [48,148] of its above-chance AUROC [share lost: post hoc, descriptive], but 0.732 against an equally small, equally outnumbered random subset of the released negatives (T = 0.207 [0.098,0.312]); rule 2 re-applied post hoc is met: the drop is not a test-size/imbalance artifact. Rule 1 re-applied post hoc (not a pre-registered verdict) is met: B's CI covers 0.5. With so few equalized negatives a CI covering 0.5 is weak evidence of chance by itself; see the random-draw reference (Part 3, Q4) and the baselines' B on the same set. Retrained under the same budget, random negatives give 0.768 and equalized negatives 0.616 [0.508,0.722] (U = 0.152 [0.012,0.280]). D's CI excludes 0.5: part of the signal is learnable without the composition gap on this dataset. The random-trained model scores 0.508 [0.414,0.603] on equalized negatives vs 0.768 on its own test, i.e. 97% of what it learned from a few hundred released-composition negatives does not transfer to composition-equalized ones.
+====================================================================================================
+
+P2/P3. SAME ARMS, THREE MODEL FAMILIES. The paper's k-mer LightGBM and frozen-FM LightGBM heads re-fit on exactly these train arms (baselines_ft_v2.py; one deterministic seed, 42) and scored by the same code on the same test sequences and bootstrap resamples.
+  Reproduction check (fm_finetune_v2_baselines_repro.csv): 66/66 published numbers reproduced to 1e-3 (max |diff| 0.0001); e.g. kmer A (orig->orig) cohn 0.8046 vs 0.8046; kmer D (comp_eq->comp_eq) cohn 0.6135 vs 0.6135; kmer A (orig->orig) nt_enh 0.8497 vs 0.8497; kmer D (comp_eq->comp_eq) nt_enh 0.7479 vs 0.7479
+  Columns: A released->released | C same weights, size-matched random negatives | B same weights, composition-equalized negatives | D retrained+tested on equalized | E retrained+tested on random | share lost (A-B)/(A-.5) [CI] | share lost on random negatives (A-C)/(A-.5).
+  -- cohn
+    HyenaDNA full-FT         A 0.796±0.005  C 0.804 B 0.581 [0.542,0.618] D 0.522 E 0.775 | lost 0.72 [0.60,0.86] vs random -0.03 [-0.12,0.06] | A-G 0.060
+    DNABERT-2 LoRA-FT        A 0.848±0.004  C 0.863 B 0.720 [0.683,0.752] D 0.703 E 0.833 | lost 0.37 [0.27,0.46] vs random -0.04 [-0.11,0.02] | A-G 0.041
+    HyenaDNA frozen mean     A 0.790        C 0.802 B 0.621 [0.580,0.660] D 0.638 E 0.773 | lost 0.58 [0.46,0.72] vs random -0.04 [-0.12,0.05] | A-G 0.058
+    HyenaDNA frozen [SEP]    A 0.723        C 0.740 B 0.577 [0.536,0.614] D 0.524 E 0.695 | lost 0.66 [0.50,0.83] vs random -0.07 [-0.20,0.06] | A-G 0.048
+    DNABERT-2 frozen mean    A 0.831        C 0.841 B 0.688 [0.650,0.724] D 0.695 E 0.826 | lost 0.43 [0.33,0.54] vs random -0.03 [-0.10,0.04] | A-G 0.047
+    DNABERT-2 frozen [CLS]   A 0.804        C 0.814 B 0.672 [0.632,0.709] D 0.648 E 0.769 | lost 0.44 [0.32,0.56] vs random -0.03 [-0.12,0.06] | A-G 0.047
+    k-mer LightGBM           A 0.805        C 0.820 B 0.603 [0.564,0.639] D 0.613 E 0.782 | lost 0.66 [0.55,0.79] vs random -0.05 [-0.14,0.04] | A-G 0.059
+  -- nt_enhancers (released test, 100 leaked)
+    HyenaDNA full-FT         A 0.762±0.010  C 0.797 B 0.593 [0.504,0.684] D 0.643 E 0.822 | lost 0.64 [0.35,0.98] vs random -0.13 [-0.37,0.10] | A-G 0.109
+    DNABERT-2 LoRA-FT        A 0.820±0.002  C 0.833 B 0.680 [0.592,0.773] D 0.693 E 0.816 | lost 0.44 [0.20,0.70] vs random -0.04 [-0.23,0.16] | A-G 0.082
+    HyenaDNA frozen mean     A 0.818        C 0.855 B 0.675 [0.586,0.765] D 0.733 E 0.842 | lost 0.45 [0.23,0.71] vs random -0.12 [-0.27,0.03] | A-G 0.080
+    HyenaDNA frozen [SEP]    A 0.800        C 0.812 B 0.665 [0.569,0.761] D 0.639 E 0.732 | lost 0.45 [0.20,0.75] vs random -0.04 [-0.21,0.12] | A-G 0.079
+    DNABERT-2 frozen mean    A 0.855        C 0.875 B 0.680 [0.587,0.768] D 0.747 E 0.856 | lost 0.49 [0.29,0.73] vs random -0.06 [-0.16,0.06] | A-G 0.072
+    DNABERT-2 frozen [CLS]   A 0.842        C 0.861 B 0.672 [0.581,0.763] D 0.696 E 0.845 | lost 0.50 [0.29,0.74] vs random -0.05 [-0.20,0.09] | A-G 0.077
+    k-mer LightGBM           A 0.850        C 0.878 B 0.698 [0.606,0.786] D 0.748 E 0.846 | lost 0.43 [0.23,0.67] vs random -0.08 [-0.20,0.04] | A-G 0.076
+  -- nt_enhancers LEAK-FREE test (100+/36- on B)
+    HyenaDNA full-FT         A 0.697±0.016  C 0.732 B 0.525 [0.424,0.620] D 0.616 E 0.768 | lost 0.87 [0.48,1.48] vs random -0.18 [-0.56,0.17] | A-G 0.111
+    DNABERT-2 LoRA-FT        A 0.739±0.004  C 0.756 B 0.582 [0.474,0.682] D 0.654 E 0.749 | lost 0.66 [0.32,1.12] vs random -0.07 [-0.36,0.22] | A-G 0.095
+    HyenaDNA frozen mean     A 0.695        C 0.742 B 0.528 [0.426,0.632] D 0.641 E 0.739 | lost 0.86 [0.43,1.54] vs random -0.24 [-0.65,0.07] | A-G 0.108
+    HyenaDNA frozen [SEP]    A 0.653        C 0.664 B 0.493 [0.376,0.602] D 0.537 E 0.628 | lost 1.04 [0.46,2.21] vs random -0.07 [-0.67,0.50] | A-G 0.113
+    DNABERT-2 frozen mean    A 0.746        C 0.767 B 0.524 [0.415,0.632] D 0.633 E 0.762 | lost 0.90 [0.53,1.42] vs random -0.09 [-0.37,0.18] | A-G 0.110
+    DNABERT-2 frozen [CLS]   A 0.734        C 0.748 B 0.511 [0.399,0.611] D 0.560 E 0.755 | lost 0.95 [0.58,1.55] vs random -0.06 [-0.39,0.27] | A-G 0.111
+    k-mer LightGBM           A 0.735        C 0.776 B 0.554 [0.448,0.656] D 0.628 E 0.767 | lost 0.77 [0.42,1.27] vs random -0.17 [-0.52,0.10] | A-G 0.119
+  -- drosophila (GC-balanced control)
+    HyenaDNA full-FT         A 0.828±0.005  C 0.846 B 0.742 [0.707,0.779] D 0.726 E 0.819 | lost 0.26 [0.17,0.35] vs random -0.06 [-0.14,0.02] | A-G 0.025
+    HyenaDNA frozen mean     A 0.728        C 0.725 B 0.640 [0.597,0.683] D 0.638 E 0.696 | lost 0.39 [0.24,0.55] vs random 0.01 [-0.12,0.16] | A-G 0.039
+    HyenaDNA frozen [SEP]    A 0.678        C 0.663 B 0.676 [0.633,0.716] D 0.669 E 0.637 | lost 0.01 [-0.19,0.20] vs random 0.08 [-0.10,0.26] | A-G -0.005
+    k-mer LightGBM           A 0.763        C 0.747 B 0.647 [0.608,0.688] D 0.661 E 0.751 | lost 0.44 [0.31,0.57] vs random 0.06 [-0.06,0.19] | A-G 0.035
+  Paired differences in share lost, fine-tuned minus baseline (same resamples; post hoc, descriptive; fm_finetune_v2_compare_paired.csv):
+    drosophila (GC-balanced control)         HyenaDNA full-FT   - HyenaDNA frozen mean -0.12 [-0.27,+0.01]; - HyenaDNA frozen [SEP] +0.25 [+0.05,+0.47]; - k-mer LightGBM -0.18 [-0.31,-0.05]
+    cohn                                     HyenaDNA full-FT   - DNABERT-2 frozen [CLS] +0.29 [+0.20,+0.39]; - DNABERT-2 frozen mean +0.29 [+0.20,+0.40]; - HyenaDNA frozen mean +0.14 [+0.05,+0.24]; - HyenaDNA frozen [SEP] +0.07 [-0.08,+0.22]; - k-mer LightGBM +0.06 [-0.01,+0.14]
+    cohn                                     DNABERT-2 LoRA-FT  - DNABERT-2 frozen [CLS] -0.07 [-0.14,+0.00]; - DNABERT-2 frozen mean -0.06 [-0.11,-0.01]; - HyenaDNA frozen mean -0.21 [-0.31,-0.13]; - HyenaDNA frozen [SEP] -0.29 [-0.44,-0.14]; - k-mer LightGBM -0.29 [-0.39,-0.21]
+    nt_enhancers (released test, 100 leaked) HyenaDNA full-FT   - DNABERT-2 frozen [CLS] +0.15 [-0.08,+0.40]; - DNABERT-2 frozen mean +0.15 [-0.01,+0.34]; - HyenaDNA frozen mean +0.19 [+0.04,+0.37]; - HyenaDNA frozen [SEP] +0.20 [-0.06,+0.48]; - k-mer LightGBM +0.21 [+0.05,+0.41]
+    nt_enhancers (released test, 100 leaked) DNABERT-2 LoRA-FT  - DNABERT-2 frozen [CLS] -0.06 [-0.24,+0.12]; - DNABERT-2 frozen mean -0.05 [-0.19,+0.08]; - HyenaDNA frozen mean -0.01 [-0.17,+0.13]; - HyenaDNA frozen [SEP] -0.01 [-0.25,+0.23]; - k-mer LightGBM +0.01 [-0.15,+0.16]
+    nt_enhancers LEAK-FREE test (100+/36- on B) HyenaDNA full-FT   - DNABERT-2 frozen [CLS] -0.08 [-0.49,+0.37]; - DNABERT-2 frozen mean -0.03 [-0.31,+0.29]; - HyenaDNA frozen mean +0.02 [-0.35,+0.32]; - HyenaDNA frozen [SEP] -0.17 [-1.09,+0.35]; - k-mer LightGBM +0.10 [-0.10,+0.37]
+    nt_enhancers LEAK-FREE test (100+/36- on B) DNABERT-2 LoRA-FT  - DNABERT-2 frozen [CLS] -0.29 [-0.69,+0.02]; - DNABERT-2 frozen mean -0.24 [-0.54,-0.00]; - HyenaDNA frozen mean -0.20 [-0.65,+0.08]; - HyenaDNA frozen [SEP] -0.38 [-1.40,+0.16]; - k-mer LightGBM -0.11 [-0.45,+0.16]
+  Score-composition coupling of the released-split baselines (CV R^2 of logit on 20-d composition; fine-tuned models in Part 1): DNABERT-2 frozen [CLS]/cohn 0.54; DNABERT-2 frozen [CLS]/nt_enh 0.65; DNABERT-2 frozen mean/cohn 0.56; DNABERT-2 frozen mean/nt_enh 0.78; HyenaDNA frozen mean/dros 0.19; HyenaDNA frozen mean/cohn 0.58; HyenaDNA frozen mean/nt_enh 0.68; HyenaDNA frozen [SEP]/dros 0.11; HyenaDNA frozen [SEP]/cohn 0.48; HyenaDNA frozen [SEP]/nt_enh 0.65; k-mer LightGBM/dros 0.36; k-mer LightGBM/cohn 0.73; k-mer LightGBM/nt_enh 0.79
+
+####################################################################################################
+PART 3 -- POST HOC SENSITIVITY ANALYSES (fix round 1, 2026-09-26; sensitivity_ft_v2.py). Scratch versions of Q2-Q5 had been computed by the verifiers before the script was written; the definitions are theirs, extended to every model and dataset; no decision rule is attached.
+####################################################################################################
+Q1. Unit diagnostics (fm_finetune_v2_unit_diagnostics.csv). Degenerate = every test probability on one side of 0.5 AND test-probability SD < 0.01 AND max validation AUROC < 0.6:
+  3 of 54 fine-tuning units are degenerate: hyenadna/human_enhancers_cohn/comp_equalized/s42 (p>=0.5 for 100%, SD 0.0001, max val AUROC 0.544); hyenadna/human_enhancers_cohn/comp_equalized/s43 (p>=0.5 for 100%, SD 0.0064, max val AUROC 0.514); hyenadna/human_enhancers_cohn/comp_equalized/s44 (p>=0.5 for 100%, SD 0.0047, max val AUROC 0.556)
+  validation-carve leakage (share of validation rows whose exact sequence is also a fitting row; mean over units) and best validation vs own-arm test AUROC: dnabert2/cohn 0.000 (val 0.785 vs test 0.795); dnabert2/nt_enh 0.175 (val 0.953 vs test 0.776); hyenadna/dros 0.000 (val 0.813 vs test 0.794); hyenadna/cohn 0.000 (val 0.715 vs test 0.708); hyenadna/nt_enh 0.166 (val 0.884 vs test 0.713)
+
+Q2. GC-matched test effect G - A (same weights; the paper's test_effect sign) and fine-tuned minus baseline paired differences (fm_finetune_v2_gc_paired.csv):
+  -- cohn: DNABERT-2 LoRA-FT -0.041 [-0.045,-0.036]; DNABERT-2 frozen [CLS] -0.047 [-0.051,-0.042]; DNABERT-2 frozen mean -0.047 [-0.052,-0.042]; HyenaDNA full-FT -0.060 [-0.065,-0.055]; HyenaDNA frozen mean -0.058 [-0.062,-0.053]; HyenaDNA frozen [SEP] -0.048 [-0.053,-0.043]; k-mer LightGBM -0.059 [-0.064,-0.054]
+     DNABERT-2 LoRA-FT minus: DNABERT-2 frozen [CLS] +0.006 [+0.003,+0.009]; DNABERT-2 frozen mean +0.006 [+0.004,+0.008]; HyenaDNA frozen mean +0.017 [+0.014,+0.020]; HyenaDNA frozen [SEP] +0.007 [+0.002,+0.012]; k-mer LightGBM +0.018 [+0.015,+0.022]
+     HyenaDNA full-FT minus: DNABERT-2 frozen [CLS] -0.013 [-0.017,-0.010]; DNABERT-2 frozen mean -0.013 [-0.016,-0.010]; HyenaDNA frozen mean -0.002 [-0.005,+0.001]; HyenaDNA frozen [SEP] -0.012 [-0.017,-0.007]; k-mer LightGBM -0.001 [-0.003,+0.002]
+  -- nt_enhancers (released test, 100 leaked): DNABERT-2 LoRA-FT -0.082 [-0.110,-0.056]; DNABERT-2 frozen [CLS] -0.077 [-0.106,-0.052]; DNABERT-2 frozen mean -0.072 [-0.096,-0.049]; HyenaDNA full-FT -0.109 [-0.143,-0.080]; HyenaDNA frozen mean -0.080 [-0.106,-0.055]; HyenaDNA frozen [SEP] -0.079 [-0.105,-0.053]; k-mer LightGBM -0.076 [-0.102,-0.054]
+     DNABERT-2 LoRA-FT minus: DNABERT-2 frozen [CLS] -0.005 [-0.030,+0.020]; DNABERT-2 frozen mean -0.010 [-0.030,+0.009]; HyenaDNA frozen mean -0.002 [-0.023,+0.019]; HyenaDNA frozen [SEP] -0.003 [-0.029,+0.023]; k-mer LightGBM -0.006 [-0.026,+0.013]
+     HyenaDNA full-FT minus: DNABERT-2 frozen [CLS] -0.032 [-0.057,-0.008]; DNABERT-2 frozen mean -0.037 [-0.062,-0.016]; HyenaDNA frozen mean -0.029 [-0.050,-0.010]; HyenaDNA frozen [SEP] -0.030 [-0.061,-0.004]; k-mer LightGBM -0.033 [-0.055,-0.013]
+  -- nt_enhancers LEAK-FREE test (100+/36- on B): DNABERT-2 LoRA-FT -0.095 [-0.129,-0.064]; DNABERT-2 frozen [CLS] -0.111 [-0.149,-0.076]; DNABERT-2 frozen mean -0.110 [-0.145,-0.078]; HyenaDNA full-FT -0.111 [-0.146,-0.079]; HyenaDNA frozen mean -0.108 [-0.146,-0.078]; HyenaDNA frozen [SEP] -0.113 [-0.147,-0.079]; k-mer LightGBM -0.119 [-0.156,-0.087]
+     DNABERT-2 LoRA-FT minus: DNABERT-2 frozen [CLS] +0.016 [-0.016,+0.049]; DNABERT-2 frozen mean +0.015 [-0.011,+0.040]; HyenaDNA frozen mean +0.013 [-0.013,+0.040]; HyenaDNA frozen [SEP] +0.017 [-0.017,+0.051]; k-mer LightGBM +0.024 [-0.001,+0.052]
+     HyenaDNA full-FT minus: DNABERT-2 frozen [CLS] -0.000 [-0.030,+0.031]; DNABERT-2 frozen mean -0.001 [-0.024,+0.024]; HyenaDNA frozen mean -0.004 [-0.026,+0.021]; HyenaDNA frozen [SEP] +0.001 [-0.037,+0.034]; k-mer LightGBM +0.007 [-0.013,+0.029]
+  -- drosophila (GC-balanced control): HyenaDNA full-FT -0.025 [-0.030,-0.019]; HyenaDNA frozen mean -0.039 [-0.047,-0.031]; HyenaDNA frozen [SEP] +0.005 [-0.003,+0.014]; k-mer LightGBM -0.035 [-0.042,-0.028]
+     HyenaDNA full-FT minus: HyenaDNA frozen mean +0.014 [+0.008,+0.020]; HyenaDNA frozen [SEP] -0.030 [-0.040,-0.020]; k-mer LightGBM +0.011 [+0.006,+0.016]
+
+Q3. Latent positives: ENCODE SCREEN cCRE v4 overlap (psm_sensitivity annotation cache, read-only; fm_finetune_v2_ccre_enrichment.csv). Share of negatives overlapping, per arm (released / GC-matched / equalized / random) and positives; Fisher exact p, equalized vs random and vs released-not-kept:
+  human_enhancers_cohn   train ccre_any  released 0.389 (n 10422), GC-matched 0.434, equalized 0.539 (n 399), random 0.398 (n 399); positives 0.941; p(eq vs random) 9.3e-05, p(eq vs not kept) 0
+  human_enhancers_cohn   train ccre_els  released 0.239 (n 10422), GC-matched 0.278, equalized 0.336 (n 399), random 0.233 (n 399); positives 0.908; p(eq vs random) 0.00167, p(eq vs not kept) 9e-06
+  human_enhancers_cohn   train ccre_pls  released 0.003 (n 10422), GC-matched 0.004, equalized 0.020 (n 399), random 0.005 (n 399); positives 0.067; p(eq vs random) 0.107, p(eq vs not kept) 2.6e-05
+  human_enhancers_cohn   test  ccre_any  released 0.384 (n 3474), GC-matched 0.431, equalized 0.504 (n 228), random 0.316 (n 228); positives 0.935; p(eq vs random) 6e-05, p(eq vs not kept) 0.000137
+  human_enhancers_cohn   test  ccre_els  released 0.245 (n 3474), GC-matched 0.285, equalized 0.333 (n 228), random 0.206 (n 228); positives 0.905; p(eq vs random) 0.00304, p(eq vs not kept) 0.00186
+  human_enhancers_cohn   test  ccre_pls  released 0.003 (n 3474), GC-matched 0.004, equalized 0.009 (n 228), random 0.000 (n 228); positives 0.065; p(eq vs random) 0.499, p(eq vs not kept) 0.16
+  nt_enhancers           train ccre_any  released 0.186 (n 1595), GC-matched 0.234, equalized 0.246 (n 203), random 0.183 (n 71); positives 0.775; p(eq vs random) 0.327, p(eq vs not kept) 0.0207
+  nt_enhancers           train ccre_els  released 0.077 (n 1595), GC-matched 0.101, equalized 0.084 (n 203), random 0.070 (n 71); positives 0.696; p(eq vs random) 1, p(eq vs not kept) 0.674
+  nt_enhancers           train ccre_pls  released 0.000 (n 1595), GC-matched 0.000, equalized 0.000 (n 203), random 0.000 (n 71); positives 0.041; p(eq vs random) 1, p(eq vs not kept) 1
+  nt_enhancers           test  ccre_any  released 0.205 (n 200), GC-matched 0.262, equalized 0.389 (n 36), random 0.139 (n 36); positives 0.835; p(eq vs random) 0.0309, p(eq vs not kept) 0.00524
+  nt_enhancers           test  ccre_els  released 0.135 (n 200), GC-matched 0.184, equalized 0.250 (n 36), random 0.083 (n 36); positives 0.765; p(eq vs random) 0.111, p(eq vs not kept) 0.0334
+  nt_enhancers           test  ccre_pls  released 0.005 (n 200), GC-matched 0.010, equalized 0.028 (n 36), random 0.000 (n 36); positives 0.060; p(eq vs random) 1, p(eq vs not kept) 0.18
+  nt_enhancers_leakfree  test  ccre_any  released 0.205 (n 200), GC-matched 0.262, equalized 0.389 (n 36), random 0.139 (n 36); positives 0.710; p(eq vs random) 0.0309, p(eq vs not kept) 0.00524
+  nt_enhancers_leakfree  test  ccre_els  released 0.135 (n 200), GC-matched 0.184, equalized 0.250 (n 36), random 0.083 (n 36); positives 0.630; p(eq vs random) 0.111, p(eq vs not kept) 0.0334
+  nt_enhancers_leakfree  test  ccre_pls  released 0.005 (n 200), GC-matched 0.010, equalized 0.028 (n 36), random 0.000 (n 36); positives 0.060; p(eq vs random) 1, p(eq vs not kept) 0.18
+  Re-scoring with the cCRE- (ELS-) overlapping test negatives removed from every eval arm (fm_finetune_v2_ccre_sensitivity.csv; rule columns there are re-applications, not verdicts):
+  -- cohn, ccre_any_free (A/B/C negatives 2140/113/156)
+    DNABERT-2 LoRA-FT        A 0.901 B 0.804 [0.762,0.842] C 0.905 | S 0.098 [0.063,0.135] T 0.101 [0.059,0.144] | lost 0.24 [0.16,0.34] (unfiltered 0.37) vs random -0.01 [-0.06,0.04]
+    DNABERT-2 frozen [CLS]   A 0.864 B 0.763 [0.712,0.807] C 0.849 | S 0.101 [0.057,0.148] T 0.086 [0.035,0.138] | lost 0.28 [0.15,0.41] (unfiltered 0.44) vs random 0.04 [-0.03,0.12]
+    DNABERT-2 frozen mean    A 0.889 B 0.783 [0.733,0.825] C 0.880 | S 0.106 [0.065,0.153] T 0.097 [0.051,0.147] | lost 0.27 [0.17,0.40] (unfiltered 0.43) vs random 0.02 [-0.04,0.09]
+    HyenaDNA full-FT         A 0.848 B 0.654 [0.604,0.701] C 0.828 | S 0.194 [0.149,0.242] T 0.174 [0.125,0.228] | lost 0.56 [0.43,0.70] (unfiltered 0.72) vs random 0.06 [-0.02,0.14]
+    HyenaDNA frozen mean     A 0.848 B 0.727 [0.678,0.773] C 0.840 | S 0.121 [0.077,0.166] T 0.113 [0.060,0.161] | lost 0.35 [0.22,0.48] (unfiltered 0.58) vs random 0.02 [-0.06,0.11]
+    HyenaDNA frozen [SEP]    A 0.772 B 0.655 [0.606,0.704] C 0.770 | S 0.117 [0.070,0.163] T 0.116 [0.059,0.171] | lost 0.43 [0.26,0.60] (unfiltered 0.66) vs random 0.00 [-0.11,0.13]
+    k-mer LightGBM           A 0.861 B 0.696 [0.648,0.742] C 0.862 | S 0.164 [0.121,0.210] T 0.166 [0.116,0.215] | lost 0.46 [0.33,0.58] (unfiltered 0.66) vs random -0.00 [-0.07,0.07]
+  -- cohn, ccre_els_free (A/B/C negatives 2622/152/181)
+    DNABERT-2 LoRA-FT        A 0.889 B 0.784 [0.746,0.817] C 0.899 | S 0.104 [0.073,0.140] T 0.115 [0.080,0.155] | lost 0.27 [0.19,0.36] (unfiltered 0.37) vs random -0.03 [-0.08,0.02]
+    DNABERT-2 frozen [CLS]   A 0.848 B 0.726 [0.682,0.767] C 0.847 | S 0.122 [0.084,0.165] T 0.121 [0.075,0.171] | lost 0.35 [0.24,0.48] (unfiltered 0.44) vs random 0.00 [-0.07,0.08]
+    DNABERT-2 frozen mean    A 0.874 B 0.759 [0.716,0.797] C 0.875 | S 0.116 [0.079,0.155] T 0.117 [0.074,0.161] | lost 0.31 [0.21,0.42] (unfiltered 0.43) vs random -0.00 [-0.06,0.07]
+    HyenaDNA full-FT         A 0.834 B 0.642 [0.596,0.685] C 0.831 | S 0.193 [0.152,0.238] T 0.190 [0.141,0.239] | lost 0.58 [0.45,0.71] (unfiltered 0.72) vs random 0.01 [-0.06,0.08]
+    HyenaDNA frozen mean     A 0.831 B 0.688 [0.639,0.732] C 0.837 | S 0.143 [0.101,0.188] T 0.150 [0.102,0.204] | lost 0.43 [0.30,0.57] (unfiltered 0.58) vs random -0.02 [-0.09,0.06]
+    HyenaDNA frozen [SEP]    A 0.757 B 0.624 [0.577,0.669] C 0.768 | S 0.133 [0.090,0.179] T 0.144 [0.092,0.199] | lost 0.52 [0.35,0.70] (unfiltered 0.66) vs random -0.04 [-0.17,0.08]
+    k-mer LightGBM           A 0.846 B 0.669 [0.622,0.709] C 0.857 | S 0.176 [0.139,0.220] T 0.188 [0.143,0.236] | lost 0.51 [0.40,0.64] (unfiltered 0.66) vs random -0.03 [-0.10,0.03]
+  -- nt_enhancers (released test, 100 leaked), ccre_any_free (A/B/C negatives 159/22/31)
+    DNABERT-2 LoRA-FT        A 0.852 B 0.774 [0.670,0.870] C 0.839 | S 0.078 [0.001,0.170] T 0.065 [-0.045,0.192] | lost 0.22 [0.00,0.49] (unfiltered 0.44) vs random 0.04 [-0.14,0.25]
+    DNABERT-2 frozen [CLS]   A 0.879 B 0.779 [0.688,0.867] C 0.885 | S 0.100 [0.029,0.180] T 0.106 [0.021,0.195] | lost 0.26 [0.08,0.48] (unfiltered 0.50) vs random -0.02 [-0.11,0.08]
+    DNABERT-2 frozen mean    A 0.887 B 0.790 [0.706,0.869] C 0.889 | S 0.097 [0.040,0.165] T 0.099 [0.032,0.173] | lost 0.25 [0.10,0.45] (unfiltered 0.49) vs random -0.01 [-0.08,0.08]
+    HyenaDNA full-FT         A 0.796 B 0.691 [0.578,0.789] C 0.800 | S 0.105 [0.020,0.204] T 0.109 [-0.000,0.227] | lost 0.35 [0.07,0.72] (unfiltered 0.64) vs random -0.01 [-0.22,0.21]
+    HyenaDNA frozen mean     A 0.854 B 0.771 [0.675,0.853] C 0.864 | S 0.083 [0.019,0.163] T 0.093 [0.007,0.190] | lost 0.23 [0.05,0.47] (unfiltered 0.45) vs random -0.03 [-0.15,0.09]
+    HyenaDNA frozen [SEP]    A 0.829 B 0.765 [0.673,0.847] C 0.824 | S 0.063 [0.001,0.137] T 0.058 [-0.018,0.142] | lost 0.19 [0.00,0.43] (unfiltered 0.45) vs random 0.02 [-0.13,0.16]
+    k-mer LightGBM           A 0.879 B 0.803 [0.726,0.873] C 0.898 | S 0.075 [0.022,0.138] T 0.095 [0.028,0.167] | lost 0.20 [0.06,0.38] (unfiltered 0.43) vs random -0.05 [-0.14,0.03]
+  -- nt_enhancers LEAK-FREE test (100+/36- on B), ccre_any_free (A/B/C negatives 159/22/31)
+    DNABERT-2 LoRA-FT        A 0.775 B 0.677 [0.559,0.784] C 0.768 | S 0.098 [0.011,0.189] T 0.091 [-0.027,0.224] | lost 0.36 [0.04,0.75] (unfiltered 0.66) vs random 0.03 [-0.23,0.31]
+    DNABERT-2 frozen [CLS]   A 0.777 B 0.635 [0.516,0.749] C 0.778 | S 0.142 [0.052,0.244] T 0.143 [0.030,0.261] | lost 0.51 [0.18,0.94] (unfiltered 0.95) vs random -0.01 [-0.23,0.23]
+    DNABERT-2 frozen mean    A 0.785 B 0.631 [0.511,0.744] C 0.781 | S 0.153 [0.071,0.249] T 0.150 [0.054,0.262] | lost 0.54 [0.24,0.95] (unfiltered 0.90) vs random 0.01 [-0.19,0.22]
+    HyenaDNA full-FT         A 0.731 B 0.618 [0.495,0.731] C 0.738 | S 0.113 [0.033,0.211] T 0.120 [0.008,0.238] | lost 0.49 [0.14,1.03] (unfiltered 0.87) vs random -0.03 [-0.34,0.26]
+    HyenaDNA frozen mean     A 0.737 B 0.617 [0.490,0.725] C 0.753 | S 0.119 [0.039,0.214] T 0.135 [0.038,0.254] | lost 0.50 [0.15,1.05] (unfiltered 0.86) vs random -0.07 [-0.36,0.18]
+    HyenaDNA frozen [SEP]    A 0.686 B 0.598 [0.486,0.717] C 0.678 | S 0.089 [-0.006,0.188] T 0.080 [-0.045,0.193] | lost 0.48 [-0.02,1.10] (unfiltered 1.04) vs random 0.05 [-0.43,0.51]
+    k-mer LightGBM           A 0.770 B 0.652 [0.536,0.762] C 0.798 | S 0.118 [0.040,0.209] T 0.146 [0.043,0.258] | lost 0.44 [0.14,0.84] (unfiltered 0.77) vs random -0.10 [-0.34,0.10]
+  -- nt_enhancers (released test, 100 leaked), ccre_els_free (A/B/C negatives 173/27/33)
+    DNABERT-2 LoRA-FT        A 0.845 B 0.733 [0.624,0.826] C 0.838 | S 0.111 [0.034,0.204] T 0.105 [-0.009,0.225] | lost 0.32 [0.10,0.61] (unfiltered 0.44) vs random 0.02 [-0.15,0.21]
+    DNABERT-2 frozen [CLS]   A 0.871 B 0.729 [0.628,0.821] C 0.877 | S 0.142 [0.073,0.232] T 0.148 [0.065,0.249] | lost 0.38 [0.19,0.64] (unfiltered 0.50) vs random -0.02 [-0.12,0.10]
+    DNABERT-2 frozen mean    A 0.878 B 0.741 [0.642,0.832] C 0.892 | S 0.137 [0.068,0.218] T 0.150 [0.061,0.246] | lost 0.36 [0.18,0.61] (unfiltered 0.49) vs random -0.03 [-0.12,0.05]
+    HyenaDNA full-FT         A 0.787 B 0.637 [0.527,0.742] C 0.804 | S 0.150 [0.066,0.247] T 0.167 [0.055,0.289] | lost 0.52 [0.23,0.90] (unfiltered 0.64) vs random -0.06 [-0.30,0.17]
+    HyenaDNA frozen mean     A 0.848 B 0.742 [0.646,0.825] C 0.869 | S 0.106 [0.040,0.188] T 0.127 [0.045,0.227] | lost 0.30 [0.11,0.56] (unfiltered 0.45) vs random -0.06 [-0.17,0.06]
+    HyenaDNA frozen [SEP]    A 0.819 B 0.706 [0.603,0.802] C 0.827 | S 0.113 [0.034,0.199] T 0.121 [0.025,0.223] | lost 0.35 [0.10,0.65] (unfiltered 0.45) vs random -0.03 [-0.18,0.11]
+    k-mer LightGBM           A 0.872 B 0.767 [0.674,0.847] C 0.899 | S 0.105 [0.043,0.177] T 0.132 [0.058,0.217] | lost 0.28 [0.11,0.50] (unfiltered 0.43) vs random -0.07 [-0.16,0.01]
+  -- nt_enhancers LEAK-FREE test (100+/36- on B), ccre_els_free (A/B/C negatives 173/27/33)
+    DNABERT-2 LoRA-FT        A 0.766 B 0.637 [0.526,0.745] C 0.765 | S 0.129 [0.045,0.221] T 0.127 [0.012,0.249] | lost 0.48 [0.17,0.88] (unfiltered 0.66) vs random 0.01 [-0.25,0.26]
+    DNABERT-2 frozen [CLS]   A 0.769 B 0.572 [0.441,0.687] C 0.768 | S 0.196 [0.110,0.299] T 0.196 [0.095,0.319] | lost 0.73 [0.38,1.26] (unfiltered 0.95) vs random 0.00 [-0.24,0.26]
+    DNABERT-2 frozen mean    A 0.776 B 0.590 [0.480,0.705] C 0.786 | S 0.186 [0.101,0.277] T 0.196 [0.087,0.307] | lost 0.67 [0.34,1.09] (unfiltered 0.90) vs random -0.03 [-0.26,0.16]
+    HyenaDNA full-FT         A 0.723 B 0.568 [0.460,0.677] C 0.742 | S 0.155 [0.073,0.243] T 0.175 [0.066,0.292] | lost 0.70 [0.31,1.23] (unfiltered 0.87) vs random -0.09 [-0.42,0.21]
+    HyenaDNA frozen mean     A 0.731 B 0.595 [0.495,0.702] C 0.761 | S 0.136 [0.061,0.220] T 0.166 [0.065,0.274] | lost 0.59 [0.24,1.03] (unfiltered 0.86) vs random -0.13 [-0.42,0.13]
+    HyenaDNA frozen [SEP]    A 0.675 B 0.540 [0.424,0.652] C 0.682 | S 0.136 [0.038,0.235] T 0.142 [0.019,0.264] | lost 0.77 [0.22,1.53] (unfiltered 1.04) vs random -0.04 [-0.52,0.40]
+    k-mer LightGBM           A 0.762 B 0.616 [0.506,0.726] C 0.798 | S 0.146 [0.072,0.229] T 0.182 [0.083,0.288] | lost 0.56 [0.24,0.97] (unfiltered 0.77) vs random -0.14 [-0.38,0.07]
+
+Q4. Random-draw reference for B (fm_finetune_v2_randdraw.csv): released-split weights on 1000 random draws of as many test negatives as the equalized arm holds (+ all positives; draws identical for every model); p = (1 + #draws <= B)/1001:
+  cohn                                         DNABERT-2 LoRA-FT        k= 228 draws 0.822-0.870 (min 0.803); B 0.720 (p 0.0010); C 0.863 at the 88th percentile of the draws
+  cohn                                         DNABERT-2 frozen [CLS]   k= 228 draws 0.776-0.831 (min 0.754); B 0.672 (p 0.0010); C 0.814 at the 75th percentile of the draws
+  cohn                                         DNABERT-2 frozen mean    k= 228 draws 0.803-0.855 (min 0.784); B 0.688 (p 0.0010); C 0.841 at the 78th percentile of the draws
+  cohn                                         HyenaDNA full-FT         k= 228 draws 0.768-0.824 (min 0.753); B 0.581 (p 0.0010); C 0.804 at the 72th percentile of the draws
+  cohn                                         HyenaDNA frozen mean     k= 228 draws 0.761-0.817 (min 0.746); B 0.621 (p 0.0010); C 0.802 at the 76th percentile of the draws
+  cohn                                         HyenaDNA frozen [SEP]    k= 228 draws 0.692-0.753 (min 0.667); B 0.577 (p 0.0010); C 0.740 at the 84th percentile of the draws
+  cohn                                         k-mer LightGBM           k= 228 draws 0.777-0.831 (min 0.763); B 0.603 (p 0.0010); C 0.820 at the 86th percentile of the draws
+  nt_enhancers (released test, 100 leaked)     DNABERT-2 LoRA-FT        k=  36 draws 0.752-0.880 (min 0.702); B 0.680 (p 0.0010); C 0.833 at the 64th percentile of the draws
+  nt_enhancers (released test, 100 leaked)     DNABERT-2 frozen [CLS]   k=  36 draws 0.780-0.894 (min 0.745); B 0.672 (p 0.0010); C 0.861 at the 73th percentile of the draws
+  nt_enhancers (released test, 100 leaked)     DNABERT-2 frozen mean    k=  36 draws 0.805-0.900 (min 0.764); B 0.680 (p 0.0010); C 0.875 at the 78th percentile of the draws
+  nt_enhancers (released test, 100 leaked)     HyenaDNA full-FT         k=  36 draws 0.690-0.822 (min 0.634); B 0.593 (p 0.0010); C 0.797 at the 85th percentile of the draws
+  nt_enhancers (released test, 100 leaked)     HyenaDNA frozen mean     k=  36 draws 0.761-0.868 (min 0.726); B 0.675 (p 0.0010); C 0.855 at the 91th percentile of the draws
+  nt_enhancers (released test, 100 leaked)     HyenaDNA frozen [SEP]    k=  36 draws 0.741-0.852 (min 0.700); B 0.665 (p 0.0010); C 0.812 at the 66th percentile of the draws
+  nt_enhancers (released test, 100 leaked)     k-mer LightGBM           k=  36 draws 0.795-0.892 (min 0.761); B 0.698 (p 0.0010); C 0.878 at the 87th percentile of the draws
+  nt_enhancers LEAK-FREE test (100+/36- on B)  DNABERT-2 LoRA-FT        k=  36 draws 0.668-0.805 (min 0.620); B 0.582 (p 0.0010); C 0.756 at the 68th percentile of the draws
+  nt_enhancers LEAK-FREE test (100+/36- on B)  DNABERT-2 frozen [CLS]   k=  36 draws 0.656-0.804 (min 0.603); B 0.511 (p 0.0010); C 0.748 at the 63th percentile of the draws
+  nt_enhancers LEAK-FREE test (100+/36- on B)  DNABERT-2 frozen mean    k=  36 draws 0.680-0.809 (min 0.609); B 0.524 (p 0.0010); C 0.767 at the 72th percentile of the draws
+  nt_enhancers LEAK-FREE test (100+/36- on B)  HyenaDNA full-FT         k=  36 draws 0.624-0.761 (min 0.582); B 0.525 (p 0.0010); C 0.732 at the 84th percentile of the draws
+  nt_enhancers LEAK-FREE test (100+/36- on B)  HyenaDNA frozen mean     k=  36 draws 0.629-0.758 (min 0.575); B 0.528 (p 0.0010); C 0.742 at the 92th percentile of the draws
+  nt_enhancers LEAK-FREE test (100+/36- on B)  HyenaDNA frozen [SEP]    k=  36 draws 0.574-0.726 (min 0.530); B 0.493 (p 0.0010); C 0.664 at the 60th percentile of the draws
+  nt_enhancers LEAK-FREE test (100+/36- on B)  k-mer LightGBM           k=  36 draws 0.669-0.793 (min 0.624); B 0.554 (p 0.0010); C 0.776 at the 90th percentile of the draws
+  drosophila (GC-balanced control)             HyenaDNA full-FT         k= 217 draws 0.801-0.854 (min 0.784); B 0.742 (p 0.0010); C 0.846 at the 91th percentile of the draws
+  drosophila (GC-balanced control)             HyenaDNA frozen mean     k= 217 draws 0.693-0.757 (min 0.668); B 0.640 (p 0.0010); C 0.725 at the 43th percentile of the draws
+  drosophila (GC-balanced control)             HyenaDNA frozen [SEP]    k= 217 draws 0.642-0.708 (min 0.618); B 0.676 (p 0.4695); C 0.663 at the 19th percentile of the draws
+  drosophila (GC-balanced control)             k-mer LightGBM           k= 217 draws 0.730-0.793 (min 0.698); B 0.647 (p 0.0010); C 0.747 at the 16th percentile of the draws
+
+Q5. Within-class score-composition coupling, released test split, train arm original (fm_finetune_v2_score_composition_withinclass_summary.csv; pooled = the pre-registered R^2):
+  DNABERT-2 LoRA-FT        human_enhancers_cohn        pooled 0.519, within-pos 0.501, within-neg 0.349, label only 0.357, label+comp 0.615 (gain 0.258)
+  DNABERT-2 LoRA-FT        nt_enhancers                pooled 0.530, within-pos 0.367, within-neg 0.309, label only 0.306, label+comp 0.570 (gain 0.264)
+  DNABERT-2 frozen [CLS]   human_enhancers_cohn        pooled 0.544, within-pos 0.579, within-neg 0.328, label only 0.270, label+comp 0.592 (gain 0.322)
+  DNABERT-2 frozen [CLS]   nt_enhancers                pooled 0.648, within-pos 0.485, within-neg 0.525, label only 0.339, label+comp 0.685 (gain 0.345)
+  DNABERT-2 frozen mean    human_enhancers_cohn        pooled 0.563, within-pos 0.639, within-neg 0.334, label only 0.310, label+comp 0.627 (gain 0.317)
+  DNABERT-2 frozen mean    nt_enhancers                pooled 0.784, within-pos 0.659, within-neg 0.717, label only 0.369, label+comp 0.815 (gain 0.446)
+  HyenaDNA full-FT         drosophila_enhancers_stark  pooled 0.302, within-pos 0.079, within-neg 0.279, label only 0.333, label+comp 0.465 (gain 0.132)
+  HyenaDNA full-FT         human_enhancers_cohn        pooled 0.764, within-pos 0.765, within-neg 0.667, label only 0.256, label+comp 0.782 (gain 0.526)
+  HyenaDNA full-FT         nt_enhancers                pooled 0.580, within-pos 0.461, within-neg 0.407, label only 0.191, label+comp 0.580 (gain 0.389)
+  HyenaDNA frozen mean     drosophila_enhancers_stark  pooled 0.192, within-pos 0.146, within-neg 0.178, label only 0.168, label+comp 0.278 (gain 0.110)
+  HyenaDNA frozen mean     human_enhancers_cohn        pooled 0.581, within-pos 0.695, within-neg 0.379, label only 0.237, label+comp 0.610 (gain 0.373)
+  HyenaDNA frozen mean     nt_enhancers                pooled 0.676, within-pos 0.596, within-neg 0.541, label only 0.298, label+comp 0.694 (gain 0.396)
+  HyenaDNA frozen [SEP]    drosophila_enhancers_stark  pooled 0.107, within-pos 0.021, within-neg 0.100, label only 0.104, label+comp 0.179 (gain 0.075)
+  HyenaDNA frozen [SEP]    human_enhancers_cohn        pooled 0.484, within-pos 0.528, within-neg 0.268, label only 0.153, label+comp 0.496 (gain 0.344)
+  HyenaDNA frozen [SEP]    nt_enhancers                pooled 0.652, within-pos 0.495, within-neg 0.557, label only 0.256, label+comp 0.662 (gain 0.406)
+  k-mer LightGBM           drosophila_enhancers_stark  pooled 0.363, within-pos 0.215, within-neg 0.367, label only 0.223, label+comp 0.452 (gain 0.229)
+  k-mer LightGBM           human_enhancers_cohn        pooled 0.731, within-pos 0.746, within-neg 0.584, label only 0.266, label+comp 0.755 (gain 0.488)
+  k-mer LightGBM           nt_enhancers                pooled 0.792, within-pos 0.664, within-neg 0.744, label only 0.347, label+comp 0.813 (gain 0.466)
+
+Q6. Multiplicity (fm_finetune_v2_multiplicity.csv): Bonferroni over the 5 pre-registered fine-tuned cells (99% percentile CIs, same 1000 resamples; a 99% bound rests on 5 tail draws):
+  dnabert2  human_enhancers_cohn        S         0.128 95% [0.095,0.161] Bonferroni [0.088,0.173]
+  dnabert2  human_enhancers_cohn        T         0.143 95% [0.103,0.183] Bonferroni [0.088,0.198]
+  dnabert2  human_enhancers_cohn        B         0.720 95% [0.683,0.752] Bonferroni [0.674,0.764]
+  dnabert2  human_enhancers_cohn        frac_lost 0.369 95% [0.273,0.462] Bonferroni [0.248,0.500]
+  dnabert2  nt_enhancers                S         0.140 95% [0.069,0.216] Bonferroni [0.043,0.254]
+  dnabert2  nt_enhancers                T         0.153 95% [0.049,0.265] Bonferroni [0.016,0.321]
+  dnabert2  nt_enhancers                B         0.680 95% [0.592,0.773] Bonferroni [0.547,0.803]
+  dnabert2  nt_enhancers                frac_lost 0.438 95% [0.201,0.699] Bonferroni [0.129,0.840]
+  hyenadna  drosophila_enhancers_stark  S         0.086 95% [0.056,0.114] Bonferroni [0.046,0.126]
+  hyenadna  drosophila_enhancers_stark  T         0.105 95% [0.065,0.142] Bonferroni [0.055,0.150]
+  hyenadna  drosophila_enhancers_stark  B         0.742 95% [0.707,0.779] Bonferroni [0.693,0.788]
+  hyenadna  drosophila_enhancers_stark  frac_lost 0.262 95% [0.167,0.350] Bonferroni [0.142,0.392]
+  hyenadna  human_enhancers_cohn        S         0.214 95% [0.180,0.252] Bonferroni [0.169,0.266]
+  hyenadna  human_enhancers_cohn        T         0.223 95% [0.181,0.271] Bonferroni [0.165,0.290]
+  hyenadna  human_enhancers_cohn        B         0.581 95% [0.542,0.618] Bonferroni [0.526,0.629]
+  hyenadna  human_enhancers_cohn        frac_lost 0.725 95% [0.605,0.860] Bonferroni [0.568,0.911]
+  hyenadna  nt_enhancers                S         0.169 95% [0.095,0.241] Bonferroni [0.075,0.270]
+  hyenadna  nt_enhancers                T         0.204 95% [0.099,0.309] Bonferroni [0.068,0.360]
+  hyenadna  nt_enhancers                B         0.593 95% [0.504,0.684] Bonferroni [0.474,0.708]
+  hyenadna  nt_enhancers                frac_lost 0.644 95% [0.351,0.981] Bonferroni [0.277,1.116]
+
+REFERENCE NUMBERS ALREADY IN THE PAPER / OTHER MODULES (read from their CSVs):
+  frozen-probe test_effect on the GC-matched test (paper Sec. FM probe; fm_cross_architecture.csv): HyenaDNA/cohn -0.048 [-0.053,-0.043]; HyenaDNA/nt_enh -0.079 [-0.107,-0.056]; HyenaDNA/dros +0.005 [-0.003,0.014]; DNABERT/cohn -0.047 [-0.051,-0.042]; DNABERT/nt_enh -0.072 [-0.100,-0.049]
+  fine-tuned HyenaDNA full-FT analog, G - A (same weights, same GC-matched test subset, seed mean): dros -0.025 [-0.030,-0.019]; cohn -0.060 [-0.065,-0.055]; nt_enh -0.109 [-0.143,-0.080]
+  fine-tuned DNABERT-2 LoRA-FT analog, G - A (same weights, same GC-matched test subset, seed mean): cohn -0.041 [-0.045,-0.036]; nt_enh -0.082 [-0.110,-0.056]
+  the same G - A for every frozen-probe cell (post hoc refit, reproduces fm_paired*.csv; the paper reports the [SEP] (HyenaDNA) and mean/[CLS] (DNABERT-2) cells): DNABERT-2 frozen [CLS]/cohn -0.047 [-0.051,-0.042]; DNABERT-2 frozen [CLS]/nt_enh -0.077 [-0.106,-0.052]; DNABERT-2 frozen mean/cohn -0.047 [-0.052,-0.042]; DNABERT-2 frozen mean/nt_enh -0.072 [-0.096,-0.049]; HyenaDNA frozen mean/dros -0.039 [-0.047,-0.031]; HyenaDNA frozen mean/cohn -0.058 [-0.062,-0.053]; HyenaDNA frozen mean/nt_enh -0.080 [-0.106,-0.055]; HyenaDNA frozen [SEP]/dros +0.005 [-0.003,+0.014]; HyenaDNA frozen [SEP]/cohn -0.048 [-0.053,-0.043]; HyenaDNA frozen [SEP]/nt_enh -0.079 [-0.105,-0.053]
+  psm_sensitivity k-mer LightGBM human_enhancers_cohn: A0 0.805, size-matched random retrain 0.765 (10 draws 0.738-0.793), matched retrain 0.621 [0.582,0.658], published equalized split 0.613; fixed model on matched test 0.595 vs random test 0.803; verdict SUPPORTED-WITH-SIZE-COMPONENT; cCRE-free test: fixed model matched 0.696 vs random 0.862
+  psm_sensitivity k-mer LightGBM nt_enhancers: A0 0.850, size-matched random retrain 0.807 (10 draws 0.763-0.832), matched retrain 0.799 [0.722,0.871], published equalized split 0.748; fixed model on matched test 0.690 vs random test 0.852; verdict NOT SUPPORTED; cCRE-free test: fixed model matched 0.773 vs random 0.878
+  psm_sensitivity k-mer LightGBM nt_enhancers_leakfreeTest: A0 0.735, size-matched random retrain 0.723 (10 draws 0.689-0.751), matched retrain 0.684 [0.587,0.782], published equalized split 0.628; fixed model on matched test 0.535 vs random test 0.735; verdict NOT SUPPORTED; cCRE-free test: fixed model matched 0.596 vs random 0.767
+  psm_sensitivity k-mer LightGBM nt_enhancers_leakfreeRefit: A0 0.804, size-matched random retrain 0.786 (10 draws 0.743-0.818), matched retrain 0.706 [0.623,0.788], published equalized split 0.624; fixed model on matched test 0.605 vs random test 0.804; verdict NOT SUPPORTED; cCRE-free test: fixed model matched 0.674 vs random 0.835
+  psm_sensitivity k-mer LightGBM drosophila_enhancers_stark: A0 0.763, size-matched random retrain 0.754 (10 draws 0.729-0.775), matched retrain 0.674 [0.632,0.719], published equalized split 0.661; fixed model on matched test 0.690 vs random test 0.762; verdict SUPPORTED
+  homology_recluster (read-only; fine-tuned HyenaDNA on homology-clean re-splits, homology_recluster_ft_contrasts.csv): dros A 0.829 [0.810,0.847]; dros B 0.769 [0.740,0.796]; dros S 0.059 [0.043,0.075]; cohn A 0.791 [0.780,0.802]; cohn B 0.583 [0.541,0.625]; cohn S 0.208 [0.170,0.245]; nt_enh A 0.984 [0.975,0.992]; nt_enh B 0.832 [0.757,0.909]; nt_enh S 0.152 [0.081,0.227]
+
+CAVEATS
+  * B is above 0.5 where its CI says so (a residual non-composition signal survives); the claim is the share of the score that composition carries, not that the model learns nothing else. Pre-registered rule 1 accepts B<0.6 as 'near chance'; read B's CI directly.
+  * Equalized test sets keep few negatives (cohn 228, nt_enhancers 36, drosophila 217; manifest n_neg), so their CIs are wide (nt_enhancers especially); AUROC is prevalence-invariant, and the balanced-resample metrics (20 draws, majority class subsampled) are given alongside.
+  * nt_enhancers: 100 released test positives are verbatim training sequences. The released-split A is inflated for every model that memorizes them; Part 2 P1 gives leak-free numbers. The nt equalized split is also not fully composition-balanced (composition-only AUROC 0.559 on its test, manifest), so nt is the weaker of the two unaligned datasets.
+  * The drosophila control is GC-balanced (GC-only AUROC 0.491 on its released test) but not dinucleotide-balanced (20-d composition-only AUROC 0.689; cohn 0.764, nt_enhancers 0.786; manifest), so call it a GC-balanced control, not composition-free. A model can therefore lose some AUROC on its equalized negatives too. What separates it from cohn is the smaller share the SAME weights lose on equalized negatives (see the summary), not D: D stays above chance on cohn too for every model except the degenerate fine-tuned HyenaDNA units (fm_finetune_v2_compare.csv D_auroc_mean). Pre-registered rule 5 was NOT met (S_dros's CI overlaps S on released nt_enhancers); its non-overlap criterion was fixed with this caveat stated in advance. The drosophila control is flat for the paper's frozen [SEP] probe only; under mean pooling (frozen or fine-tuned) its GC-matched test effect is negative (Part 3, Q2).
+  * Thresholded metrics (balanced accuracy, MCC at p=0.5) depend on calibration: 3 fine-tuning unit(s) put every test sequence on one side of 0.5 (balanced accuracy 0.500, MCC 0; unit_diagnostics one_class). AUROC / balanced-resample AUROC are the informative numbers for such arms.
+  * Degenerate fits (Part 3 Q1): hyenadna/human_enhancers_cohn/comp_equalized 3 unit(s). Their D is an optimization collapse of the fixed recipe on the heavily imbalanced equalized train arm, not a measured absence of learnable signal; do not cite it as such. Rules 1-2 do not use D.
+  * nt_enhancers epoch selection: 17% of validation rows (mean over units) have an exact copy among the fitting rows, so validation AUROC (mean 0.914) overstates test AUROC (mean 0.740; unit_diagnostics). This is not test leakage (test rows never enter training or selection), but the epoch choice on nt_enhancers is made on a partly memorized carve.
+  * Latent positives (Part 3 Q3): the equalizer keeps cCRE-overlapping negatives more often than the random control, so part of S may reflect enhancer-like negatives rather than composition. With every cCRE-overlapping test negative removed the fine-tuned drop survives but is smaller (cohn share lost: DNABERT-2 LoRA-FT 0.24 [0.16,0.34] vs 0.37 unfiltered, B 0.804 [0.762,0.842]; HyenaDNA full-FT 0.56 [0.43,0.70] vs 0.72 unfiltered, B 0.654 [0.604,0.701]).
+  * Multiplicity: rules were evaluated on 5 cells without correction; at the Bonferroni level S still excludes 0 in 5/5 (Part 3 Q6).
+  * The random arm controls size and imbalance, not every property the equalizer selects on (it keeps negatives whose composition resembles positives; any correlate of that is also removed). The composition-only floor of each arm is listed above for that reason. One random draw (RandomState 42) is used for training and test; psm_sensitivity shows the k-mer spread over 10 draws.
+  * Two FMs of modest size (0.44M; DNABERT-2 118.5M incl. LoRA + head; fm_finetune_v2_runs.csv) with one fixed recipe each; absolute AUROC is not tuned to a leaderboard. DNABERT-2 is LoRA (backbone frozen, 1.25% of weights trainable), not full-parameter; its 512-token context excludes the 2-3 kb drosophila sequences, so the GC-balanced drosophila control is HyenaDNA only. DNABERT-2 full-parameter and NT-v2-500M LoRA are packaged for a CUDA GPU (gpu_deferred/, external/fm_finetune/gbkb_ft_gpu_bundle.tar.gz).
+  * Not under-trained, but not leaderboard-tuned (post hoc check against published numbers): on the balanced cohn test, fine-tuned HyenaDNA-tiny reaches accuracy 0.716 vs 0.742 published for the same 436k-parameter HyenaDNA architecture after a hyperparameter sweep (HyenaDNA paper, arXiv:2306.15794, Table 4.1); DNABERT-2 LoRA reaches 0.764. On nt_enhancers its MCC is 0.428 vs 0.626 published for the larger 1.6M-parameter HyenaDNA (Table 4.2), so the nt_enhancers HyenaDNA numbers are below a tuned model's.
+  * The baseline (k-mer, frozen) rows are post hoc, single-seed, and trained on the full train arm; the fine-tuned models train on a 90% carve (10% validation for epoch selection).
+  * The v1 numbers cited in the June/v2 PSB manuscript and numbers_ledger.md (0.752 -> 0.514) came from the defective batcher; the v2 re-run gives 0.796 -> 0.581 (fm_finetune_v2_v1_vs_v2.csv). Replace them with the v2 numbers.
+  * Memory (2026-09-24): after a drosophila unit grew to 17.6 GB (per-batch tensor shapes -> unbounded MPS graph cache), the remaining 24 unit(s) ran with fixed-shape padding (--pad-multiple), exact micro-batch gradient accumulation for drosophila (--micro-batch 4; optimizer batch still 32) and hard memory caps (memguard.py). These are numerical no-ops (tests/check_pad_invariance.py: logits <= 9e-8, gradients <= 1.4e-4 relative); per-unit settings and peak footprint in fm_finetune_v2_runs.csv (max peak 3630 MB).

@@ -1,0 +1,67 @@
+check,dataset,ours,published,source,abs_diff,match_1e-3
+kmer A (orig->orig) vs psm_sensitivity A0,human_enhancers_cohn,0.804649,0.804649,psm_sensitivity_decision.csv:A0,0.0,True
+kmer D (comp_eq->comp_eq) vs psm_sensitivity paper_anchor_auroc,human_enhancers_cohn,0.613453,0.613457,psm_sensitivity_decision.csv:paper_anchor_auroc,4e-06,True
+kmer A (orig->orig) vs psm_sensitivity A0,nt_enhancers,0.849675,0.849675,psm_sensitivity_decision.csv:A0,0.0,True
+kmer D (comp_eq->comp_eq) vs psm_sensitivity paper_anchor_auroc,nt_enhancers,0.747917,0.747917,psm_sensitivity_decision.csv:paper_anchor_auroc,0.0,True
+kmer A (orig->orig) vs psm_sensitivity A0,drosophila_enhancers_stark,0.763135,0.763135,psm_sensitivity_decision.csv:A0,0.0,True
+kmer D (comp_eq->comp_eq) vs psm_sensitivity paper_anchor_auroc,drosophila_enhancers_stark,0.660579,0.660579,psm_sensitivity_decision.csv:paper_anchor_auroc,0.0,True
+hyenadna_frozen_mean A orig->orig [gc_match] vs fm_paired,human_enhancers_cohn,0.790439,0.7904,fm_paired.csv:orig_full_auroc,3.9e-05,True
+hyenadna_frozen_mean orig->arm (fixed head) [gc_match] vs fm_paired,human_enhancers_cohn,0.732929,0.7329,fm_paired.csv:orig_on_clean_auroc,2.9e-05,True
+hyenadna_frozen_mean arm->arm (retrained) [gc_match] vs fm_paired,human_enhancers_cohn,0.742424,0.7424,fm_paired.csv:clean_on_clean_auroc,2.4e-05,True
+hyenadna_frozen_mean A orig->orig [comp_equalized] vs fm_paired,human_enhancers_cohn,0.790439,0.7904,fm_paired.csv:orig_full_auroc,3.9e-05,True
+hyenadna_frozen_mean orig->arm (fixed head) [comp_equalized] vs fm_paired,human_enhancers_cohn,0.621012,0.621,fm_paired.csv:orig_on_clean_auroc,1.2e-05,True
+hyenadna_frozen_mean arm->arm (retrained) [comp_equalized] vs fm_paired,human_enhancers_cohn,0.638028,0.638,fm_paired.csv:clean_on_clean_auroc,2.8e-05,True
+hyenadna_frozen_sep A orig->orig [gc_match] vs fm_paired,human_enhancers_cohn,0.723473,0.7235,fm_paired.csv:orig_full_auroc,2.7e-05,True
+hyenadna_frozen_sep orig->arm (fixed head) [gc_match] vs fm_paired,human_enhancers_cohn,0.675421,0.6754,fm_paired.csv:orig_on_clean_auroc,2.1e-05,True
+hyenadna_frozen_sep arm->arm (retrained) [gc_match] vs fm_paired,human_enhancers_cohn,0.666823,0.6668,fm_paired.csv:clean_on_clean_auroc,2.3e-05,True
+hyenadna_frozen_sep A orig->orig [comp_equalized] vs fm_paired,human_enhancers_cohn,0.723473,0.7235,fm_paired.csv:orig_full_auroc,2.7e-05,True
+hyenadna_frozen_sep orig->arm (fixed head) [comp_equalized] vs fm_paired,human_enhancers_cohn,0.576974,0.577,fm_paired.csv:orig_on_clean_auroc,2.6e-05,True
+hyenadna_frozen_sep arm->arm (retrained) [comp_equalized] vs fm_paired,human_enhancers_cohn,0.523692,0.5237,fm_paired.csv:clean_on_clean_auroc,8e-06,True
+hyenadna_frozen_mean A orig->orig [gc_match] vs fm_paired,nt_enhancers,0.81815,0.8181,fm_paired.csv:orig_full_auroc,5e-05,True
+hyenadna_frozen_mean orig->arm (fixed head) [gc_match] vs fm_paired,nt_enhancers,0.738204,0.7382,fm_paired.csv:orig_on_clean_auroc,4e-06,True
+hyenadna_frozen_mean arm->arm (retrained) [gc_match] vs fm_paired,nt_enhancers,0.717282,0.7173,fm_paired.csv:clean_on_clean_auroc,1.8e-05,True
+hyenadna_frozen_mean A orig->orig [comp_equalized] vs fm_paired,nt_enhancers,0.81815,0.8181,fm_paired.csv:orig_full_auroc,5e-05,True
+hyenadna_frozen_mean orig->arm (fixed head) [comp_equalized] vs fm_paired,nt_enhancers,0.675278,0.6753,fm_paired.csv:orig_on_clean_auroc,2.2e-05,True
+hyenadna_frozen_mean arm->arm (retrained) [comp_equalized] vs fm_paired,nt_enhancers,0.733056,0.7331,fm_paired.csv:clean_on_clean_auroc,4.4e-05,True
+hyenadna_frozen_sep A orig->orig [gc_match] vs fm_paired,nt_enhancers,0.7997,0.7997,fm_paired.csv:orig_full_auroc,0.0,True
+hyenadna_frozen_sep orig->arm (fixed head) [gc_match] vs fm_paired,nt_enhancers,0.720437,0.7204,fm_paired.csv:orig_on_clean_auroc,3.7e-05,True
+hyenadna_frozen_sep arm->arm (retrained) [gc_match] vs fm_paired,nt_enhancers,0.706845,0.7068,fm_paired.csv:clean_on_clean_auroc,4.5e-05,True
+hyenadna_frozen_sep A orig->orig [comp_equalized] vs fm_paired,nt_enhancers,0.7997,0.7997,fm_paired.csv:orig_full_auroc,0.0,True
+hyenadna_frozen_sep orig->arm (fixed head) [comp_equalized] vs fm_paired,nt_enhancers,0.665278,0.6653,fm_paired.csv:orig_on_clean_auroc,2.2e-05,True
+hyenadna_frozen_sep arm->arm (retrained) [comp_equalized] vs fm_paired,nt_enhancers,0.638889,0.6389,fm_paired.csv:clean_on_clean_auroc,1.1e-05,True
+hyenadna_frozen_mean A orig->orig [gc_match] vs fm_paired,drosophila_enhancers_stark,0.727692,0.7277,fm_paired.csv:orig_full_auroc,8e-06,True
+hyenadna_frozen_mean orig->arm (fixed head) [gc_match] vs fm_paired,drosophila_enhancers_stark,0.689179,0.6892,fm_paired.csv:orig_on_clean_auroc,2.1e-05,True
+hyenadna_frozen_mean arm->arm (retrained) [gc_match] vs fm_paired,drosophila_enhancers_stark,0.68644,0.6864,fm_paired.csv:clean_on_clean_auroc,4e-05,True
+hyenadna_frozen_mean A orig->orig [comp_equalized] vs fm_paired,drosophila_enhancers_stark,0.727692,0.7277,fm_paired.csv:orig_full_auroc,8e-06,True
+hyenadna_frozen_mean orig->arm (fixed head) [comp_equalized] vs fm_paired,drosophila_enhancers_stark,0.63985,0.6398,fm_paired.csv:orig_on_clean_auroc,5e-05,True
+hyenadna_frozen_mean arm->arm (retrained) [comp_equalized] vs fm_paired,drosophila_enhancers_stark,0.637511,0.6375,fm_paired.csv:clean_on_clean_auroc,1.1e-05,True
+hyenadna_frozen_sep A orig->orig [gc_match] vs fm_paired,drosophila_enhancers_stark,0.677525,0.6775,fm_paired.csv:orig_full_auroc,2.5e-05,True
+hyenadna_frozen_sep orig->arm (fixed head) [gc_match] vs fm_paired,drosophila_enhancers_stark,0.683,0.683,fm_paired.csv:orig_on_clean_auroc,0.0,True
+hyenadna_frozen_sep arm->arm (retrained) [gc_match] vs fm_paired,drosophila_enhancers_stark,0.676398,0.6764,fm_paired.csv:clean_on_clean_auroc,2e-06,True
+hyenadna_frozen_sep A orig->orig [comp_equalized] vs fm_paired,drosophila_enhancers_stark,0.677525,0.6775,fm_paired.csv:orig_full_auroc,2.5e-05,True
+hyenadna_frozen_sep orig->arm (fixed head) [comp_equalized] vs fm_paired,drosophila_enhancers_stark,0.675709,0.6757,fm_paired.csv:orig_on_clean_auroc,9e-06,True
+hyenadna_frozen_sep arm->arm (retrained) [comp_equalized] vs fm_paired,drosophila_enhancers_stark,0.669311,0.6693,fm_paired.csv:clean_on_clean_auroc,1.1e-05,True
+dnabert2_frozen_mean A orig->orig [gc_match] vs fm_paired,human_enhancers_cohn,0.830873,0.8309,fm_paired_dnabert.csv:orig_full_auroc,2.7e-05,True
+dnabert2_frozen_mean orig->arm (fixed head) [gc_match] vs fm_paired,human_enhancers_cohn,0.784157,0.7842,fm_paired_dnabert.csv:orig_on_clean_auroc,4.3e-05,True
+dnabert2_frozen_mean arm->arm (retrained) [gc_match] vs fm_paired,human_enhancers_cohn,0.79287,0.7929,fm_paired_dnabert.csv:clean_on_clean_auroc,3e-05,True
+dnabert2_frozen_mean A orig->orig [comp_equalized] vs fm_paired,human_enhancers_cohn,0.830873,0.8309,fm_paired_dnabert.csv:orig_full_auroc,2.7e-05,True
+dnabert2_frozen_mean orig->arm (fixed head) [comp_equalized] vs fm_paired,human_enhancers_cohn,0.68848,0.6885,fm_paired_dnabert.csv:orig_on_clean_auroc,2e-05,True
+dnabert2_frozen_mean arm->arm (retrained) [comp_equalized] vs fm_paired,human_enhancers_cohn,0.694924,0.695,fm_paired_dnabert.csv:clean_on_clean_auroc,7.6e-05,True
+dnabert2_frozen_cls A orig->orig [gc_match] vs fm_paired,human_enhancers_cohn,0.804105,0.8041,fm_paired_dnabert.csv:orig_full_auroc,5e-06,True
+dnabert2_frozen_cls orig->arm (fixed head) [gc_match] vs fm_paired,human_enhancers_cohn,0.757567,0.7576,fm_paired_dnabert.csv:orig_on_clean_auroc,3.3e-05,True
+dnabert2_frozen_cls arm->arm (retrained) [gc_match] vs fm_paired,human_enhancers_cohn,0.762289,0.7623,fm_paired_dnabert.csv:clean_on_clean_auroc,1.1e-05,True
+dnabert2_frozen_cls A orig->orig [comp_equalized] vs fm_paired,human_enhancers_cohn,0.804105,0.8041,fm_paired_dnabert.csv:orig_full_auroc,5e-06,True
+dnabert2_frozen_cls orig->arm (fixed head) [comp_equalized] vs fm_paired,human_enhancers_cohn,0.671809,0.6718,fm_paired_dnabert.csv:orig_on_clean_auroc,9e-06,True
+dnabert2_frozen_cls arm->arm (retrained) [comp_equalized] vs fm_paired,human_enhancers_cohn,0.647671,0.6477,fm_paired_dnabert.csv:clean_on_clean_auroc,2.9e-05,True
+dnabert2_frozen_mean A orig->orig [gc_match] vs fm_paired,nt_enhancers,0.855125,0.8551,fm_paired_dnabert.csv:orig_full_auroc,2.5e-05,True
+dnabert2_frozen_mean orig->arm (fixed head) [gc_match] vs fm_paired,nt_enhancers,0.783155,0.7832,fm_paired_dnabert.csv:orig_on_clean_auroc,4.5e-05,True
+dnabert2_frozen_mean arm->arm (retrained) [gc_match] vs fm_paired,nt_enhancers,0.784417,0.7844,fm_paired_dnabert.csv:clean_on_clean_auroc,1.7e-05,True
+dnabert2_frozen_mean A orig->orig [comp_equalized] vs fm_paired,nt_enhancers,0.855125,0.8551,fm_paired_dnabert.csv:orig_full_auroc,2.5e-05,True
+dnabert2_frozen_mean orig->arm (fixed head) [comp_equalized] vs fm_paired,nt_enhancers,0.680278,0.6803,fm_paired_dnabert.csv:orig_on_clean_auroc,2.2e-05,True
+dnabert2_frozen_mean arm->arm (retrained) [comp_equalized] vs fm_paired,nt_enhancers,0.747153,0.7471,fm_paired_dnabert.csv:clean_on_clean_auroc,5.3e-05,True
+dnabert2_frozen_cls A orig->orig [gc_match] vs fm_paired,nt_enhancers,0.842375,0.8424,fm_paired_dnabert.csv:orig_full_auroc,2.5e-05,True
+dnabert2_frozen_cls orig->arm (fixed head) [gc_match] vs fm_paired,nt_enhancers,0.765243,0.7652,fm_paired_dnabert.csv:orig_on_clean_auroc,4.3e-05,True
+dnabert2_frozen_cls arm->arm (retrained) [gc_match] vs fm_paired,nt_enhancers,0.770097,0.7701,fm_paired_dnabert.csv:clean_on_clean_auroc,3e-06,True
+dnabert2_frozen_cls A orig->orig [comp_equalized] vs fm_paired,nt_enhancers,0.842375,0.8424,fm_paired_dnabert.csv:orig_full_auroc,2.5e-05,True
+dnabert2_frozen_cls orig->arm (fixed head) [comp_equalized] vs fm_paired,nt_enhancers,0.6725,0.6725,fm_paired_dnabert.csv:orig_on_clean_auroc,0.0,True
+dnabert2_frozen_cls arm->arm (retrained) [comp_equalized] vs fm_paired,nt_enhancers,0.696458,0.6964,fm_paired_dnabert.csv:clean_on_clean_auroc,5.8e-05,True

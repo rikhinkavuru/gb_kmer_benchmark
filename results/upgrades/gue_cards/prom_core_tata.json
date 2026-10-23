@@ -1,0 +1,169 @@
+{
+  "task": "prom_core_tata",
+  "species": "human",
+  "family": "core promoter (70 bp)",
+  "neg_construction": "as prom_300, centre -34..+35 bp around the TSS",
+  "n_classes": 2,
+  "binary": true,
+  "n_train": 4904,
+  "n_dev": 613,
+  "n_test": 613,
+  "pos_frac_test": 0.5041,
+  "k": 4,
+  "val_mcc": {
+    "3": 0.509066,
+    "4": 0.529353,
+    "5": 0.514976,
+    "6": 0.504631
+  },
+  "learnability": {
+    "mcc": 0.48852041463742185,
+    "mcc_ci": [
+      0.41172057512285437,
+      0.5499451563012329
+    ],
+    "auroc": 0.8321037727814682,
+    "auroc_ci": [
+      0.7982598790160665,
+      0.8615541845734583
+    ],
+    "f1_macro": 0.7438143684999294,
+    "f1_macro_ci": [
+      0.7042755608359702,
+      0.774829952493182
+    ],
+    "acc": 0.7438825448613376,
+    "n_test": 613
+  },
+  "composition_only": {
+    "mcc": 0.44218404019758134,
+    "mcc_ci": [
+      0.3680482271766938,
+      0.5098629870586431
+    ],
+    "auroc": 0.78151613864759,
+    "auroc_ci": [
+      0.7422951977401129,
+      0.8171880443824924
+    ],
+    "f1_macro": 0.7210440456769984
+  },
+  "composition_fraction": {
+    "value": 0.8477,
+    "ci": [
+      0.7609,
+      0.9289
+    ],
+    "full_auroc": 0.8321,
+    "comp_only_auroc": 0.7815,
+    "definition": "(AUROC_comp_only-0.5)/(AUROC_full-0.5)"
+  },
+  "tier": "hard",
+  "route2_positional": {
+    "spectrum_mcc": 0.4885,
+    "positional_mcc": 0.7196,
+    "delta_mcc": 0.2311,
+    "delta_ci": [
+      0.1697,
+      0.2966
+    ],
+    "significant": true,
+    "n_bins": 8,
+    "capped": false,
+    "n_train_used": 4904,
+    "n_test_used": 613
+  },
+  "route1_motif": {
+    "max_pos_motif_auroc": 0.523,
+    "best_TF": "KLF15",
+    "motif_richness": 0.091,
+    "per_TF_auroc": {
+      "SP1": 0.4963,
+      "SP2": 0.5026,
+      "SP3": 0.4993,
+      "SP4": 0.4939,
+      "KLF15": 0.523,
+      "KLF5": 0.497,
+      "ETS1": 0.5051,
+      "ETS2": 0.5046,
+      "ELF4": 0.5003,
+      "ETV2": 0.5026,
+      "FLI1": 0.5044,
+      "TFAP4": 0.5007,
+      "HAND2": 0.5064,
+      "MYOD1": 0.5062,
+      "MYC": 0.5029,
+      "BATF3": 0.4927,
+      "FOS": 0.4971,
+      "Jun": 0.4981,
+      "BACH1": 0.4998,
+      "TBP": 0.5214,
+      "PBX1": 0.4923,
+      "PBX2": 0.4811,
+      "MEIS1": 0.5034,
+      "MEIS2": 0.5031,
+      "FOXC1": 0.4858,
+      "TGIF1": 0.4998
+    },
+    "n_TFs": 26,
+    "panel": "curated vertebrate (diagnose default)",
+    "missing": []
+  },
+  "route3_negatives": {
+    "tata_pos_rate": 0.3746,
+    "tata_neg_rate": 0.2294,
+    "tata_neg_excess": -0.1452,
+    "tata_motif_auroc": 0.5672,
+    "gc_auroc": 0.7037,
+    "cleaned_tata_auroc": 0.5672,
+    "cleaning_moves_to_chance": false,
+    "frac_neg_removed": 0.0
+  },
+  "shuffled_negative_control": {
+    "tata_auroc_vs_shuffled": 0.6718,
+    "gc_auroc_vs_shuffled": 0.5,
+    "dinuc_preserved_frac": 1.0,
+    "n_shuffled": 3065
+  },
+  "equalized_delta": {
+    "feasible": true,
+    "mcc_before": 0.48852,
+    "mcc_after": 0.0,
+    "mcc_after_ci": [
+      0.0,
+      0.0
+    ],
+    "delta_mcc": -0.4885,
+    "auroc_before": 0.832104,
+    "auroc_after": 0.731113,
+    "comp_only_auroc_after": 0.615277,
+    "comp_only_mcc_after": 0.0,
+    "n_test_after": 338,
+    "pos_frac_test_after": 0.9142,
+    "retained_neg_frac": 0.0692,
+    "max_abs_smd_before": 0.7912,
+    "max_abs_smd_after": 0.1365
+  },
+  "redundancy": {
+    "frac_ge_0_7": 0.0408,
+    "frac_verbatim": 0.0261,
+    "median_max_jaccard": 0.05,
+    "verdict": "borderline",
+    "n_test": 613
+  },
+  "verdict": "ROUTE 2: POSITIONAL (fixed-position signal discarded by the position-blind spectrum)",
+  "composition_dominated": true,
+  "composition_flag_rule": "composition fraction >= 0.8 and full AUROC >= 0.6",
+  "timing_s": {
+    "select_k": 4.4,
+    "learn": 2.1,
+    "comp": 2.7,
+    "positional": 2.2,
+    "motif": 1.2,
+    "equalized": 3.8,
+    "redundancy": 0.1
+  },
+  "total_s": 16.5,
+  "n_jobs": 3,
+  "lightgbm_version": "4.6.0"
+}

@@ -1,0 +1,509 @@
+====================================================================================================
+ALTERNATIVE INTERPRETABLE MODELS (Reviewer 2, comment 3): do the route diagnostics and labels depend on
+LightGBM? Same k-mer spectrum (LightGBM's validation-selected k), same splits, same caps, seed 42.
+  lgbm = the paper's LightGBM (reference, fixed hyperparameters), all 4^k k-mer columns.
+  lr   = L1/L2 logistic regression (liblinear, one-vs-rest for the 3 multiclass tasks) on all 4^k
+         standardized k-mer columns; penalty and C tuned on an 80/20 carve of train by validation MCC.
+  ebm  = Explainable Boosting Machine (GA2M; 10 pairwise terms) on the 20-d composition signature + the
+         128 k-mers with the largest train-only ANOVA F -- a filtered SUBSET of the spectrum, not all of it.
+  Post hoc variants: lrx = LR with C grid extended to 10; lra = LR tuned by validation AUROC; ebm512 = EBM
+  with 512 k-mers; ebmpos (P9, fix round 1) = EBM B=8 arm with 128 global + 128 position-binned k-mers
+  ranked separately (the pre-registered filter admitted no binned k-mer on 3 tasks).
+  CIs: 1000-resample percentile bootstrap, test sequence = unit (paired where arms share a test set);
+  Route-3 size-controlled readouts: two-level paired bootstrap (test sequences x random seeds, P10b).
+  Pre-registered plan + post hoc addenda (P1-P11): run_alt_model.py docstring.
+====================================================================================================
+Sanity checks (alt_model_checks.csv): 85/85 pass.
+
+[1] Benchmark MCC [95% CI] on the original split (alt_model_bench.csv, arm=bench; train capped at 50,000
+    for 6 tasks as pre-registered -- uncapped rows arm=bench_full). Tier: solved >=0.70, partial >=0.50.
+task                                LightGBM                        LR                       EBM
+human_or_worm        0.911 [0.906,0.917] solv   0.904 [0.899,0.910] solv   0.902 [0.897,0.907] solv
+regulatory           0.899 [0.896,0.902] solv   0.389 [0.383,0.396] hard   0.879 [0.876,0.883] solv
+nt_prom_all          0.886 [0.875,0.898] solv   0.821 [0.807,0.836] solv   0.881 [0.869,0.892] solv
+nt_prom_notata       0.887 [0.875,0.899] solv   0.814 [0.797,0.829] solv   0.876 [0.863,0.889] solv
+nontata_prom         0.874 [0.864,0.883] solv   0.782 [0.769,0.795] solv   0.673 [0.658,0.686] part
+nt_prom_tata         0.846 [0.803,0.885] solv   0.836 [0.791,0.878] solv   0.894 [0.858,0.926] solv
+coding_vs_interg     0.800 [0.793,0.808] solv   0.789 [0.781,0.797] solv   0.737 [0.728,0.746] solv
+enh_ensembl          0.569 [0.560,0.578] part   0.570 [0.561,0.578] part   0.481 [0.471,0.490] hard
+mouse_enh            0.529 [0.424,0.630] part   0.488 [0.371,0.588] hard   0.554 [0.447,0.655] part
+nt_enhancers         0.514 [0.428,0.593] part   0.421 [0.332,0.509] hard   0.449 [0.365,0.534] hard
+nt_enh_types         0.476 [0.416,0.539] hard   0.347 [0.284,0.411] hard   0.348 [0.282,0.419] hard
+enh_cohn             0.461 [0.442,0.482] hard   0.453 [0.431,0.472] hard   0.423 [0.402,0.444] hard
+ocr_ensembl          0.399 [0.391,0.409] hard   0.386 [0.377,0.396] hard   0.349 [0.340,0.358] hard
+drosophila           0.398 [0.355,0.441] hard   0.376 [0.332,0.419] hard   0.372 [0.332,0.415] hard
+nt_splice            0.244 [0.217,0.271] hard   0.203 [0.178,0.229] hard   0.229 [0.202,0.255] hard
+  LR minus LightGBM MCC: median -0.040, range [-0.509, +0.001] over 15 tasks
+  EBM minus LightGBM MCC: median -0.026, range [-0.201, +0.048] over 15 tasks
+  Uncapped (post hoc P2, arm=bench_full): nt_prom_all LightGBM 0.888; nt_prom_all LR 0.823; nt_prom_all EBM 0.881; human_or_worm LightGBM 0.914; human_or_worm LR 0.903; human_or_worm EBM 0.903; coding_vs_interg LightGBM 0.800; coding_vs_interg LR 0.789; coding_vs_interg EBM 0.734; enh_ensembl LightGBM 0.593; enh_ensembl LR 0.587; enh_ensembl EBM 0.505; ocr_ensembl LightGBM 0.421; ocr_ensembl LR 0.426; ocr_ensembl EBM 0.353; regulatory LightGBM 0.907; regulatory LR 0.402
+  LR vs LightGBM tier agreement here: 12/15 (differ: mouse_enh hard/partial, nt_enhancers hard/partial, regulatory hard/solved).
+  The paper's Robustness count (13/15, route_invariance.csv) uses the paper's LR FLOOR (multinomial, L2-normalized rows, uncapped; differs on regulatory, nt_enhancers),
+  not this module's tuned one-vs-rest L1/L2 LR at the 50k cap; the two counts are different LR models and should not be quoted side by side.
+  regulatory (3-class): tuned OvR L1/L2 LR 0.389; paper's multinomial LR floor 0.4294; LightGBM 0.899 (capped) / 0.9067 (uncapped, route_invariance.csv).
+
+[2] Route 2 -- dMCC(B8 - B1) [paired 95% CI] (alt_model_route2.csv, arm=pos; both splits capped at 20,000).
+    #bin = position-binned k-mer columns the B=8 model received (LightGBM/LR: all 8*4^k).
+task                                LightGBM                        LR                       EBM                   EBM-pos   #bin EBM/EBM-pos
+human_or_worm        -0.002 [-0.005,+0.001]   -0.014 [-0.019,-0.010]   +0.001 [-0.001,+0.004]   -0.001 [-0.003,+0.002]     13/128
+regulatory           -0.003 [-0.006,-0.000]   +0.012 [+0.003,+0.022]   -0.005 [-0.008,-0.001]   -0.003 [-0.006,+0.000]     12/128
+nt_prom_all          +0.009 [+0.001,+0.018]   +0.011 [+0.000,+0.022]   -0.008 [-0.015,-0.001]   +0.004 [-0.004,+0.011]     10/128
+nt_prom_notata       +0.011 [+0.003,+0.019]   +0.013 [+0.002,+0.025]   -0.004 [-0.010,+0.003]   +0.006 [-0.002,+0.013]      9/128
+nontata_prom         -0.016 [-0.023,-0.008]   -0.035 [-0.048,-0.021]   -0.005 [-0.010,-0.001]   +0.001 [-0.006,+0.008]      2/128
+nt_prom_tata         +0.019 [-0.001,+0.042]   +0.026 [-0.002,+0.056]   -0.010 [-0.034,+0.014]   -0.003 [-0.025,+0.020]     29/128
+coding_vs_interg     -0.003 [-0.008,+0.002]   -0.020 [-0.026,-0.014]   +0.000 [+0.000,+0.000]   -0.002 [-0.006,+0.003]      0/128
+enh_ensembl          +0.028 [+0.019,+0.036]   +0.024 [+0.014,+0.034]   +0.031 [+0.024,+0.037]   +0.022 [+0.014,+0.030]      2/128
+mouse_enh            +0.001 [-0.057,+0.057]   +0.099 [-0.000,+0.199]   +0.008 [-0.033,+0.051]   +0.034 [-0.039,+0.100]      2/128
+nt_enhancers         +0.005 [-0.034,+0.040]   -0.008 [-0.059,+0.042]   -0.005 [-0.061,+0.048]   +0.001 [-0.046,+0.046]     34/128
+nt_enh_types         -0.013 [-0.040,+0.014]   +0.013 [-0.043,+0.066]   +0.000 [+0.000,+0.000]   +0.021 [-0.001,+0.044]      0/128
+enh_cohn             -0.003 [-0.017,+0.010]   +0.001 [-0.014,+0.014]   +0.000 [+0.000,+0.000]   +0.002 [-0.006,+0.010]      0/128
+ocr_ensembl          +0.026 [+0.015,+0.037]   +0.026 [+0.013,+0.038]   +0.006 [-0.003,+0.017]   +0.027 [+0.018,+0.038]     39/128
+drosophila           +0.001 [-0.036,+0.036]   -0.016 [-0.050,+0.020]   +0.011 [-0.018,+0.038]   +0.014 [-0.013,+0.041]     44/128
+nt_splice            +0.601 [+0.571,+0.629]   +0.681 [+0.654,+0.711]   +0.440 [+0.409,+0.470]   +0.450 [+0.418,+0.480]    121/128
+  LightGBM: splice dMCC +0.601; other 14 tasks: largest |dMCC| 0.028 (enh_ensembl, CI [+0.019,+0.036]), largest CI-significant |dMCC| 0.028 (enh_ensembl); tasks meeting the positional rule: nt_splice
+  LR: splice dMCC +0.681; other 14 tasks: largest |dMCC| 0.099 (mouse_enh, CI [-0.000,+0.199]), largest CI-significant |dMCC| 0.035 (nontata_prom); tasks meeting the positional rule: nt_splice
+  EBM: splice dMCC +0.440; other 14 tasks: largest |dMCC| 0.031 (enh_ensembl, CI [+0.024,+0.037]), largest CI-significant |dMCC| 0.031 (enh_ensembl); tasks meeting the positional rule: nt_splice
+      EBM B=8 design received NO binned k-mer on nt_enh_types, enh_cohn, coding_vs_interg (dMCC = 0 by construction: test uninformative) and <16 on mouse_enh, nontata_prom, nt_prom_notata, nt_prom_all, human_or_worm, enh_ensembl, regulatory.
+  EBM-pos: splice dMCC +0.450; other 14 tasks: largest |dMCC| 0.034 (mouse_enh, CI [-0.039,+0.100]), largest CI-significant |dMCC| 0.027 (ocr_ensembl); tasks meeting the positional rule: nt_splice
+  Uncapped splice (post hoc P3, arm=pos_full): LightGBM 0.244->0.868 (d=+0.624 [+0.594,+0.651]); LR 0.203->0.903 (d=+0.700 [+0.673,+0.729]); EBM 0.229->0.677 (d=+0.448 [+0.418,+0.481]); EBM-pos 0.229->0.694 (d=+0.465 [+0.434,+0.496])
+
+[3a] Route 3, PRE-REGISTERED readouts on the composition-equalized split (alt_model_route3_prereg.csv).
+     margin = k-mer MCC - composition-only MCC on the equalized test set (paired); 'collapses' = CI lower <= 0.
+     CAVEAT: equalized test sets are 80-94% positive, so default-threshold MCC collapses largely for
+     size/imbalance reasons (see [3b] MCC columns); the collapse also fires on the clean control under some models.
+     For LR/LR-ext the composition-only fit on every equalized split is DEGENERATE (all-zero, MCC 0), so for LR
+     'collapses onto the composition baseline' only means 'equalized k-mer MCC CI reaches 0'.
+  enh_cohn     LightGBM  origMCC 0.461 -> eq k-mer 0.064 / comp 0.000; margin +0.064 [+0.000,+0.116] collapses=True; eq-orig MCC -0.397 [-0.476,-0.339]
+  enh_cohn     LR        origMCC 0.453 -> eq k-mer 0.005 / comp 0.000; margin +0.005 [-0.022,+0.048] collapses=True; eq-orig MCC -0.447 [-0.485,-0.403]
+  enh_cohn     EBM       origMCC 0.423 -> eq k-mer -0.004 / comp 0.000; margin -0.004 [-0.008,+0.000] collapses=True; eq-orig MCC -0.427 [-0.447,-0.405]
+  enh_cohn     LR-ext    origMCC 0.453 -> eq k-mer 0.013 / comp 0.000; margin +0.013 [-0.019,+0.062] collapses=True; eq-orig MCC -0.440 [-0.482,-0.391]
+  nt_enhancers LightGBM  origMCC 0.514 -> eq k-mer 0.000 / comp 0.101; margin -0.101 [-0.279,+0.057] collapses=True; eq-orig MCC -0.514 [-0.597,-0.432]
+  nt_enhancers LR        origMCC 0.421 -> eq k-mer 0.019 / comp 0.000; margin +0.019 [-0.073,+0.168] collapses=True; eq-orig MCC -0.402 [-0.548,-0.233]
+  nt_enhancers EBM       origMCC 0.449 -> eq k-mer 0.036 / comp 0.127; margin -0.091 [-0.305,+0.165] collapses=True; eq-orig MCC -0.414 [-0.570,-0.231]
+  nt_enhancers LR-ext    origMCC 0.421 -> eq k-mer 0.019 / comp 0.000; margin +0.019 [-0.073,+0.168] collapses=True; eq-orig MCC -0.402 [-0.548,-0.233]
+  drosophila   LightGBM  origMCC 0.398 -> eq k-mer 0.177 / comp 0.049; margin +0.128 [+0.045,+0.207] collapses=False; eq-orig MCC -0.222 [-0.302,-0.131]
+  drosophila   LR        origMCC 0.376 -> eq k-mer 0.166 / comp 0.000; margin +0.166 [+0.094,+0.238] collapses=False; eq-orig MCC -0.209 [-0.296,-0.132]
+  drosophila   EBM       origMCC 0.372 -> eq k-mer 0.200 / comp 0.147; margin +0.053 [-0.023,+0.131] collapses=True; eq-orig MCC -0.172 [-0.251,-0.091]
+  drosophila   LR-ext    origMCC 0.376 -> eq k-mer 0.166 / comp 0.123; margin +0.043 [-0.059,+0.139] collapses=True; eq-orig MCC -0.209 [-0.296,-0.132]
+  enh_ensembl  LightGBM  origMCC 0.569 -> eq k-mer 0.351 / comp 0.186; margin +0.166 [+0.141,+0.189] collapses=False; eq-orig MCC -0.218 [-0.237,-0.197]
+  enh_ensembl  LR        origMCC 0.570 -> eq k-mer 0.393 / comp 0.000; margin +0.393 [+0.375,+0.411] collapses=False; eq-orig MCC -0.177 [-0.198,-0.157]
+  enh_ensembl  EBM       origMCC 0.481 -> eq k-mer 0.272 / comp 0.088; margin +0.184 [+0.161,+0.207] collapses=False; eq-orig MCC -0.209 [-0.230,-0.187]
+  enh_ensembl  LR-ext    origMCC 0.571 -> eq k-mer 0.402 / comp 0.012; margin +0.390 [+0.365,+0.415] collapses=False; eq-orig MCC -0.169 [-0.190,-0.149]
+  ocr_ensembl  LightGBM  origMCC 0.399 -> eq k-mer 0.229 / comp 0.142; margin +0.088 [+0.066,+0.111] collapses=False; eq-orig MCC -0.170 [-0.189,-0.150]
+  ocr_ensembl  LR        origMCC 0.386 -> eq k-mer 0.249 / comp 0.000; margin +0.249 [+0.232,+0.266] collapses=False; eq-orig MCC -0.138 [-0.157,-0.118]
+  ocr_ensembl  EBM       origMCC 0.349 -> eq k-mer 0.222 / comp 0.114; margin +0.108 [+0.085,+0.130] collapses=False; eq-orig MCC -0.127 [-0.149,-0.108]
+  ocr_ensembl  LR-ext    origMCC 0.386 -> eq k-mer 0.244 / comp 0.000; margin +0.244 [+0.227,+0.261] collapses=False; eq-orig MCC -0.142 [-0.162,-0.123]
+  Clean control drosophila: pre-registered collapse fires under EBM, LR-ext -> the model-dependent half of rule 3 does not separate the control there; the model-free TATA gate prevents a false contamination label on it. Among GATE-POSITIVE failing tasks the model-dependent half decides (see [7]).
+
+[3b] Route 3, SIZE-CONTROLLED readouts (post hoc P1/P10; alt_model_route3_sizecontrolled.csv, feat=kmer).
+     A0 = original; Ar = mean of 10 size-matched random-negative arms (min-max); Am = composition-matched
+     (published equalized split); comp effect = Ar - Am; share = (Ar-Am)/(Ar-0.5); fixed = original-split
+     model (no retraining) scored on the random vs matched TEST subsets. CI: two-level paired bootstrap.
+  enh_cohn     LightGBM                  A0 0.805  Ar 0.766 (0.733-0.790)  Am 0.613  effect +0.152 [+0.110, +0.193]  share 0.57 [0.43,0.71]  fixed +0.198 [+0.159, +0.239]  n_neg_test=228
+  enh_cohn     LR                        A0 0.806  Ar 0.756 (0.718-0.781)  Am 0.587  effect +0.170 [+0.124, +0.212]  share 0.66 [0.50,0.81]  fixed +0.201 [+0.162, +0.241]  n_neg_test=228
+  enh_cohn     EBM                       A0 0.790  Ar 0.764 (0.738-0.787)  Am 0.632  effect +0.132 [+0.091, +0.172]  share 0.50 [0.35,0.63]  fixed +0.231 [+0.194, +0.273]  n_neg_test=228
+  enh_cohn     LR-auc                    A0 0.808  Ar 0.783 (0.760-0.805)  Am 0.624  effect +0.160 [+0.116, +0.202]  share 0.56 [0.42,0.70]  fixed +0.209 [+0.169, +0.249]  n_neg_test=228
+  nt_enhancers LightGBM                  A0 0.850  Ar 0.799 (0.730-0.838)  Am 0.748  effect +0.051 [-0.046, +0.154]  share 0.17 [-0.16,0.48]  fixed +0.149 [+0.081, +0.231]  n_neg_test=36
+  nt_enhancers LightGBM (leak-free test) A0 0.735  Ar 0.715 (0.632-0.752)  Am 0.628  effect +0.087 [-0.035, +0.217]  share 0.41 [-0.22,0.93]  fixed +0.174 [+0.098, +0.256]  n_neg_test=36
+  nt_enhancers LR                        A0 0.800  Ar 0.765 (0.722-0.812)  Am 0.636  effect +0.128 [+0.034, +0.223]  share 0.49 [0.13,0.82]  fixed +0.212 [+0.128, +0.304]  n_neg_test=36
+  nt_enhancers LR       (leak-free test) A0 0.737  Ar 0.706 (0.659-0.757)  Am 0.645  effect +0.062 [-0.045, +0.167]  share 0.30 [-0.29,0.76]  fixed +0.214 [+0.136, +0.305]  n_neg_test=36
+  nt_enhancers EBM                       A0 0.794  Ar 0.773 (0.716-0.809)  Am 0.640  effect +0.133 [+0.019, +0.250]  share 0.49 [0.07,0.85]  fixed +0.174 [+0.093, +0.263]  n_neg_test=36
+  nt_enhancers EBM      (leak-free test) A0 0.702  Ar 0.707 (0.651-0.746)  Am 0.614  effect +0.093 [-0.034, +0.225]  share 0.45 [-0.21,1.00]  fixed +0.183 [+0.097, +0.276]  n_neg_test=36
+  nt_enhancers LR-auc                    A0 0.790  Ar 0.779 (0.726-0.833)  Am 0.670  effect +0.109 [+0.003, +0.220]  share 0.39 [0.01,0.74]  fixed +0.197 [+0.113, +0.288]  n_neg_test=36
+  nt_enhancers LR-auc   (leak-free test) A0 0.726  Ar 0.713 (0.666-0.772)  Am 0.679  effect +0.034 [-0.084, +0.154]  share 0.16 [-0.49,0.63]  fixed +0.201 [+0.125, +0.288]  n_neg_test=36
+  drosophila   LightGBM                  A0 0.763  Ar 0.761 (0.754-0.776)  Am 0.661  effect +0.101 [+0.063, +0.142]  share 0.39 [0.25,0.53]  fixed +0.123 [+0.087, +0.159]  n_neg_test=217
+  drosophila   LR                        A0 0.750  Ar 0.752 (0.729-0.774)  Am 0.662  effect +0.090 [+0.047, +0.133]  share 0.36 [0.20,0.52]  fixed +0.117 [+0.081, +0.156]  n_neg_test=217
+  drosophila   EBM                       A0 0.752  Ar 0.752 (0.735-0.772)  Am 0.645  effect +0.108 [+0.065, +0.149]  share 0.43 [0.27,0.58]  fixed +0.131 [+0.092, +0.168]  n_neg_test=217
+  drosophila   LR-auc                    A0 0.753  Ar 0.751 (0.721-0.766)  Am 0.653  effect +0.098 [+0.056, +0.141]  share 0.39 [0.24,0.55]  fixed +0.127 [+0.090, +0.167]  n_neg_test=217
+  enh_ensembl  LightGBM                  A0 0.861  Ar 0.855 (0.849-0.860)  Am 0.829  effect +0.026 [+0.018, +0.034]  share 0.07 [0.05,0.10]  fixed +0.078 [+0.071, +0.086]  n_neg_test=3362
+  enh_ensembl  LR                        A0 0.852  Ar 0.840 (0.836-0.845)  Am 0.790  effect +0.050 [+0.041, +0.059]  share 0.15 [0.12,0.17]  fixed +0.083 [+0.075, +0.091]  n_neg_test=3362
+  enh_ensembl  EBM                       A0 0.814  Ar 0.793 (0.783-0.799)  Am 0.756  effect +0.037 [+0.027, +0.047]  share 0.13 [0.09,0.16]  fixed +0.114 [+0.105, +0.123]  n_neg_test=3362
+  enh_ensembl  LR-auc                    A0 0.852  Ar 0.840 (0.836-0.845)  Am 0.790  effect +0.050 [+0.041, +0.059]  share 0.15 [0.12,0.17]  fixed +0.083 [+0.075, +0.091]  n_neg_test=3362
+  ocr_ensembl  LightGBM                  A0 0.771  Ar 0.763 (0.759-0.767)  Am 0.726  effect +0.036 [+0.027, +0.046]  share 0.14 [0.10,0.17]  fixed +0.057 [+0.049, +0.066]  n_neg_test=3853
+  ocr_ensembl  LR                        A0 0.758  Ar 0.751 (0.744-0.760)  Am 0.706  effect +0.045 [+0.036, +0.054]  share 0.18 [0.14,0.21]  fixed +0.059 [+0.051, +0.067]  n_neg_test=3853
+  ocr_ensembl  EBM                       A0 0.737  Ar 0.735 (0.730-0.742)  Am 0.690  effect +0.045 [+0.035, +0.054]  share 0.19 [0.15,0.23]  fixed +0.076 [+0.067, +0.084]  n_neg_test=3853
+  ocr_ensembl  LR-auc                    A0 0.760  Ar 0.754 (0.746-0.760)  Am 0.710  effect +0.044 [+0.035, +0.053]  share 0.17 [0.14,0.21]  fixed +0.064 [+0.055, +0.072]  n_neg_test=3853
+  Default-threshold MCC on the same arms (P10c/P11c): how much of the MCC drop orig -> matched do size-matched
+  RANDOM negatives already produce? size share = (M0 - mean Mr)/(M0 - Mm) [two-level CI]; ~1 = the whole MCC
+  collapse is a size/imbalance effect. (The random-minus-matched MCC CI alone cannot show reproduction.)
+  enh_cohn     LightGBM             MCC orig 0.461 -> random 0.041 (0.000-0.091) vs matched 0.064; random-matched -0.023 [-0.089, +0.057]; size share of the MCC drop 1.06 [0.87,1.26]
+  enh_cohn     LR                   MCC orig 0.453 -> random 0.114 (0.073-0.158) vs matched 0.005; random-matched +0.109 [+0.056, +0.156]; size share of the MCC drop 0.76 [0.66,0.87]
+  enh_cohn     EBM                  MCC orig 0.423 -> random 0.075 (-0.004-0.144) vs matched -0.004; random-matched +0.079 [+0.036, +0.114]; size share of the MCC drop 0.82 [0.73,0.92]
+  enh_cohn     LR-auc               MCC orig 0.459 -> random 0.020 (-0.004-0.064) vs matched 0.000; random-matched +0.020 [-0.001, +0.046]; size share of the MCC drop 0.96 [0.90,1.00]
+  nt_enhancers LightGBM             MCC orig 0.514 -> random 0.129 (0.000-0.267) vs matched 0.000; random-matched +0.129 [+0.029, +0.220]; size share of the MCC drop 0.75 [0.57,0.94]
+  nt_enhancers LightGBM (leak-free) MCC orig 0.311 -> random 0.119 (0.000-0.250) vs matched 0.000; random-matched +0.119 [+0.025, +0.207]; size share of the MCC drop 0.62 [0.28,0.92]
+  nt_enhancers LR                   MCC orig 0.421 -> random 0.278 (0.156-0.376) vs matched 0.019; random-matched +0.258 [+0.098, +0.413]; size share of the MCC drop 0.36 [0.04,0.68]
+  nt_enhancers LR       (leak-free) MCC orig 0.300 -> random 0.240 (0.148-0.346) vs matched -0.006; random-matched +0.246 [+0.056, +0.404]; size share of the MCC drop 0.20 [-0.45,0.71]
+  nt_enhancers EBM                  MCC orig 0.449 -> random 0.215 (0.127-0.309) vs matched 0.036; random-matched +0.180 [-0.023, +0.321]; size share of the MCC drop 0.57 [0.31,1.09]
+  nt_enhancers EBM      (leak-free) MCC orig 0.271 -> random 0.184 (0.093-0.290) vs matched -0.006; random-matched +0.190 [-0.015, +0.353]; size share of the MCC drop 0.31 [-0.21,1.09]
+  nt_enhancers LR-auc               MCC orig 0.432 -> random 0.172 (0.057-0.311) vs matched 0.000; random-matched +0.172 [+0.052, +0.298]; size share of the MCC drop 0.60 [0.30,0.88]
+  nt_enhancers LR-auc   (leak-free) MCC orig 0.323 -> random 0.138 (0.023-0.275) vs matched 0.000; random-matched +0.138 [-0.000, +0.271]; size share of the MCC drop 0.57 [0.14,1.00]
+  drosophila   LightGBM             MCC orig 0.398 -> random 0.445 (0.401-0.476) vs matched 0.177; random-matched +0.268 [+0.186, +0.347]; size share of the MCC drop -0.21 [-0.49,-0.00]
+  drosophila   LR                   MCC orig 0.376 -> random 0.411 (0.388-0.433) vs matched 0.166; random-matched +0.245 [+0.166, +0.325]; size share of the MCC drop -0.17 [-0.47,0.06]
+  drosophila   EBM                  MCC orig 0.372 -> random 0.408 (0.369-0.446) vs matched 0.200; random-matched +0.207 [+0.128, +0.284]; size share of the MCC drop -0.21 [-0.59,0.06]
+  drosophila   LR-auc               MCC orig 0.387 -> random 0.398 (0.357-0.433) vs matched 0.136; random-matched +0.262 [+0.196, +0.354]; size share of the MCC drop -0.04 [-0.26,0.15]
+  enh_ensembl  LightGBM             MCC orig 0.569 -> random 0.409 (0.401-0.416) vs matched 0.351; random-matched +0.057 [+0.037, +0.078]; size share of the MCC drop 0.74 [0.67,0.82]
+  enh_ensembl  LR                   MCC orig 0.570 -> random 0.450 (0.439-0.462) vs matched 0.393; random-matched +0.056 [+0.037, +0.077]; size share of the MCC drop 0.68 [0.60,0.77]
+  enh_ensembl  EBM                  MCC orig 0.481 -> random 0.315 (0.300-0.330) vs matched 0.272; random-matched +0.043 [+0.020, +0.067]; size share of the MCC drop 0.79 [0.70,0.89]
+  enh_ensembl  LR-auc               MCC orig 0.570 -> random 0.450 (0.439-0.462) vs matched 0.393; random-matched +0.056 [+0.037, +0.077]; size share of the MCC drop 0.68 [0.60,0.77]
+  ocr_ensembl  LightGBM             MCC orig 0.399 -> random 0.293 (0.273-0.309) vs matched 0.229; random-matched +0.064 [+0.044, +0.085]; size share of the MCC drop 0.63 [0.54,0.72]
+  ocr_ensembl  LR                   MCC orig 0.386 -> random 0.306 (0.293-0.313) vs matched 0.249; random-matched +0.057 [+0.040, +0.073]; size share of the MCC drop 0.58 [0.50,0.68]
+  ocr_ensembl  EBM                  MCC orig 0.349 -> random 0.262 (0.249-0.278) vs matched 0.222; random-matched +0.040 [+0.020, +0.060]; size share of the MCC drop 0.69 [0.57,0.82]
+  ocr_ensembl  LR-auc               MCC orig 0.393 -> random 0.278 (0.256-0.298) vs matched 0.210; random-matched +0.069 [+0.048, +0.089]; size share of the MCC drop 0.62 [0.55,0.72]
+  MCC-tuned LR composition-only fits that are degenerate (all-zero; alt_model_units.csv lr_degenerate): eq 5/5; eqr 9/50 (enh_cohn 9); shuf 3/3.
+  Composition-only arm, random vs matched (balance check; feat=comp). LR rows are UNINFORMATIVE where the
+  MCC-tuned LR degenerates to an all-zero model (AUROC exactly 0.5; alt_model_units.csv lr_degenerate):
+    enh_cohn     LightGBM             comp-only AUROC random 0.726 -> matched 0.581
+    enh_cohn     LR                   comp-only AUROC random 0.525 -> matched 0.500  [10/11 eq/eqr fits degenerate]
+    enh_cohn     EBM                  comp-only AUROC random 0.765 -> matched 0.588
+    enh_cohn     LR-auc               comp-only AUROC random 0.760 -> matched 0.527
+    nt_enhancers LightGBM             comp-only AUROC random 0.783 -> matched 0.637
+    nt_enhancers LightGBM (leak-free) comp-only AUROC random 0.697 -> matched 0.566
+    nt_enhancers LR                   comp-only AUROC random 0.771 -> matched 0.500  [1/11 eq/eqr fits degenerate]
+    nt_enhancers LR       (leak-free) comp-only AUROC random 0.698 -> matched 0.500  [1/11 eq/eqr fits degenerate]
+    nt_enhancers EBM                  comp-only AUROC random 0.768 -> matched 0.568
+    nt_enhancers EBM      (leak-free) comp-only AUROC random 0.690 -> matched 0.565
+    nt_enhancers LR-auc               comp-only AUROC random 0.773 -> matched 0.579
+    nt_enhancers LR-auc   (leak-free) comp-only AUROC random 0.701 -> matched 0.588
+    drosophila   LightGBM             comp-only AUROC random 0.675 -> matched 0.548
+    drosophila   LR                   comp-only AUROC random 0.675 -> matched 0.500  [1/11 eq/eqr fits degenerate]
+    drosophila   EBM                  comp-only AUROC random 0.707 -> matched 0.572
+    drosophila   LR-auc               comp-only AUROC random 0.691 -> matched 0.503
+    enh_ensembl  LightGBM             comp-only AUROC random 0.765 -> matched 0.698
+    enh_ensembl  LR                   comp-only AUROC random 0.768 -> matched 0.500  [1/11 eq/eqr fits degenerate]
+    enh_ensembl  EBM                  comp-only AUROC random 0.757 -> matched 0.651
+    enh_ensembl  LR-auc               comp-only AUROC random 0.768 -> matched 0.539
+    ocr_ensembl  LightGBM             comp-only AUROC random 0.690 -> matched 0.630
+    ocr_ensembl  LR                   comp-only AUROC random 0.662 -> matched 0.500  [1/11 eq/eqr fits degenerate]
+    ocr_ensembl  EBM                  comp-only AUROC random 0.685 -> matched 0.615
+    ocr_ensembl  LR-auc               comp-only AUROC random 0.663 -> matched 0.503
+
+[3c] Random-negative design: share of above-chance AUROC lost, task minus the clean control (drosophila)
+     (alt_model_route3_contrast.csv; point estimate [independent two-level bootstraps of the two datasets]).
+  enh_cohn     LightGBM             share 0.573 vs control 0.386; diff +0.187 [-0.014, +0.390] -> loses more than control: False
+  nt_enhancers LightGBM             share 0.171 vs control 0.386; diff -0.215 [-0.584, +0.125] -> loses more than control: False
+  nt_enhancers LightGBM (leak-free) share 0.406 vs control 0.386; diff +0.020 [-0.626, +0.581] -> loses more than control: False
+  enh_ensembl  LightGBM             share 0.073 vs control 0.386; diff -0.312 [-0.449, -0.175] -> loses more than control: False
+  ocr_ensembl  LightGBM             share 0.139 vs control 0.386; diff -0.247 [-0.389, -0.109] -> loses more than control: False
+  enh_cohn     LR                   share 0.662 vs control 0.358; diff +0.305 [+0.091, +0.529] -> loses more than control: True
+  nt_enhancers LR                   share 0.485 vs control 0.358; diff +0.127 [-0.252, +0.473] -> loses more than control: False
+  nt_enhancers LR       (leak-free) share 0.299 vs control 0.358; diff -0.059 [-0.649, +0.414] -> loses more than control: False
+  enh_ensembl  LR                   share 0.148 vs control 0.358; diff -0.210 [-0.367, -0.048] -> loses more than control: False
+  ocr_ensembl  LR                   share 0.179 vs control 0.358; diff -0.179 [-0.339, -0.015] -> loses more than control: False
+  enh_cohn     EBM                  share 0.500 vs control 0.427; diff +0.074 [-0.128, +0.289] -> loses more than control: False
+  nt_enhancers EBM                  share 0.486 vs control 0.427; diff +0.059 [-0.363, +0.467] -> loses more than control: False
+  nt_enhancers EBM      (leak-free) share 0.448 vs control 0.427; diff +0.022 [-0.641, +0.592] -> loses more than control: False
+  enh_ensembl  EBM                  share 0.127 vs control 0.427; diff -0.300 [-0.447, -0.140] -> loses more than control: False
+  ocr_ensembl  EBM                  share 0.192 vs control 0.427; diff -0.234 [-0.395, -0.068] -> loses more than control: False
+  enh_cohn     LR-auc               share 0.563 vs control 0.392; diff +0.171 [-0.038, +0.390] -> loses more than control: False
+  nt_enhancers LR-auc               share 0.392 vs control 0.392; diff -0.000 [-0.410, +0.391] -> loses more than control: False
+  nt_enhancers LR-auc   (leak-free) share 0.159 vs control 0.392; diff -0.233 [-0.902, +0.264] -> loses more than control: False
+  enh_ensembl  LR-auc               share 0.148 vs control 0.392; diff -0.244 [-0.403, -0.089] -> loses more than control: False
+  ocr_ensembl  LR-auc               share 0.173 vs control 0.392; diff -0.219 [-0.385, -0.063] -> loses more than control: False
+
+[3c'] Route 3, REMOVAL-FREE overlap-weighting design (post hoc P8 = psm_sensitivity's primary between-dataset
+      design, reproduced exactly for LightGBM; P11a extends it to enh_ensembl, ocr_ensembl (uncapped bench_full
+      units) and nontata_prom): the ORIGINAL model on the original test set, overlap-weighted vs 10
+      permuted-weight placebos; share = (placebo - overlap)/(placebo - 0.5) (alt_model_route3_overlap*.csv).
+  enh_cohn     LightGBM             [bench] overlap 0.609 vs placebo 0.806; drop +0.197 [+0.190, +0.204]; share 0.64 [0.61,0.68]
+  enh_cohn     LR                   [bench] overlap 0.617 vs placebo 0.805; drop +0.189 [+0.181, +0.196]; share 0.62 [0.58,0.66]
+  enh_cohn     EBM                  [bench] overlap 0.568 vs placebo 0.791; drop +0.222 [+0.215, +0.230]; share 0.77 [0.72,0.81]
+  enh_cohn     LR-ext               [bench] overlap 0.617 vs placebo 0.805; drop +0.189 [+0.181, +0.196]; share 0.62 [0.58,0.66]
+  enh_cohn     LR-auc               [bench] overlap 0.607 vs placebo 0.808; drop +0.201 [+0.194, +0.208]; share 0.65 [0.61,0.70]
+  enh_cohn     EBM-512              [bench] overlap 0.600 vs placebo 0.804; drop +0.204 [+0.196, +0.211]; share 0.67 [0.63,0.71]
+  nt_enhancers LightGBM             [bench] overlap 0.499 vs placebo 0.855; drop +0.355 [+0.290, +0.407]; share 1.00 [0.74,1.24]  (overlap AUROC < 0.5: over-correction)
+  nt_enhancers LR                   [bench] overlap 0.356 vs placebo 0.805; drop +0.449 [+0.401, +0.490]; share 1.47 [1.20,1.77]  (overlap AUROC < 0.5: over-correction)
+  nt_enhancers EBM                  [bench] overlap 0.417 vs placebo 0.799; drop +0.382 [+0.330, +0.425]; share 1.28 [1.02,1.58]  (overlap AUROC < 0.5: over-correction)
+  nt_enhancers LR-ext               [bench] overlap 0.356 vs placebo 0.805; drop +0.449 [+0.401, +0.490]; share 1.47 [1.20,1.77]  (overlap AUROC < 0.5: over-correction)
+  nt_enhancers LR-auc               [bench] overlap 0.384 vs placebo 0.796; drop +0.413 [+0.364, +0.456]; share 1.39 [1.11,1.70]  (overlap AUROC < 0.5: over-correction)
+  nt_enhancers EBM-512              [bench] overlap 0.450 vs placebo 0.808; drop +0.358 [+0.300, +0.404]; share 1.16 [0.90,1.47]  (overlap AUROC < 0.5: over-correction)
+  nt_enhancers LightGBM (leak-free) [bench] overlap 0.311 vs placebo 0.738; drop +0.427 [+0.376, +0.475]; share 1.79 [1.36,2.51]  (overlap AUROC < 0.5: over-correction)
+  nt_enhancers LR       (leak-free) [bench] overlap 0.280 vs placebo 0.744; drop +0.464 [+0.419, +0.507]; share 1.90 [1.51,2.47]  (overlap AUROC < 0.5: over-correction)
+  nt_enhancers EBM      (leak-free) [bench] overlap 0.311 vs placebo 0.706; drop +0.395 [+0.343, +0.445]; share 1.91 [1.41,2.86]  (overlap AUROC < 0.5: over-correction)
+  nt_enhancers LR-ext   (leak-free) [bench] overlap 0.280 vs placebo 0.744; drop +0.464 [+0.419, +0.507]; share 1.90 [1.51,2.47]  (overlap AUROC < 0.5: over-correction)
+  nt_enhancers LR-auc   (leak-free) [bench] overlap 0.310 vs placebo 0.736; drop +0.426 [+0.375, +0.475]; share 1.81 [1.39,2.40]  (overlap AUROC < 0.5: over-correction)
+  nt_enhancers EBM-512  (leak-free) [bench] overlap 0.341 vs placebo 0.718; drop +0.377 [+0.320, +0.433]; share 1.73 [1.26,2.59]  (overlap AUROC < 0.5: over-correction)
+  drosophila   LightGBM             [bench] overlap 0.687 vs placebo 0.763; drop +0.076 [+0.069, +0.084]; share 0.29 [0.25,0.34]
+  drosophila   LR                   [bench] overlap 0.668 vs placebo 0.749; drop +0.081 [+0.073, +0.089]; share 0.33 [0.28,0.38]
+  drosophila   EBM                  [bench] overlap 0.665 vs placebo 0.752; drop +0.087 [+0.079, +0.095]; share 0.35 [0.30,0.40]
+  drosophila   LR-ext               [bench] overlap 0.668 vs placebo 0.749; drop +0.081 [+0.073, +0.089]; share 0.33 [0.28,0.38]
+  drosophila   LR-auc               [bench] overlap 0.662 vs placebo 0.753; drop +0.091 [+0.083, +0.098]; share 0.36 [0.31,0.42]
+  drosophila   EBM-512              [bench] overlap 0.676 vs placebo 0.757; drop +0.081 [+0.073, +0.089]; share 0.32 [0.27,0.37]
+  enh_ensembl  LightGBM             [bench_full] overlap 0.812 vs placebo 0.875; drop +0.063 [+0.061, +0.065]; share 0.17 [0.16,0.18]
+  enh_ensembl  LR                   [bench_full] overlap 0.795 vs placebo 0.863; drop +0.068 [+0.066, +0.071]; share 0.19 [0.18,0.20]
+  enh_ensembl  EBM                  [bench_full] overlap 0.730 vs placebo 0.829; drop +0.098 [+0.095, +0.101]; share 0.30 [0.29,0.31]
+  enh_ensembl  LR-ext               [bench_full] overlap 0.796 vs placebo 0.864; drop +0.068 [+0.065, +0.071]; share 0.19 [0.18,0.20]
+  ocr_ensembl  LightGBM             [bench_full] overlap 0.734 vs placebo 0.785; drop +0.051 [+0.049, +0.052]; share 0.18 [0.17,0.19]
+  ocr_ensembl  LR                   [bench_full] overlap 0.729 vs placebo 0.782; drop +0.053 [+0.051, +0.054]; share 0.19 [0.18,0.19]
+  ocr_ensembl  EBM                  [bench_full] overlap 0.677 vs placebo 0.743; drop +0.066 [+0.064, +0.068]; share 0.27 [0.26,0.28]
+  ocr_ensembl  LR-ext               [bench_full] overlap 0.729 vs placebo 0.782; drop +0.053 [+0.051, +0.055]; share 0.19 [0.18,0.20]
+  nontata_prom LightGBM             [bench] overlap 0.959 vs placebo 0.989; drop +0.030 [+0.026, +0.034]; share 0.06 [0.05,0.07]
+  nontata_prom LR                   [bench] overlap 0.840 vs placebo 0.944; drop +0.105 [+0.096, +0.113]; share 0.24 [0.21,0.26]
+  nontata_prom EBM                  [bench] overlap 0.683 vs placebo 0.904; drop +0.221 [+0.211, +0.232]; share 0.55 [0.51,0.58]
+  nontata_prom LR-ext               [bench] overlap 0.840 vs placebo 0.944; drop +0.105 [+0.096, +0.113]; share 0.24 [0.21,0.26]
+  nontata_prom LR-auc               [bench] overlap 0.833 vs placebo 0.947; drop +0.113 [+0.105, +0.122]; share 0.25 [0.23,0.27]
+  nontata_prom EBM-512              [bench] overlap 0.764 vs placebo 0.925; drop +0.161 [+0.151, +0.171]; share 0.38 [0.35,0.41]
+  contrast enh_cohn     - drosophila LightGBM             share diff +0.353 [+0.293, +0.413] -> task loses MORE than the clean control
+  contrast nt_enhancers - drosophila LightGBM             share diff +0.711 [+0.450, +0.959] -> task loses MORE than the clean control
+  contrast nt_enhancers - drosophila LightGBM (leak-free) share diff +1.504 [+1.070, +2.220] -> task loses MORE than the clean control
+  contrast enh_ensembl  - drosophila LightGBM             share diff -0.122 [-0.169, -0.079] -> task loses LESS than the clean control
+  contrast ocr_ensembl  - drosophila LightGBM             share diff -0.112 [-0.158, -0.068] -> task loses LESS than the clean control
+  contrast nontata_prom - drosophila LightGBM             share diff -0.229 [-0.276, -0.187] -> task loses LESS than the clean control
+  contrast enh_cohn     - drosophila LR                   share diff +0.292 [+0.228, +0.353] -> task loses MORE than the clean control
+  contrast nt_enhancers - drosophila LR                   share diff +1.147 [+0.875, +1.447] -> task loses MORE than the clean control
+  contrast nt_enhancers - drosophila LR       (leak-free) share diff +1.577 [+1.174, +2.129] -> task loses MORE than the clean control
+  contrast enh_ensembl  - drosophila LR                   share diff -0.137 [-0.195, -0.087] -> task loses LESS than the clean control
+  contrast ocr_ensembl  - drosophila LR                   share diff -0.138 [-0.195, -0.088] -> task loses LESS than the clean control
+  contrast nontata_prom - drosophila LR                   share diff -0.090 [-0.150, -0.037] -> task loses LESS than the clean control
+  contrast enh_cohn     - drosophila EBM                  share diff +0.419 [+0.350, +0.487] -> task loses MORE than the clean control
+  contrast nt_enhancers - drosophila EBM                  share diff +0.933 [+0.666, +1.241] -> task loses MORE than the clean control
+  contrast nt_enhancers - drosophila EBM      (leak-free) share diff +1.568 [+1.084, +2.531] -> task loses MORE than the clean control
+  contrast enh_ensembl  - drosophila EBM                  share diff -0.047 [-0.103, +0.004] -> task loses n.s. than the clean control
+  contrast ocr_ensembl  - drosophila EBM                  share diff -0.074 [-0.132, -0.022] -> task loses LESS than the clean control
+  contrast nontata_prom - drosophila EBM                  share diff +0.201 [+0.134, +0.260] -> task loses MORE than the clean control
+  contrast enh_cohn     - drosophila LR-ext               share diff +0.292 [+0.228, +0.353] -> task loses MORE than the clean control
+  contrast nt_enhancers - drosophila LR-ext               share diff +1.147 [+0.875, +1.447] -> task loses MORE than the clean control
+  contrast nt_enhancers - drosophila LR-ext   (leak-free) share diff +1.577 [+1.174, +2.129] -> task loses MORE than the clean control
+  contrast enh_ensembl  - drosophila LR-ext               share diff -0.138 [-0.196, -0.089] -> task loses LESS than the clean control
+  contrast ocr_ensembl  - drosophila LR-ext               share diff -0.137 [-0.194, -0.087] -> task loses LESS than the clean control
+  contrast nontata_prom - drosophila LR-ext               share diff -0.090 [-0.150, -0.037] -> task loses LESS than the clean control
+  contrast enh_cohn     - drosophila LR-auc               share diff +0.295 [+0.229, +0.359] -> task loses MORE than the clean control
+  contrast nt_enhancers - drosophila LR-auc               share diff +1.035 [+0.754, +1.348] -> task loses MORE than the clean control
+  contrast nt_enhancers - drosophila LR-auc   (leak-free) share diff +1.449 [+1.031, +2.036] -> task loses MORE than the clean control
+  contrast nontata_prom - drosophila LR-auc               share diff -0.104 [-0.167, -0.052] -> task loses LESS than the clean control
+  contrast enh_cohn     - drosophila EBM-512              share diff +0.354 [+0.293, +0.417] -> task loses MORE than the clean control
+  contrast nt_enhancers - drosophila EBM-512              share diff +0.845 [+0.578, +1.153] -> task loses MORE than the clean control
+  contrast nt_enhancers - drosophila EBM-512  (leak-free) share diff +1.415 [+0.950, +2.273] -> task loses MORE than the clean control
+  contrast nontata_prom - drosophila EBM-512              share diff +0.063 [+0.002, +0.116] -> task loses MORE than the clean control
+  nt_enhancers shares > 1 mean the overlap-weighted AUROC falls BELOW 0.5: the linear-propensity overlap
+  weights over-correct there (they reverse the ranking), so only the direction of its contrast is read.
+
+[3d] Dinucleotide-shuffled negatives (alt_model_route3_shuffled.csv). SANITY CHECK, not model-robustness
+     evidence: every shuffle has exactly its positive twin's mono+dinucleotide composition, so ANY classifier
+     on the 20-d composition signature has AUROC exactly 0.5 by construction (LR composition-only fits are
+     additionally all-zero). The model-dependent part is the k-mer AUROC and the composition fraction.
+  enh_cohn     LightGBM comp-only AUROC 0.500; k-mer AUROC 0.954 (MCC 0.766); comp fraction 0.91 [0.89,0.94] -> 0.00 [0.00,0.00]
+  enh_cohn     LR       comp-only AUROC 0.500; k-mer AUROC 0.952 (MCC 0.767); comp fraction 0.86 [0.84,0.89] -> 0.00 [0.00,0.00]
+  enh_cohn     EBM      comp-only AUROC 0.500; k-mer AUROC 0.944 (MCC 0.744); comp fraction 0.97 [0.96,0.98] -> 0.00 [-0.03,0.03]
+  enh_cohn     LR-ext   comp-only AUROC 0.500; k-mer AUROC 0.952 (MCC 0.767); comp fraction 0.86 [0.84,0.89] -> 0.00 [0.00,0.00]
+  enh_cohn     LR-auc   comp-only AUROC 0.500; k-mer AUROC 0.953 (MCC 0.771); comp fraction 0.86 [0.83,0.88] -> 0.00 [0.00,0.00]
+  nt_enhancers LightGBM comp-only AUROC 0.500; k-mer AUROC 0.844 (MCC 0.561); comp fraction 0.93 [0.86,0.99] -> 0.00 [0.00,0.00]
+  nt_enhancers LR       comp-only AUROC 0.500; k-mer AUROC 0.737 (MCC 0.376); comp fraction 0.96 [0.88,1.03] -> 0.00 [0.00,0.00]
+  nt_enhancers EBM      comp-only AUROC 0.500; k-mer AUROC 0.729 (MCC 0.360); comp fraction 1.00 [0.92,1.10] -> 0.00 [-0.25,0.25]
+  nt_enhancers LR-ext   comp-only AUROC 0.500; k-mer AUROC 0.737 (MCC 0.376); comp fraction 0.95 [0.87,1.03] -> 0.00 [0.00,0.00]
+  nt_enhancers LR-auc   comp-only AUROC 0.500; k-mer AUROC 0.737 (MCC 0.367); comp fraction 0.99 [0.89,1.09] -> 0.00 [0.00,0.00]
+  drosophila   LightGBM comp-only AUROC 0.500; k-mer AUROC 0.992 (MCC 0.925); comp fraction 0.70 [0.61,0.78] -> 0.00 [0.00,0.00]
+  drosophila   LR       comp-only AUROC 0.500; k-mer AUROC 0.994 (MCC 0.944); comp fraction 0.73 [0.65,0.81] -> 0.00 [0.00,0.00]
+  drosophila   EBM      comp-only AUROC 0.500; k-mer AUROC 0.995 (MCC 0.942); comp fraction 0.83 [0.76,0.90] -> 0.00 [-0.06,0.06]
+  drosophila   LR-ext   comp-only AUROC 0.500; k-mer AUROC 0.994 (MCC 0.944); comp fraction 0.89 [0.80,0.99] -> 0.00 [0.00,0.00]
+  drosophila   LR-auc   comp-only AUROC 0.500; k-mer AUROC 0.995 (MCC 0.954); comp fraction 0.73 [0.65,0.80] -> 0.00 [0.00,0.00]
+
+[3e] REPRODUCIBILITY FINDING (alt_model_shuffle_hashseed.csv; check_shuffle_hashseed.py): dinuc_shuffle.py
+     iterates set(seq), so the shuffled negatives depend on PYTHONHASHSEED. Over 16 hash seeds (13 distinct 'ACGT' set orders of 24; 15+ distinct draws per task):
+  enh_cohn      TATA AUROC 0.5493-0.5539 (paper 0.5514); GC AUROC 0.500-0.500; k-mer LightGBM MCC 0.759-0.776 (paper 0.769); draws reproducing the paper CSV: 0
+  nt_enhancers  TATA AUROC 0.5030-0.5103 (paper 0.5067); GC AUROC 0.500-0.500; k-mer LightGBM MCC 0.520-0.627 (paper 0.545); draws reproducing the paper CSV: 0
+  drosophila    TATA AUROC 0.7459-0.7542 (paper 0.7486); GC AUROC 0.500-0.500; k-mer LightGBM MCC 0.906-0.937 (paper 0.922); draws reproducing the paper CSV: 0
+     The paper's draw was NOT RECOVERED by this scan (the scan is not exhaustive: the draw depends on each
+     sequence's own set order, and the committed shuffled_neg.csv, dated 2026-05-31, predates the 2026-09-23
+     data-integrity fix). The alt-model shuffled arms all use ONE pinned draw (PYTHONHASHSEED=0), paired across models.
+
+[4] Route 1 (alt_model_route1.csv): Spearman(model-free discriminability, model MCC), BC bootstrap over tasks
+    (10,000, seed 42) + permutation p + jackknife (task whose removal gives the min/max rho); LOTO OLS MAE;
+    presence null = Spearman(#enriched TFs, MCC), GB n=9. Rows without suffix = the pre-registered capped MCCs;
+    '_uncapped' = bench_full MCCs where available (P10a; = the paper's Table corr MCCs for LightGBM); written only
+    for models with >= 1 uncapped refit in the set (P11d). p_t = scipy Spearman t-approximation (the method
+    that gives the paper's p=0.003); p_perm = exact enumeration (n=9) / Monte-Carlo (n=11) permutation p.
+  route1_disc_vs_mcc_n11                            LightGBM  rho +0.718 [+0.275,+0.972] p_perm=0.016 (monte_carlo) p_t=0.0128 jackknife [+0.66,+0.82] (max w/o nt_enh_types, min w/o regulatory)
+  route1_disc_vs_mcc_n9_homology_clean              LightGBM  rho +0.833 [+0.231,+1.000] p_perm=0.00827 (exact_enumeration) p_t=0.00527 jackknife [+0.76,+0.95] (max w/o nt_enh_types, min w/o regulatory)
+  route1_loto_mae_n11                               LightGBM  MAE 0.139 [0.105,0.180]
+  presence_null_gb_n9_paper_counts                  LightGBM  rho -0.033 [-0.735,+0.684] p_perm=0.948 (exact_enumeration) p_t=0.932 jackknife [-0.19,+0.26] (max w/o human_or_worm, min w/o mouse_enh)  null preserved (CI includes 0): True
+  presence_null_gb_n9_own_counts_posthoc            LightGBM  rho +0.017 [-0.949,+0.737] p_perm=0.982 (exact_enumeration) p_t=0.966 jackknife [-0.40,+0.26] (max w/o ocr_ensembl, min w/o drosophila)  null preserved (CI includes 0): True
+  route1_disc_vs_mcc_n11                            LR        rho +0.318 [-0.305,+0.847] p_perm=0.34 (monte_carlo) p_t=0.34 jackknife [+0.21,+0.53] (max w/o nt_enh_types, min w/o drosophila)
+  route1_disc_vs_mcc_n9_homology_clean              LR        rho +0.250 [-0.531,+0.940] p_perm=0.521 (exact_enumeration) p_t=0.516 jackknife [+0.07,+0.55] (max w/o nt_enh_types, min w/o drosophila)
+  route1_loto_mae_n11                               LR        MAE 0.156 [0.096,0.221]
+  presence_null_gb_n9_paper_counts                  LR        rho -0.150 [-0.825,+0.565] p_perm=0.708 (exact_enumeration) p_t=0.7 jackknife [-0.33,+0.12] (max w/o human_or_worm, min w/o enh_ensembl)  null preserved (CI includes 0): True
+  presence_null_gb_n9_own_counts_posthoc            LR        rho -0.092 [-0.882,+0.624] p_perm=0.816 (exact_enumeration) p_t=0.813 jackknife [-0.51,+0.07] (max w/o regulatory, min w/o drosophila)  null preserved (CI includes 0): True
+  route1_disc_vs_mcc_n11                            EBM       rho +0.473 [-0.121,+0.836] p_perm=0.145 (monte_carlo) p_t=0.142 jackknife [+0.41,+0.68] (max w/o nt_enh_types, min w/o regulatory)
+  route1_disc_vs_mcc_n9_homology_clean              EBM       rho +0.467 [-0.276,+0.944] p_perm=0.213 (exact_enumeration) p_t=0.205 jackknife [+0.36,+0.79] (max w/o nt_enh_types, min w/o regulatory)
+  route1_loto_mae_n11                               EBM       MAE 0.185 [0.121,0.249]
+  presence_null_gb_n9_paper_counts                  EBM       rho -0.267 [-0.836,+0.579] p_perm=0.493 (exact_enumeration) p_t=0.488 jackknife [-0.38,-0.02] (max w/o ocr_ensembl, min w/o enh_cohn)  null preserved (CI includes 0): True
+  presence_null_gb_n9_own_counts_posthoc            EBM       rho +0.050 [-0.706,+0.744] p_perm=0.912 (exact_enumeration) p_t=0.898 jackknife [-0.17,+0.26] (max w/o coding_vs_interg, min w/o regulatory)  null preserved (CI includes 0): True
+  route1_disc_vs_mcc_n11                            EBM-512   rho +0.527 [-0.019,+0.832] p_perm=0.0985 (monte_carlo) p_t=0.0956 jackknife [+0.43,+0.65] (max w/o nt_enh_types, min w/o drosophila)
+  route1_disc_vs_mcc_n9_homology_clean              EBM-512   rho +0.567 [-0.282,+0.858] p_perm=0.121 (exact_enumeration) p_t=0.112 jackknife [+0.40,+0.71] (max w/o nt_enh_types, min w/o drosophila)
+  route1_loto_mae_n11                               EBM-512   MAE 0.171 [0.116,0.224]
+  presence_null_gb_n9_paper_counts                  EBM-512   rho -0.267 [-0.836,+0.579] p_perm=0.493 (exact_enumeration) p_t=0.488 jackknife [-0.38,-0.02] (max w/o ocr_ensembl, min w/o enh_cohn)  null preserved (CI includes 0): True
+  route1_disc_vs_mcc_n11_uncapped                   LightGBM  rho +0.736 [+0.296,+0.991] p_perm=0.0126 (monte_carlo) p_t=0.00976 jackknife [+0.68,+0.83] (max w/o nt_enh_types, min w/o regulatory) capped-MCC tasks 0
+  route1_disc_vs_mcc_n9_homology_clean_uncapped     LightGBM  rho +0.867 [+0.263,+1.000] p_perm=0.00451 (exact_enumeration) p_t=0.00249 jackknife [+0.81,+0.98] (max w/o nt_enh_types, min w/o regulatory) capped-MCC tasks 0
+  route1_loto_mae_n11_uncapped                      LightGBM  MAE 0.140 [0.108,0.180]
+  presence_null_gb_n9_paper_counts_uncapped         LightGBM  rho -0.033 [-0.735,+0.684] p_perm=0.948 (exact_enumeration) p_t=0.932 jackknife [-0.19,+0.26] (max w/o human_or_worm, min w/o mouse_enh) capped-MCC tasks 0  null preserved (CI includes 0): True
+  presence_null_gb_n9_own_counts_posthoc_uncapped   LightGBM  rho +0.017 [-0.949,+0.737] p_perm=0.982 (exact_enumeration) p_t=0.966 jackknife [-0.40,+0.26] (max w/o ocr_ensembl, min w/o drosophila) capped-MCC tasks 0  null preserved (CI includes 0): True
+  route1_disc_vs_mcc_n11_uncapped                   LR        rho +0.273 [-0.366,+0.888] p_perm=0.417 (monte_carlo) p_t=0.417 jackknife [+0.14,+0.49] (max w/o regulatory, min w/o drosophila) capped-MCC tasks 0
+  route1_disc_vs_mcc_n9_homology_clean_uncapped     LR        rho +0.133 [-0.593,+0.945] p_perm=0.744 (exact_enumeration) p_t=0.732 jackknife [-0.10,+0.40] (max w/o nt_enh_types, min w/o drosophila) capped-MCC tasks 0
+  route1_loto_mae_n11_uncapped                      LR        MAE 0.153 [0.090,0.219]
+  presence_null_gb_n9_paper_counts_uncapped         LR        rho -0.117 [-0.761,+0.579] p_perm=0.776 (exact_enumeration) p_t=0.765 jackknife [-0.29,+0.17] (max w/o human_or_worm, min w/o enh_ensembl) capped-MCC tasks 0  null preserved (CI includes 0): True
+  presence_null_gb_n9_own_counts_posthoc_uncapped   LR        rho -0.126 [-0.943,+0.642] p_perm=0.747 (exact_enumeration) p_t=0.747 jackknife [-0.56,+0.07] (max w/o regulatory, min w/o drosophila) capped-MCC tasks 0  null preserved (CI includes 0): True
+  route1_disc_vs_mcc_n11_uncapped                   EBM       rho +0.473 [-0.121,+0.836] p_perm=0.145 (monte_carlo) p_t=0.142 jackknife [+0.41,+0.68] (max w/o nt_enh_types, min w/o regulatory) capped-MCC tasks 1
+  route1_disc_vs_mcc_n9_homology_clean_uncapped     EBM       rho +0.467 [-0.276,+0.944] p_perm=0.213 (exact_enumeration) p_t=0.205 jackknife [+0.36,+0.79] (max w/o nt_enh_types, min w/o regulatory) capped-MCC tasks 1
+  route1_loto_mae_n11_uncapped                      EBM       MAE 0.184 [0.119,0.249]
+  presence_null_gb_n9_paper_counts_uncapped         EBM       rho -0.267 [-0.836,+0.579] p_perm=0.493 (exact_enumeration) p_t=0.488 jackknife [-0.38,-0.02] (max w/o ocr_ensembl, min w/o enh_cohn) capped-MCC tasks 1  null preserved (CI includes 0): True
+  presence_null_gb_n9_own_counts_posthoc_uncapped   EBM       rho +0.050 [-0.706,+0.744] p_perm=0.912 (exact_enumeration) p_t=0.898 jackknife [-0.17,+0.26] (max w/o coding_vs_interg, min w/o regulatory) capped-MCC tasks 1  null preserved (CI includes 0): True
+
+[5] Route 1 semi-synthetic dose-response (alt_model_dose.csv): OLS slope dMCC/dd [row bootstrap CI], Spearman.
+  LightGBM SP1     n=45   slope +1.97 [+1.87,+2.07] Spearman +0.942
+  LightGBM MYC     n=45   slope +2.02 [+1.90,+2.14] Spearman +0.916
+  LightGBM TBP     n=45   slope +1.96 [+1.78,+2.13] Spearman +0.892
+  LightGBM POOLED  n=135  slope +1.99 [+1.92,+2.06] Spearman +0.924
+  LR       SP1     n=45   slope +1.89 [+1.79,+1.97] Spearman +0.954
+  LR       MYC     n=45   slope +1.98 [+1.85,+2.11] Spearman +0.938
+  LR       TBP     n=45   slope +2.07 [+1.95,+2.20] Spearman +0.903
+  LR       POOLED  n=135  slope +1.95 [+1.88,+2.01] Spearman +0.934
+  EBM      SP1     n=45   slope +1.84 [+1.72,+1.94] Spearman +0.946
+  EBM      MYC     n=45   slope +1.80 [+1.66,+1.92] Spearman +0.921
+  EBM      TBP     n=45   slope +1.72 [+1.56,+1.87] Spearman +0.880
+  EBM      POOLED  n=135  slope +1.81 [+1.73,+1.87] Spearman +0.921
+
+[6] Attribution check (post hoc P5; alt_model_attribution.csv): per-TF gain-weighted enrichment test
+    (paper's run_interpretability.enrichment_z, BH-FDR<0.05) on each model's own k-mer importances, same k.
+    CAVEAT: the EBM importances are nonzero only on its 128 filter-selected k-mers, so its profile partly
+    reflects the univariate ANOVA filter, not the EBM itself.
+  human_or_worm    | LightGBM n=38 top=IRF5 | LR n=45 top=IRF8 J=0.32 zrho=+0.70 | EBM n=55 top=MEF2A J=0.37 zrho=+0.79
+  regulatory       | LightGBM n=80 top=GABPA | LR n=390 top=Arid3b J=0.01 zrho=-0.67 | EBM n=239 top=SP1 J=0.21 zrho=+0.75
+  nt_prom_all      | LightGBM n=35 top=HOXD11 | LR n=13 top=Hoxa11 J=0.26 zrho=+0.68 | EBM n=2 top=Hoxa11 J=0.06 zrho=+0.77
+  nt_prom_notata   | LightGBM n=43 top=HOXD11 | LR n=13 top=Hoxa11 J=0.19 zrho=+0.69 | EBM n=0 top=- J=0.00 zrho=+0.75
+  nontata_prom     | LightGBM n=125 top=SP1 ranks[SP1:1;SP2:2;KLF5:29] | LR n=225 top=TFDP1 J=0.49 zrho=+0.93 ranks[SP1:6;SP2:4;KLF5:91] | EBM n=223 top=ZBED4 J=0.55 zrho=+0.97 ranks[SP1:4;SP2:8;KLF5:70]
+  nt_prom_tata     | LightGBM n=15 top=HOXD11 | LR n=13 top=HOXC9 J=0.75 zrho=+0.77 | EBM n=14 top=HOXD11 J=0.81 zrho=+0.85
+  coding_vs_interg | LightGBM n=62 top=MEF2A | LR n=45 top=Stat6 J=0.13 zrho=+0.79 | EBM n=11 top=ZFP42 J=0.16 zrho=+0.93
+  enh_ensembl      | LightGBM n=281 top=ZNF384 | LR n=389 top=Nfat5 J=0.60 zrho=+0.81 | EBM n=124 top=Elf5 J=0.44 zrho=+0.96
+  mouse_enh        | LightGBM n=127 top=ZNF418 | LR n=0 top=- J=0.00 zrho=+0.67 | EBM n=266 top=ZNF460 J=0.40 zrho=+0.83
+  nt_enhancers     | LightGBM n=9 top=ZNF211 | LR n=12 top=TAL1::TCF3 J=0.58 zrho=+0.73 | EBM n=10 top=TAL1::TCF3 J=0.89 zrho=+0.86
+  nt_enh_types     | LightGBM n=95 top=RORC | LR n=393 top=ZNF558 J=0.24 zrho=+0.90 | EBM n=57 top=RORC J=0.48 zrho=+0.93
+  enh_cohn         | LightGBM n=11 top=ZNF157 | LR n=90 top=ETV2::FIGLA J=0.06 zrho=+0.76 | EBM n=30 top=ZSCAN31 J=0.18 zrho=+0.20
+  ocr_ensembl      | LightGBM n=329 top=PHOX2B ranks[TFAP4:176;BATF3:280] | LR n=257 top=SIX2 J=0.66 zrho=+0.94 ranks[TFAP4:231;BATF3:134] | EBM n=227 top=ZNF384 J=0.62 zrho=+0.94 ranks[TFAP4:186;BATF3:408]
+  drosophila       | LightGBM n=5 top=dl | LR n=0 top=- J=0.00 zrho=-0.13 | EBM n=24 top=dl J=0.17 zrho=+0.82
+  nt_splice        | LightGBM n=198 top=ZNF418 | LR n=59 top=FOXP2 J=0.25 zrho=+0.76 | EBM n=0 top=- J=0.00 zrho=+0.27
+  LR vs LightGBM over 15 tasks: median z-profile Spearman +0.76 (min -0.67, regulatory); median Jaccard of enriched sets 0.25; top TF identical on 0/15 tasks, in LightGBM's top 5 on 6/15; median #features with nonzero importance 1024
+  EBM vs LightGBM over 15 tasks: median z-profile Spearman +0.83 (min +0.20, enh_cohn); median Jaccard of enriched sets 0.37; top TF identical on 3/15 tasks, in LightGBM's top 5 on 7/15; median #features with nonzero importance 128
+
+[7] ROUTE LABELS (alt_model_labels.csv / alt_model_agreement.csv).
+    primary = pre-registered rules (target: camera-ready v2 labels); sensitivity = pre-registered rule 3 with
+    composition fraction >= 0.80; bibm = post hoc map to the SUBMITTED BIBM Table-1 vocabulary (contamination =
+    failing + gate, graded by TATA excess); posthoc_overlap (P11b) = rule 3 with the overlap-design contrast vs the
+    control (CI lower > 0; leak-free nt_enhancers) replacing the equalized-MCC collapse.
+    'preserved' = same label as the paper AND its label-defining effect keeps sign with a 95% CI excluding
+    0/the cut. Post hoc criteria (P10d) replace ONLY the contamination effect: 'auroc' = size-controlled
+    AUROC effect (leak-free for nt_enhancers); 'overlap' = overlap-design share lost minus the control.
+  [bench] LightGBM primary      same label 15/15 (failure labels 8/8); preserved pre-reg 15, post hoc auroc 14, overlap 15; same as LightGBM 15/15; post hoc auroc failures: nt_enhancers; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:shared-motif
+  [bench] LightGBM sensitivity  same label 15/15 (failure labels 8/8); preserved pre-reg 15, post hoc auroc 14, overlap 15; same as LightGBM 15/15; post hoc auroc failures: nt_enhancers; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:shared-motif
+  [bench] LightGBM bibm         same label 15/15 (failure labels 7/7); preserved pre-reg 15, post hoc auroc 14, overlap 14; same as LightGBM 15/15; post hoc auroc failures: nt_enhancers; post hoc overlap failures: human_enhancers_ensembl; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:contamination (weak)
+  [bench] LightGBM posthoc_overlap same label 15/15 (failure labels 8/8); preserved pre-reg 15, post hoc auroc 14, overlap 15; same as LightGBM 15/15; post hoc auroc failures: nt_enhancers; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:shared-motif
+  [bench] LR       primary      same label 14/15 (failure labels 8/8); preserved pre-reg 14, post hoc auroc 13, overlap 14; same as LightGBM 14/15; differs: human_ensembl_regulatory:shared-motif; post hoc auroc failures: nt_enhancers; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:shared-motif
+  [bench] LR       sensitivity  same label 14/15 (failure labels 8/8); preserved pre-reg 14, post hoc auroc 13, overlap 14; same as LightGBM 14/15; differs: human_ensembl_regulatory:shared-motif; post hoc auroc failures: nt_enhancers; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:shared-motif
+  [bench] LR       bibm         same label 14/15 (failure labels 7/7); preserved pre-reg 14, post hoc auroc 13, overlap 13; same as LightGBM 14/15; differs: human_ensembl_regulatory:shared-motif; post hoc auroc failures: nt_enhancers; post hoc overlap failures: human_enhancers_ensembl; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:contamination (weak)
+  [bench] LR       posthoc_overlap same label 14/15 (failure labels 8/8); preserved pre-reg 14, post hoc auroc 13, overlap 14; same as LightGBM 14/15; differs: human_ensembl_regulatory:shared-motif; post hoc auroc failures: nt_enhancers; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:shared-motif
+  [bench] EBM      primary      same label 14/15 (failure labels 8/8); preserved pre-reg 14, post hoc auroc 13, overlap 14; same as LightGBM 14/15; differs: human_nontata_promoters:shared-motif; post hoc auroc failures: nt_enhancers; eq collapse fires without gate: drosophila_enhancers_stark; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_nontata_promoters:shared-motif;human_enhancers_ensembl:shared-motif
+  [bench] EBM      sensitivity  same label 13/15 (failure labels 7/8); preserved pre-reg 13, post hoc auroc 12, overlap 13; same as LightGBM 13/15; differs: human_nontata_promoters:contamination;human_enhancers_ensembl:contamination; post hoc auroc failures: nt_enhancers; post hoc readout not computed (not assessed): human_nontata_promoters(auroc); gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_nontata_promoters:contamination;human_enhancers_ensembl:contamination
+  [bench] EBM      bibm         same label 14/15 (failure labels 7/7); preserved pre-reg 14, post hoc auroc 13, overlap 13; same as LightGBM 14/15; differs: human_nontata_promoters:contamination (weak); post hoc auroc failures: nt_enhancers; post hoc overlap failures: human_enhancers_ensembl; post hoc readout not computed (not assessed): human_nontata_promoters(auroc); gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_nontata_promoters:contamination (weak);human_enhancers_ensembl:contamination (weak)
+  [bench] EBM      posthoc_overlap same label 14/15 (failure labels 8/8); preserved pre-reg 14, post hoc auroc 13, overlap 14; same as LightGBM 14/15; differs: human_nontata_promoters:contamination; post hoc auroc failures: nt_enhancers; post hoc readout not computed (not assessed): human_nontata_promoters(auroc); gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_nontata_promoters:contamination;human_enhancers_ensembl:shared-motif
+  [bench] LR-ext   primary      same label 14/15 (failure labels 8/8); preserved pre-reg 14, post hoc auroc 13, overlap 14; same as LightGBM 14/15; differs: human_ensembl_regulatory:shared-motif; post hoc auroc failures: nt_enhancers; eq collapse fires without gate: drosophila_enhancers_stark; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:shared-motif
+  [bench] LR-ext   sensitivity  same label 14/15 (failure labels 8/8); preserved pre-reg 14, post hoc auroc 13, overlap 14; same as LightGBM 14/15; differs: human_ensembl_regulatory:shared-motif; post hoc auroc failures: nt_enhancers; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:shared-motif
+  [bench] LR-ext   bibm         same label 14/15 (failure labels 7/7); preserved pre-reg 14, post hoc auroc 13, overlap 13; same as LightGBM 14/15; differs: human_ensembl_regulatory:shared-motif; post hoc auroc failures: nt_enhancers; post hoc overlap failures: human_enhancers_ensembl; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:contamination (weak)
+  [bench] LR-ext   posthoc_overlap same label 14/15 (failure labels 8/8); preserved pre-reg 14, post hoc auroc 13, overlap 14; same as LightGBM 14/15; differs: human_ensembl_regulatory:shared-motif; post hoc auroc failures: nt_enhancers; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:shared-motif
+  [bench] EBM-512  primary      same label 15/15 (failure labels 8/8); preserved pre-reg 15, post hoc auroc 14, overlap 15; same as LightGBM 15/15; post hoc auroc failures: nt_enhancers; eq collapse fires without gate: drosophila_enhancers_stark; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:shared-motif
+  [bench] EBM-512  sensitivity  same label 14/15 (failure labels 7/8); preserved pre-reg 14, post hoc auroc 13, overlap 14; same as LightGBM 14/15; differs: human_enhancers_ensembl:contamination; post hoc auroc failures: nt_enhancers; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:contamination
+  [bench] EBM-512  bibm         same label 15/15 (failure labels 7/7); preserved pre-reg 15, post hoc auroc 14, overlap 14; same as LightGBM 15/15; post hoc auroc failures: nt_enhancers; post hoc overlap failures: human_enhancers_ensembl; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:contamination (weak)
+  [bench] EBM-512  posthoc_overlap same label 15/15 (failure labels 8/8); preserved pre-reg 15, post hoc auroc 14, overlap 15; same as LightGBM 15/15; post hoc auroc failures: nt_enhancers; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:shared-motif
+  [bench] EBM-pos  primary      same label 14/15 (failure labels 8/8); preserved pre-reg 14, post hoc auroc 13, overlap 14; same as LightGBM 14/15; differs: human_nontata_promoters:shared-motif; post hoc auroc failures: nt_enhancers; eq collapse fires without gate: drosophila_enhancers_stark; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_nontata_promoters:shared-motif;human_enhancers_ensembl:shared-motif
+  [bench] EBM-pos  sensitivity  same label 13/15 (failure labels 7/8); preserved pre-reg 13, post hoc auroc 12, overlap 13; same as LightGBM 13/15; differs: human_nontata_promoters:contamination;human_enhancers_ensembl:contamination; post hoc auroc failures: nt_enhancers; post hoc readout not computed (not assessed): human_nontata_promoters(auroc); gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_nontata_promoters:contamination;human_enhancers_ensembl:contamination
+  [bench] EBM-pos  bibm         same label 14/15 (failure labels 7/7); preserved pre-reg 14, post hoc auroc 13, overlap 13; same as LightGBM 14/15; differs: human_nontata_promoters:contamination (weak); post hoc auroc failures: nt_enhancers; post hoc overlap failures: human_enhancers_ensembl; post hoc readout not computed (not assessed): human_nontata_promoters(auroc); gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_nontata_promoters:contamination (weak);human_enhancers_ensembl:contamination (weak)
+  [bench] EBM-pos  posthoc_overlap same label 14/15 (failure labels 8/8); preserved pre-reg 14, post hoc auroc 13, overlap 14; same as LightGBM 14/15; differs: human_nontata_promoters:contamination; post hoc auroc failures: nt_enhancers; post hoc readout not computed (not assessed): human_nontata_promoters(auroc); gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_nontata_promoters:contamination;human_enhancers_ensembl:shared-motif
+  [bench_full_where_available] LightGBM primary      same label 15/15 (failure labels 8/8); preserved pre-reg 15, post hoc auroc 14, overlap 15; same as LightGBM 15/15; post hoc auroc failures: nt_enhancers; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:shared-motif
+  [bench_full_where_available] LightGBM sensitivity  same label 15/15 (failure labels 8/8); preserved pre-reg 15, post hoc auroc 14, overlap 15; same as LightGBM 15/15; post hoc auroc failures: nt_enhancers; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:shared-motif
+  [bench_full_where_available] LightGBM bibm         same label 15/15 (failure labels 7/7); preserved pre-reg 15, post hoc auroc 14, overlap 14; same as LightGBM 15/15; post hoc auroc failures: nt_enhancers; post hoc overlap failures: human_enhancers_ensembl; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:contamination (weak)
+  [bench_full_where_available] LightGBM posthoc_overlap same label 15/15 (failure labels 8/8); preserved pre-reg 15, post hoc auroc 14, overlap 15; same as LightGBM 15/15; post hoc auroc failures: nt_enhancers; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:shared-motif
+  [bench_full_where_available] LR       primary      same label 14/15 (failure labels 8/8); preserved pre-reg 14, post hoc auroc 13, overlap 14; same as LightGBM 14/15; differs: human_ensembl_regulatory:shared-motif; post hoc auroc failures: nt_enhancers; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:shared-motif
+  [bench_full_where_available] LR       sensitivity  same label 14/15 (failure labels 8/8); preserved pre-reg 14, post hoc auroc 13, overlap 14; same as LightGBM 14/15; differs: human_ensembl_regulatory:shared-motif; post hoc auroc failures: nt_enhancers; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:shared-motif
+  [bench_full_where_available] LR       bibm         same label 14/15 (failure labels 7/7); preserved pre-reg 14, post hoc auroc 13, overlap 13; same as LightGBM 14/15; differs: human_ensembl_regulatory:shared-motif; post hoc auroc failures: nt_enhancers; post hoc overlap failures: human_enhancers_ensembl; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:contamination (weak)
+  [bench_full_where_available] LR       posthoc_overlap same label 14/15 (failure labels 8/8); preserved pre-reg 14, post hoc auroc 13, overlap 14; same as LightGBM 14/15; differs: human_ensembl_regulatory:shared-motif; post hoc auroc failures: nt_enhancers; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:shared-motif
+  [bench_full_where_available] EBM      primary      same label 14/15 (failure labels 8/8); preserved pre-reg 14, post hoc auroc 13, overlap 14; same as LightGBM 14/15; differs: human_nontata_promoters:shared-motif; post hoc auroc failures: nt_enhancers; eq collapse fires without gate: drosophila_enhancers_stark; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_nontata_promoters:shared-motif;human_enhancers_ensembl:shared-motif
+  [bench_full_where_available] EBM      sensitivity  same label 13/15 (failure labels 7/8); preserved pre-reg 13, post hoc auroc 12, overlap 13; same as LightGBM 13/15; differs: human_nontata_promoters:contamination;human_enhancers_ensembl:contamination; post hoc auroc failures: nt_enhancers; post hoc readout not computed (not assessed): human_nontata_promoters(auroc); gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_nontata_promoters:contamination;human_enhancers_ensembl:contamination
+  [bench_full_where_available] EBM      bibm         same label 14/15 (failure labels 7/7); preserved pre-reg 14, post hoc auroc 13, overlap 13; same as LightGBM 14/15; differs: human_nontata_promoters:contamination (weak); post hoc auroc failures: nt_enhancers; post hoc overlap failures: human_enhancers_ensembl; post hoc readout not computed (not assessed): human_nontata_promoters(auroc); gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_nontata_promoters:contamination (weak);human_enhancers_ensembl:contamination (weak)
+  [bench_full_where_available] EBM      posthoc_overlap same label 14/15 (failure labels 8/8); preserved pre-reg 14, post hoc auroc 13, overlap 14; same as LightGBM 14/15; differs: human_nontata_promoters:contamination; post hoc auroc failures: nt_enhancers; post hoc readout not computed (not assessed): human_nontata_promoters(auroc); gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_nontata_promoters:contamination;human_enhancers_ensembl:shared-motif
+  [bench_full_where_available] LR-ext   primary      same label 14/15 (failure labels 8/8); preserved pre-reg 14, post hoc auroc 13, overlap 14; same as LightGBM 14/15; differs: human_ensembl_regulatory:shared-motif; post hoc auroc failures: nt_enhancers; eq collapse fires without gate: drosophila_enhancers_stark; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:shared-motif
+  [bench_full_where_available] LR-ext   sensitivity  same label 14/15 (failure labels 8/8); preserved pre-reg 14, post hoc auroc 13, overlap 14; same as LightGBM 14/15; differs: human_ensembl_regulatory:shared-motif; post hoc auroc failures: nt_enhancers; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:shared-motif
+  [bench_full_where_available] LR-ext   bibm         same label 14/15 (failure labels 7/7); preserved pre-reg 14, post hoc auroc 13, overlap 13; same as LightGBM 14/15; differs: human_ensembl_regulatory:shared-motif; post hoc auroc failures: nt_enhancers; post hoc overlap failures: human_enhancers_ensembl; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:contamination (weak)
+  [bench_full_where_available] LR-ext   posthoc_overlap same label 14/15 (failure labels 8/8); preserved pre-reg 14, post hoc auroc 13, overlap 14; same as LightGBM 14/15; differs: human_ensembl_regulatory:shared-motif; post hoc auroc failures: nt_enhancers; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:shared-motif
+  [bench_full_where_available] EBM-512  primary      same label 15/15 (failure labels 8/8); preserved pre-reg 15, post hoc auroc 14, overlap 15; same as LightGBM 15/15; post hoc auroc failures: nt_enhancers; eq collapse fires without gate: drosophila_enhancers_stark; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:shared-motif
+  [bench_full_where_available] EBM-512  sensitivity  same label 14/15 (failure labels 7/8); preserved pre-reg 14, post hoc auroc 13, overlap 14; same as LightGBM 14/15; differs: human_enhancers_ensembl:contamination; post hoc auroc failures: nt_enhancers; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:contamination
+  [bench_full_where_available] EBM-512  bibm         same label 15/15 (failure labels 7/7); preserved pre-reg 15, post hoc auroc 14, overlap 14; same as LightGBM 15/15; post hoc auroc failures: nt_enhancers; post hoc overlap failures: human_enhancers_ensembl; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:contamination (weak)
+  [bench_full_where_available] EBM-512  posthoc_overlap same label 15/15 (failure labels 8/8); preserved pre-reg 15, post hoc auroc 14, overlap 15; same as LightGBM 15/15; post hoc auroc failures: nt_enhancers; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:shared-motif
+  [bench_full_where_available] EBM-pos  primary      same label 14/15 (failure labels 8/8); preserved pre-reg 14, post hoc auroc 13, overlap 14; same as LightGBM 14/15; differs: human_nontata_promoters:shared-motif; post hoc auroc failures: nt_enhancers; eq collapse fires without gate: drosophila_enhancers_stark; gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_nontata_promoters:shared-motif;human_enhancers_ensembl:shared-motif
+  [bench_full_where_available] EBM-pos  sensitivity  same label 13/15 (failure labels 7/8); preserved pre-reg 13, post hoc auroc 12, overlap 13; same as LightGBM 13/15; differs: human_nontata_promoters:contamination;human_enhancers_ensembl:contamination; post hoc auroc failures: nt_enhancers; post hoc readout not computed (not assessed): human_nontata_promoters(auroc); gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_nontata_promoters:contamination;human_enhancers_ensembl:contamination
+  [bench_full_where_available] EBM-pos  bibm         same label 14/15 (failure labels 7/7); preserved pre-reg 14, post hoc auroc 13, overlap 13; same as LightGBM 14/15; differs: human_nontata_promoters:contamination (weak); post hoc auroc failures: nt_enhancers; post hoc overlap failures: human_enhancers_ensembl; post hoc readout not computed (not assessed): human_nontata_promoters(auroc); gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_nontata_promoters:contamination (weak);human_enhancers_ensembl:contamination (weak)
+  [bench_full_where_available] EBM-pos  posthoc_overlap same label 14/15 (failure labels 8/8); preserved pre-reg 14, post hoc auroc 13, overlap 14; same as LightGBM 14/15; differs: human_nontata_promoters:contamination; post hoc auroc failures: nt_enhancers; post hoc readout not computed (not assessed): human_nontata_promoters(auroc); gate-positive failing tasks -> nt_enhancers:contamination;human_enhancers_cohn:contamination;human_nontata_promoters:contamination;human_enhancers_ensembl:shared-motif
+
+  What the agreement test can detect: a weaker model keeps a shared-motif (residual) label automatically
+  unless it falsely fires the positional rule or gate+contamination rule; a failing label is lost only if the
+  model SOLVES the task. The informative model-dependent checks are the positional rule on the 14 non-splice
+  tasks, the splice rescue, and the Route-3 readouts.
+  How the contamination label is decided: contamination requires BOTH the model-free TATA gate AND a model-
+  dependent Route-3 effect. The gate is positive on 4 binary tasks (alt_model_gate.csv: nontata_prom, enh_ensembl, enh_cohn, nt_enhancers).
+  On the gate-negative control the gate blocks a false label where the equalized-MCC collapse also fires (EBM, EBM-512, EBM-pos, LR-ext; EBM-512/EBM-pos inherit the EBM's equalized arms).
+  Among gate-positive FAILING tasks the model-dependent half decides contamination vs shared-motif; the rule-3
+  variants differ there. enh_ensembl labelled contamination under: primary (equalized collapse) -> no model; sensitivity (composition fraction) -> EBM, EBM-512, EBM-pos; post hoc overlap -> no model.
+  nontata_prom (gate-positive; failing only where the model does not solve it) labelled contamination under: primary -> no model; sensitivity -> EBM, EBM-pos; bibm -> EBM, EBM-pos; post hoc overlap -> EBM, EBM-pos.
+  Under the bibm map contamination = failing + gate, so a BIBM label changes whenever a weaker model fails a
+  gate-positive solved task: BIBM labels are NOT classifier-free.
+  CAVEAT for cross-model overlap shares: the EBM receives the 20-d composition signature as explicit inputs, so a
+  larger EBM share (e.g. nontata, [3c']) partly reflects that design, not only the dataset.
+
+  Every label that differs from LightGBM's (automatic component diff; numbers from alt_model_labels.csv):
+    primary         nontata_prom   EBM      solved -> shared-motif: benchmark MCC 0.673 vs LightGBM 0.874 crosses the 0.70 solved cut
+    primary         nontata_prom   EBM-pos  solved -> shared-motif: benchmark MCC 0.673 vs LightGBM 0.874 crosses the 0.70 solved cut
+    primary         regulatory     LR       solved -> shared-motif: benchmark MCC 0.389 vs LightGBM 0.899 crosses the 0.70 solved cut
+    primary         regulatory     LR-ext   solved -> shared-motif: benchmark MCC 0.391 vs LightGBM 0.899 crosses the 0.70 solved cut
+    sensitivity     nontata_prom   EBM      solved -> contamination: benchmark MCC 0.673 vs LightGBM 0.874 crosses the 0.70 solved cut
+    sensitivity     nontata_prom   EBM-pos  solved -> contamination: benchmark MCC 0.673 vs LightGBM 0.874 crosses the 0.70 solved cut
+    sensitivity     enh_ensembl    EBM      shared-motif -> contamination: composition fraction 0.864 vs LightGBM 0.743 crosses 0.80
+    sensitivity     enh_ensembl    EBM-512  shared-motif -> contamination: composition fraction 0.830 vs LightGBM 0.743 crosses 0.80
+    sensitivity     enh_ensembl    EBM-pos  shared-motif -> contamination: composition fraction 0.864 vs LightGBM 0.743 crosses 0.80
+    sensitivity     regulatory     LR       solved -> shared-motif: benchmark MCC 0.389 vs LightGBM 0.899 crosses the 0.70 solved cut
+    sensitivity     regulatory     LR-ext   solved -> shared-motif: benchmark MCC 0.391 vs LightGBM 0.899 crosses the 0.70 solved cut
+    bibm            nontata_prom   EBM      solved -> contamination (weak): benchmark MCC 0.673 vs LightGBM 0.874 crosses the 0.70 solved cut; gate-positive task: failing under this model -> bibm contamination rule applies
+    bibm            nontata_prom   EBM-pos  solved -> contamination (weak): benchmark MCC 0.673 vs LightGBM 0.874 crosses the 0.70 solved cut; gate-positive task: failing under this model -> bibm contamination rule applies
+    bibm            regulatory     LR       solved -> shared-motif: benchmark MCC 0.389 vs LightGBM 0.899 crosses the 0.70 solved cut
+    bibm            regulatory     LR-ext   solved -> shared-motif: benchmark MCC 0.391 vs LightGBM 0.899 crosses the 0.70 solved cut
+    posthoc_overlap nontata_prom   EBM      solved -> contamination: benchmark MCC 0.673 vs LightGBM 0.874 crosses the 0.70 solved cut; overlap contrast CI>0: True vs LightGBM False
+    posthoc_overlap nontata_prom   EBM-pos  solved -> contamination: benchmark MCC 0.673 vs LightGBM 0.874 crosses the 0.70 solved cut; overlap contrast CI>0: True vs LightGBM False
+    posthoc_overlap regulatory     LR       solved -> shared-motif: benchmark MCC 0.389 vs LightGBM 0.899 crosses the 0.70 solved cut
+    posthoc_overlap regulatory     LR-ext   solved -> shared-motif: benchmark MCC 0.391 vs LightGBM 0.899 crosses the 0.70 solved cut
+
+  Contamination-label effects per model (primary scheme; alt_model_labels.csv):
+    nt_enhancers LightGBM pre-reg: 0.70-MCC=+0.186 (MCC CI [0.428,0.593]); eqMCC-origMCC=-0.514 [-0.597, -0.432] -> ok=True; post hoc: AUROC(random)-AUROC(matched) [leak-free test]=+0.087 [-0.035, +0.217] -> ok=False; overlap-design share lost minus drosophila [leak-free test]=+1.504 [+1.070, +2.220] -> ok=True
+    nt_enhancers LR       pre-reg: 0.70-MCC=+0.279 (MCC CI [0.332,0.509]); eqMCC-origMCC=-0.402 [-0.548, -0.233] -> ok=True; post hoc: AUROC(random)-AUROC(matched) [leak-free test]=+0.062 [-0.045, +0.167] -> ok=False; overlap-design share lost minus drosophila [leak-free test]=+1.577 [+1.174, +2.129] -> ok=True
+    nt_enhancers EBM      pre-reg: 0.70-MCC=+0.251 (MCC CI [0.365,0.534]); eqMCC-origMCC=-0.414 [-0.570, -0.231] -> ok=True; post hoc: AUROC(random)-AUROC(matched) [leak-free test]=+0.093 [-0.034, +0.225] -> ok=False; overlap-design share lost minus drosophila [leak-free test]=+1.568 [+1.084, +2.531] -> ok=True
+    nt_enhancers LR-ext   pre-reg: 0.70-MCC=+0.279 (MCC CI [0.332,0.509]); eqMCC-origMCC=-0.402 [-0.548, -0.233] -> ok=True; post hoc: AUROC(random)-AUROC(matched) [leak-free test]=+0.062 [-0.045, +0.167] -> ok=False; overlap-design share lost minus drosophila [leak-free test]=+1.577 [+1.174, +2.129] -> ok=True
+    nt_enhancers EBM-512  pre-reg: 0.70-MCC=+0.227 (MCC CI [0.392,0.556]); eqMCC-origMCC=-0.414 [-0.570, -0.231] -> ok=True; post hoc: AUROC(random)-AUROC(matched) [leak-free test]=+0.093 [-0.034, +0.225] -> ok=False; overlap-design share lost minus drosophila [leak-free test]=+1.415 [+0.950, +2.273] -> ok=True
+    nt_enhancers EBM-pos  pre-reg: 0.70-MCC=+0.251 (MCC CI [0.365,0.534]); eqMCC-origMCC=-0.414 [-0.570, -0.231] -> ok=True; post hoc: AUROC(random)-AUROC(matched) [leak-free test]=+0.093 [-0.034, +0.225] -> ok=False; overlap-design share lost minus drosophila [leak-free test]=+1.568 [+1.084, +2.531] -> ok=True
+    enh_cohn     LightGBM pre-reg: 0.70-MCC=+0.239 (MCC CI [0.442,0.482]); eqMCC-origMCC=-0.397 [-0.476, -0.339] -> ok=True; post hoc: AUROC(random)-AUROC(matched)=+0.152 [+0.110, +0.193] -> ok=True; overlap-design share lost minus drosophila=+0.353 [+0.293, +0.413] -> ok=True
+    enh_cohn     LR       pre-reg: 0.70-MCC=+0.247 (MCC CI [0.431,0.472]); eqMCC-origMCC=-0.447 [-0.485, -0.403] -> ok=True; post hoc: AUROC(random)-AUROC(matched)=+0.170 [+0.124, +0.212] -> ok=True; overlap-design share lost minus drosophila=+0.292 [+0.228, +0.353] -> ok=True
+    enh_cohn     EBM      pre-reg: 0.70-MCC=+0.277 (MCC CI [0.402,0.444]); eqMCC-origMCC=-0.427 [-0.447, -0.405] -> ok=True; post hoc: AUROC(random)-AUROC(matched)=+0.132 [+0.091, +0.172] -> ok=True; overlap-design share lost minus drosophila=+0.419 [+0.350, +0.487] -> ok=True
+    enh_cohn     LR-ext   pre-reg: 0.70-MCC=+0.247 (MCC CI [0.431,0.472]); eqMCC-origMCC=-0.440 [-0.482, -0.391] -> ok=True; post hoc: AUROC(random)-AUROC(matched)=+0.170 [+0.124, +0.212] -> ok=True; overlap-design share lost minus drosophila=+0.292 [+0.228, +0.353] -> ok=True
+    enh_cohn     EBM-512  pre-reg: 0.70-MCC=+0.258 (MCC CI [0.421,0.462]); eqMCC-origMCC=-0.427 [-0.447, -0.405] -> ok=True; post hoc: AUROC(random)-AUROC(matched)=+0.132 [+0.091, +0.172] -> ok=True; overlap-design share lost minus drosophila=+0.354 [+0.293, +0.417] -> ok=True
+    enh_cohn     EBM-pos  pre-reg: 0.70-MCC=+0.277 (MCC CI [0.402,0.444]); eqMCC-origMCC=-0.427 [-0.447, -0.405] -> ok=True; post hoc: AUROC(random)-AUROC(matched)=+0.132 [+0.091, +0.172] -> ok=True; overlap-design share lost minus drosophila=+0.419 [+0.350, +0.487] -> ok=True
+
+[8] BOTTOM LINE (every number from the CSVs cited in [1]-[7]).
+  Route labels (pre-registered rules, same label as the paper): LightGBM 15/15; LR 14/15; EBM 14/15; EBM-512 15/15; EBM-pos 14/15. The only changes are solved tasks the weaker model does not solve ([7]); under the
+  PRIMARY rules all 8 failure labels keep their label (for the 5 shared-motif labels this is nearly automatic).
+  Pre-registered SENSITIVITY rule (composition fraction >= 0.80): failure labels kept LightGBM 8/8; LR 8/8; EBM 7/8; EBM-512 7/8; EBM-pos 7/8 (changes: LR human_ensembl_regulatory:shared-motif; EBM human_nontata_promoters:contamination;human_enhancers_ensembl:contamination; EBM-512 human_enhancers_ensembl:contamination; EBM-pos human_nontata_promoters:contamination;human_enhancers_ensembl:contamination).
+  Post hoc OVERLAP labelling rule (P11b): same label LightGBM 15/15 (failure 8/8); LR 14/15 (failure 8/8); EBM 14/15 (failure 8/8); EBM-512 15/15 (failure 8/8); EBM-pos 14/15 (failure 8/8); gate-positive failing tasks: LightGBM: nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:shared-motif | LR: nt_enhancers:contamination;human_enhancers_cohn:contamination;human_enhancers_ensembl:shared-motif | EBM: nt_enhancers:contamination;human_enhancers_cohn:contamination;human_nontata_promoters:contamination;human_enhancers_ensembl:shared-motif.
+  BIBM vocabulary: the submitted 'contamination (weak)' label of enh_ensembl fails the overlap criterion under LightGBM, LR, EBM, EBM-512, EBM-pos (it loses LESS above-chance AUROC than the clean control, [3c']).
+  Contamination needs the model-free gate AND a model-dependent effect: the gate blocks the control (where the
+  equalized-MCC collapse also fires under EBM/LR-ext); among gate-positive failing tasks the model-dependent half
+  decides, and the pre-registered MCC readout itself is non-diagnostic (random negatives produce most of it, [3b]).
+  Route 2: splice is the only task meeting the positional rule under LightGBM and LR on all 15 tasks, and under the EBM on the tasks where it received binned k-mers (LightGBM +0.601, LR +0.681, EBM +0.440, EBM-pos +0.450); EBM-pos (binned
+  k-mers guaranteed) meets it on: nt_splice.
+  Route 1: the dose-response slope holds under every model (LightGBM +1.99 [+1.92,+2.06], LR +1.95 [+1.88,+2.01], EBM +1.81 [+1.73,+1.87]); the real-task Spearman (n=9, uncapped) is positive under every model but significant only with LightGBM (LightGBM +0.87 [+0.26,+1.00], LR +0.13 [-0.59,+0.94], EBM +0.47 [-0.28,+0.94]).
+  Labels preserved when the contamination effect is the post hoc AUROC criterion (size-controlled, leak-free nt): LightGBM 14/15 (fails: nt_enhancers); LR 13/15 (fails: nt_enhancers); EBM 13/15 (fails: nt_enhancers); under the overlap criterion: LightGBM 15/15; LR 14/15; EBM 14/15.
+  Route 3: random-negative design, AUROC lost beyond size-matched random negatives: cohn LightGBM +0.152 [+0.110,+0.193], LR +0.170 [+0.124,+0.212], EBM +0.132 [+0.091,+0.172]; the clean control ALSO loses LightGBM +0.101 [+0.063,+0.142], LR +0.090 [+0.047,+0.133], EBM +0.108 [+0.065,+0.149].
+  Contamination-specific contrast (removal-free overlap design, cohn minus control): LightGBM +0.353 [+0.293,+0.413], LR +0.292 [+0.228,+0.353], EBM +0.419 [+0.350,+0.487]; random design: LightGBM +0.187 [-0.014,+0.390], LR +0.305 [+0.091,+0.529], EBM +0.074 [-0.128,+0.289].
+  Gate-positive but uncontaminated enh_ensembl in the overlap design (enh_ensembl minus control): LightGBM -0.122 [-0.169,-0.079], LR -0.137 [-0.195,-0.087], EBM -0.047 [-0.103,+0.004]; ocr_ensembl (gate-negative): LightGBM -0.112 [-0.158,-0.068], LR -0.138 [-0.195,-0.088], EBM -0.074 [-0.132,-0.022].
+  Size share of the cohn MCC drop (random negatives alone): LightGBM 1.06 [0.87,1.26], LR 0.76 [0.66,0.87], EBM 0.82 [0.73,0.92].

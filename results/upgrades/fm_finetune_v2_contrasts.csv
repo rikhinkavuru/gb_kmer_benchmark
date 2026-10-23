@@ -1,0 +1,74 @@
+model,dataset,contrast,definition,n_seeds,estimate,seed_sd,ci_lo,ci_hi,per_seed
+dnabert2,human_enhancers_cohn,A_orig_orig,AUROC orig->orig,3,0.848345,0.003739,0.839284,0.8568,0.8492;0.8442;0.8516
+dnabert2,human_enhancers_cohn,B_orig_compeq,AUROC orig->comp_eq,3,0.719848,0.013696,0.683021,0.752371,0.7347;0.7076;0.7173
+dnabert2,human_enhancers_cohn,C_orig_random,AUROC orig->random,3,0.863151,0.006832,0.837458,0.887329,0.8622;0.8569;0.8704
+dnabert2,human_enhancers_cohn,D_compeq_compeq,AUROC comp_eq->comp_eq,3,0.703204,0.031396,0.665478,0.735376,0.7241;0.6671;0.7185
+dnabert2,human_enhancers_cohn,E_random_random,AUROC random->random,3,0.833117,0.019732,0.806314,0.856813,0.8558;0.8231;0.8204
+dnabert2,human_enhancers_cohn,F_random_compeq,AUROC random->comp_eq,3,0.646013,0.061613,0.610719,0.680461,0.7147;0.6276;0.5957
+dnabert2,human_enhancers_cohn,S_shortcut_worth,A - B,3,0.128497,0.012106,0.095182,0.160899,0.1146;0.1366;0.1343
+dnabert2,human_enhancers_cohn,T_test_imbalance_ctl,C - B,3,0.143303,0.013807,0.102995,0.183487,0.1275;0.1492;0.1532
+dnabert2,human_enhancers_cohn,C_minus_A,C - A (should be ~0),3,0.014806,0.003514,-0.008667,0.037519,0.0129;0.0126;0.0189
+dnabert2,human_enhancers_cohn,U_train_size_ctl,E - D,3,0.129913,0.027079,0.089887,0.173133,0.1318;0.1560;0.1019
+dnabert2,human_enhancers_cohn,R_retention,(E-0.5)/(A-0.5),3,0.956299,0.055922,0.883767,1.024932,1.0189;0.9386;0.9114
+dnabert2,human_enhancers_cohn,E_minus_F,E - F (random-trained: random vs comp_eq test),3,0.187104,0.042422,0.148424,0.230058,0.1411;0.1955;0.2247
+dnabert2,human_enhancers_cohn,G_orig_gcmatch,AUROC orig->gc_match,3,0.807788,0.006453,0.796946,0.818676,0.8133;0.8007;0.8094
+dnabert2,human_enhancers_cohn,S_gc,A - AUROC(orig->gc_match),3,0.040558,0.004064,0.036244,0.044739,0.0359;0.0435;0.0422
+dnabert2,nt_enhancers,A_orig_orig,AUROC orig->orig,3,0.820254,0.001656,0.778427,0.860143,0.8198;0.8221;0.8188
+dnabert2,nt_enhancers,B_orig_compeq,AUROC orig->comp_eq,3,0.679977,0.005175,0.59153,0.773243,0.6799;0.6749;0.6852
+dnabert2,nt_enhancers,C_orig_random,AUROC orig->random,3,0.833194,0.000911,0.755225,0.898393,0.8324;0.8342;0.8331
+dnabert2,nt_enhancers,D_compeq_compeq,AUROC comp_eq->comp_eq,3,0.693426,0.011807,0.596664,0.780774,0.6815;0.7051;0.6936
+dnabert2,nt_enhancers,E_random_random,AUROC random->random,3,0.815602,0.014924,0.744816,0.876424,0.8324;0.8107;0.8037
+dnabert2,nt_enhancers,F_random_compeq,AUROC random->comp_eq,3,0.633681,0.020313,0.537579,0.731353,0.6338;0.6540;0.6133
+dnabert2,nt_enhancers,S_shortcut_worth,A - B,3,0.140277,0.006797,0.068687,0.216273,0.1400;0.1472;0.1336
+dnabert2,nt_enhancers,T_test_imbalance_ctl,C - B,3,0.153218,0.005763,0.049062,0.264581,0.1525;0.1593;0.1478
+dnabert2,nt_enhancers,C_minus_A,C - A (should be ~0),3,0.01294,0.001126,-0.053713,0.071333,0.0125;0.0121;0.0142
+dnabert2,nt_enhancers,U_train_size_ctl,E - D,3,0.122176,0.024924,0.016628,0.231946,0.1508;0.1056;0.1101
+dnabert2,nt_enhancers,R_retention,(E-0.5)/(A-0.5),3,0.985487,0.046829,0.780797,1.184173,1.0391;0.9647;0.9527
+dnabert2,nt_enhancers,E_minus_F,E - F (random-trained: random vs comp_eq test),3,0.181921,0.022193,0.081344,0.290441,0.1986;0.1567;0.1904
+dnabert2,nt_enhancers,G_orig_gcmatch,AUROC orig->gc_match,3,0.738471,0.002045,0.681944,0.79626,0.7361;0.7398;0.7395
+dnabert2,nt_enhancers,S_gc,A - AUROC(orig->gc_match),3,0.081783,0.002233,0.056332,0.109883,0.0837;0.0823;0.0793
+hyenadna,drosophila_enhancers_stark,A_orig_orig,AUROC orig->orig,3,0.827634,0.004644,0.808866,0.845717,0.8262;0.8328;0.8239
+hyenadna,drosophila_enhancers_stark,B_orig_compeq,AUROC orig->comp_eq,3,0.741632,0.006475,0.707358,0.779398,0.7347;0.7428;0.7474
+hyenadna,drosophila_enhancers_stark,C_orig_random,AUROC orig->random,3,0.846404,0.000356,0.814775,0.87755,0.8463;0.8461;0.8468
+hyenadna,drosophila_enhancers_stark,D_compeq_compeq,AUROC comp_eq->comp_eq,3,0.725541,0.007372,0.689717,0.765435,0.7172;0.7312;0.7282
+hyenadna,drosophila_enhancers_stark,E_random_random,AUROC random->random,3,0.818632,0.02606,0.785333,0.851096,0.8351;0.7886;0.8322
+hyenadna,drosophila_enhancers_stark,F_random_compeq,AUROC random->comp_eq,3,0.708568,0.021985,0.6734,0.745505,0.7276;0.6845;0.7135
+hyenadna,drosophila_enhancers_stark,S_shortcut_worth,A - B,3,0.086002,0.008295,0.056225,0.113543,0.0915;0.0900;0.0765
+hyenadna,drosophila_enhancers_stark,T_test_imbalance_ctl,C - B,3,0.104773,0.006271,0.06494,0.141855,0.1116;0.1033;0.0994
+hyenadna,drosophila_enhancers_stark,C_minus_A,C - A (should be ~0),3,0.01877,0.004952,-0.006845,0.04547,0.0201;0.0133;0.0229
+hyenadna,drosophila_enhancers_stark,U_train_size_ctl,E - D,3,0.093091,0.031712,0.051334,0.132144,0.1179;0.0574;0.1040
+hyenadna,drosophila_enhancers_stark,R_retention,(E-0.5)/(A-0.5),3,0.973365,0.09207,0.886675,1.052747,1.0275;0.8671;1.0256
+hyenadna,drosophila_enhancers_stark,E_minus_F,E - F (random-trained: random vs comp_eq test),3,0.110065,0.007619,0.06903,0.147229,0.1075;0.1041;0.1186
+hyenadna,drosophila_enhancers_stark,G_orig_gcmatch,AUROC orig->gc_match,3,0.802851,0.005799,0.782563,0.822993,0.8021;0.8090;0.7975
+hyenadna,drosophila_enhancers_stark,H_gcmatch_gcmatch,AUROC gc_match->gc_match,3,0.80297,0.001496,0.781761,0.823355,0.8021;0.8021;0.8047
+hyenadna,drosophila_enhancers_stark,S_gc,A - AUROC(orig->gc_match),3,0.024784,0.001421,0.019205,0.030211,0.0241;0.0238;0.0264
+hyenadna,human_enhancers_cohn,A_orig_orig,AUROC orig->orig,3,0.795551,0.004562,0.785174,0.805376,0.7980;0.7984;0.7903
+hyenadna,human_enhancers_cohn,B_orig_compeq,AUROC orig->comp_eq,3,0.581351,0.010074,0.541647,0.617869,0.5806;0.5918;0.5717
+hyenadna,human_enhancers_cohn,C_orig_random,AUROC orig->random,3,0.804035,0.006109,0.776185,0.830211,0.8074;0.8077;0.7970
+hyenadna,human_enhancers_cohn,D_compeq_compeq,AUROC comp_eq->comp_eq,3,0.521916,0.027696,0.502343,0.540974,0.5073;0.5539;0.5046
+hyenadna,human_enhancers_cohn,E_random_random,AUROC random->random,3,0.775425,0.00305,0.744901,0.804619,0.7725;0.7786;0.7752
+hyenadna,human_enhancers_cohn,F_random_compeq,AUROC random->comp_eq,3,0.520523,0.005426,0.480465,0.560157,0.5259;0.5206;0.5150
+hyenadna,human_enhancers_cohn,S_shortcut_worth,A - B,3,0.2142,0.006617,0.179758,0.25151,0.2174;0.2066;0.2186
+hyenadna,human_enhancers_cohn,T_test_imbalance_ctl,C - B,3,0.222684,0.005938,0.18087,0.270754,0.2269;0.2159;0.2253
+hyenadna,human_enhancers_cohn,C_minus_A,C - A (should be ~0),3,0.008484,0.001553,-0.017112,0.03463,0.0095;0.0093;0.0067
+hyenadna,human_enhancers_cohn,U_train_size_ctl,E - D,3,0.25351,0.025069,0.216557,0.289453,0.2652;0.2247;0.2706
+hyenadna,human_enhancers_cohn,R_retention,(E-0.5)/(A-0.5),3,0.932042,0.016809,0.837457,1.026707,0.9145;0.9336;0.9480
+hyenadna,human_enhancers_cohn,E_minus_F,E - F (random-trained: random vs comp_eq test),3,0.254903,0.00727,0.211391,0.298891,0.2466;0.2580;0.2601
+hyenadna,human_enhancers_cohn,G_orig_gcmatch,AUROC orig->gc_match,3,0.735841,0.007408,0.723609,0.747084,0.7385;0.7415;0.7275
+hyenadna,human_enhancers_cohn,H_gcmatch_gcmatch,AUROC gc_match->gc_match,3,0.738818,0.012934,0.727043,0.750129,0.7307;0.7537;0.7320
+hyenadna,human_enhancers_cohn,S_gc,A - AUROC(orig->gc_match),3,0.05971,0.002993,0.054654,0.064717,0.0594;0.0569;0.0628
+hyenadna,nt_enhancers,A_orig_orig,AUROC orig->orig,3,0.761725,0.009587,0.71815,0.806036,0.7705;0.7631;0.7515
+hyenadna,nt_enhancers,B_orig_compeq,AUROC orig->comp_eq,3,0.593194,0.004592,0.503821,0.684431,0.5942;0.5882;0.5972
+hyenadna,nt_enhancers,C_orig_random,AUROC orig->random,3,0.796806,0.012043,0.717645,0.864161,0.8103;0.7931;0.7871
+hyenadna,nt_enhancers,D_compeq_compeq,AUROC comp_eq->comp_eq,3,0.643102,0.019635,0.537836,0.746807,0.6285;0.6654;0.6354
+hyenadna,nt_enhancers,E_random_random,AUROC random->random,3,0.822269,0.013084,0.752567,0.882514,0.8072;0.8286;0.8310
+hyenadna,nt_enhancers,F_random_compeq,AUROC random->comp_eq,3,0.570046,0.030705,0.483025,0.662894,0.5389;0.5710;0.6003
+hyenadna,nt_enhancers,S_shortcut_worth,A - B,3,0.168531,0.012344,0.095116,0.240878,0.1764;0.1749;0.1543
+hyenadna,nt_enhancers,T_test_imbalance_ctl,C - B,3,0.203611,0.01317,0.098583,0.308807,0.2161;0.2049;0.1899
+hyenadna,nt_enhancers,C_minus_A,C - A (should be ~0),3,0.035081,0.004904,-0.024427,0.091508,0.0397;0.0300;0.0356
+hyenadna,nt_enhancers,U_train_size_ctl,E - D,3,0.179167,0.016185,0.061268,0.296977,0.1787;0.1632;0.1956
+hyenadna,nt_enhancers,R_retention,(E-0.5)/(A-0.5),3,1.233469,0.091155,0.988944,1.490451,1.1355;1.2490;1.3159
+hyenadna,nt_enhancers,E_minus_F,E - F (random-trained: random vs comp_eq test),3,0.252222,0.019395,0.158162,0.348855,0.2683;0.2576;0.2307
+hyenadna,nt_enhancers,G_orig_gcmatch,AUROC orig->gc_match,3,0.652783,0.006058,0.595347,0.712212,0.6572;0.6553;0.6459
+hyenadna,nt_enhancers,H_gcmatch_gcmatch,AUROC gc_match->gc_match,3,0.62411,0.014653,0.564886,0.684827,0.6133;0.6408;0.6183
+hyenadna,nt_enhancers,S_gc,A - AUROC(orig->gc_match),3,0.108942,0.00398,0.080061,0.143029,0.1134;0.1078;0.1057

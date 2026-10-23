@@ -1,0 +1,625 @@
+model,dataset,contrast,definition,n_seeds,estimate,seed_sd,ci_lo,ci_hi,per_seed,posthoc_derived_test_set
+dnabert2,human_enhancers_cohn|ccre_any_free,A_orig_orig,AUROC orig->orig,3,0.90107,0.004528,0.893907,0.908273,0.9012;0.8965;0.9056,True
+dnabert2,human_enhancers_cohn|ccre_any_free,B_orig_compeq,AUROC orig->comp_eq,3,0.803522,0.013201,0.762392,0.841573,0.8176;0.7914;0.8016,True
+dnabert2,human_enhancers_cohn|ccre_any_free,C_orig_random,AUROC orig->random,3,0.904852,0.006969,0.88315,0.925423,0.9045;0.8981;0.9120,True
+dnabert2,human_enhancers_cohn|ccre_any_free,D_compeq_compeq,AUROC comp_eq->comp_eq,3,0.791405,0.018689,0.750662,0.831495,0.8078;0.7710;0.7954,True
+dnabert2,human_enhancers_cohn|ccre_any_free,E_random_random,AUROC random->random,3,0.873736,0.023722,0.846735,0.895818,0.9010;0.8623;0.8579,True
+dnabert2,human_enhancers_cohn|ccre_any_free,F_random_compeq,AUROC random->comp_eq,3,0.724659,0.061576,0.683561,0.766148,0.7956;0.6935;0.6849,True
+dnabert2,human_enhancers_cohn|ccre_any_free,S_shortcut_worth,A - B,3,0.097548,0.012108,0.062657,0.134701,0.0836;0.1051;0.1039,True
+dnabert2,human_enhancers_cohn|ccre_any_free,T_test_imbalance_ctl,C - B,3,0.101331,0.012617,0.059111,0.143603,0.0869;0.1067;0.1104,True
+dnabert2,human_enhancers_cohn|ccre_any_free,C_minus_A,C - A (should be ~0),3,0.003782,0.002466,-0.017062,0.022296,0.0033;0.0016;0.0064,True
+dnabert2,human_enhancers_cohn|ccre_any_free,U_train_size_ctl,E - D,3,0.08233,0.017188,0.038441,0.125172,0.0932;0.0912;0.0625,True
+dnabert2,human_enhancers_cohn|ccre_any_free,R_retention,(E-0.5)/(A-0.5),3,0.931957,0.060659,0.865247,0.986368,0.9997;0.9137;0.8825,True
+dnabert2,human_enhancers_cohn|ccre_any_free,E_minus_F,E - F (random-trained: random vs comp_eq test),3,0.149077,0.037863,0.101206,0.191382,0.1054;0.1687;0.1731,True
+dnabert2,human_enhancers_cohn|ccre_any_free,G_orig_gcmatch,AUROC orig->gc_match,3,0.86945,0.006766,0.859373,0.878832,0.8735;0.8616;0.8733,True
+dnabert2,human_enhancers_cohn|ccre_any_free,S_gc,A - AUROC(orig->gc_match),3,0.03162,0.00363,0.027498,0.035739,0.0277;0.0349;0.0323,True
+dnabert2,human_enhancers_cohn|ccre_els_free,A_orig_orig,AUROC orig->orig,3,0.888507,0.00435,0.880112,0.896077,0.8887;0.8841;0.8928,True
+dnabert2,human_enhancers_cohn|ccre_els_free,B_orig_compeq,AUROC orig->comp_eq,3,0.784231,0.015503,0.745883,0.817469,0.8015;0.7714;0.7799,True
+dnabert2,human_enhancers_cohn|ccre_els_free,C_orig_random,AUROC orig->random,3,0.899483,0.007559,0.87861,0.919565,0.8983;0.8926;0.9075,True
+dnabert2,human_enhancers_cohn|ccre_els_free,D_compeq_compeq,AUROC comp_eq->comp_eq,3,0.740838,0.037491,0.697585,0.779041,0.7644;0.6976;0.7605,True
+dnabert2,human_enhancers_cohn|ccre_els_free,E_random_random,AUROC random->random,3,0.87114,0.022524,0.847152,0.891813,0.8969;0.8612;0.8553,True
+dnabert2,human_enhancers_cohn|ccre_els_free,F_random_compeq,AUROC random->comp_eq,3,0.704159,0.059381,0.661205,0.743167,0.7713;0.6826;0.6586,True
+dnabert2,human_enhancers_cohn|ccre_els_free,S_shortcut_worth,A - B,3,0.104276,0.014784,0.073259,0.139914,0.0872;0.1127;0.1129,True
+dnabert2,human_enhancers_cohn|ccre_els_free,T_test_imbalance_ctl,C - B,3,0.115252,0.016236,0.080221,0.15507,0.0969;0.1212;0.1277,True
+dnabert2,human_enhancers_cohn|ccre_els_free,C_minus_A,C - A (should be ~0),3,0.010976,0.003339,-0.008629,0.030193,0.0097;0.0085;0.0148,True
+dnabert2,human_enhancers_cohn|ccre_els_free,U_train_size_ctl,E - D,3,0.130302,0.034508,0.088246,0.176034,0.1325;0.1636;0.0947,True
+dnabert2,human_enhancers_cohn|ccre_els_free,R_retention,(E-0.5)/(A-0.5),3,0.95542,0.059792,0.896843,1.007891,1.0213;0.9405;0.9045,True
+dnabert2,human_enhancers_cohn|ccre_els_free,E_minus_F,E - F (random-trained: random vs comp_eq test),3,0.166981,0.036947,0.123369,0.21117,0.1256;0.1787;0.1967,True
+dnabert2,human_enhancers_cohn|ccre_els_free,G_orig_gcmatch,AUROC orig->gc_match,3,0.85609,0.006539,0.84511,0.865995,0.8606;0.8486;0.8591,True
+dnabert2,human_enhancers_cohn|ccre_els_free,S_gc,A - AUROC(orig->gc_match),3,0.032417,0.003845,0.028151,0.036784,0.0281;0.0355;0.0336,True
+dnabert2,nt_enhancers_leakfree|ccre_any_free,A_orig_orig,AUROC orig->orig,3,0.774675,0.004071,0.711892,0.833831,0.7708;0.7789;0.7743,True
+dnabert2,nt_enhancers_leakfree|ccre_any_free,B_orig_compeq,AUROC orig->comp_eq,3,0.676818,0.00751,0.559224,0.783665,0.6855;0.6718;0.6732,True
+dnabert2,nt_enhancers_leakfree|ccre_any_free,C_orig_random,AUROC orig->random,3,0.767742,0.004481,0.665148,0.856584,0.7655;0.7729;0.7648,True
+dnabert2,nt_enhancers_leakfree|ccre_any_free,D_compeq_compeq,AUROC comp_eq->comp_eq,3,0.699848,0.02599,0.571599,0.817325,0.7059;0.7223;0.6714,True
+dnabert2,nt_enhancers_leakfree|ccre_any_free,E_random_random,AUROC random->random,3,0.76086,0.015916,0.671275,0.849361,0.7777;0.7587;0.7461,True
+dnabert2,nt_enhancers_leakfree|ccre_any_free,F_random_compeq,AUROC random->comp_eq,3,0.641364,0.028127,0.504809,0.763791,0.6468;0.6664;0.6109,True
+dnabert2,nt_enhancers_leakfree|ccre_any_free,S_shortcut_worth,A - B,3,0.097857,0.011231,0.011095,0.189289,0.0854;0.1071;0.1011,True
+dnabert2,nt_enhancers_leakfree|ccre_any_free,T_test_imbalance_ctl,C - B,3,0.090924,0.010547,-0.027346,0.224046,0.0800;0.1011;0.0917,True
+dnabert2,nt_enhancers_leakfree|ccre_any_free,C_minus_A,C - A (should be ~0),3,-0.006933,0.002197,-0.08034,0.06116,-0.0053;-0.0060;-0.0094,True
+dnabert2,nt_enhancers_leakfree|ccre_any_free,U_train_size_ctl,E - D,3,0.061012,0.021333,-0.077501,0.197953,0.0718;0.0364;0.0748,True
+dnabert2,nt_enhancers_leakfree|ccre_any_free,R_retention,(E-0.5)/(A-0.5),3,0.950149,0.06703,0.648494,1.240207,1.0256;0.9275;0.8974,True
+dnabert2,nt_enhancers_leakfree|ccre_any_free,E_minus_F,E - F (random-trained: random vs comp_eq test),3,0.119497,0.023611,0.000975,0.256863,0.1309;0.0923;0.1352,True
+dnabert2,nt_enhancers_leakfree|ccre_any_free,G_orig_gcmatch,AUROC orig->gc_match,3,0.688333,0.005739,0.607593,0.764803,0.6824;0.6888;0.6938,True
+dnabert2,nt_enhancers_leakfree|ccre_any_free,S_gc,A - AUROC(orig->gc_match),3,0.086342,0.005161,0.05366,0.124408,0.0884;0.0901;0.0805,True
+dnabert2,nt_enhancers_leakfree|ccre_els_free,A_orig_orig,AUROC orig->orig,3,0.766031,0.004496,0.709812,0.82008,0.7612;0.7701;0.7668,True
+dnabert2,nt_enhancers_leakfree|ccre_els_free,B_orig_compeq,AUROC orig->comp_eq,3,0.637407,0.002671,0.526269,0.744892,0.6396;0.6344;0.6381,True
+dnabert2,nt_enhancers_leakfree|ccre_els_free,C_orig_random,AUROC orig->random,3,0.764646,0.007846,0.677512,0.848361,0.7558;0.7706;0.7676,True
+dnabert2,nt_enhancers_leakfree|ccre_els_free,D_compeq_compeq,AUROC comp_eq->comp_eq,3,0.669012,0.019473,0.54527,0.780656,0.6585;0.6915;0.6570,True
+dnabert2,nt_enhancers_leakfree|ccre_els_free,E_random_random,AUROC random->random,3,0.763939,0.018956,0.677452,0.843466,0.7858;0.7545;0.7515,True
+dnabert2,nt_enhancers_leakfree|ccre_els_free,F_random_compeq,AUROC random->comp_eq,3,0.614074,0.021776,0.485905,0.723786,0.6230;0.6300;0.5893,True
+dnabert2,nt_enhancers_leakfree|ccre_els_free,S_shortcut_worth,A - B,3,0.128623,0.007043,0.045264,0.220526,0.1216;0.1357;0.1286,True
+dnabert2,nt_enhancers_leakfree|ccre_els_free,T_test_imbalance_ctl,C - B,3,0.127239,0.010195,0.012379,0.248508,0.1161;0.1362;0.1294,True
+dnabert2,nt_enhancers_leakfree|ccre_els_free,C_minus_A,C - A (should be ~0),3,-0.001384,0.00353,-0.067456,0.064675,-0.0055;0.0005;0.0008,True
+dnabert2,nt_enhancers_leakfree|ccre_els_free,U_train_size_ctl,E - D,3,0.094927,0.03209,-0.037944,0.235831,0.1272;0.0631;0.0945,True
+dnabert2,nt_enhancers_leakfree|ccre_els_free,R_retention,(E-0.5)/(A-0.5),3,0.993053,0.087389,0.705676,1.3286,1.0940;0.9424;0.9428,True
+dnabert2,nt_enhancers_leakfree|ccre_els_free,E_minus_F,E - F (random-trained: random vs comp_eq test),3,0.149865,0.021929,0.027056,0.283556,0.1628;0.1245;0.1623,True
+dnabert2,nt_enhancers_leakfree|ccre_els_free,G_orig_gcmatch,AUROC orig->gc_match,3,0.677103,0.00596,0.602222,0.746409,0.6705;0.6788;0.6820,True
+dnabert2,nt_enhancers_leakfree|ccre_els_free,S_gc,A - AUROC(orig->gc_match),3,0.088928,0.003638,0.057445,0.127803,0.0907;0.0913;0.0847,True
+dnabert2,nt_enhancers|ccre_any_free,A_orig_orig,AUROC orig->orig,3,0.852065,0.001968,0.813723,0.89181,0.8506;0.8543;0.8513,True
+dnabert2,nt_enhancers|ccre_any_free,B_orig_compeq,AUROC orig->comp_eq,3,0.773864,0.003363,0.669938,0.870372,0.7761;0.7700;0.7755,True
+dnabert2,nt_enhancers|ccre_any_free,C_orig_random,AUROC orig->random,3,0.83871,0.002826,0.752089,0.913298,0.8415;0.8389;0.8358,True
+dnabert2,nt_enhancers|ccre_any_free,D_compeq_compeq,AUROC comp_eq->comp_eq,3,0.734697,0.020702,0.625799,0.838176,0.7486;0.7445;0.7109,True
+dnabert2,nt_enhancers|ccre_any_free,E_random_random,AUROC random->random,3,0.825914,0.013297,0.751493,0.886513,0.8379;0.8282;0.8116,True
+dnabert2,nt_enhancers|ccre_any_free,F_random_compeq,AUROC random->comp_eq,3,0.719621,0.026884,0.602398,0.823853,0.7250;0.7434;0.6905,True
+dnabert2,nt_enhancers|ccre_any_free,S_shortcut_worth,A - B,3,0.078201,0.005329,0.001363,0.170223,0.0745;0.0843;0.0758,True
+dnabert2,nt_enhancers|ccre_any_free,T_test_imbalance_ctl,C - B,3,0.064846,0.004279,-0.045151,0.192479,0.0653;0.0689;0.0604,True
+dnabert2,nt_enhancers|ccre_any_free,C_minus_A,C - A (should be ~0),3,-0.013355,0.003618,-0.084143,0.047352,-0.0092;-0.0154;-0.0155,True
+dnabert2,nt_enhancers|ccre_any_free,U_train_size_ctl,E - D,3,0.091217,0.008678,-0.040018,0.216131,0.0893;0.0837;0.1007,True
+dnabert2,nt_enhancers|ccre_any_free,R_retention,(E-0.5)/(A-0.5),3,0.925742,0.03829,0.748095,1.089653,0.9637;0.9264;0.8871,True
+dnabert2,nt_enhancers|ccre_any_free,E_minus_F,E - F (random-trained: random vs comp_eq test),3,0.106293,0.019051,-0.002429,0.232847,0.1129;0.0848;0.1212,True
+dnabert2,nt_enhancers|ccre_any_free,G_orig_gcmatch,AUROC orig->gc_match,3,0.781689,0.003164,0.721047,0.839991,0.7784;0.7819;0.7847,True
+dnabert2,nt_enhancers|ccre_any_free,S_gc,A - AUROC(orig->gc_match),3,0.070376,0.00334,0.042687,0.104426,0.0722;0.0724;0.0665,True
+dnabert2,nt_enhancers|ccre_els_free,A_orig_orig,AUROC orig->orig,3,0.844528,0.001998,0.807867,0.881872,0.8426;0.8466;0.8444,True
+dnabert2,nt_enhancers|ccre_els_free,B_orig_compeq,AUROC orig->comp_eq,3,0.733333,0.004729,0.624301,0.826159,0.7322;0.7293;0.7385,True
+dnabert2,nt_enhancers|ccre_els_free,C_orig_random,AUROC orig->random,3,0.83803,0.00105,0.760827,0.908791,0.8368;0.8386;0.8386,True
+dnabert2,nt_enhancers|ccre_els_free,D_compeq_compeq,AUROC comp_eq->comp_eq,3,0.703148,0.008731,0.580905,0.810902,0.6993;0.7131;0.6970,True
+dnabert2,nt_enhancers|ccre_els_free,E_random_random,AUROC random->random,3,0.828939,0.014138,0.762027,0.892704,0.8442;0.8262;0.8164,True
+dnabert2,nt_enhancers|ccre_els_free,F_random_compeq,AUROC random->comp_eq,3,0.690401,0.019306,0.582618,0.788466,0.6987;0.7042;0.6683,True
+dnabert2,nt_enhancers|ccre_els_free,S_shortcut_worth,A - B,3,0.111195,0.005771,0.034346,0.204335,0.1104;0.1173;0.1059,True
+dnabert2,nt_enhancers|ccre_els_free,T_test_imbalance_ctl,C - B,3,0.104697,0.00463,-0.008839,0.22522,0.1046;0.1094;0.1001,True
+dnabert2,nt_enhancers|ccre_els_free,C_minus_A,C - A (should be ~0),3,-0.006498,0.001261,-0.071387,0.052732,-0.0058;-0.0080;-0.0058,True
+dnabert2,nt_enhancers|ccre_els_free,U_train_size_ctl,E - D,3,0.125791,0.016913,0.008853,0.255715,0.1450;0.1131;0.1193,True
+dnabert2,nt_enhancers|ccre_els_free,R_retention,(E-0.5)/(A-0.5),3,0.954869,0.044685,0.783502,1.125398,1.0048;0.9412;0.9186,True
+dnabert2,nt_enhancers|ccre_els_free,E_minus_F,E - F (random-trained: random vs comp_eq test),3,0.138538,0.014337,0.033672,0.26312,0.1455;0.1220;0.1480,True
+dnabert2,nt_enhancers|ccre_els_free,G_orig_gcmatch,AUROC orig->gc_match,3,0.770159,0.002936,0.710187,0.82595,0.7670;0.7708;0.7727,True
+dnabert2,nt_enhancers|ccre_els_free,S_gc,A - AUROC(orig->gc_match),3,0.074369,0.002352,0.049441,0.106949,0.0756;0.0758;0.0717,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_any_free,A_orig_orig,AUROC orig->orig,1,0.863649,,0.854271,0.872857,0.8636,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_any_free,B_orig_compeq,AUROC orig->comp_eq,1,0.76311,,0.712199,0.807102,0.7631,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_any_free,C_orig_random,AUROC orig->random,1,0.848704,,0.819276,0.879106,0.8487,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_any_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.696912,,0.645192,0.742701,0.6969,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_any_free,E_random_random,AUROC random->random,1,0.795438,,0.760351,0.828159,0.7954,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_any_free,F_random_compeq,AUROC random->comp_eq,1,0.721852,,0.671076,0.769707,0.7219,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_any_free,S_shortcut_worth,A - B,1,0.100539,,0.056673,0.148378,0.1005,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_any_free,T_test_imbalance_ctl,C - B,1,0.085594,,0.034655,0.137959,0.0856,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_any_free,C_minus_A,C - A (should be ~0),1,-0.014946,,-0.043527,0.012125,-0.0149,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_any_free,U_train_size_ctl,E - D,1,0.098527,,0.038271,0.158006,0.0985,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_any_free,R_retention,(E-0.5)/(A-0.5),1,0.812426,,0.717165,0.898765,0.8124,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_any_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.073587,,0.018755,0.129343,0.0736,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_any_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.82656,,0.813249,0.837977,0.8266,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_any_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.830601,,0.818375,0.842432,0.8306,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_any_free,S_gc,A - AUROC(orig->gc_match),1,0.03709,,0.031771,0.042578,0.0371,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_els_free,A_orig_orig,AUROC orig->orig,1,0.847862,,0.83781,0.857157,0.8479,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_els_free,B_orig_compeq,AUROC orig->comp_eq,1,0.726207,,0.681829,0.766506,0.7262,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_els_free,C_orig_random,AUROC orig->random,1,0.847382,,0.820544,0.875349,0.8474,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_els_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.6912,,0.644483,0.737442,0.6912,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_els_free,E_random_random,AUROC random->random,1,0.795039,,0.763105,0.826979,0.7950,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_els_free,F_random_compeq,AUROC random->comp_eq,1,0.709626,,0.665877,0.748166,0.7096,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_els_free,S_shortcut_worth,A - B,1,0.121656,,0.083763,0.165224,0.1217,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_els_free,T_test_imbalance_ctl,C - B,1,0.121176,,0.075351,0.170782,0.1212,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_els_free,C_minus_A,C - A (should be ~0),1,-0.00048,,-0.02763,0.025028,-0.0005,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_els_free,U_train_size_ctl,E - D,1,0.103838,,0.050722,0.15898,0.1038,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_els_free,R_retention,(E-0.5)/(A-0.5),1,0.848147,,0.755995,0.935253,0.8481,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_els_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.085413,,0.035108,0.136367,0.0854,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_els_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.808412,,0.79613,0.820423,0.8084,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_els_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.811856,,0.798736,0.82377,0.8119,True
+dnabert2_frozen_cls,human_enhancers_cohn|ccre_els_free,S_gc,A - AUROC(orig->gc_match),1,0.03945,,0.034571,0.04457,0.0395,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_any_free,A_orig_orig,AUROC orig->orig,1,0.776855,,0.717457,0.834067,0.7769,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_any_free,B_orig_compeq,AUROC orig->comp_eq,1,0.635,,0.515536,0.748892,0.6350,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_any_free,C_orig_random,AUROC orig->random,1,0.778387,,0.687977,0.85693,0.7784,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_any_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.576136,,0.454621,0.699113,0.5761,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_any_free,E_random_random,AUROC random->random,1,0.775323,,0.686107,0.855564,0.7753,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_any_free,F_random_compeq,AUROC random->comp_eq,1,0.612727,,0.487346,0.730723,0.6127,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_any_free,S_shortcut_worth,A - B,1,0.141855,,0.051673,0.244227,0.1419,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_any_free,T_test_imbalance_ctl,C - B,1,0.143387,,0.029889,0.261169,0.1434,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_any_free,C_minus_A,C - A (should be ~0),1,0.001532,,-0.066873,0.062106,0.0015,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_any_free,U_train_size_ctl,E - D,1,0.199186,,0.056348,0.340561,0.1992,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_any_free,R_retention,(E-0.5)/(A-0.5),1,0.994464,,0.734136,1.276726,0.9945,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_any_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.162595,,0.049416,0.293991,0.1626,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_any_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.695526,,0.622511,0.77016,0.6955,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_any_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.696842,,0.624233,0.771099,0.6968,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_any_free,S_gc,A - AUROC(orig->gc_match),1,0.081329,,0.048377,0.118958,0.0813,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_els_free,A_orig_orig,AUROC orig->orig,1,0.768555,,0.704507,0.827779,0.7686,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_els_free,B_orig_compeq,AUROC orig->comp_eq,1,0.572222,,0.440556,0.686973,0.5722,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_els_free,C_orig_random,AUROC orig->random,1,0.768182,,0.679556,0.853937,0.7682,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_els_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.574259,,0.443631,0.70428,0.5743,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_els_free,E_random_random,AUROC random->random,1,0.782879,,0.703358,0.859863,0.7829,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_els_free,F_random_compeq,AUROC random->comp_eq,1,0.569259,,0.442107,0.697194,0.5693,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_els_free,S_shortcut_worth,A - B,1,0.196333,,0.110302,0.29948,0.1963,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_els_free,T_test_imbalance_ctl,C - B,1,0.19596,,0.094802,0.319015,0.1960,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_els_free,C_minus_A,C - A (should be ~0),1,-0.000373,,-0.066091,0.062503,-0.0004,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_els_free,U_train_size_ctl,E - D,1,0.20862,,0.064655,0.351183,0.2086,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_els_free,R_retention,(E-0.5)/(A-0.5),1,1.053337,,0.795456,1.357066,1.0533,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_els_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.21362,,0.091648,0.339604,0.2136,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_els_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.678571,,0.598325,0.753499,0.6786,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_els_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.684881,,0.605042,0.758463,0.6849,True
+dnabert2_frozen_cls,nt_enhancers_leakfree|ccre_els_free,S_gc,A - AUROC(orig->gc_match),1,0.089983,,0.057174,0.130621,0.0900,True
+dnabert2_frozen_cls,nt_enhancers|ccre_any_free,A_orig_orig,AUROC orig->orig,1,0.878805,,0.839614,0.912153,0.8788,True
+dnabert2_frozen_cls,nt_enhancers|ccre_any_free,B_orig_compeq,AUROC orig->comp_eq,1,0.778864,,0.687558,0.867127,0.7789,True
+dnabert2_frozen_cls,nt_enhancers|ccre_any_free,C_orig_random,AUROC orig->random,1,0.885323,,0.832475,0.929603,0.8853,True
+dnabert2_frozen_cls,nt_enhancers|ccre_any_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.709318,,0.604614,0.812733,0.7093,True
+dnabert2_frozen_cls,nt_enhancers|ccre_any_free,E_random_random,AUROC random->random,1,0.864355,,0.79932,0.91796,0.8644,True
+dnabert2_frozen_cls,nt_enhancers|ccre_any_free,F_random_compeq,AUROC random->comp_eq,1,0.732955,,0.626066,0.834089,0.7330,True
+dnabert2_frozen_cls,nt_enhancers|ccre_any_free,S_shortcut_worth,A - B,1,0.099941,,0.029291,0.180099,0.0999,True
+dnabert2_frozen_cls,nt_enhancers|ccre_any_free,T_test_imbalance_ctl,C - B,1,0.106459,,0.020929,0.194828,0.1065,True
+dnabert2_frozen_cls,nt_enhancers|ccre_any_free,C_minus_A,C - A (should be ~0),1,0.006518,,-0.031009,0.041646,0.0065,True
+dnabert2_frozen_cls,nt_enhancers|ccre_any_free,U_train_size_ctl,E - D,1,0.155037,,0.0389,0.267202,0.1550,True
+dnabert2_frozen_cls,nt_enhancers|ccre_any_free,R_retention,(E-0.5)/(A-0.5),1,0.961853,,0.819041,1.087367,0.9619,True
+dnabert2_frozen_cls,nt_enhancers|ccre_any_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.1314,,0.022972,0.234673,0.1314,True
+dnabert2_frozen_cls,nt_enhancers|ccre_any_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.83,,0.777697,0.8767,0.8300,True
+dnabert2_frozen_cls,nt_enhancers|ccre_any_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.830132,,0.778751,0.879591,0.8301,True
+dnabert2_frozen_cls,nt_enhancers|ccre_any_free,S_gc,A - AUROC(orig->gc_match),1,0.048805,,0.028049,0.074868,0.0488,True
+dnabert2_frozen_cls,nt_enhancers|ccre_els_free,A_orig_orig,AUROC orig->orig,1,0.871474,,0.836879,0.905273,0.8715,True
+dnabert2_frozen_cls,nt_enhancers|ccre_els_free,B_orig_compeq,AUROC orig->comp_eq,1,0.729259,,0.628142,0.820788,0.7293,True
+dnabert2_frozen_cls,nt_enhancers|ccre_els_free,C_orig_random,AUROC orig->random,1,0.877273,,0.822452,0.922215,0.8773,True
+dnabert2_frozen_cls,nt_enhancers|ccre_els_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.699352,,0.583234,0.800696,0.6994,True
+dnabert2_frozen_cls,nt_enhancers|ccre_els_free,E_random_random,AUROC random->random,1,0.869545,,0.813831,0.9196,0.8695,True
+dnabert2_frozen_cls,nt_enhancers|ccre_els_free,F_random_compeq,AUROC random->comp_eq,1,0.683704,,0.554642,0.794703,0.6837,True
+dnabert2_frozen_cls,nt_enhancers|ccre_els_free,S_shortcut_worth,A - B,1,0.142215,,0.072698,0.232076,0.1422,True
+dnabert2_frozen_cls,nt_enhancers|ccre_els_free,T_test_imbalance_ctl,C - B,1,0.148013,,0.064995,0.24904,0.1480,True
+dnabert2_frozen_cls,nt_enhancers|ccre_els_free,C_minus_A,C - A (should be ~0),1,0.005799,,-0.037352,0.043334,0.0058,True
+dnabert2_frozen_cls,nt_enhancers|ccre_els_free,U_train_size_ctl,E - D,1,0.170194,,0.062257,0.288544,0.1702,True
+dnabert2_frozen_cls,nt_enhancers|ccre_els_free,R_retention,(E-0.5)/(A-0.5),1,0.994808,,0.851675,1.124519,0.9948,True
+dnabert2_frozen_cls,nt_enhancers|ccre_els_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.185842,,0.072665,0.30336,0.1858,True
+dnabert2_frozen_cls,nt_enhancers|ccre_els_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.81506,,0.765014,0.863478,0.8151,True
+dnabert2_frozen_cls,nt_enhancers|ccre_els_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.819048,,0.766876,0.868507,0.8190,True
+dnabert2_frozen_cls,nt_enhancers|ccre_els_free,S_gc,A - AUROC(orig->gc_match),1,0.056414,,0.034101,0.083318,0.0564,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_any_free,A_orig_orig,AUROC orig->orig,1,0.888714,,0.880311,0.896845,0.8887,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_any_free,B_orig_compeq,AUROC orig->comp_eq,1,0.782895,,0.732979,0.824853,0.7829,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_any_free,C_orig_random,AUROC orig->random,1,0.87989,,0.852122,0.905013,0.8799,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_any_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.777732,,0.736114,0.821044,0.7777,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_any_free,E_random_random,AUROC random->random,1,0.863348,,0.831616,0.891224,0.8633,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_any_free,F_random_compeq,AUROC random->comp_eq,1,0.753171,,0.708367,0.794987,0.7532,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_any_free,S_shortcut_worth,A - B,1,0.105818,,0.064822,0.152662,0.1058,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_any_free,T_test_imbalance_ctl,C - B,1,0.096994,,0.051267,0.147344,0.0970,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_any_free,C_minus_A,C - A (should be ~0),1,-0.008824,,-0.035213,0.015064,-0.0088,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_any_free,U_train_size_ctl,E - D,1,0.085617,,0.036276,0.136316,0.0856,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_any_free,R_retention,(E-0.5)/(A-0.5),1,0.934746,,0.853687,1.002251,0.9347,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_any_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.110177,,0.063217,0.159025,0.1102,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_any_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.853924,,0.842544,0.864924,0.8539,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_any_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.86036,,0.848847,0.87113,0.8604,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_any_free,S_gc,A - AUROC(orig->gc_match),1,0.034789,,0.030022,0.039702,0.0348,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_els_free,A_orig_orig,AUROC orig->orig,1,0.874353,,0.865454,0.882725,0.8744,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_els_free,B_orig_compeq,AUROC orig->comp_eq,1,0.758734,,0.715972,0.79669,0.7587,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_els_free,C_orig_random,AUROC orig->random,1,0.875288,,0.848706,0.89834,0.8753,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_els_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.730445,,0.685895,0.770843,0.7304,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_els_free,E_random_random,AUROC random->random,1,0.858477,,0.829845,0.885441,0.8585,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_els_free,F_random_compeq,AUROC random->comp_eq,1,0.719699,,0.675532,0.760258,0.7197,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_els_free,S_shortcut_worth,A - B,1,0.115619,,0.07933,0.15542,0.1156,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_els_free,T_test_imbalance_ctl,C - B,1,0.116554,,0.074271,0.16116,0.1166,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_els_free,C_minus_A,C - A (should be ~0),1,0.000935,,-0.024529,0.022856,0.0009,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_els_free,U_train_size_ctl,E - D,1,0.128032,,0.079006,0.179869,0.1280,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_els_free,R_retention,(E-0.5)/(A-0.5),1,0.95759,,0.882522,1.02929,0.9576,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_els_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.138778,,0.092484,0.186845,0.1388,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_els_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.836285,,0.824807,0.847339,0.8363,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_els_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.843072,,0.831597,0.854019,0.8431,True
+dnabert2_frozen_mean,human_enhancers_cohn|ccre_els_free,S_gc,A - AUROC(orig->gc_match),1,0.038068,,0.0336,0.042845,0.0381,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_any_free,A_orig_orig,AUROC orig->orig,1,0.784528,,0.726889,0.844017,0.7845,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_any_free,B_orig_compeq,AUROC orig->comp_eq,1,0.631364,,0.511298,0.743502,0.6314,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_any_free,C_orig_random,AUROC orig->random,1,0.78129,,0.696636,0.85861,0.7813,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_any_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.639318,,0.502756,0.779137,0.6393,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_any_free,E_random_random,AUROC random->random,1,0.785,,0.700239,0.862349,0.7850,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_any_free,F_random_compeq,AUROC random->comp_eq,1,0.641364,,0.522209,0.761119,0.6414,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_any_free,S_shortcut_worth,A - B,1,0.153165,,0.07113,0.249013,0.1532,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_any_free,T_test_imbalance_ctl,C - B,1,0.149927,,0.054059,0.262443,0.1499,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_any_free,C_minus_A,C - A (should be ~0),1,-0.003238,,-0.057901,0.052813,-0.0032,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_any_free,U_train_size_ctl,E - D,1,0.145682,,-0.008321,0.30058,0.1457,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_any_free,R_retention,(E-0.5)/(A-0.5),1,1.001658,,0.776474,1.229945,1.0017,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_any_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.143636,,0.040065,0.259595,0.1436,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_any_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.695132,,0.620055,0.771096,0.6951,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_any_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.689079,,0.615665,0.770169,0.6891,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_any_free,S_gc,A - AUROC(orig->gc_match),1,0.089397,,0.057834,0.126478,0.0894,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_els_free,A_orig_orig,AUROC orig->orig,1,0.776358,,0.71872,0.829551,0.7764,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_els_free,B_orig_compeq,AUROC orig->comp_eq,1,0.59,,0.479616,0.704666,0.5900,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_els_free,C_orig_random,AUROC orig->random,1,0.785758,,0.70999,0.856434,0.7858,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_els_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.639444,,0.494335,0.764381,0.6394,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_els_free,E_random_random,AUROC random->random,1,0.790303,,0.710599,0.863446,0.7903,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_els_free,F_random_compeq,AUROC random->comp_eq,1,0.595741,,0.481459,0.712718,0.5957,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_els_free,S_shortcut_worth,A - B,1,0.186358,,0.100516,0.277471,0.1864,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_els_free,T_test_imbalance_ctl,C - B,1,0.195758,,0.08659,0.306875,0.1958,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_els_free,C_minus_A,C - A (should be ~0),1,0.009399,,-0.044217,0.066869,0.0094,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_els_free,U_train_size_ctl,E - D,1,0.150859,,0.012061,0.300534,0.1509,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_els_free,R_retention,(E-0.5)/(A-0.5),1,1.050459,,0.849484,1.289739,1.0505,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_els_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.194562,,0.089738,0.309134,0.1946,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_els_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.680595,,0.603574,0.751296,0.6806,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_els_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.676429,,0.599112,0.753396,0.6764,True
+dnabert2_frozen_mean,nt_enhancers_leakfree|ccre_els_free,S_gc,A - AUROC(orig->gc_match),1,0.095763,,0.062914,0.135875,0.0958,True
+dnabert2_frozen_mean,nt_enhancers|ccre_any_free,A_orig_orig,AUROC orig->orig,1,0.887201,,0.853009,0.920526,0.8872,True
+dnabert2_frozen_mean,nt_enhancers|ccre_any_free,B_orig_compeq,AUROC orig->comp_eq,1,0.790227,,0.706181,0.868793,0.7902,True
+dnabert2_frozen_mean,nt_enhancers|ccre_any_free,C_orig_random,AUROC orig->random,1,0.889194,,0.842427,0.930353,0.8892,True
+dnabert2_frozen_mean,nt_enhancers|ccre_any_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.743295,,0.621402,0.86085,0.7433,True
+dnabert2_frozen_mean,nt_enhancers|ccre_any_free,E_random_random,AUROC random->random,1,0.877661,,0.817192,0.929612,0.8777,True
+dnabert2_frozen_mean,nt_enhancers|ccre_any_free,F_random_compeq,AUROC random->comp_eq,1,0.752159,,0.639265,0.856399,0.7522,True
+dnabert2_frozen_mean,nt_enhancers|ccre_any_free,S_shortcut_worth,A - B,1,0.096974,,0.039952,0.165462,0.0970,True
+dnabert2_frozen_mean,nt_enhancers|ccre_any_free,T_test_imbalance_ctl,C - B,1,0.098966,,0.032293,0.173403,0.0990,True
+dnabert2_frozen_mean,nt_enhancers|ccre_any_free,C_minus_A,C - A (should be ~0),1,0.001992,,-0.028606,0.031584,0.0020,True
+dnabert2_frozen_mean,nt_enhancers|ccre_any_free,U_train_size_ctl,E - D,1,0.134366,,0.018796,0.25338,0.1344,True
+dnabert2_frozen_mean,nt_enhancers|ccre_any_free,R_retention,(E-0.5)/(A-0.5),1,0.975362,,0.853697,1.079051,0.9754,True
+dnabert2_frozen_mean,nt_enhancers|ccre_any_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.125502,,0.02944,0.235918,0.1255,True
+dnabert2_frozen_mean,nt_enhancers|ccre_any_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.836974,,0.787217,0.882212,0.8370,True
+dnabert2_frozen_mean,nt_enhancers|ccre_any_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.833158,,0.780547,0.87956,0.8332,True
+dnabert2_frozen_mean,nt_enhancers|ccre_any_free,S_gc,A - AUROC(orig->gc_match),1,0.050228,,0.031582,0.07343,0.0502,True
+dnabert2_frozen_mean,nt_enhancers|ccre_els_free,A_orig_orig,AUROC orig->orig,1,0.87841,,0.841451,0.911732,0.8784,True
+dnabert2_frozen_mean,nt_enhancers|ccre_els_free,B_orig_compeq,AUROC orig->comp_eq,1,0.741481,,0.641712,0.831983,0.7415,True
+dnabert2_frozen_mean,nt_enhancers|ccre_els_free,C_orig_random,AUROC orig->random,1,0.891515,,0.847207,0.932829,0.8915,True
+dnabert2_frozen_mean,nt_enhancers|ccre_els_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.741204,,0.613818,0.843861,0.7412,True
+dnabert2_frozen_mean,nt_enhancers|ccre_els_free,E_random_random,AUROC random->random,1,0.881212,,0.831286,0.928563,0.8812,True
+dnabert2_frozen_mean,nt_enhancers|ccre_els_free,F_random_compeq,AUROC random->comp_eq,1,0.705278,,0.590194,0.806271,0.7053,True
+dnabert2_frozen_mean,nt_enhancers|ccre_els_free,S_shortcut_worth,A - B,1,0.136929,,0.067607,0.218306,0.1369,True
+dnabert2_frozen_mean,nt_enhancers|ccre_els_free,T_test_imbalance_ctl,C - B,1,0.150034,,0.061044,0.245952,0.1500,True
+dnabert2_frozen_mean,nt_enhancers|ccre_els_free,C_minus_A,C - A (should be ~0),1,0.013105,,-0.018932,0.045931,0.0131,True
+dnabert2_frozen_mean,nt_enhancers|ccre_els_free,U_train_size_ctl,E - D,1,0.140008,,0.042168,0.271581,0.1400,True
+dnabert2_frozen_mean,nt_enhancers|ccre_els_free,R_retention,(E-0.5)/(A-0.5),1,1.007404,,0.893064,1.111718,1.0074,True
+dnabert2_frozen_mean,nt_enhancers|ccre_els_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.175934,,0.076513,0.283368,0.1759,True
+dnabert2_frozen_mean,nt_enhancers|ccre_els_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.820179,,0.765647,0.871596,0.8202,True
+dnabert2_frozen_mean,nt_enhancers|ccre_els_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.818274,,0.765802,0.867721,0.8183,True
+dnabert2_frozen_mean,nt_enhancers|ccre_els_free,S_gc,A - AUROC(orig->gc_match),1,0.058232,,0.037806,0.083373,0.0582,True
+hyenadna,human_enhancers_cohn|ccre_any_free,A_orig_orig,AUROC orig->orig,3,0.847651,0.005475,0.838133,0.857299,0.8513;0.8503;0.8414,True
+hyenadna,human_enhancers_cohn|ccre_any_free,B_orig_compeq,AUROC orig->comp_eq,3,0.653909,0.011669,0.604483,0.70124,0.6529;0.6661;0.6428,True
+hyenadna,human_enhancers_cohn|ccre_any_free,C_orig_random,AUROC orig->random,3,0.828189,0.009407,0.796197,0.855664,0.8340;0.8332;0.8173,True
+hyenadna,human_enhancers_cohn|ccre_any_free,D_compeq_compeq,AUROC comp_eq->comp_eq,3,0.531927,0.026532,0.504525,0.558419,0.5344;0.5571;0.5042,True
+hyenadna,human_enhancers_cohn|ccre_any_free,E_random_random,AUROC random->random,3,0.796026,0.002711,0.76018,0.827752,0.7969;0.7982;0.7930,True
+hyenadna,human_enhancers_cohn|ccre_any_free,F_random_compeq,AUROC random->comp_eq,3,0.57891,0.009268,0.525484,0.631182,0.5792;0.5880;0.5695,True
+hyenadna,human_enhancers_cohn|ccre_any_free,S_shortcut_worth,A - B,3,0.193741,0.008228,0.149279,0.242098,0.1984;0.1842;0.1986,True
+hyenadna,human_enhancers_cohn|ccre_any_free,T_test_imbalance_ctl,C - B,3,0.174279,0.006973,0.124909,0.227869,0.1811;0.1672;0.1746,True
+hyenadna,human_enhancers_cohn|ccre_any_free,C_minus_A,C - A (should be ~0),3,-0.019462,0.003949,-0.047707,0.006629,-0.0173;-0.0171;-0.0240,True
+hyenadna,human_enhancers_cohn|ccre_any_free,U_train_size_ctl,E - D,3,0.264099,0.023884,0.220491,0.306165,0.2625;0.2411;0.2888,True
+hyenadna,human_enhancers_cohn|ccre_any_free,R_retention,(E-0.5)/(A-0.5),3,0.851567,0.006564,0.758416,0.939528,0.8452;0.8512;0.8583,True
+hyenadna,human_enhancers_cohn|ccre_any_free,E_minus_F,E - F (random-trained: random vs comp_eq test),3,0.217116,0.006681,0.163017,0.273764,0.2177;0.2102;0.2235,True
+hyenadna,human_enhancers_cohn|ccre_any_free,G_orig_gcmatch,AUROC orig->gc_match,3,0.792592,0.008754,0.77963,0.80573,0.7969;0.7984;0.7825,True
+hyenadna,human_enhancers_cohn|ccre_any_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,3,0.792191,0.018627,0.779232,0.805032,0.7803;0.8137;0.7826,True
+hyenadna,human_enhancers_cohn|ccre_any_free,S_gc,A - AUROC(orig->gc_match),3,0.055058,0.003507,0.049252,0.061541,0.0544;0.0519;0.0588,True
+hyenadna,human_enhancers_cohn|ccre_els_free,A_orig_orig,AUROC orig->orig,3,0.834428,0.005071,0.823894,0.8431,0.8378;0.8369;0.8286,True
+hyenadna,human_enhancers_cohn|ccre_els_free,B_orig_compeq,AUROC orig->comp_eq,3,0.641547,0.010448,0.595664,0.684772,0.6409;0.6523;0.6314,True
+hyenadna,human_enhancers_cohn|ccre_els_free,C_orig_random,AUROC orig->random,3,0.831464,0.010224,0.805234,0.856669,0.8357;0.8389;0.8198,True
+hyenadna,human_enhancers_cohn|ccre_els_free,D_compeq_compeq,AUROC comp_eq->comp_eq,3,0.526931,0.022119,0.50125,0.551836,0.5264;0.5493;0.5051,True
+hyenadna,human_enhancers_cohn|ccre_els_free,E_random_random,AUROC random->random,3,0.799712,0.002488,0.768573,0.829574,0.7979;0.8026;0.7986,True
+hyenadna,human_enhancers_cohn|ccre_els_free,F_random_compeq,AUROC random->comp_eq,3,0.573089,0.007348,0.523955,0.616458,0.5738;0.5801;0.5654,True
+hyenadna,human_enhancers_cohn|ccre_els_free,S_shortcut_worth,A - B,3,0.192881,0.007131,0.152335,0.237804,0.1968;0.1846;0.1972,True
+hyenadna,human_enhancers_cohn|ccre_els_free,T_test_imbalance_ctl,C - B,3,0.189917,0.0043,0.141438,0.239455,0.1948;0.1866;0.1884,True
+hyenadna,human_enhancers_cohn|ccre_els_free,C_minus_A,C - A (should be ~0),3,-0.002964,0.005426,-0.026262,0.021806,-0.0021;0.0019;-0.0088,True
+hyenadna,human_enhancers_cohn|ccre_els_free,U_train_size_ctl,E - D,3,0.272781,0.020183,0.233169,0.31307,0.2715;0.2532;0.2936,True
+hyenadna,human_enhancers_cohn|ccre_els_free,R_retention,(E-0.5)/(A-0.5),3,0.896309,0.01343,0.808571,0.982882,0.8821;0.8980;0.9088,True
+hyenadna,human_enhancers_cohn|ccre_els_free,E_minus_F,E - F (random-trained: random vs comp_eq test),3,0.226623,0.005772,0.175896,0.279197,0.2242;0.2225;0.2332,True
+hyenadna,human_enhancers_cohn|ccre_els_free,G_orig_gcmatch,AUROC orig->gc_match,3,0.778397,0.008314,0.764197,0.78988,0.7822;0.7841;0.7689,True
+hyenadna,human_enhancers_cohn|ccre_els_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,3,0.778605,0.015617,0.764993,0.790305,0.7694;0.7966;0.7698,True
+hyenadna,human_enhancers_cohn|ccre_els_free,S_gc,A - AUROC(orig->gc_match),3,0.056031,0.003475,0.050975,0.061709,0.0555;0.0528;0.0597,True
+hyenadna,nt_enhancers_leakfree|ccre_any_free,A_orig_orig,AUROC orig->orig,3,0.730964,0.015924,0.668012,0.790931,0.7331;0.7457;0.7141,True
+hyenadna,nt_enhancers_leakfree|ccre_any_free,B_orig_compeq,AUROC orig->comp_eq,3,0.617879,0.022348,0.494949,0.730853,0.5927;0.6355;0.6255,True
+hyenadna,nt_enhancers_leakfree|ccre_any_free,C_orig_random,AUROC orig->random,3,0.73828,0.0168,0.645951,0.826071,0.7458;0.7500;0.7190,True
+hyenadna,nt_enhancers_leakfree|ccre_any_free,D_compeq_compeq,AUROC comp_eq->comp_eq,3,0.639394,0.026494,0.499239,0.771817,0.6309;0.6691;0.6182,True
+hyenadna,nt_enhancers_leakfree|ccre_any_free,E_random_random,AUROC random->random,3,0.774194,0.014358,0.686052,0.855146,0.7600;0.7739;0.7887,True
+hyenadna,nt_enhancers_leakfree|ccre_any_free,F_random_compeq,AUROC random->comp_eq,3,0.593182,0.027555,0.473176,0.708633,0.5773;0.5773;0.6250,True
+hyenadna,nt_enhancers_leakfree|ccre_any_free,S_shortcut_worth,A - B,3,0.113086,0.025975,0.033493,0.210972,0.1404;0.1103;0.0886,True
+hyenadna,nt_enhancers_leakfree|ccre_any_free,T_test_imbalance_ctl,C - B,3,0.120401,0.03018,0.008138,0.238209,0.1531;0.1145;0.0936,True
+hyenadna,nt_enhancers_leakfree|ccre_any_free,C_minus_A,C - A (should be ~0),3,0.007315,0.004697,-0.059377,0.077337,0.0127;0.0043;0.0049,True
+hyenadna,nt_enhancers_leakfree|ccre_any_free,U_train_size_ctl,E - D,3,0.1348,0.033244,-0.011909,0.284413,0.1291;0.1048;0.1705,True
+hyenadna,nt_enhancers_leakfree|ccre_any_free,R_retention,(E-0.5)/(A-0.5),3,1.192865,0.134833,0.90483,1.547112,1.1155;1.1146;1.3486,True
+hyenadna,nt_enhancers_leakfree|ccre_any_free,E_minus_F,E - F (random-trained: random vs comp_eq test),3,0.181012,0.016511,0.078196,0.298997,0.1827;0.1966;0.1637,True
+hyenadna,nt_enhancers_leakfree|ccre_any_free,G_orig_gcmatch,AUROC orig->gc_match,3,0.63614,0.014744,0.55877,0.713376,0.6329;0.6522;0.6233,True
+hyenadna,nt_enhancers_leakfree|ccre_any_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,3,0.628026,0.020415,0.548225,0.703281,0.6126;0.6512;0.6203,True
+hyenadna,nt_enhancers_leakfree|ccre_any_free,S_gc,A - AUROC(orig->gc_match),3,0.094824,0.004835,0.061092,0.134505,0.1002;0.0935;0.0908,True
+hyenadna,nt_enhancers_leakfree|ccre_els_free,A_orig_orig,AUROC orig->orig,3,0.722582,0.01445,0.662919,0.782407,0.7255;0.7353;0.7069,True
+hyenadna,nt_enhancers_leakfree|ccre_els_free,B_orig_compeq,AUROC orig->comp_eq,3,0.567654,0.010838,0.459979,0.677387,0.5552;0.5748;0.5730,True
+hyenadna,nt_enhancers_leakfree|ccre_els_free,C_orig_random,AUROC orig->random,3,0.742424,0.014724,0.655987,0.828285,0.7500;0.7518;0.7255,True
+hyenadna,nt_enhancers_leakfree|ccre_els_free,D_compeq_compeq,AUROC comp_eq->comp_eq,3,0.601481,0.032737,0.463364,0.730058,0.5937;0.6374;0.5733,True
+hyenadna,nt_enhancers_leakfree|ccre_els_free,E_random_random,AUROC random->random,3,0.771818,0.013198,0.690665,0.848341,0.7576;0.7742;0.7836,True
+hyenadna,nt_enhancers_leakfree|ccre_els_free,F_random_compeq,AUROC random->comp_eq,3,0.553951,0.030235,0.442067,0.657766,0.5270;0.5481;0.5867,True
+hyenadna,nt_enhancers_leakfree|ccre_els_free,S_shortcut_worth,A - B,3,0.154928,0.018853,0.072976,0.24331,0.1704;0.1605;0.1339,True
+hyenadna,nt_enhancers_leakfree|ccre_els_free,T_test_imbalance_ctl,C - B,3,0.17477,0.02125,0.065965,0.292268,0.1948;0.1770;0.1525,True
+hyenadna,nt_enhancers_leakfree|ccre_els_free,C_minus_A,C - A (should be ~0),3,0.019842,0.004124,-0.046153,0.087746,0.0245;0.0165;0.0186,True
+hyenadna,nt_enhancers_leakfree|ccre_els_free,U_train_size_ctl,E - D,3,0.170337,0.037158,0.026726,0.325657,0.1639;0.1368;0.2103,True
+hyenadna,nt_enhancers_leakfree|ccre_els_free,R_retention,(E-0.5)/(A-0.5),3,1.226145,0.126018,0.902959,1.582342,1.1420;1.1654;1.3710,True
+hyenadna,nt_enhancers_leakfree|ccre_els_free,E_minus_F,E - F (random-trained: random vs comp_eq test),3,0.217868,0.018234,0.120781,0.323939,0.2305;0.2261;0.1970,True
+hyenadna,nt_enhancers_leakfree|ccre_els_free,G_orig_gcmatch,AUROC orig->gc_match,3,0.622698,0.011707,0.54638,0.699725,0.6205;0.6354;0.6123,True
+hyenadna,nt_enhancers_leakfree|ccre_els_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,3,0.611468,0.023558,0.537009,0.686486,0.5933;0.6381;0.6030,True
+hyenadna,nt_enhancers_leakfree|ccre_els_free,S_gc,A - AUROC(orig->gc_match),3,0.099883,0.005229,0.066925,0.138755,0.1051;0.1000;0.0946,True
+hyenadna,nt_enhancers|ccre_any_free,A_orig_orig,AUROC orig->orig,3,0.796059,0.008858,0.750145,0.840215,0.8042;0.7973;0.7866,True
+hyenadna,nt_enhancers|ccre_any_free,B_orig_compeq,AUROC orig->comp_eq,3,0.691364,0.013022,0.578321,0.788605,0.6773;0.6939;0.7030,True
+hyenadna,nt_enhancers|ccre_any_free,C_orig_random,AUROC orig->random,3,0.800484,0.014948,0.718871,0.875773,0.8166;0.7977;0.7871,True
+hyenadna,nt_enhancers|ccre_any_free,D_compeq_compeq,AUROC comp_eq->comp_eq,3,0.668788,0.007742,0.532267,0.793911,0.6643;0.6777;0.6643,True
+hyenadna,nt_enhancers|ccre_any_free,E_random_random,AUROC random->random,3,0.828172,0.014238,0.758791,0.892672,0.8121;0.8332;0.8392,True
+hyenadna,nt_enhancers|ccre_any_free,F_random_compeq,AUROC random->comp_eq,3,0.659773,0.020779,0.551008,0.764407,0.6500;0.6457;0.6836,True
+hyenadna,nt_enhancers|ccre_any_free,S_shortcut_worth,A - B,3,0.104695,0.021657,0.020282,0.204055,0.1269;0.1035;0.0837,True
+hyenadna,nt_enhancers|ccre_any_free,T_test_imbalance_ctl,C - B,3,0.10912,0.02797,-0.000215,0.226613,0.1393;0.1039;0.0841,True
+hyenadna,nt_enhancers|ccre_any_free,C_minus_A,C - A (should be ~0),3,0.004425,0.006906,-0.060207,0.065239,0.0124;0.0004;0.0005,True
+hyenadna,nt_enhancers|ccre_any_free,U_train_size_ctl,E - D,3,0.159384,0.01396,0.022851,0.303554,0.1478;0.1555;0.1749,True
+hyenadna,nt_enhancers|ccre_any_free,R_retention,(E-0.5)/(A-0.5),3,1.110005,0.079272,0.904685,1.322142,1.0259;1.1207;1.1834,True
+hyenadna,nt_enhancers|ccre_any_free,E_minus_F,E - F (random-trained: random vs comp_eq test),3,0.168399,0.016899,0.061726,0.276422,0.1621;0.1875;0.1556,True
+hyenadna,nt_enhancers|ccre_any_free,G_orig_gcmatch,AUROC orig->gc_match,3,0.705307,0.005906,0.638926,0.767103,0.7098;0.7075;0.6986,True
+hyenadna,nt_enhancers|ccre_any_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,3,0.663904,0.008521,0.588996,0.733781,0.6564;0.6732;0.6622,True
+hyenadna,nt_enhancers|ccre_any_free,S_gc,A - AUROC(orig->gc_match),3,0.090752,0.003296,0.061138,0.127587,0.0944;0.0898;0.0880,True
+hyenadna,nt_enhancers|ccre_els_free,A_orig_orig,AUROC orig->orig,3,0.787216,0.008574,0.742605,0.831141,0.7961;0.7866;0.7790,True
+hyenadna,nt_enhancers|ccre_els_free,B_orig_compeq,AUROC orig->comp_eq,3,0.637099,0.008336,0.527162,0.741586,0.6369;0.6289;0.6456,True
+hyenadna,nt_enhancers|ccre_els_free,C_orig_random,AUROC orig->random,3,0.80399,0.014133,0.726426,0.878698,0.8198;0.7994;0.7927,True
+hyenadna,nt_enhancers|ccre_els_free,D_compeq_compeq,AUROC comp_eq->comp_eq,3,0.628457,0.014976,0.499155,0.753914,0.6239;0.6452;0.6163,True
+hyenadna,nt_enhancers|ccre_els_free,E_random_random,AUROC random->random,3,0.825505,0.013692,0.758199,0.891516,0.8097;0.8336;0.8332,True
+hyenadna,nt_enhancers|ccre_els_free,F_random_compeq,AUROC random->comp_eq,3,0.618086,0.025586,0.519393,0.715954,0.5946;0.6143;0.6454,True
+hyenadna,nt_enhancers|ccre_els_free,S_shortcut_worth,A - B,3,0.150117,0.01447,0.065593,0.246563,0.1592;0.1577;0.1334,True
+hyenadna,nt_enhancers|ccre_els_free,T_test_imbalance_ctl,C - B,3,0.166891,0.018184,0.055475,0.288896,0.1830;0.1705;0.1472,True
+hyenadna,nt_enhancers|ccre_els_free,C_minus_A,C - A (should be ~0),3,0.016774,0.006058,-0.048294,0.082874,0.0238;0.0128;0.0137,True
+hyenadna,nt_enhancers|ccre_els_free,U_train_size_ctl,E - D,3,0.197048,0.01723,0.061385,0.340003,0.1858;0.1885;0.2169,True
+hyenadna,nt_enhancers|ccre_els_free,R_retention,(E-0.5)/(A-0.5),3,1.134818,0.078427,0.910273,1.376961,1.0459;1.1643;1.1942,True
+hyenadna,nt_enhancers|ccre_els_free,E_minus_F,E - F (random-trained: random vs comp_eq test),3,0.207419,0.017117,0.107723,0.319109,0.2151;0.2194;0.1878,True
+hyenadna,nt_enhancers|ccre_els_free,G_orig_gcmatch,AUROC orig->gc_match,3,0.690397,0.005385,0.627138,0.753299,0.6963;0.6891;0.6858,True
+hyenadna,nt_enhancers|ccre_els_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,3,0.646587,0.011683,0.577516,0.718545,0.6367;0.6595;0.6436,True
+hyenadna,nt_enhancers|ccre_els_free,S_gc,A - AUROC(orig->gc_match),3,0.096819,0.003333,0.066688,0.133591,0.0998;0.0975;0.0932,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_any_free,A_orig_orig,AUROC orig->orig,1,0.847885,,0.837507,0.85831,0.8479,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_any_free,B_orig_compeq,AUROC orig->comp_eq,1,0.727014,,0.677691,0.773124,0.7270,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_any_free,C_orig_random,AUROC orig->random,1,0.840194,,0.807585,0.868517,0.8402,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_any_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.690536,,0.636732,0.738175,0.6905,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_any_free,E_random_random,AUROC random->random,1,0.792347,,0.75496,0.826621,0.7923,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_any_free,F_random_compeq,AUROC random->comp_eq,1,0.712112,,0.662388,0.759722,0.7121,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_any_free,S_shortcut_worth,A - B,1,0.120871,,0.07661,0.16597,0.1209,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_any_free,T_test_imbalance_ctl,C - B,1,0.11318,,0.060078,0.161276,0.1132,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_any_free,C_minus_A,C - A (should be ~0),1,-0.007691,,-0.03876,0.019434,-0.0077,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_any_free,U_train_size_ctl,E - D,1,0.101811,,0.042537,0.168444,0.1018,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_any_free,R_retention,(E-0.5)/(A-0.5),1,0.840354,,0.734506,0.939365,0.8404,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_any_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.080235,,0.022072,0.135455,0.0802,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_any_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.799899,,0.78611,0.812436,0.7999,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_any_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.805241,,0.792199,0.818626,0.8052,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_any_free,S_gc,A - AUROC(orig->gc_match),1,0.047986,,0.042644,0.054204,0.0480,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_els_free,A_orig_orig,AUROC orig->orig,1,0.831014,,0.819841,0.840979,0.8310,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_els_free,B_orig_compeq,AUROC orig->comp_eq,1,0.687674,,0.639281,0.732135,0.6877,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_els_free,C_orig_random,AUROC orig->random,1,0.83743,,0.811314,0.861897,0.8374,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_els_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.668541,,0.6187,0.714183,0.6685,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_els_free,E_random_random,AUROC random->random,1,0.797764,,0.761115,0.828613,0.7978,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_els_free,F_random_compeq,AUROC random->comp_eq,1,0.683006,,0.634807,0.726622,0.6830,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_els_free,S_shortcut_worth,A - B,1,0.14334,,0.100944,0.188372,0.1433,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_els_free,T_test_imbalance_ctl,C - B,1,0.149756,,0.102472,0.203702,0.1498,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_els_free,C_minus_A,C - A (should be ~0),1,0.006416,,-0.019382,0.030335,0.0064,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_els_free,U_train_size_ctl,E - D,1,0.129222,,0.065489,0.190708,0.1292,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_els_free,R_retention,(E-0.5)/(A-0.5),1,0.899549,,0.789463,0.992997,0.8995,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_els_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.114758,,0.059061,0.169385,0.1148,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_els_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.779403,,0.765348,0.793239,0.7794,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_els_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.78452,,0.770274,0.796749,0.7845,True
+hyenadna_frozen_mean,human_enhancers_cohn|ccre_els_free,S_gc,A - AUROC(orig->gc_match),1,0.051611,,0.045906,0.05734,0.0516,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_any_free,A_orig_orig,AUROC orig->orig,1,0.73673,,0.66648,0.801364,0.7367,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_any_free,B_orig_compeq,AUROC orig->comp_eq,1,0.617273,,0.489552,0.725192,0.6173,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_any_free,C_orig_random,AUROC orig->random,1,0.752581,,0.662395,0.836739,0.7526,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_any_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.671364,,0.547766,0.799926,0.6714,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_any_free,E_random_random,AUROC random->random,1,0.757903,,0.664899,0.840765,0.7579,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_any_free,F_random_compeq,AUROC random->comp_eq,1,0.622045,,0.478685,0.755841,0.6220,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_any_free,S_shortcut_worth,A - B,1,0.119457,,0.038762,0.21423,0.1195,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_any_free,T_test_imbalance_ctl,C - B,1,0.135308,,0.037643,0.253606,0.1353,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_any_free,C_minus_A,C - A (should be ~0),1,0.015851,,-0.040947,0.07689,0.0159,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_any_free,U_train_size_ctl,E - D,1,0.08654,,-0.070113,0.249886,0.0865,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_any_free,R_retention,(E-0.5)/(A-0.5),1,1.089442,,0.819624,1.405683,1.0894,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_any_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.135858,,0.020634,0.274854,0.1359,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_any_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.644605,,0.563735,0.720773,0.6446,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_any_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.621579,,0.540167,0.701841,0.6216,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_any_free,S_gc,A - AUROC(orig->gc_match),1,0.092124,,0.06046,0.129932,0.0921,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_els_free,A_orig_orig,AUROC orig->orig,1,0.730925,,0.669217,0.793416,0.7309,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_els_free,B_orig_compeq,AUROC orig->comp_eq,1,0.594815,,0.495032,0.702369,0.5948,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_els_free,C_orig_random,AUROC orig->random,1,0.760606,,0.677122,0.841176,0.7606,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_els_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.677037,,0.559379,0.793147,0.6770,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_els_free,E_random_random,AUROC random->random,1,0.76197,,0.677707,0.844993,0.7620,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_els_free,F_random_compeq,AUROC random->comp_eq,1,0.60463,,0.490983,0.714904,0.6046,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_els_free,S_shortcut_worth,A - B,1,0.13611,,0.061305,0.219644,0.1361,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_els_free,T_test_imbalance_ctl,C - B,1,0.165791,,0.065242,0.273978,0.1658,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_els_free,C_minus_A,C - A (should be ~0),1,0.029681,,-0.029129,0.086417,0.0297,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_els_free,U_train_size_ctl,E - D,1,0.084933,,-0.059321,0.23741,0.0849,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_els_free,R_retention,(E-0.5)/(A-0.5),1,1.134437,,0.872594,1.48537,1.1344,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_els_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.15734,,0.05149,0.279204,0.1573,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_els_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.636786,,0.558534,0.714257,0.6368,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_els_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.610119,,0.530894,0.692642,0.6101,True
+hyenadna_frozen_mean,nt_enhancers_leakfree|ccre_els_free,S_gc,A - AUROC(orig->gc_match),1,0.094139,,0.063607,0.132516,0.0941,True
+hyenadna_frozen_mean,nt_enhancers|ccre_any_free,A_orig_orig,AUROC orig->orig,1,0.854119,,0.814537,0.893127,0.8541,True
+hyenadna_frozen_mean,nt_enhancers|ccre_any_free,B_orig_compeq,AUROC orig->comp_eq,1,0.771136,,0.67529,0.852942,0.7711,True
+hyenadna_frozen_mean,nt_enhancers|ccre_any_free,C_orig_random,AUROC orig->random,1,0.864194,,0.811134,0.916941,0.8642,True
+hyenadna_frozen_mean,nt_enhancers|ccre_any_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.760455,,0.642858,0.871788,0.7605,True
+hyenadna_frozen_mean,nt_enhancers|ccre_any_free,E_random_random,AUROC random->random,1,0.860565,,0.803286,0.913472,0.8606,True
+hyenadna_frozen_mean,nt_enhancers|ccre_any_free,F_random_compeq,AUROC random->comp_eq,1,0.738523,,0.615199,0.843794,0.7385,True
+hyenadna_frozen_mean,nt_enhancers|ccre_any_free,S_shortcut_worth,A - B,1,0.082983,,0.018933,0.163411,0.0830,True
+hyenadna_frozen_mean,nt_enhancers|ccre_any_free,T_test_imbalance_ctl,C - B,1,0.093057,,0.006986,0.190004,0.0931,True
+hyenadna_frozen_mean,nt_enhancers|ccre_any_free,C_minus_A,C - A (should be ~0),1,0.010074,,-0.031375,0.050317,0.0101,True
+hyenadna_frozen_mean,nt_enhancers|ccre_any_free,U_train_size_ctl,E - D,1,0.10011,,-0.026254,0.238536,0.1001,True
+hyenadna_frozen_mean,nt_enhancers|ccre_any_free,R_retention,(E-0.5)/(A-0.5),1,1.0182,,0.886927,1.144717,1.0182,True
+hyenadna_frozen_mean,nt_enhancers|ccre_any_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.122042,,0.009631,0.253472,0.1220,True
+hyenadna_frozen_mean,nt_enhancers|ccre_any_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.794408,,0.73921,0.846673,0.7944,True
+hyenadna_frozen_mean,nt_enhancers|ccre_any_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.7675,,0.708856,0.822451,0.7675,True
+hyenadna_frozen_mean,nt_enhancers|ccre_any_free,S_gc,A - AUROC(orig->gc_match),1,0.059712,,0.037949,0.087559,0.0597,True
+hyenadna_frozen_mean,nt_enhancers|ccre_els_free,A_orig_orig,AUROC orig->orig,1,0.848439,,0.808566,0.886389,0.8484,True
+hyenadna_frozen_mean,nt_enhancers|ccre_els_free,B_orig_compeq,AUROC orig->comp_eq,1,0.742222,,0.64593,0.824942,0.7422,True
+hyenadna_frozen_mean,nt_enhancers|ccre_els_free,C_orig_random,AUROC orig->random,1,0.868939,,0.815081,0.920629,0.8689,True
+hyenadna_frozen_mean,nt_enhancers|ccre_els_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.763333,,0.65768,0.859339,0.7633,True
+hyenadna_frozen_mean,nt_enhancers|ccre_els_free,E_random_random,AUROC random->random,1,0.863712,,0.806529,0.918446,0.8637,True
+hyenadna_frozen_mean,nt_enhancers|ccre_els_free,F_random_compeq,AUROC random->comp_eq,1,0.72787,,0.625197,0.827224,0.7279,True
+hyenadna_frozen_mean,nt_enhancers|ccre_els_free,S_shortcut_worth,A - B,1,0.106217,,0.039515,0.187767,0.1062,True
+hyenadna_frozen_mean,nt_enhancers|ccre_els_free,T_test_imbalance_ctl,C - B,1,0.126717,,0.045148,0.227284,0.1267,True
+hyenadna_frozen_mean,nt_enhancers|ccre_els_free,C_minus_A,C - A (should be ~0),1,0.0205,,-0.021151,0.059667,0.0205,True
+hyenadna_frozen_mean,nt_enhancers|ccre_els_free,U_train_size_ctl,E - D,1,0.100379,,-0.014908,0.221515,0.1004,True
+hyenadna_frozen_mean,nt_enhancers|ccre_els_free,R_retention,(E-0.5)/(A-0.5),1,1.043832,,0.908337,1.185488,1.0438,True
+hyenadna_frozen_mean,nt_enhancers|ccre_els_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.135842,,0.041997,0.25255,0.1358,True
+hyenadna_frozen_mean,nt_enhancers|ccre_els_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.78506,,0.729783,0.837887,0.7851,True
+hyenadna_frozen_mean,nt_enhancers|ccre_els_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.754405,,0.69327,0.811215,0.7544,True
+hyenadna_frozen_mean,nt_enhancers|ccre_els_free,S_gc,A - AUROC(orig->gc_match),1,0.06338,,0.041451,0.091675,0.0634,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_any_free,A_orig_orig,AUROC orig->orig,1,0.771617,,0.759865,0.782943,0.7716,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_any_free,B_orig_compeq,AUROC orig->comp_eq,1,0.654646,,0.606396,0.703874,0.6546,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_any_free,C_orig_random,AUROC orig->random,1,0.770283,,0.733227,0.80399,0.7703,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_any_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.538156,,0.479799,0.593752,0.5382,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_any_free,E_random_random,AUROC random->random,1,0.711335,,0.670582,0.747854,0.7113,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_any_free,F_random_compeq,AUROC random->comp_eq,1,0.642668,,0.593624,0.689646,0.6427,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_any_free,S_shortcut_worth,A - B,1,0.116972,,0.070305,0.163,0.1170,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_any_free,T_test_imbalance_ctl,C - B,1,0.115637,,0.059413,0.171042,0.1156,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_any_free,C_minus_A,C - A (should be ~0),1,-0.001335,,-0.034653,0.031184,-0.0013,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_any_free,U_train_size_ctl,E - D,1,0.17318,,0.101182,0.242202,0.1732,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_any_free,R_retention,(E-0.5)/(A-0.5),1,0.778064,,0.632776,0.915436,0.7781,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_any_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.068668,,0.012676,0.123358,0.0687,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_any_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.729563,,0.713335,0.743915,0.7296,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_any_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.714308,,0.698439,0.728964,0.7143,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_any_free,S_gc,A - AUROC(orig->gc_match),1,0.042054,,0.034885,0.049275,0.0421,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_els_free,A_orig_orig,AUROC orig->orig,1,0.757392,,0.745142,0.767988,0.7574,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_els_free,B_orig_compeq,AUROC orig->comp_eq,1,0.623938,,0.576584,0.668645,0.6239,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_els_free,C_orig_random,AUROC orig->random,1,0.768263,,0.734761,0.800557,0.7683,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_els_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.519206,,0.471779,0.570121,0.5192,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_els_free,E_random_random,AUROC random->random,1,0.707062,,0.671559,0.741699,0.7071,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_els_free,F_random_compeq,AUROC random->comp_eq,1,0.60427,,0.557885,0.649055,0.6043,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_els_free,S_shortcut_worth,A - B,1,0.133454,,0.08963,0.178841,0.1335,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_els_free,T_test_imbalance_ctl,C - B,1,0.144325,,0.09181,0.198689,0.1443,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_els_free,C_minus_A,C - A (should be ~0),1,0.010871,,-0.02059,0.043132,0.0109,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_els_free,U_train_size_ctl,E - D,1,0.187857,,0.126751,0.245652,0.1879,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_els_free,R_retention,(E-0.5)/(A-0.5),1,0.804463,,0.669629,0.936652,0.8045,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_els_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.102792,,0.050405,0.155351,0.1028,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_els_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.712108,,0.697471,0.725514,0.7121,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_els_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.698331,,0.68387,0.713146,0.6983,True
+hyenadna_frozen_sep,human_enhancers_cohn|ccre_els_free,S_gc,A - AUROC(orig->gc_match),1,0.045284,,0.038956,0.051384,0.0453,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_any_free,A_orig_orig,AUROC orig->orig,1,0.686289,,0.620282,0.753379,0.6863,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_any_free,B_orig_compeq,AUROC orig->comp_eq,1,0.597727,,0.485781,0.716932,0.5977,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_any_free,C_orig_random,AUROC orig->random,1,0.677742,,0.57418,0.776371,0.6777,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_any_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.573409,,0.426946,0.698642,0.5734,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_any_free,E_random_random,AUROC random->random,1,0.656613,,0.547891,0.762013,0.6566,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_any_free,F_random_compeq,AUROC random->comp_eq,1,0.616364,,0.479051,0.747783,0.6164,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_any_free,S_shortcut_worth,A - B,1,0.088562,,-0.005748,0.187796,0.0886,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_any_free,T_test_imbalance_ctl,C - B,1,0.080015,,-0.045124,0.19258,0.0800,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_any_free,C_minus_A,C - A (should be ~0),1,-0.008547,,-0.080903,0.070583,-0.0085,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_any_free,U_train_size_ctl,E - D,1,0.083204,,-0.073097,0.249169,0.0832,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_any_free,R_retention,(E-0.5)/(A-0.5),1,0.840697,,0.314444,1.35969,0.8407,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_any_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.040249,,-0.093176,0.188871,0.0402,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_any_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.595395,,0.512927,0.680326,0.5954,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_any_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.597368,,0.516512,0.680641,0.5974,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_any_free,S_gc,A - AUROC(orig->gc_match),1,0.090895,,0.053231,0.134632,0.0909,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_els_free,A_orig_orig,AUROC orig->orig,1,0.675491,,0.613333,0.735746,0.6755,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_els_free,B_orig_compeq,AUROC orig->comp_eq,1,0.53963,,0.423502,0.651968,0.5396,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_els_free,C_orig_random,AUROC orig->random,1,0.682121,,0.587932,0.770544,0.6821,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_els_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.558333,,0.42336,0.687274,0.5583,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_els_free,E_random_random,AUROC random->random,1,0.656212,,0.545948,0.755796,0.6562,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_els_free,F_random_compeq,AUROC random->comp_eq,1,0.548704,,0.427182,0.671437,0.5487,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_els_free,S_shortcut_worth,A - B,1,0.135862,,0.038366,0.234593,0.1359,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_els_free,T_test_imbalance_ctl,C - B,1,0.142492,,0.01851,0.263794,0.1425,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_els_free,C_minus_A,C - A (should be ~0),1,0.00663,,-0.06397,0.083072,0.0066,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_els_free,U_train_size_ctl,E - D,1,0.097879,,-0.066115,0.252024,0.0979,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_els_free,R_retention,(E-0.5)/(A-0.5),1,0.890142,,0.30921,1.483449,0.8901,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_els_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.107508,,-0.02504,0.236287,0.1075,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_els_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.575476,,0.49318,0.650594,0.5755,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_els_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.57619,,0.4969,0.651418,0.5762,True
+hyenadna_frozen_sep,nt_enhancers_leakfree|ccre_els_free,S_gc,A - AUROC(orig->gc_match),1,0.100015,,0.064124,0.143147,0.1000,True
+hyenadna_frozen_sep,nt_enhancers|ccre_any_free,A_orig_orig,AUROC orig->orig,1,0.828648,,0.786165,0.869434,0.8286,True
+hyenadna_frozen_sep,nt_enhancers|ccre_any_free,B_orig_compeq,AUROC orig->comp_eq,1,0.765455,,0.672754,0.847275,0.7655,True
+hyenadna_frozen_sep,nt_enhancers|ccre_any_free,C_orig_random,AUROC orig->random,1,0.82371,,0.757206,0.88355,0.8237,True
+hyenadna_frozen_sep,nt_enhancers|ccre_any_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.666705,,0.52582,0.791502,0.6667,True
+hyenadna_frozen_sep,nt_enhancers|ccre_any_free,E_random_random,AUROC random->random,1,0.758145,,0.662607,0.846805,0.7581,True
+hyenadna_frozen_sep,nt_enhancers|ccre_any_free,F_random_compeq,AUROC random->comp_eq,1,0.714432,,0.583707,0.836574,0.7144,True
+hyenadna_frozen_sep,nt_enhancers|ccre_any_free,S_shortcut_worth,A - B,1,0.063193,,0.001433,0.136981,0.0632,True
+hyenadna_frozen_sep,nt_enhancers|ccre_any_free,T_test_imbalance_ctl,C - B,1,0.058255,,-0.017548,0.141993,0.0583,True
+hyenadna_frozen_sep,nt_enhancers|ccre_any_free,C_minus_A,C - A (should be ~0),1,-0.004938,,-0.053121,0.04192,-0.0049,True
+hyenadna_frozen_sep,nt_enhancers|ccre_any_free,U_train_size_ctl,E - D,1,0.091441,,-0.054338,0.243515,0.0914,True
+hyenadna_frozen_sep,nt_enhancers|ccre_any_free,R_retention,(E-0.5)/(A-0.5),1,0.785477,,0.505613,1.022399,0.7855,True
+hyenadna_frozen_sep,nt_enhancers|ccre_any_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.043713,,-0.103589,0.183571,0.0437,True
+hyenadna_frozen_sep,nt_enhancers|ccre_any_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.770526,,0.715837,0.826887,0.7705,True
+hyenadna_frozen_sep,nt_enhancers|ccre_any_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.755921,,0.698125,0.815695,0.7559,True
+hyenadna_frozen_sep,nt_enhancers|ccre_any_free,S_gc,A - AUROC(orig->gc_match),1,0.058121,,0.033599,0.084643,0.0581,True
+hyenadna_frozen_sep,nt_enhancers|ccre_els_free,A_orig_orig,AUROC orig->orig,1,0.818555,,0.774669,0.857173,0.8186,True
+hyenadna_frozen_sep,nt_enhancers|ccre_els_free,B_orig_compeq,AUROC orig->comp_eq,1,0.705926,,0.603036,0.801866,0.7059,True
+hyenadna_frozen_sep,nt_enhancers|ccre_els_free,C_orig_random,AUROC orig->random,1,0.826818,,0.768003,0.88462,0.8268,True
+hyenadna_frozen_sep,nt_enhancers|ccre_els_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.656204,,0.535318,0.76661,0.6562,True
+hyenadna_frozen_sep,nt_enhancers|ccre_els_free,E_random_random,AUROC random->random,1,0.760227,,0.681826,0.837479,0.7602,True
+hyenadna_frozen_sep,nt_enhancers|ccre_els_free,F_random_compeq,AUROC random->comp_eq,1,0.641111,,0.527405,0.754564,0.6411,True
+hyenadna_frozen_sep,nt_enhancers|ccre_els_free,S_shortcut_worth,A - B,1,0.112629,,0.034204,0.199264,0.1126,True
+hyenadna_frozen_sep,nt_enhancers|ccre_els_free,T_test_imbalance_ctl,C - B,1,0.120892,,0.025109,0.223219,0.1209,True
+hyenadna_frozen_sep,nt_enhancers|ccre_els_free,C_minus_A,C - A (should be ~0),1,0.008263,,-0.037128,0.056034,0.0083,True
+hyenadna_frozen_sep,nt_enhancers|ccre_els_free,U_train_size_ctl,E - D,1,0.104024,,-0.026315,0.251773,0.1040,True
+hyenadna_frozen_sep,nt_enhancers|ccre_els_free,R_retention,(E-0.5)/(A-0.5),1,0.816899,,0.577794,1.043745,0.8169,True
+hyenadna_frozen_sep,nt_enhancers|ccre_els_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.119116,,-0.018955,0.25383,0.1191,True
+hyenadna_frozen_sep,nt_enhancers|ccre_els_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.75119,,0.692108,0.804733,0.7512,True
+hyenadna_frozen_sep,nt_enhancers|ccre_els_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.736548,,0.677511,0.795135,0.7365,True
+hyenadna_frozen_sep,nt_enhancers|ccre_els_free,S_gc,A - AUROC(orig->gc_match),1,0.067364,,0.043158,0.097596,0.0674,True
+kmer_lgbm,human_enhancers_cohn|ccre_any_free,A_orig_orig,AUROC orig->orig,1,0.86073,,0.850975,0.869848,0.8607,True
+kmer_lgbm,human_enhancers_cohn|ccre_any_free,B_orig_compeq,AUROC orig->comp_eq,1,0.696267,,0.647998,0.741796,0.6963,True
+kmer_lgbm,human_enhancers_cohn|ccre_any_free,C_orig_random,AUROC orig->random,1,0.86196,,0.834621,0.885092,0.8620,True
+kmer_lgbm,human_enhancers_cohn|ccre_any_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.672271,,0.621322,0.723244,0.6723,True
+kmer_lgbm,human_enhancers_cohn|ccre_any_free,E_random_random,AUROC random->random,1,0.820525,,0.786195,0.851759,0.8205,True
+kmer_lgbm,human_enhancers_cohn|ccre_any_free,F_random_compeq,AUROC random->comp_eq,1,0.633662,,0.582806,0.682934,0.6337,True
+kmer_lgbm,human_enhancers_cohn|ccre_any_free,S_shortcut_worth,A - B,1,0.164462,,0.120746,0.210311,0.1645,True
+kmer_lgbm,human_enhancers_cohn|ccre_any_free,T_test_imbalance_ctl,C - B,1,0.165693,,0.116115,0.215008,0.1657,True
+kmer_lgbm,human_enhancers_cohn|ccre_any_free,C_minus_A,C - A (should be ~0),1,0.00123,,-0.023695,0.022946,0.0012,True
+kmer_lgbm,human_enhancers_cohn|ccre_any_free,U_train_size_ctl,E - D,1,0.148254,,0.085031,0.211648,0.1483,True
+kmer_lgbm,human_enhancers_cohn|ccre_any_free,R_retention,(E-0.5)/(A-0.5),1,0.888546,,0.796194,0.974269,0.8885,True
+kmer_lgbm,human_enhancers_cohn|ccre_any_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.186863,,0.133155,0.247398,0.1869,True
+kmer_lgbm,human_enhancers_cohn|ccre_any_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.809672,,0.79714,0.821784,0.8097,True
+kmer_lgbm,human_enhancers_cohn|ccre_any_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.817079,,0.804273,0.828336,0.8171,True
+kmer_lgbm,human_enhancers_cohn|ccre_any_free,S_gc,A - AUROC(orig->gc_match),1,0.051058,,0.045391,0.057115,0.0511,True
+kmer_lgbm,human_enhancers_cohn|ccre_els_free,A_orig_orig,AUROC orig->orig,1,0.84583,,0.835945,0.855254,0.8458,True
+kmer_lgbm,human_enhancers_cohn|ccre_els_free,B_orig_compeq,AUROC orig->comp_eq,1,0.669354,,0.622165,0.708992,0.6694,True
+kmer_lgbm,human_enhancers_cohn|ccre_els_free,C_orig_random,AUROC orig->random,1,0.857427,,0.834563,0.87943,0.8574,True
+kmer_lgbm,human_enhancers_cohn|ccre_els_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.653959,,0.60581,0.698623,0.6540,True
+kmer_lgbm,human_enhancers_cohn|ccre_els_free,E_random_random,AUROC random->random,1,0.817256,,0.78504,0.846943,0.8173,True
+kmer_lgbm,human_enhancers_cohn|ccre_els_free,F_random_compeq,AUROC random->comp_eq,1,0.621529,,0.573728,0.665065,0.6215,True
+kmer_lgbm,human_enhancers_cohn|ccre_els_free,S_shortcut_worth,A - B,1,0.176476,,0.13917,0.220237,0.1765,True
+kmer_lgbm,human_enhancers_cohn|ccre_els_free,T_test_imbalance_ctl,C - B,1,0.188073,,0.142842,0.235761,0.1881,True
+kmer_lgbm,human_enhancers_cohn|ccre_els_free,C_minus_A,C - A (should be ~0),1,0.011597,,-0.009143,0.033099,0.0116,True
+kmer_lgbm,human_enhancers_cohn|ccre_els_free,U_train_size_ctl,E - D,1,0.163296,,0.105602,0.219755,0.1633,True
+kmer_lgbm,human_enhancers_cohn|ccre_els_free,R_retention,(E-0.5)/(A-0.5),1,0.917374,,0.829084,1.002834,0.9174,True
+kmer_lgbm,human_enhancers_cohn|ccre_els_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.195727,,0.145138,0.244508,0.1957,True
+kmer_lgbm,human_enhancers_cohn|ccre_els_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.792445,,0.778717,0.804721,0.7924,True
+kmer_lgbm,human_enhancers_cohn|ccre_els_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.800288,,0.787451,0.812046,0.8003,True
+kmer_lgbm,human_enhancers_cohn|ccre_els_free,S_gc,A - AUROC(orig->gc_match),1,0.053386,,0.048055,0.058748,0.0534,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_any_free,A_orig_orig,AUROC orig->orig,1,0.769811,,0.706265,0.829461,0.7698,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_any_free,B_orig_compeq,AUROC orig->comp_eq,1,0.651818,,0.536262,0.761775,0.6518,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_any_free,C_orig_random,AUROC orig->random,1,0.798065,,0.710627,0.871012,0.7981,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_any_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.665,,0.535928,0.779029,0.6650,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_any_free,E_random_random,AUROC random->random,1,0.771452,,0.677794,0.85982,0.7715,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_any_free,F_random_compeq,AUROC random->comp_eq,1,0.595909,,0.449855,0.733702,0.5959,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_any_free,S_shortcut_worth,A - B,1,0.117993,,0.039613,0.208535,0.1180,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_any_free,T_test_imbalance_ctl,C - B,1,0.146246,,0.043371,0.25802,0.1462,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_any_free,C_minus_A,C - A (should be ~0),1,0.028253,,-0.027359,0.08303,0.0283,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_any_free,U_train_size_ctl,E - D,1,0.106452,,-0.03535,0.260435,0.1065,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_any_free,R_retention,(E-0.5)/(A-0.5),1,1.006079,,0.736876,1.291592,1.0061,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_any_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.175543,,0.035292,0.322471,0.1755,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_any_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.6675,,0.586682,0.74475,0.6675,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_any_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.651579,,0.576175,0.727562,0.6516,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_any_free,S_gc,A - AUROC(orig->gc_match),1,0.102311,,0.069462,0.141792,0.1023,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_els_free,A_orig_orig,AUROC orig->orig,1,0.762254,,0.7012,0.818725,0.7623,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_els_free,B_orig_compeq,AUROC orig->comp_eq,1,0.616296,,0.506453,0.726233,0.6163,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_els_free,C_orig_random,AUROC orig->random,1,0.798485,,0.719917,0.866077,0.7985,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_els_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.646296,,0.529695,0.755107,0.6463,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_els_free,E_random_random,AUROC random->random,1,0.771667,,0.688675,0.851082,0.7717,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_els_free,F_random_compeq,AUROC random->comp_eq,1,0.552407,,0.430141,0.683395,0.5524,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_els_free,S_shortcut_worth,A - B,1,0.145958,,0.072254,0.229443,0.1460,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_els_free,T_test_imbalance_ctl,C - B,1,0.182189,,0.083125,0.288365,0.1822,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_els_free,C_minus_A,C - A (should be ~0),1,0.036231,,-0.018374,0.091078,0.0362,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_els_free,U_train_size_ctl,E - D,1,0.12537,,-0.019422,0.275603,0.1254,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_els_free,R_retention,(E-0.5)/(A-0.5),1,1.03589,,0.789496,1.332729,1.0359,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_els_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.219259,,0.08811,0.348853,0.2193,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_els_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.653214,,0.574234,0.726186,0.6532,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_els_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.645714,,0.57243,0.717329,0.6457,True
+kmer_lgbm,nt_enhancers_leakfree|ccre_els_free,S_gc,A - AUROC(orig->gc_match),1,0.10904,,0.078983,0.147567,0.1090,True
+kmer_lgbm,nt_enhancers|ccre_any_free,A_orig_orig,AUROC orig->orig,1,0.878679,,0.842337,0.912438,0.8787,True
+kmer_lgbm,nt_enhancers|ccre_any_free,B_orig_compeq,AUROC orig->comp_eq,1,0.803182,,0.725845,0.873401,0.8032,True
+kmer_lgbm,nt_enhancers|ccre_any_free,C_orig_random,AUROC orig->random,1,0.898387,,0.856392,0.939905,0.8984,True
+kmer_lgbm,nt_enhancers|ccre_any_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.780909,,0.674933,0.868172,0.7809,True
+kmer_lgbm,nt_enhancers|ccre_any_free,E_random_random,AUROC random->random,1,0.847984,,0.777243,0.909627,0.8480,True
+kmer_lgbm,nt_enhancers|ccre_any_free,F_random_compeq,AUROC random->comp_eq,1,0.683409,,0.533159,0.809407,0.6834,True
+kmer_lgbm,nt_enhancers|ccre_any_free,S_shortcut_worth,A - B,1,0.075497,,0.021568,0.137628,0.0755,True
+kmer_lgbm,nt_enhancers|ccre_any_free,T_test_imbalance_ctl,C - B,1,0.095205,,0.028152,0.167172,0.0952,True
+kmer_lgbm,nt_enhancers|ccre_any_free,C_minus_A,C - A (should be ~0),1,0.019708,,-0.010953,0.049067,0.0197,True
+kmer_lgbm,nt_enhancers|ccre_any_free,U_train_size_ctl,E - D,1,0.067075,,-0.050812,0.187837,0.0671,True
+kmer_lgbm,nt_enhancers|ccre_any_free,R_retention,(E-0.5)/(A-0.5),1,0.918941,,0.743071,1.069035,0.9189,True
+kmer_lgbm,nt_enhancers|ccre_any_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.164575,,0.032204,0.310856,0.1646,True
+kmer_lgbm,nt_enhancers|ccre_any_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.820724,,0.771127,0.86738,0.8207,True
+kmer_lgbm,nt_enhancers|ccre_any_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.805855,,0.752472,0.855605,0.8059,True
+kmer_lgbm,nt_enhancers|ccre_any_free,S_gc,A - AUROC(orig->gc_match),1,0.057956,,0.037651,0.082524,0.0580,True
+kmer_lgbm,nt_enhancers|ccre_els_free,A_orig_orig,AUROC orig->orig,1,0.87185,,0.835333,0.906559,0.8718,True
+kmer_lgbm,nt_enhancers|ccre_els_free,B_orig_compeq,AUROC orig->comp_eq,1,0.766852,,0.674265,0.846524,0.7669,True
+kmer_lgbm,nt_enhancers|ccre_els_free,C_orig_random,AUROC orig->random,1,0.898636,,0.855191,0.937133,0.8986,True
+kmer_lgbm,nt_enhancers|ccre_els_free,D_compeq_compeq,AUROC comp_eq->comp_eq,1,0.768704,,0.674686,0.844432,0.7687,True
+kmer_lgbm,nt_enhancers|ccre_els_free,E_random_random,AUROC random->random,1,0.850379,,0.783051,0.910437,0.8504,True
+kmer_lgbm,nt_enhancers|ccre_els_free,F_random_compeq,AUROC random->comp_eq,1,0.639444,,0.51172,0.762464,0.6394,True
+kmer_lgbm,nt_enhancers|ccre_els_free,S_shortcut_worth,A - B,1,0.104998,,0.043262,0.176837,0.1050,True
+kmer_lgbm,nt_enhancers|ccre_els_free,T_test_imbalance_ctl,C - B,1,0.131785,,0.057737,0.216901,0.1318,True
+kmer_lgbm,nt_enhancers|ccre_els_free,C_minus_A,C - A (should be ~0),1,0.026787,,-0.003942,0.058162,0.0268,True
+kmer_lgbm,nt_enhancers|ccre_els_free,U_train_size_ctl,E - D,1,0.081675,,-0.020767,0.19255,0.0817,True
+kmer_lgbm,nt_enhancers|ccre_els_free,R_retention,(E-0.5)/(A-0.5),1,0.942259,,0.789854,1.094635,0.9423,True
+kmer_lgbm,nt_enhancers|ccre_els_free,E_minus_F,E - F (random-trained: random vs comp_eq test),1,0.210934,,0.082448,0.338776,0.2109,True
+kmer_lgbm,nt_enhancers|ccre_els_free,G_orig_gcmatch,AUROC orig->gc_match,1,0.8075,,0.756848,0.854942,0.8075,True
+kmer_lgbm,nt_enhancers|ccre_els_free,H_gcmatch_gcmatch,AUROC gc_match->gc_match,1,0.799286,,0.744183,0.849802,0.7993,True
+kmer_lgbm,nt_enhancers|ccre_els_free,S_gc,A - AUROC(orig->gc_match),1,0.06435,,0.044605,0.090094,0.0643,True

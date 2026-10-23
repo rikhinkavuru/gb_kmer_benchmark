@@ -1,0 +1,194 @@
+{
+  "task": "emp_H3K4me1",
+  "species": "yeast",
+  "family": "epigenetic mark (500 bp)",
+  "neg_construction": "Pokholok et al. yeast ChIP-chip windows split 8:1:1 (both classes from the genome)",
+  "n_classes": 2,
+  "binary": true,
+  "n_train": 25341,
+  "n_dev": 3168,
+  "n_test": 3168,
+  "pos_frac_test": 0.5473,
+  "k": 6,
+  "val_mcc": {
+    "3": 0.296991,
+    "4": 0.319157,
+    "5": 0.3498,
+    "6": 0.382565
+  },
+  "learnability": {
+    "mcc": 0.4141235319167935,
+    "mcc_ci": [
+      0.3820473363505846,
+      0.4460384602505398
+    ],
+    "auroc": 0.7727330492456232,
+    "auroc_ci": [
+      0.7557720731015484,
+      0.7894897036885073
+    ],
+    "f1_macro": 0.7044186047461221,
+    "f1_macro_ci": [
+      0.6883694418450308,
+      0.7208605385797324
+    ],
+    "acc": 0.711489898989899,
+    "n_test": 3168
+  },
+  "composition_only": {
+    "mcc": 0.24387646969703025,
+    "mcc_ci": [
+      0.2095214393292231,
+      0.2775617481516333
+    ],
+    "auroc": 0.6699459010776352,
+    "auroc_ci": [
+      0.6509839756839235,
+      0.6880081725112205
+    ],
+    "f1_macro": 0.6187933720595737
+  },
+  "composition_fraction": {
+    "value": 0.6231,
+    "ci": [
+      0.5682,
+      0.6798
+    ],
+    "full_auroc": 0.7727,
+    "comp_only_auroc": 0.6699,
+    "definition": "(AUROC_comp_only-0.5)/(AUROC_full-0.5)"
+  },
+  "tier": "hard",
+  "route2_positional": {
+    "spectrum_mcc": 0.3828,
+    "positional_mcc": 0.3573,
+    "delta_mcc": -0.0255,
+    "delta_ci": [
+      -0.0539,
+      0.0009
+    ],
+    "significant": false,
+    "n_bins": 8,
+    "capped": true,
+    "n_train_used": 20000,
+    "n_test_used": 3168
+  },
+  "route1_motif_vertebrate_panel": {
+    "max_pos_motif_auroc": 0.5293,
+    "best_TF": "MEIS1",
+    "motif_richness": 0.496,
+    "per_TF_auroc": {
+      "SP1": 0.496,
+      "SP2": 0.4993,
+      "SP3": 0.4997,
+      "SP4": 0.4972,
+      "KLF15": 0.495,
+      "KLF5": 0.4966,
+      "ETS1": 0.504,
+      "ETS2": 0.4974,
+      "ELF4": 0.4988,
+      "ETV2": 0.5006,
+      "FLI1": 0.4962,
+      "TFAP4": 0.5008,
+      "HAND2": 0.5198,
+      "MYOD1": 0.5029,
+      "MYC": 0.4995,
+      "BATF3": 0.4981,
+      "FOS": 0.5019,
+      "Jun": 0.5085,
+      "BACH1": 0.4983,
+      "TBP": 0.3959,
+      "PBX1": 0.5137,
+      "PBX2": 0.4809,
+      "MEIS1": 0.5293,
+      "MEIS2": 0.5091,
+      "FOXC1": 0.462,
+      "TGIF1": 0.4998
+    },
+    "n_TFs": 26,
+    "panel": "curated vertebrate (diagnose default)"
+  },
+  "route1_motif": {
+    "max_pos_motif_auroc": 0.5022,
+    "best_TF": "TBF1",
+    "motif_richness": 0.335,
+    "per_TF_auroc": {
+      "REB1": 0.47,
+      "ABF1": 0.4822,
+      "RAP1": 0.4886,
+      "TBF1": 0.5022,
+      "RSC3": 0.4669,
+      "RSC30": 0.4851,
+      "CBF1": 0.4933,
+      "PHO4": 0.502,
+      "MCM1": 0.5007,
+      "MBP1": 0.4452,
+      "SWI4": 0.4788,
+      "GCN4": 0.4945,
+      "MSN2": 0.483,
+      "YAP1": 0.4977,
+      "SPT15": 0.4588
+    },
+    "n_TFs": 15,
+    "panel": "curated fungi (JASPAR2024 CORE fungi)",
+    "missing": []
+  },
+  "route3_negatives": {
+    "tata_pos_rate": 0.4945,
+    "tata_neg_rate": 0.6272,
+    "tata_neg_excess": 0.1327,
+    "tata_motif_auroc": 0.4124,
+    "gc_auroc": 0.5736,
+    "cleaned_tata_auroc": 0.4432,
+    "cleaning_moves_to_chance": true,
+    "frac_neg_removed": 0.1328
+  },
+  "shuffled_negative_control": {
+    "tata_auroc_vs_shuffled": 0.4969,
+    "gc_auroc_vs_shuffled": 0.5,
+    "dinuc_preserved_frac": 1.0,
+    "n_shuffled": 4000
+  },
+  "equalized_delta": {
+    "feasible": true,
+    "mcc_before": 0.414124,
+    "mcc_after": 0.088595,
+    "mcc_after_ci": [
+      0.0165,
+      0.1548
+    ],
+    "delta_mcc": -0.3255,
+    "auroc_before": 0.772733,
+    "auroc_after": 0.642113,
+    "comp_only_auroc_after": 0.546699,
+    "comp_only_mcc_after": 0.062599,
+    "n_test_after": 1989,
+    "pos_frac_test_after": 0.8718,
+    "retained_neg_frac": 0.1982,
+    "max_abs_smd_before": 0.4191,
+    "max_abs_smd_after": 0.0325
+  },
+  "redundancy": {
+    "frac_ge_0_7": 0.0148,
+    "frac_verbatim": 0.0,
+    "median_max_jaccard": 0.334,
+    "verdict": "borderline",
+    "n_test": 3168
+  },
+  "verdict": "ROUTE 3: NEGATIVE-SET CONTAMINATION (AT-rich/TATA compositional bias in the negatives)",
+  "verdict_vertebrate_panel": "ROUTE 3: NEGATIVE-SET CONTAMINATION (AT-rich/TATA compositional bias in the negatives)",
+  "composition_dominated": false,
+  "composition_flag_rule": "composition fraction >= 0.8 and full AUROC >= 0.6",
+  "timing_s": {
+    "select_k": 18.4,
+    "learn": 9.0,
+    "comp": 6.4,
+    "positional": 26.1,
+    "motif": 5.9,
+    "equalized": 11.6,
+    "redundancy": 4.1
+  },
+  "total_s": 81.7,
+  "n_jobs": 3,
+  "lightgbm_version": "4.6.0"
+}

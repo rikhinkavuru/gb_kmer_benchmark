@@ -1,0 +1,8 @@
+prediction,statement,n_tasks,n_hold,values,outcome
+P1a,mouse TF (dinucleotide-shuffled negatives): composition-only AUROC within 0.05 of 0.5,5,0,mouse_tf_0=0.022; mouse_tf_1=0.081; mouse_tf_2=0.018; mouse_tf_3=0.033; mouse_tf_4=0.034,FAILS
+P1b,mouse TF: composition fraction ~0 (read as |fraction| <= 0.10),5,0,mouse_tf_0=-1.288; mouse_tf_1=-0.914; mouse_tf_2=-1.036; mouse_tf_3=-1.134; mouse_tf_4=-1.784,FAILS
+P1c,mouse TF: equalized split retains most (>50%) negatives,5,4,mouse_tf_0=0.484; mouse_tf_1=0.793; mouse_tf_2=0.529; mouse_tf_3=0.512; mouse_tf_4=0.740,PARTLY
+P2,human TF (GC-matched negatives): GC AUROC within 0.05 of 0.5,5,5,human_tf_0=0.504; human_tf_1=0.511; human_tf_2=0.497; human_tf_3=0.498; human_tf_4=0.503,HOLDS
+P3a,splice/reconstructed: significant positive positional delta,1,1,"delta=+0.4069 [+0.3820,+0.4316]",HOLDS
+P3b,splice is the only GUE task that can meet the Route-2 rule (significant delta > 0.2),28,0,"tasks meeting the delta rule: prom_core_tata (+0.231), prom_300_tata (+0.248), splice_reconstructed (+0.407)",FAILS
+P4,no magnitude prediction for the promoter tasks,0,0,none,not applicable

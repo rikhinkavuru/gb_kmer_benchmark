@@ -1,0 +1,9 @@
+# SHA-256 of the fine-tuning split files (external/fm_finetune/splits), written by prepare_splits_v2.py on 2026-09-23
+# and checked against data.load_dataset() and the manifest index hashes by tests/test_ft_v2.py.
+# run_gpu.py refuses to train if a split file differs.
+9fdc4001b1757f94979bc962ab01cc87ed714b59a5af73de15ae774c7842418a  external/fm_finetune/splits/drosophila_enhancers_stark__test.csv.gz
+d8b09633bfb769a6c94c072a07e94187003176f33ce799453eba6e1bf95ccf84  external/fm_finetune/splits/drosophila_enhancers_stark__train.csv.gz
+d77736af133963a002f0431549c610d913f2d086cc4913107a091380f56ab19f  external/fm_finetune/splits/human_enhancers_cohn__test.csv.gz
+b685036399120407fa4f6cd4819ac32a7fa04fa91f5b7ec623df639eb7b2d89d  external/fm_finetune/splits/human_enhancers_cohn__train.csv.gz
+21043b898cbcbfe7d53709fd53dbd4dbd2b91ed457b9c417eac7b1243dff36bb  external/fm_finetune/splits/nt_enhancers__test.csv.gz
+8b1b94453ce7a911724c92bd30c69fa65f9b1a8eb2e323ba7250e5376c58bd94  external/fm_finetune/splits/nt_enhancers__train.csv.gz

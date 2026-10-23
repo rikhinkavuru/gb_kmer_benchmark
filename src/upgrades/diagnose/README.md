@@ -6,6 +6,18 @@ rescue delta, Route-3 negative-set TATA/GC excess + cleaning effect, and a singl
 Packaging mirrors the companion homology-leakage splitter: numpy/scipy/scikit-learn/LightGBM +
 pyjaspar core, **deterministic (seed 42)**, **CPU-only, no PyTorch**, documented fixed thresholds.
 
+It also runs the four checks the paper recommends every regulatory benchmark ship with:
+
+| check | card key | what it answers |
+|---|---|---|
+| composition-only floor | `composition_fraction` | how much of the above-chance AUROC a 20-d mono+dinucleotide signature reaches alone |
+| shuffled-negative control | `shuffled_negative_control` | the motif/GC measures against dinucleotide-preserving shuffles of the positives, which have no composition gap by construction — the one control that behaves *differently* on clean and contaminated data |
+| equalized-split delta | `equalized_delta` | the score lost when the negatives' joint GC + 16-dinucleotide distribution is matched to the positives' (positives untouched) |
+| train/test redundancy | `redundancy` | the ≥0.7 8-mer-Jaccard near-duplicate rate across the split |
+
+If equalization leaves too few negatives to score, the tool says so — that failure is itself a strong
+contamination signal, since it means almost no negative matches any positive's composition.
+
 ## Usage
 ```
 # CSV with columns: sequence,label[,chr,start,end,strand]

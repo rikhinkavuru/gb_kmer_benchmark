@@ -1,0 +1,12 @@
+nt_split,ienhancer_set,enhancers_label,enhancers_types_label,rows,unique_seqs
+test,test_non,0,0,200,200
+test,test_strong|train_strong,1,2,100,100
+test,test_weak,1,1,100,100
+train,synthetic,0,0,5889,5888
+train,synthetic,1,1,2944,2944
+train,synthetic,1,2,2202,2202
+train,test_strong|train_strong,1,2,107,100
+train,train_non,0,0,1595,1484
+train,train_strong,1,2,691,642
+train,train_weak,1,1,798,742
+train,train_weak,1,2,742,742

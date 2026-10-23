@@ -1,0 +1,96 @@
+{
+  "task": "covid",
+  "species": "virus",
+  "family": "covid variant (1000 bp, 9-class)",
+  "neg_construction": "9 SARS-CoV-2 variants (GISAID), 1 kb segments",
+  "n_classes": 9,
+  "binary": false,
+  "n_train": 73335,
+  "n_dev": 9166,
+  "n_test": 9168,
+  "pos_frac_test": null,
+  "k": 6,
+  "val_mcc": {
+    "3": 0.657085,
+    "4": 0.695866,
+    "5": 0.716199,
+    "6": 0.72915
+  },
+  "learnability": {
+    "mcc": 0.7359568919147715,
+    "mcc_ci": [
+      0.7264994223784307,
+      0.745815705157493
+    ],
+    "auroc": 0.9700409543090092,
+    "auroc_ci": [
+      0.9682301614197583,
+      0.9718695473833725
+    ],
+    "f1_macro": 0.7682823265623586,
+    "f1_macro_ci": [
+      0.7600183207180516,
+      0.7766496854094642
+    ],
+    "acc": 0.7659249563699826,
+    "n_test": 9168
+  },
+  "composition_only": {
+    "mcc": 0.5261496374612775,
+    "mcc_ci": [
+      0.5149166904233876,
+      0.5376176355774177
+    ],
+    "auroc": 0.897285898085014,
+    "auroc_ci": [
+      0.8930804324200071,
+      0.9014937789141096
+    ],
+    "f1_macro": 0.580069708255754
+  },
+  "composition_fraction": {
+    "value": 0.8452,
+    "ci": [
+      0.8375,
+      0.8525
+    ],
+    "full_auroc": 0.97,
+    "comp_only_auroc": 0.8973,
+    "definition": "(AUROC_comp_only-0.5)/(AUROC_full-0.5) on macro-OvR AUROC [EXTENSION: multiclass]"
+  },
+  "tier": "solved",
+  "route2_positional": {
+    "spectrum_mcc": 0.6889,
+    "positional_mcc": 0.6667,
+    "delta_mcc": -0.0222,
+    "delta_ci": [
+      -0.0279,
+      -0.0168
+    ],
+    "significant": true,
+    "n_bins": 8,
+    "capped": true,
+    "n_train_used": 20001,
+    "n_test_used": 9168
+  },
+  "redundancy": {
+    "frac_ge_0_7": 1.0,
+    "frac_verbatim": 0.1223,
+    "median_max_jaccard": 0.9866,
+    "verdict": "LEAKY",
+    "n_test": 9168
+  },
+  "verdict": "SOLVED",
+  "composition_dominated": true,
+  "composition_flag_rule": "composition fraction >= 0.8 and full AUROC >= 0.6 [multiclass extension]",
+  "timing_s": {
+    "select_k": 309.4,
+    "learn": 138.8,
+    "comp": 57.6,
+    "positional": 277.1,
+    "redundancy": 126.8
+  },
+  "total_s": 910.2,
+  "n_jobs": 3,
+  "lightgbm_version": "4.6.0"
+}

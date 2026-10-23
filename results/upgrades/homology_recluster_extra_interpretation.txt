@@ -1,0 +1,376 @@
+==============================================================================================================
+HOMOLOGY RE-CLUSTERING -- EXTRA RE-RUNS (run_extra.py X1-X10, FT-HC fine-tuning) + LABEL ADDENDA (run_labels_addendum.py)
+Every number is read from results/upgrades/homology_recluster_{extra_*,labels_addendum,class_redundancy,
+route1_loto,paper_table}.csv. HC = homology-clean (id80 primary / id50 strict; cluster-aware re-split seed 42
++ one representative per component x label unless stated). Verdicts apply the rules pre-registered in the
+run_extra.py docstring; A1-A4 are POST HOC and flagged as such.
+==============================================================================================================
+
+X1 ROUTE-3 CLEANING (TATA-flag / GC-match / composition-equalized + size-matched random-removal placebos)
+  nt_enhancers               original  uncleaned TATA 0.393[0.386,0.399] GC 0.822 kmerMCC 0.514[0.428,0.594] compMCC 0.522
+                                      tata_flag               -20.8% negs  TATA 0.485[0.480,0.490] GC 0.795  kmerMCC 0.447[0.348,0.537] (d -0.066[-0.203,0.062])
+                                      gc_match                -51.7% negs  TATA 0.461[0.454,0.468] GC 0.681  kmerMCC 0.151[0.024,0.270] (d -0.363[-0.516,-0.216])
+                                      comp_equalized          -95.1% negs  TATA 0.485[0.467,0.502] GC 0.557  kmerMCC 0.000[0.000,0.000] (d -0.514[-0.599,-0.431])
+                                      placebo_tata_flag       -20.8% negs  TATA 0.393[0.386,0.399] GC 0.823  kmerMCC 0.489[0.392,0.582] (d -0.024[-0.148,0.095])
+                                      placebo_gc_match        -51.7% negs  TATA 0.391[0.382,0.399] GC 0.823  kmerMCC 0.412[0.298,0.521] (d -0.102[-0.237,0.029])
+                                      placebo_comp_equalized  -95.1% negs  TATA 0.390[0.365,0.414] GC 0.816  kmerMCC 0.273[0.057,0.439] (d -0.240[-0.466,-0.067])
+  => X1 cleaning nt_enhancers [original]: TATA-flag/GC-match effect PRESERVED; placebo-specific: True
+  nt_enhancers               id80      uncleaned TATA 0.390[0.384,0.396] GC 0.835 kmerMCC 0.859[0.802,0.912] compMCC 0.793
+                                      tata_flag               -21.2% negs  TATA 0.486[0.480,0.491] GC 0.806  kmerMCC 0.833[0.773,0.890] (d -0.026[-0.108,0.054])
+                                      gc_match                -55.9% negs  TATA 0.468[0.461,0.475] GC 0.670  kmerMCC 0.813[0.730,0.891] (d -0.046[-0.142,0.049])
+                                      comp_equalized          -95.5% negs  TATA 0.487[0.468,0.505] GC 0.531  [MCC infeasible (<10 negatives kept in a split); pooled AUROCs only]
+                                      placebo_tata_flag       -21.2% negs  TATA 0.389[0.382,0.396] GC 0.835  kmerMCC 0.882[0.831,0.926] (d +0.023[-0.051,0.100])
+                                      placebo_gc_match        -55.9% negs  TATA 0.392[0.383,0.400] GC 0.835  kmerMCC 0.824[0.743,0.895] (d -0.035[-0.128,0.057])
+                                      placebo_comp_equalized  -95.5% negs  TATA 0.398[0.373,0.422] GC 0.814  [MCC infeasible (<10 negatives kept in a split); pooled AUROCs only]
+  => X1 cleaning nt_enhancers [id80]: TATA-flag/GC-match effect PRESERVED; placebo-specific: True
+  nt_enhancers               id50      uncleaned TATA 0.391[0.384,0.397] GC 0.834 kmerMCC 0.854[0.799,0.903] compMCC 0.723
+                                      tata_flag               -21.1% negs  TATA 0.486[0.480,0.491] GC 0.807  kmerMCC 0.828[0.764,0.886] (d -0.025[-0.111,0.057])
+                                      gc_match                -55.8% negs  TATA 0.468[0.462,0.476] GC 0.670  kmerMCC 0.821[0.734,0.895] (d -0.033[-0.131,0.056])
+                                      comp_equalized          -95.4% negs  TATA 0.494[0.477,0.511] GC 0.551  [MCC infeasible (<10 negatives kept in a split); pooled AUROCs only]
+                                      placebo_tata_flag       -21.1% negs  TATA 0.390[0.384,0.398] GC 0.835  kmerMCC 0.828[0.764,0.884] (d -0.025[-0.110,0.061])
+                                      placebo_gc_match        -55.8% negs  TATA 0.388[0.379,0.396] GC 0.836  kmerMCC 0.842[0.760,0.907] (d -0.011[-0.109,0.076])
+                                      placebo_comp_equalized  -95.4% negs  TATA 0.411[0.386,0.435] GC 0.846  [MCC infeasible (<10 negatives kept in a split); pooled AUROCs only]
+  => X1 cleaning nt_enhancers [id50]: TATA-flag/GC-match effect PRESERVED; placebo-specific: True
+  human_enhancers_cohn       original  uncleaned TATA 0.371[0.365,0.377] GC 0.737 kmerMCC 0.461[0.442,0.482] compMCC 0.410
+                                      tata_flag               -22.2% negs  TATA 0.435[0.429,0.441] GC 0.712  kmerMCC 0.407[0.385,0.430] (d -0.054[-0.086,-0.024])
+                                      gc_match                -33.8% negs  TATA 0.427[0.421,0.434] GC 0.645  kmerMCC 0.370[0.344,0.396] (d -0.091[-0.126,-0.059])
+                                      comp_equalized          -95.5% negs  TATA 0.504[0.485,0.524] GC 0.516  kmerMCC 0.064[0.000,0.116] (d -0.397[-0.477,-0.340])
+                                      placebo_tata_flag       -22.2% negs  TATA 0.371[0.364,0.377] GC 0.737  kmerMCC 0.455[0.432,0.477] (d -0.006[-0.035,0.023])
+                                      placebo_gc_match        -33.8% negs  TATA 0.371[0.365,0.378] GC 0.737  kmerMCC 0.437[0.413,0.460] (d -0.024[-0.056,0.006])
+                                      placebo_comp_equalized  -95.5% negs  TATA 0.375[0.353,0.395] GC 0.744  kmerMCC 0.091[0.000,0.149] (d -0.370[-0.471,-0.310])
+  => X1 cleaning human_enhancers_cohn [original]: TATA-flag/GC-match effect PRESERVED; placebo-specific: True
+  human_enhancers_cohn       id80      uncleaned TATA 0.370[0.364,0.376] GC 0.738 kmerMCC 0.438[0.415,0.460] compMCC 0.390
+                                      tata_flag               -22.2% negs  TATA 0.435[0.428,0.441] GC 0.713  kmerMCC 0.395[0.372,0.418] (d -0.043[-0.074,-0.011])
+                                      gc_match                -30.4% negs  TATA 0.424[0.418,0.431] GC 0.650  kmerMCC 0.345[0.321,0.370] (d -0.092[-0.126,-0.060])
+                                      comp_equalized          -95.8% negs  TATA 0.492[0.471,0.513] GC 0.510  kmerMCC 0.000[0.000,0.000] (d -0.438[-0.459,-0.416])
+                                      placebo_tata_flag       -22.2% negs  TATA 0.373[0.366,0.380] GC 0.736  kmerMCC 0.428[0.404,0.450] (d -0.010[-0.041,0.021])
+                                      placebo_gc_match        -30.4% negs  TATA 0.372[0.365,0.379] GC 0.735  kmerMCC 0.423[0.399,0.448] (d -0.014[-0.047,0.017])
+                                      placebo_comp_equalized  -95.8% negs  TATA 0.361[0.337,0.384] GC 0.749  kmerMCC 0.000[0.000,0.000] (d -0.438[-0.459,-0.416])
+  => X1 cleaning human_enhancers_cohn [id80]: TATA-flag/GC-match effect PRESERVED; placebo-specific: True
+  human_enhancers_cohn       id50      uncleaned TATA 0.371[0.365,0.377] GC 0.734 kmerMCC 0.438[0.415,0.459] compMCC 0.399
+                                      tata_flag               -22.0% negs  TATA 0.435[0.429,0.442] GC 0.709  kmerMCC 0.395[0.370,0.417] (d -0.042[-0.075,-0.011])
+                                      gc_match                -28.2% negs  TATA 0.424[0.417,0.432] GC 0.653  kmerMCC 0.350[0.326,0.376] (d -0.087[-0.119,-0.056])
+                                      comp_equalized          -96.1% negs  TATA 0.497[0.473,0.519] GC 0.500  kmerMCC 0.000[0.000,0.000] (d -0.438[-0.459,-0.416])
+                                      placebo_tata_flag       -22.0% negs  TATA 0.370[0.363,0.377] GC 0.733  kmerMCC 0.431[0.408,0.453] (d -0.007[-0.037,0.024])
+                                      placebo_gc_match        -28.2% negs  TATA 0.370[0.363,0.377] GC 0.733  kmerMCC 0.438[0.413,0.462] (d +0.000[-0.033,0.033])
+                                      placebo_comp_equalized  -96.1% negs  TATA 0.369[0.344,0.395] GC 0.735  kmerMCC 0.000[0.000,0.000] (d -0.438[-0.459,-0.416])
+  => X1 cleaning human_enhancers_cohn [id50]: TATA-flag/GC-match effect PRESERVED; placebo-specific: True
+  drosophila_enhancers_stark original  uncleaned TATA 0.539[0.526,0.552] GC 0.487 kmerMCC 0.398[0.355,0.441] compMCC 0.253
+                                      tata_flag               -0.0% negs  TATA 0.539[0.526,0.552] GC 0.487  kmerMCC 0.398[0.355,0.441] (d +0.000[-0.055,0.062])
+                                      gc_match                -15.5% negs  TATA 0.520[0.505,0.535] GC 0.506  kmerMCC 0.354[0.304,0.402] (d -0.044[-0.111,0.021])
+                                      comp_equalized          -57.1% negs  TATA 0.515[0.498,0.532] GC 0.519  kmerMCC 0.217[0.136,0.291] (d -0.181[-0.278,-0.095])
+                                      placebo_tata_flag       -0.0% negs  TATA 0.539[0.526,0.552] GC 0.487  kmerMCC 0.398[0.355,0.441] (d +0.000[-0.055,0.062])
+                                      placebo_gc_match        -15.5% negs  TATA 0.537[0.523,0.551] GC 0.483  kmerMCC 0.420[0.379,0.465] (d +0.021[-0.041,0.079])
+                                      placebo_comp_equalized  -57.1% negs  TATA 0.528[0.510,0.546] GC 0.482  kmerMCC 0.494[0.425,0.556] (d +0.096[0.008,0.173])
+  => X1 cleaning drosophila_enhancers_stark [original] (clean control): removes <=1% negs and |dTATA|<=0.01: True
+  drosophila_enhancers_stark id80      uncleaned TATA 0.538[0.524,0.552] GC 0.484 kmerMCC 0.344[0.299,0.387] compMCC 0.214
+                                      tata_flag               -0.0% negs  TATA 0.538[0.524,0.552] GC 0.484  kmerMCC 0.344[0.299,0.387] (d +0.000[-0.062,0.066])
+                                      gc_match                -14.8% negs  TATA 0.518[0.503,0.532] GC 0.507  kmerMCC 0.335[0.292,0.378] (d -0.008[-0.070,0.051])
+                                      comp_equalized          -56.4% negs  TATA 0.522[0.505,0.539] GC 0.517  kmerMCC 0.166[0.106,0.226] (d -0.178[-0.250,-0.102])
+                                      placebo_tata_flag       -0.0% negs  TATA 0.538[0.524,0.552] GC 0.484  kmerMCC 0.344[0.299,0.387] (d +0.000[-0.062,0.066])
+                                      placebo_gc_match        -14.8% negs  TATA 0.533[0.519,0.547] GC 0.487  kmerMCC 0.366[0.319,0.410] (d +0.022[-0.040,0.086])
+                                      placebo_comp_equalized  -56.4% negs  TATA 0.534[0.515,0.551] GC 0.488  kmerMCC 0.382[0.329,0.433] (d +0.039[-0.029,0.107])
+  => X1 cleaning drosophila_enhancers_stark [id80] (clean control): removes <=1% negs and |dTATA|<=0.01: True
+  drosophila_enhancers_stark id50      uncleaned TATA 0.538[0.525,0.552] GC 0.484 kmerMCC 0.385[0.344,0.428] compMCC 0.259
+                                      tata_flag               -0.0% negs  TATA 0.538[0.525,0.552] GC 0.484  kmerMCC 0.385[0.344,0.428] (d +0.000[-0.060,0.066])
+                                      gc_match                -14.5% negs  TATA 0.518[0.504,0.533] GC 0.506  kmerMCC 0.340[0.294,0.385] (d -0.046[-0.107,0.019])
+                                      comp_equalized          -50.2% negs  TATA 0.519[0.504,0.537] GC 0.523  kmerMCC 0.227[0.166,0.289] (d -0.158[-0.233,-0.078])
+                                      placebo_tata_flag       -0.0% negs  TATA 0.538[0.525,0.552] GC 0.484  kmerMCC 0.385[0.344,0.428] (d +0.000[-0.060,0.066])
+                                      placebo_gc_match        -14.5% negs  TATA 0.538[0.524,0.551] GC 0.482  kmerMCC 0.400[0.355,0.441] (d +0.015[-0.051,0.077])
+                                      placebo_comp_equalized  -50.2% negs  TATA 0.528[0.511,0.547] GC 0.485  kmerMCC 0.420[0.364,0.471] (d +0.035[-0.034,0.101])
+  => X1 cleaning drosophila_enhancers_stark [id50] (clean control): removes <=1% negs and |dTATA|<=0.01: True
+
+X2 ROUTE-3 SPECIFICITY (control-motif panels; 4000/class cap; TATA threshold sweep)
+  nt_promoter_tata           original  real_TATA 0.589[0.577,0.600]
+  nt_promoter_tata           id80      real_TATA 0.585[0.573,0.597]
+  nt_promoter_tata           id50      real_TATA 0.584[0.572,0.595]
+  nt_enhancers               original  real_TATA 0.392[0.383,0.400]  scrambled_TBP 0.396+/-0.027[0.392,0.400]  random_IC 0.507+/-0.016[0.504,0.509]
+  nt_enhancers               id80      real_TATA 0.388[0.380,0.396]  scrambled_TBP 0.392+/-0.029[0.388,0.397]  random_IC 0.508+/-0.016[0.505,0.510]
+  nt_enhancers               id50      real_TATA 0.391[0.382,0.399]  scrambled_TBP 0.391+/-0.030[0.387,0.395]  random_IC 0.507+/-0.016[0.504,0.509]
+  human_enhancers_cohn       original  real_TATA 0.367[0.356,0.378]  scrambled_TBP 0.376+/-0.017[0.369,0.383]  random_IC 0.502+/-0.033[0.499,0.505]
+  human_enhancers_cohn       id80      real_TATA 0.377[0.365,0.388]  scrambled_TBP 0.377+/-0.016[0.369,0.384]  random_IC 0.504+/-0.031[0.501,0.507]
+  human_enhancers_cohn       id50      real_TATA 0.363[0.352,0.374]  scrambled_TBP 0.363+/-0.018[0.356,0.371]  random_IC 0.506+/-0.032[0.503,0.509]
+  nt_enhancers               original  sweep 0.8-1.5 bits: uncleaned 0.282-0.431 (CI upper max 0.438); equalized 0.483-0.490
+  nt_enhancers               id80      sweep 0.8-1.5 bits: uncleaned 0.274-0.427 (CI upper max 0.434); equalized 0.481-0.505
+  nt_enhancers               id50      sweep 0.8-1.5 bits: uncleaned 0.273-0.425 (CI upper max 0.432); equalized 0.485-0.514
+  human_enhancers_cohn       original  sweep 0.8-1.5 bits: uncleaned 0.307-0.401 (CI upper max 0.410); equalized 0.485-0.510
+  human_enhancers_cohn       id80      sweep 0.8-1.5 bits: uncleaned 0.311-0.405 (CI upper max 0.415); equalized 0.488-0.501
+  human_enhancers_cohn       id50      sweep 0.8-1.5 bits: uncleaned 0.294-0.395 (CI upper max 0.406); equalized 0.497-0.511
+  => X2 specificity [original]: human_enhancers_cohn PRESERVED; nt_enhancers PRESERVED (positive control nt_promoter_tata 0.589[0.577,0.600])
+  => X2 specificity [id80]: human_enhancers_cohn PRESERVED; nt_enhancers PRESERVED (positive control nt_promoter_tata 0.585[0.573,0.597])
+  => X2 specificity [id50]: human_enhancers_cohn PRESERVED; nt_enhancers PRESERVED (positive control nt_promoter_tata 0.584[0.572,0.595])
+
+X3 COMPOSITION-ONLY BASELINE (LightGBM on 4 mono + 16 dinucleotide frequencies; same units as run_eval)
+  task                              unit               kmerMCC compMCC  resid [CI]          comp fraction [CI]      
+  demo_human_or_worm                original             0.914   0.880  +0.034[0.028,0.039]   0.986[0.985,0.988]
+  demo_human_or_worm                test_purge_id80      0.908   0.874  +0.034[0.027,0.040]   0.986[0.984,0.988]
+  demo_human_or_worm                test_purge_id50      0.907   0.871  +0.035[0.029,0.042]   0.985[0.983,0.987]
+  demo_human_or_worm                resplit_random       0.917   0.879  +0.038[0.033,0.043]   0.986[0.984,0.988]
+  demo_human_or_worm                resplit_id80         0.907   0.877  +0.030[0.025,0.036]   0.987[0.985,0.989]
+  demo_human_or_worm                resplit_id50         0.903   0.871  +0.032[0.027,0.037]   0.986[0.985,0.988]
+  human_ensembl_regulatory          original             0.907   0.796  +0.111[0.107,0.115]   0.948[0.946,0.949]
+  human_ensembl_regulatory          test_purge_id80      0.905   0.793  +0.111[0.107,0.115]   0.947[0.945,0.949]
+  human_ensembl_regulatory          test_purge_id50      0.904   0.791  +0.113[0.109,0.117]   0.946[0.944,0.948]
+  human_ensembl_regulatory          resplit_random       0.912   0.800  +0.112[0.108,0.116]   0.948[0.946,0.950]
+  human_ensembl_regulatory          resplit_id80         0.912   0.793  +0.119[0.115,0.123]   0.944[0.943,0.946]
+  human_ensembl_regulatory          resplit_id50         0.909   0.805  +0.104[0.101,0.108]   0.952[0.951,0.954]
+  nt_promoter_all                   original             0.888   0.852  +0.036[0.026,0.047]   0.978[0.973,0.983]
+  nt_promoter_all                   test_purge_id80      0.888   0.855  +0.033[0.021,0.044]   0.979[0.974,0.984]
+  nt_promoter_all                   test_purge_id50      0.887   0.854  +0.033[0.022,0.044]   0.979[0.974,0.984]
+  nt_promoter_all                   resplit_random       0.881   0.848  +0.033[0.021,0.044]   0.979[0.975,0.984]
+  nt_promoter_all                   resplit_id80         0.883   0.847  +0.036[0.024,0.047]   0.980[0.974,0.984]
+  nt_promoter_all                   resplit_id50         0.883   0.857  +0.027[0.015,0.039]   0.983[0.979,0.987]
+  nt_promoter_no_tata               original             0.887   0.850  +0.036[0.025,0.049]   0.979[0.974,0.984]
+  nt_promoter_no_tata               test_purge_id80      0.885   0.853  +0.033[0.020,0.044]   0.980[0.975,0.986]
+  nt_promoter_no_tata               test_purge_id50      0.885   0.853  +0.032[0.020,0.044]   0.980[0.975,0.985]
+  nt_promoter_no_tata               resplit_random       0.879   0.851  +0.028[0.016,0.040]   0.981[0.976,0.986]
+  nt_promoter_no_tata               resplit_id80         0.871   0.836  +0.035[0.023,0.048]   0.983[0.977,0.988]
+  nt_promoter_no_tata               resplit_id50         0.876   0.853  +0.024[0.011,0.035]   0.978[0.973,0.983]
+  human_nontata_promoters           original             0.874   0.706  +0.168[0.155,0.180]   0.866[0.856,0.876]
+  human_nontata_promoters           test_purge_id80      0.469   0.285  +0.184[0.154,0.218]   0.841[0.809,0.871]
+  human_nontata_promoters           test_purge_id50      0.471   0.286  +0.185[0.153,0.219]   0.840[0.808,0.871]
+  human_nontata_promoters           resplit_random       0.868   0.696  +0.172[0.160,0.186]   0.858[0.847,0.868]
+  human_nontata_promoters           resplit_id80         0.629   0.641  -0.011[-0.028,0.006]  0.913[0.899,0.926]
+  human_nontata_promoters           resplit_id50         0.630   0.646  -0.017[-0.034,0.001]  0.920[0.907,0.932]
+  nt_promoter_tata                  original             0.846   0.844  +0.002[-0.041,0.049]  0.981[0.963,1.000]
+  nt_promoter_tata                  test_purge_id80      0.842   0.837  +0.006[-0.040,0.050]  0.980[0.959,0.998]
+  nt_promoter_tata                  test_purge_id50      0.840   0.837  +0.003[-0.042,0.051]  0.980[0.957,0.999]
+  nt_promoter_tata                  resplit_random       0.894   0.871  +0.023[-0.013,0.058]  0.970[0.952,0.988]
+  nt_promoter_tata                  resplit_id80         0.886   0.849  +0.036[-0.009,0.080]  0.982[0.966,0.996]
+  nt_promoter_tata                  resplit_id50         0.882   0.828  +0.055[0.014,0.098]   0.975[0.956,0.992]
+  demo_coding_vs_intergenomic_seqs  original             0.800   0.709  +0.091[0.083,0.100]   0.933[0.928,0.937]
+  demo_coding_vs_intergenomic_seqs  test_purge_id80      0.777   0.695  +0.082[0.073,0.092]   0.937[0.932,0.943]
+  demo_coding_vs_intergenomic_seqs  test_purge_id50      0.772   0.691  +0.081[0.071,0.091]   0.936[0.931,0.942]
+  demo_coding_vs_intergenomic_seqs  resplit_random       0.802   0.710  +0.092[0.083,0.100]   0.935[0.930,0.939]
+  demo_coding_vs_intergenomic_seqs  resplit_id80         0.677   0.573  +0.104[0.095,0.112]   0.900[0.894,0.906]
+  demo_coding_vs_intergenomic_seqs  resplit_id50         0.806   0.637  +0.168[0.159,0.178]   0.872[0.866,0.879]
+  human_enhancers_ensembl           original             0.593   0.420  +0.174[0.163,0.185]   0.748[0.736,0.759]
+  human_enhancers_ensembl           test_purge_id80      0.427   0.292  +0.135[0.120,0.150]   0.757[0.735,0.778]
+  human_enhancers_ensembl           test_purge_id50      0.427   0.289  +0.138[0.123,0.154]   0.749[0.726,0.773]
+  human_enhancers_ensembl           resplit_random       0.598   0.421  +0.177[0.167,0.187]   0.746[0.735,0.758]
+  human_enhancers_ensembl           resplit_id80         0.562   0.370  +0.192[0.181,0.204]   0.729[0.714,0.743]
+  human_enhancers_ensembl           resplit_id50         0.522   0.361  +0.160[0.150,0.172]   0.722[0.708,0.735]
+  dummy_mouse_enhancers_ensembl     original             0.529   0.556  -0.027[-0.125,0.071]  1.038[0.938,1.154]
+  dummy_mouse_enhancers_ensembl     test_purge_id80      0.529   0.556  -0.027[-0.125,0.071]  1.038[0.938,1.154]
+  dummy_mouse_enhancers_ensembl     test_purge_id50      0.529   0.556  -0.027[-0.125,0.071]  1.038[0.938,1.154]
+  dummy_mouse_enhancers_ensembl     resplit_random       0.597   0.559  +0.038[-0.053,0.131]  0.975[0.875,1.073]
+  dummy_mouse_enhancers_ensembl     resplit_id80         0.529   0.464  +0.066[-0.046,0.182]  0.902[0.773,1.025]
+  dummy_mouse_enhancers_ensembl     resplit_id50         0.529   0.464  +0.066[-0.046,0.182]  0.902[0.773,1.025]
+  nt_enhancers                      original             0.514   0.522  -0.008[-0.071,0.058]  0.928[0.860,0.992]
+  nt_enhancers                      test_purge_id80      0.303   0.307  -0.004[-0.101,0.087]  0.919[0.773,1.103]
+  nt_enhancers                      test_purge_id50      0.291   0.300  -0.008[-0.102,0.086]  0.905[0.733,1.075]
+  nt_enhancers                      resplit_random       0.873   0.796  +0.077[0.022,0.136]   0.927[0.892,0.958]
+  nt_enhancers                      resplit_id80         0.846   0.796  +0.050[-0.003,0.106]  0.965[0.941,0.987]
+  nt_enhancers                      resplit_id50         0.842   0.700  +0.142[0.082,0.213]   0.911[0.870,0.947]
+  nt_enhancers_types                original             0.476   0.506  -0.030[-0.069,0.015]  0.935[0.860,1.020]
+  nt_enhancers_types                resplit_random       0.752   0.595  +0.157[0.101,0.214]   0.865[0.822,0.907]
+  nt_enhancers_types                resplit_id80         0.836   0.660  +0.176[0.121,0.236]   0.898[0.860,0.933]
+  nt_enhancers_types                resplit_id50         0.787   0.650  +0.137[0.079,0.193]   0.900[0.858,0.940]
+  human_enhancers_cohn              original             0.461   0.410  +0.051[0.031,0.071]   0.915[0.892,0.937]
+  human_enhancers_cohn              test_purge_id80      0.449   0.398  +0.051[0.030,0.072]   0.910[0.886,0.935]
+  human_enhancers_cohn              test_purge_id50      0.439   0.389  +0.050[0.030,0.069]   0.908[0.884,0.935]
+  human_enhancers_cohn              resplit_random       0.442   0.398  +0.044[0.023,0.065]   0.910[0.887,0.933]
+  human_enhancers_cohn              resplit_id80         0.440   0.383  +0.057[0.037,0.076]   0.905[0.878,0.929]
+  human_enhancers_cohn              resplit_id50         0.442   0.382  +0.060[0.041,0.080]   0.898[0.873,0.923]
+  human_ocr_ensembl                 original             0.421   0.296  +0.125[0.114,0.136]   0.720[0.705,0.737]
+  human_ocr_ensembl                 test_purge_id80      0.400   0.274  +0.126[0.115,0.137]   0.702[0.683,0.721]
+  human_ocr_ensembl                 test_purge_id50      0.398   0.274  +0.124[0.112,0.135]   0.703[0.683,0.721]
+  human_ocr_ensembl                 resplit_random       0.430   0.301  +0.129[0.119,0.140]   0.721[0.705,0.736]
+  human_ocr_ensembl                 resplit_id80         0.388   0.273  +0.115[0.104,0.126]   0.717[0.699,0.735]
+  human_ocr_ensembl                 resplit_id50         0.385   0.257  +0.128[0.117,0.139]   0.693[0.674,0.712]
+  drosophila_enhancers_stark        original             0.398   0.253  +0.145[0.096,0.200]   0.695[0.610,0.776]
+  drosophila_enhancers_stark        test_purge_id80      0.388   0.241  +0.147[0.097,0.198]   0.683[0.597,0.774]
+  drosophila_enhancers_stark        test_purge_id50      0.388   0.241  +0.147[0.097,0.197]   0.683[0.601,0.764]
+  drosophila_enhancers_stark        resplit_random       0.363   0.231  +0.132[0.085,0.181]   0.670[0.583,0.758]
+  drosophila_enhancers_stark        resplit_id80         0.359   0.215  +0.144[0.096,0.191]   0.694[0.604,0.786]
+  drosophila_enhancers_stark        resplit_id50         0.371   0.240  +0.131[0.082,0.181]   0.721[0.624,0.810]
+  nt_splice_sites_all               original             0.244   0.206  +0.038[0.003,0.070]   0.764[0.698,0.827]
+  nt_splice_sites_all               test_purge_id80      0.184   0.145  +0.040[0.003,0.073]   0.725[0.636,0.828]
+  nt_splice_sites_all               test_purge_id50      0.177   0.135  +0.042[0.006,0.077]   0.705[0.609,0.812]
+  nt_splice_sites_all               resplit_random       0.273   0.203  +0.070[0.039,0.104]   0.715[0.653,0.780]
+  nt_splice_sites_all               resplit_id80         0.202   0.153  +0.049[0.016,0.080]   0.748[0.666,0.841]
+  nt_splice_sites_all               resplit_id50         0.197   0.167  +0.029[-0.002,0.059]  0.821[0.730,0.912]
+  => X3 composition-only [original] (descriptive): k-mer model beats composition-only (residual CI > 0) on 11/15 tasks; not beaten: nt_promoter_tata +0.002[-0.041,0.049], dummy_mouse_enhancers_ensembl -0.027[-0.125,0.071], nt_enhancers -0.008[-0.071,0.058], nt_enhancers_types -0.030[-0.069,0.015]
+  => X3 composition-only [test_purge_id80] (descriptive): k-mer model beats composition-only (residual CI > 0) on 11/14 tasks; not beaten: nt_promoter_tata +0.006[-0.040,0.050], dummy_mouse_enhancers_ensembl -0.027[-0.125,0.071], nt_enhancers -0.004[-0.101,0.087]
+  => X3 composition-only [resplit_id80] (descriptive): k-mer model beats composition-only (residual CI > 0) on 11/15 tasks; not beaten: human_nontata_promoters -0.011[-0.028,0.006], nt_promoter_tata +0.036[-0.009,0.080], dummy_mouse_enhancers_ensembl +0.066[-0.046,0.182], nt_enhancers +0.050[-0.003,0.106]
+  => X3 composition-only [resplit_random] (descriptive): k-mer model beats composition-only (residual CI > 0) on 13/15 tasks; not beaten: nt_promoter_tata +0.023[-0.013,0.058], dummy_mouse_enhancers_ensembl +0.038[-0.053,0.131]
+
+X4 FROZEN-FM PROBE test_effect AUROC (headline cell: gc_match, mean pooling, LightGBM head) and placebo
+  DNABERT-2-117M human_enhancers_cohn        original_released: -0.047[-0.051,-0.042] | original: -0.045[-0.049,-0.040] (placebo +0.001[-0.004,0.006]) | id80: -0.043[-0.048,-0.039] (placebo -0.001[-0.006,0.004]) | id50: -0.043[-0.048,-0.039] (placebo +0.001[-0.004,0.005])
+  DNABERT-2-117M nt_enhancers                original_released: -0.072[-0.100,-0.049] | original: -0.075[-0.101,-0.052] (placebo +0.012[-0.009,0.034]) | id80: -0.019[-0.033,-0.008] (placebo +0.008[0.000,0.017]) | id50: -0.053[-0.084,-0.027] (placebo +0.023[0.002,0.043])
+  HyenaDNA-tiny  drosophila_enhancers_stark  original_released: -0.038[-0.047,-0.030] | original: -0.037[-0.045,-0.029] (placebo -0.014[-0.022,-0.006]) | id80: -0.036[-0.045,-0.028] (placebo +0.005[-0.004,0.014]) | id50: -0.040[-0.050,-0.032] (placebo -0.005[-0.014,0.003])
+  HyenaDNA-tiny  human_enhancers_cohn        original_released: -0.058[-0.063,-0.052] | original: -0.058[-0.062,-0.052] (placebo -0.002[-0.007,0.003]) | id80: -0.053[-0.058,-0.048] (placebo -0.001[-0.006,0.004]) | id50: -0.052[-0.057,-0.047] (placebo +0.000[-0.005,0.006])
+  HyenaDNA-tiny  nt_enhancers                original_released: -0.080[-0.108,-0.055] | original: -0.082[-0.110,-0.057] (placebo +0.011[-0.012,0.036]) | id80: -0.043[-0.070,-0.023] (placebo +0.011[-0.005,0.028]) | id50: -0.052[-0.080,-0.029] (placebo +0.021[0.005,0.039])
+  => X4 FM probe [original] PRE-REGISTERED rule (gc_match, mean pooling, LightGBM head): contaminated test_effect <0 (CI) for both models: True; drosophila -0.037[-0.045,-0.029] CI covers 0: False; placebo_gc_match CIs covering 0: 18/20 => NOT fully preserved
+       placebo CIs excluding 0: DNABERT-2-117M nt_enhancers cls/lr +0.028[0.001,0.056]; HyenaDNA-tiny drosophila_enhancers_stark mean/lgbm -0.014[-0.022,-0.006]
+  => X4 FM probe [id80] PRE-REGISTERED rule (gc_match, mean pooling, LightGBM head): contaminated test_effect <0 (CI) for both models: True; drosophila -0.036[-0.045,-0.028] CI covers 0: False; placebo_gc_match CIs covering 0: 15/20 => NOT fully preserved (compare the same rule on 'original' data above)
+       placebo CIs excluding 0: DNABERT-2-117M nt_enhancers mean/lgbm +0.008[0.000,0.017]; DNABERT-2-117M nt_enhancers mean/lr +0.010[0.001,0.023]; DNABERT-2-117M nt_enhancers cls/lgbm +0.022[0.005,0.041]; DNABERT-2-117M nt_enhancers cls/lr +0.027[0.012,0.044]; HyenaDNA-tiny nt_enhancers sep/lgbm +0.033[0.002,0.064]
+  => X4 FM probe [id50] PRE-REGISTERED rule (gc_match, mean pooling, LightGBM head): contaminated test_effect <0 (CI) for both models: True; drosophila -0.040[-0.050,-0.032] CI covers 0: False; placebo_gc_match CIs covering 0: 13/20 => NOT fully preserved (compare the same rule on 'original' data above)
+       placebo CIs excluding 0: DNABERT-2-117M nt_enhancers mean/lgbm +0.023[0.002,0.043]; DNABERT-2-117M nt_enhancers mean/lr +0.024[0.007,0.044]; DNABERT-2-117M nt_enhancers cls/lgbm +0.025[0.005,0.051]; DNABERT-2-117M nt_enhancers cls/lr +0.031[0.013,0.055]; HyenaDNA-tiny nt_enhancers mean/lgbm +0.021[0.005,0.039]; HyenaDNA-tiny nt_enhancers mean/lr +0.041[0.015,0.070]; HyenaDNA-tiny nt_enhancers sep/lr +0.048[0.014,0.083]
+  POST HOC: the submitted paper's HyenaDNA headline (-0.048 cohn, -0.079 nt_enhancers, +0.005 drosophila) is the SEP-pooling
+  LightGBM cell (fm_paired.csv), not mean pooling as the X4 rule assumed; the same rule on the paper's cells (HyenaDNA sep, DNABERT mean):
+  => [original_released] DNABERT-2-117M human_enhancers_cohn -0.047[-0.051,-0.042]; DNABERT-2-117M nt_enhancers -0.072[-0.100,-0.049]; HyenaDNA-tiny drosophila_enhancers_stark +0.005[-0.003,0.014]; HyenaDNA-tiny human_enhancers_cohn -0.048[-0.053,-0.043]; HyenaDNA-tiny nt_enhancers -0.079[-0.107,-0.056] => contaminated <0: True; drosophila flat: True
+  => [original] DNABERT-2-117M human_enhancers_cohn -0.045[-0.049,-0.040]; DNABERT-2-117M nt_enhancers -0.075[-0.101,-0.052]; HyenaDNA-tiny drosophila_enhancers_stark +0.005[-0.003,0.013]; HyenaDNA-tiny human_enhancers_cohn -0.049[-0.055,-0.043]; HyenaDNA-tiny nt_enhancers -0.081[-0.106,-0.056] | placebo CIs covering 0: 18/20 => contaminated <0: True; drosophila flat: True
+  => [id80] DNABERT-2-117M human_enhancers_cohn -0.043[-0.048,-0.039]; DNABERT-2-117M nt_enhancers -0.019[-0.033,-0.008]; HyenaDNA-tiny drosophila_enhancers_stark -0.003[-0.011,0.005]; HyenaDNA-tiny human_enhancers_cohn -0.051[-0.056,-0.046]; HyenaDNA-tiny nt_enhancers -0.063[-0.100,-0.030] | placebo CIs covering 0: 15/20 => contaminated <0: True; drosophila flat: True
+  => [id50] DNABERT-2-117M human_enhancers_cohn -0.043[-0.048,-0.039]; DNABERT-2-117M nt_enhancers -0.053[-0.084,-0.027]; HyenaDNA-tiny drosophila_enhancers_stark -0.008[-0.015,-0.001]; HyenaDNA-tiny human_enhancers_cohn -0.045[-0.050,-0.040]; HyenaDNA-tiny nt_enhancers -0.096[-0.140,-0.057] | placebo CIs covering 0: 13/20 => contaminated <0: True; drosophila flat: False
+  contaminated-task gc_match cells (all models x poolings x heads) with test_effect CI upper < 0 [original]: 16/16
+  contaminated-task gc_match cells (all models x poolings x heads) with test_effect CI upper < 0 [id80]: 16/16
+  contaminated-task gc_match cells (all models x poolings x heads) with test_effect CI upper < 0 [id50]: 16/16
+  reproduction vs fm_paired*.csv (original_released): 60 cells, max |test_effect diff| = 0.0000
+
+X5 GRADED POSITIONAL RESCUE (nt_splice_sites_all, dMCC(B) - B1, paired bootstrap)
+  original  B2 +0.456[0.429,0.486]  B4 +0.525[0.493,0.555]  B8 +0.601[0.571,0.629]  B16 +0.659[0.631,0.687]  => X5 graded [original] PRESERVED (monotone True, all CI>0 True)
+  id80      B2 +0.476[0.446,0.508]  B4 +0.549[0.519,0.581]  B8 +0.620[0.590,0.651]  B16 +0.672[0.641,0.702]  => X5 graded [id80] PRESERVED (monotone True, all CI>0 True)
+  id50      B2 +0.509[0.477,0.541]  B4 +0.599[0.568,0.628]  B8 +0.653[0.621,0.684]  B16 +0.701[0.671,0.729]  => X5 graded [id50] PRESERVED (monotone True, all CI>0 True)
+
+X6 POSITIONAL RESCUE dMCC(B8-B1) AT id50 (all tasks now at both thresholds)
+  demo_human_or_worm                id80: -0.003[-0.006,0.000]  id50: -0.002[-0.005,0.002]
+  human_ensembl_regulatory          id80: -0.001[-0.004,0.002]  id50: -0.001[-0.004,0.002]
+  nt_promoter_all                   id80: +0.011[0.003,0.019]  id50: +0.005[-0.003,0.012]
+  nt_promoter_no_tata               id80: -0.001[-0.009,0.007]  id50: +0.003[-0.005,0.012]
+  human_nontata_promoters           id80: -0.092[-0.125,-0.056]  id50: -0.109[-0.142,-0.072]
+  nt_promoter_tata                  original: +0.019[-0.001,0.042]  id80: +0.007[-0.007,0.023]  id50: +0.003[-0.022,0.028]
+  demo_coding_vs_intergenomic_seqs  id80: -0.003[-0.008,0.003]  id50: -0.009[-0.015,-0.003]
+  human_enhancers_ensembl           id80: +0.024[0.015,0.034]  id50: +0.010[0.001,0.020]
+  dummy_mouse_enhancers_ensembl     id80: -0.058[-0.141,0.014]  id50: -0.058[-0.141,0.014]
+  nt_enhancers                      original: +0.005[-0.034,0.040]  id80: -0.005[-0.031,0.022]  id50: +0.016[-0.017,0.048]
+  nt_enhancers_types                id80: +0.004[-0.022,0.031]  id50: -0.030[-0.056,-0.008]
+  human_enhancers_cohn              original: -0.003[-0.017,0.010]  id80: -0.010[-0.024,0.007]  id50: +0.003[-0.013,0.017]
+  human_ocr_ensembl                 id80: +0.035[0.023,0.045]  id50: +0.032[0.020,0.044]
+  drosophila_enhancers_stark        id80: +0.014[-0.022,0.053]  id50: -0.040[-0.075,-0.005]
+  nt_splice_sites_all               original: +0.601[0.571,0.629]  id80: +0.620[0.590,0.651]  id50: +0.653[0.621,0.684]
+
+X7 LR FLOOR vs LightGBM, tier agreement (solved >= 0.7 / partial >= 0.5 / hard)
+  original       agree 13/15; disagreements: human_ensembl_regulatory (LR 0.429 hard / LGBM 0.907 solved), nt_enhancers (LR 0.437 hard / LGBM 0.514 partial)
+  resplit_id80   agree 14/15; disagreements: human_ensembl_regulatory (LR 0.407 hard / LGBM 0.912 solved)
+  resplit_id50   agree 14/15; disagreements: human_ensembl_regulatory (LR 0.429 hard / LGBM 0.909 solved)
+  => X7 LR floor (descriptive): LR/LightGBM tier agreement original 13/15; resplit_id80 14/15; resplit_id50 14/15 (paper: 13/15 on the provided split)
+
+X8 MODEL-SEED ROBUSTNESS (5 seeds, bootstrap-resampled training rows, fixed test)
+  original       tier stable 7/8; max SD 0.0130; demo_human_or_worm 0.911+/-0.001 solved, drosophila_enhancers_stark 0.377+/-0.013 hard, human_enhancers_cohn 0.444+/-0.007 hard, human_nontata_promoters 0.836+/-0.004 solved, human_ocr_ensembl 0.411+/-0.002 hard, nt_enhancers 0.498+/-0.013 VARIES, nt_promoter_tata 0.845+/-0.011 solved, nt_splice_sites_all 0.241+/-0.006 hard
+  resplit_id80   tier stable 8/8; max SD 0.0182; demo_human_or_worm 0.902+/-0.001 solved, drosophila_enhancers_stark 0.353+/-0.010 hard, human_enhancers_cohn 0.423+/-0.006 hard, human_nontata_promoters 0.640+/-0.015 partial, human_ocr_ensembl 0.380+/-0.003 hard, nt_enhancers 0.841+/-0.018 solved, nt_promoter_tata 0.871+/-0.012 solved, nt_splice_sites_all 0.193+/-0.005 hard
+  => X8 model seeds [resplit_id80] PRE-REGISTERED rule (tier seed-stable for the same tasks as before AND max SD <= 0.02): same stable set False (before 7/8, after 8/8; every task stable before is stable after: True; newly stable: nt_enhancers); max SD 0.0182 <= 0.02: True => PRESERVED except for the newly-stable task(s) (stability improved)
+
+X9 MOTIF PRESENCE (#FDR-enriched TFs of the LightGBM gain vector) vs MCC, 9 GB tasks
+  original       Spearman(MCC, #enriched) rho=+0.067 p=0.865 => X9 presence null PRESERVED; demo_coding_vs_intergenomic_seqs 62, demo_human_or_worm 36, drosophila_enhancers_stark 5, dummy_mouse_enhancers_ensembl 127, human_enhancers_cohn 11, human_enhancers_ensembl 265, human_ensembl_regulatory 94, human_nontata_promoters 125, human_ocr_ensembl 243
+  resplit_id80   Spearman(MCC, #enriched) rho=-0.017 p=0.966 => X9 presence null PRESERVED; demo_coding_vs_intergenomic_seqs 83, demo_human_or_worm 37, drosophila_enhancers_stark 3, dummy_mouse_enhancers_ensembl 124, human_enhancers_cohn 50, human_enhancers_ensembl 265, human_ensembl_regulatory 94, human_nontata_promoters 121, human_ocr_ensembl 238
+
+X10 COORDINATES (cohn negatives, GENCODE v44 TSS +/-500 bp)
+  original  flagged 0.018 vs unflagged 0.033 (x0.55, Fisher p=3.2e-08; n_neg=13896); positives 0.156 => X10 coordinates TSS depletion PRESERVED
+  id80      flagged 0.019 vs unflagged 0.035 (x0.55, Fisher p=3.1e-08; n_neg=12932); positives 0.156 => X10 coordinates TSS depletion PRESERVED
+  id50      flagged 0.020 vs unflagged 0.037 (x0.54, Fisher p=2.7e-08; n_neg=12176); positives 0.157 => X10 coordinates TSS depletion PRESERVED
+
+FT-HC END-TO-END FINE-TUNING ON THE id80 HOMOLOGY-CLEAN SPLITS (HyenaDNA-tiny, full fine-tune, seeds 42-44;
+  run_stage_ft_hc.sh: recipe = fm_finetune/run_ft_v2.py unchanged, run_ft_hc.py only redirects paths; scoring and
+  decision rules = fm_finetune/eval_ft_v2.py unchanged, via eval_ft_hc.py). HC splits: prepare_ft_hc_splits.py (id80
+  cluster-aware re-split + one representative per component x label; cleaning arms rebuilt inside the HC splits).
+  Contrasts = seed-mean test AUROC (train arm -> eval arm), 95% CI from 1000 resamples of the test sequences.
+  Not-evaluable rule (fixed in run_stage_ft_hc.sh before training): a contrast whose eval arm keeps < 10 test negatives.
+  human_enhancers_cohn         HC test arms (pos/neg): original 3459/3390, gc_match 3459/2339, comp_equalized 3459/176, random 3459/176
+  nt_enhancers                 HC test arms (pos/neg): original 177/191, gc_match 177/73, comp_equalized 177/3, random 177/3
+  drosophila_enhancers_stark   HC test arms (pos/neg): original 865/848, gc_match 865/721, comp_equalized 865/429, random 865/429
+  human_enhancers_cohn
+    A_orig_orig            HC 0.791[0.780,0.802]       provided 0.796[0.785,0.805]
+    B_orig_compeq          HC 0.583[0.541,0.625]       provided 0.581[0.542,0.618]
+    C_orig_random          HC 0.797[0.762,0.829]       provided 0.804[0.776,0.830]
+    D_compeq_compeq        HC 0.510[0.475,0.540]       provided 0.522[0.502,0.541]
+    E_random_random        HC 0.736[0.698,0.770]       provided 0.775[0.745,0.805]
+    S_shortcut_worth       HC 0.208[0.170,0.245]       provided 0.214[0.180,0.252]
+    T_test_imbalance_ctl   HC 0.213[0.163,0.259]       provided 0.223[0.181,0.271]
+    U_train_size_ctl       HC 0.226[0.181,0.274]       provided 0.254[0.217,0.289]
+    R_retention            HC 0.809[0.687,0.924]       provided 0.932[0.837,1.027]
+    S_gc                   HC 0.056[0.051,0.061]       provided 0.060[0.055,0.065]
+    => FT-HC human_enhancers_cohn rule 1 rides the shortcut: HC True | provided True
+    => FT-HC human_enhancers_cohn rule 2 drop not test-imbalance: HC True | provided True
+    => FT-HC human_enhancers_cohn rule 3 collapse cause: HC composition removal | provided composition removal
+  nt_enhancers
+    A_orig_orig            HC 0.984[0.975,0.992]       provided 0.762[0.718,0.806]
+    B_orig_compeq          HC n/e (<10 test negs)      provided 0.593[0.504,0.684]
+    C_orig_random          HC n/e (<10 test negs)      provided 0.797[0.718,0.864]
+    D_compeq_compeq        HC n/e (<10 test negs)      provided 0.643[0.538,0.747]
+    E_random_random        HC n/e (<10 test negs)      provided 0.822[0.753,0.883]
+    S_shortcut_worth       HC n/e (<10 test negs)      provided 0.169[0.095,0.241]
+    T_test_imbalance_ctl   HC n/e (<10 test negs)      provided 0.204[0.099,0.309]
+    U_train_size_ctl       HC n/e (<10 test negs)      provided 0.179[0.061,0.297]
+    R_retention            HC n/e (<10 test negs)      provided 1.233[0.989,1.490]
+    S_gc                   HC 0.003[-0.003,0.010]      provided 0.109[0.080,0.143]
+    => FT-HC nt_enhancers rule 1 rides the shortcut: HC n/e | provided True
+    => FT-HC nt_enhancers rule 2 drop not test-imbalance: HC n/e | provided True
+    => FT-HC nt_enhancers rule 3 collapse cause: HC n/e | provided composition removal
+  drosophila_enhancers_stark
+    A_orig_orig            HC 0.829[0.810,0.847]       provided 0.828[0.809,0.846]
+    B_orig_compeq          HC 0.769[0.740,0.796]       provided 0.742[0.707,0.779]
+    C_orig_random          HC 0.831[0.808,0.856]       provided 0.846[0.815,0.878]
+    D_compeq_compeq        HC 0.738[0.710,0.765]       provided 0.726[0.690,0.765]
+    E_random_random        HC 0.813[0.789,0.840]       provided 0.819[0.785,0.851]
+    S_shortcut_worth       HC 0.059[0.043,0.075]       provided 0.086[0.056,0.114]
+    T_test_imbalance_ctl   HC 0.062[0.039,0.088]       provided 0.105[0.065,0.142]
+    U_train_size_ctl       HC 0.076[0.050,0.104]       provided 0.093[0.051,0.132]
+    R_retention            HC 0.953[0.905,1.008]       provided 0.973[0.887,1.053]
+    S_gc                   HC 0.020[0.015,0.026]       provided 0.025[0.019,0.030]
+    => FT-HC drosophila_enhancers_stark rule 1 rides the shortcut: HC False | provided False
+    => FT-HC drosophila_enhancers_stark rule 2 drop not test-imbalance: HC True | provided True
+    => FT-HC drosophila_enhancers_stark rule 3 collapse cause: HC composition removal | provided composition removal
+    => FT-HC drosophila rule 5 (aligned control not destroyed): HC True (vs human_enhancers_cohn; not evaluable vs nt_enhancers) | provided False (vs human_enhancers_cohn, nt_enhancers)
+  eval_ft_hc.py's own mechanical verdicts (no not-evaluable guard): drosophila_enhancers_stark: r1 False, r2 True, r3 composition removal (random arm preserves signal), r5 True; human_enhancers_cohn: r1 True, r2 True, r3 composition removal (random arm preserves signal); nt_enhancers: r1 False, r2 True, r3 size/imbalance NOT excluded (U CI includes 0)
+  score-composition coupling (secondary, descriptive; original-trained model, original test split): fraction of the
+  model's above-chance AUROC recovered by the CV composition projection of its score, HC vs provided: human_enhancers_cohn 0.90 vs 0.89; nt_enhancers 0.90 vs 1.13; drosophila_enhancers_stark 0.60 vs 0.64
+  DEFERRED (not dropped): DNABERT-2-117M LoRA fine-tuning on the same HC splits (cohn + nt_enhancers, arms original/
+  comp_equalized/random, seeds 42-44 = 18 units; process peak 3.5-3.8 GB > the laptop's per-job budget). Package:
+  src/upgrades/homology_recluster/deferred/ (README.md, run_deferred_dnabert_hc.sh).
+
+A1 (POST HOC) RE-POOLING CONTROL FOR RELABELS (label rule on cluster vs RANDOM re-split MCC; seed-mean primary)
+  id80: relabels under cluster re-split (seed-mean): human_nontata_promoters (solved->shared-motif; random re-split -> solved; HOMOLOGY-attributable), nt_enhancers (contamination->solved; random re-split -> solved; re-pooling), nt_enhancers_types (shared-motif->solved; random re-split -> solved; re-pooling)
+        split-seed-42-only relabels (not in the seed mean): demo_coding_vs_intergenomic_seqs (solved->shared-motif)
+  id50: relabels under cluster re-split (seed-mean): human_nontata_promoters (solved->shared-motif; random re-split -> solved; HOMOLOGY-attributable), nt_enhancers (contamination->solved; random re-split -> solved; re-pooling), nt_enhancers_types (shared-motif->solved; random re-split -> solved; re-pooling)
+A2 (POST HOC) SUBMITTED-PAPER LABELS ('composition', 'contamination (weak)')
+  demo_human_or_worm                id80  composition            task-type label (unchanged by construction); supporting diagnostic preserved
+                                         before: comp_fraction=0.986 [0.985,0.988]
+                                         after : comp_fraction=0.987 [0.985,0.989] | purge 0.986 [0.984,0.988]
+  demo_human_or_worm                id50  composition            task-type label (unchanged by construction); supporting diagnostic preserved
+                                         before: comp_fraction=0.986 [0.985,0.988]
+                                         after : comp_fraction=0.986 [0.985,0.988] | purge 0.985 [0.983,0.987]
+  demo_coding_vs_intergenomic_seqs  id80  composition            task-type label (unchanged by construction); supporting diagnostic preserved
+                                         before: comp_fraction=0.933 [0.928,0.937]
+                                         after : comp_fraction=0.900 [0.894,0.906] | purge 0.937 [0.932,0.943]
+  demo_coding_vs_intergenomic_seqs  id50  composition            task-type label (unchanged by construction); supporting diagnostic preserved
+                                         before: comp_fraction=0.933 [0.928,0.937]
+                                         after : comp_fraction=0.872 [0.866,0.879] | purge 0.936 [0.931,0.942]
+  human_enhancers_ensembl           id80  contamination (weak)   preserved
+                                         before: TATA AUROC-0.5=-0.068 [-0.073,-0.063]; neg-excess=+0.126 [+0.116,+0.136]; diagnose.py R3 criterion True
+                                         after : TATA AUROC-0.5=-0.073 [-0.078,-0.068]; neg-excess=+0.134 [+0.125,+0.144]; diagnose.py R3 criterion True
+  human_enhancers_ensembl           id50  contamination (weak)   preserved
+                                         before: TATA AUROC-0.5=-0.068 [-0.073,-0.063]; neg-excess=+0.126 [+0.116,+0.136]; diagnose.py R3 criterion True
+                                         after : TATA AUROC-0.5=-0.071 [-0.076,-0.065]; neg-excess=+0.130 [+0.118,+0.140]; diagnose.py R3 criterion True
+  dummy_mouse_enhancers_ensembl     id80  composition            task-type label (unchanged by construction); supporting diagnostic preserved
+                                         before: comp_fraction=1.038 [0.938,1.154]
+                                         after : comp_fraction=0.902 [0.773,1.025] | purge 1.038 [0.938,1.154]
+  dummy_mouse_enhancers_ensembl     id50  composition            task-type label (unchanged by construction); supporting diagnostic preserved
+                                         before: comp_fraction=1.038 [0.938,1.154]
+                                         after : comp_fraction=0.902 [0.773,1.025] | purge 1.038 [0.938,1.154]
+A3 (POST HOC) WHERE THE HOMOLOGY IS (id80; fraction of test sequences with a train homolog, by class)
+  demo_human_or_worm                 any 0.112  same-label 0.112  cross-label-only 0.000  | class0 0.147  class1 0.077
+  human_ensembl_regulatory           any 0.061  same-label 0.059  cross-label-only 0.002  | class0 0.041  class1 0.102  class2 0.044
+  nt_promoter_all                    any 0.039  same-label 0.039  cross-label-only 0.000  | class0 0.000  class1 0.078
+  nt_promoter_no_tata                any 0.037  same-label 0.037  cross-label-only 0.000  | class0 0.000  class1 0.075
+  human_nontata_promoters            any 0.449  same-label 0.449  cross-label-only 0.000  | class0 0.941  class1 0.036
+  nt_promoter_tata                   any 0.047  same-label 0.047  cross-label-only 0.000  | class0 0.000  class1 0.087
+  demo_coding_vs_intergenomic_seqs   any 0.188  same-label 0.188  cross-label-only 0.000  | class0 0.167  class1 0.209
+  human_enhancers_ensembl            any 0.429  same-label 0.428  cross-label-only 0.000  | class0 0.109  class1 0.748
+  dummy_mouse_enhancers_ensembl      any 0.000  same-label 0.000  cross-label-only 0.000  | class0 0.000  class1 0.000
+  nt_enhancers                       any 0.270  same-label 0.270  cross-label-only 0.000  | class0 0.025  class1 0.515
+  nt_enhancers_types                 any 0.270  same-label 0.270  cross-label-only 0.000  | class0 0.025  class1 0.030  class2 1.000
+  human_enhancers_cohn               any 0.043  same-label 0.041  cross-label-only 0.002  | class0 0.080  class1 0.006
+  human_ocr_ensembl                  any 0.112  same-label 0.110  cross-label-only 0.002  | class0 0.119  class1 0.106
+  drosophila_enhancers_stark         any 0.021  same-label 0.018  cross-label-only 0.003  | class0 0.038  class1 0.005
+  nt_splice_sites_all                any 0.123  same-label 0.099  cross-label-only 0.023  | class0 0.151  class1 0.139  class2 0.078
+A4 (POST HOC) ROUTE-1 with homology-clean MCCs (11 TF tasks; published discriminability on x)
+  y=published_MCC                rho=+0.736 p=0.010  LOTO MAE 0.140[0.109,0.183]  R2 +0.44[-0.30,+0.70]  slope 2.61
+  y=purge_id80_stdMCC            rho=+0.867 p=0.001  LOTO MAE 0.125[0.064,0.209]  R2 +0.44[-1.05,+0.88]  slope 3.19
+  y=purge_id50_stdMCC            rho=+0.867 p=0.001  LOTO MAE 0.125[0.065,0.209]  R2 +0.45[-1.04,+0.88]  slope 3.23
+  y=resplit_id80_MCC             rho=+0.545 p=0.083  LOTO MAE 0.214[0.145,0.285]  R2 -0.37[-2.96,+0.40]  slope 1.72
+  y=resplit_id50_MCC             rho=+0.573 p=0.066  LOTO MAE 0.212[0.143,0.282]  R2 -0.36[-2.81,+0.40]  slope 1.71
+  y=resplit_id80_seedmean_MCC    rho=+0.573 p=0.066  LOTO MAE 0.202[0.134,0.271]  R2 -0.33[-2.78,+0.41]  slope 1.72
+  y=resplit_id50_seedmean_MCC    rho=+0.582 p=0.060  LOTO MAE 0.213[0.146,0.282]  R2 -0.40[-2.84,+0.38]  slope 1.64
+  y=resplit_random_MCC           rho=+0.573 p=0.066  LOTO MAE 0.167[0.103,0.241]  R2 -0.01[-2.70,+0.55]  slope 2.14
+  y=resplit_random_seedmean_MCC  rho=+0.682 p=0.021  LOTO MAE 0.162[0.100,0.235]  R2 +0.01[-2.80,+0.57]  slope 2.15

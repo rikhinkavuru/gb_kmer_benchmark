@@ -1,0 +1,13 @@
+task,n_train,n_test,n_query,query_mode,frac_ge_0_5,frac_ge_0_7,frac_ge_0_7_lo,frac_ge_0_7_hi,frac_ge_0_9,n_ge_0_7,mean_max_jaccard,median_max_jaccard,p95_max_jaccard,p99_max_jaccard,max_max_jaccard,verdict,seconds,reproduces_homology_leakage
+nt_promoter_tata,5509,621,621,full,0.0161,0.01449,0.00764,0.02731,0.00966,9,0.18026,0.17505,0.2125,0.89624,1.0,borderline,1.1,True
+demo_human_or_worm,75000,25000,5000,subsample5000,0.0304,0.012,0.00933,0.01541,0.0022,60,0.09372,0.04722,0.37052,0.72404,1.0,borderline,25.2,False
+human_ensembl_regulatory,231348,57713,5000,subsample5000,0.0158,0.0032,0.00197,0.00519,0.0002,16,0.07292,0.03836,0.23825,0.5813,0.94872,clean,147.9,False
+demo_coding_vs_intergenomic_seqs,75000,25000,5000,subsample5000,0.1454,0.0786,0.07146,0.08639,0.0232,393,0.18892,0.04891,0.78802,0.95918,1.0,LEAKY,26.7,False
+human_enhancers_ensembl,123872,30970,5000,subsample5000,0.394,0.3852,0.3718,0.39877,0.3808,1926,0.43554,0.1173,1.0,1.0,1.0,LEAKY,60.3,False
+dummy_mouse_enhancers_ensembl,968,242,242,full,0.0,0.0,0.0,0.01563,0.0,0,0.0394,0.04064,0.06184,0.07231,0.2824,clean,1.1,False
+human_ocr_ensembl,139804,34952,5000,subsample5000,0.042,0.0104,0.00794,0.01361,0.0014,52,0.10275,0.04138,0.44764,0.70299,1.0,borderline,89.4,False
+drosophila_enhancers_stark,5184,1730,1730,full,0.02832,0.01561,0.01075,0.02261,0.00578,27,0.10707,0.05171,0.34559,0.77626,0.97309,borderline,13.5,False
+nt_promoter_all,53276,5920,5920,full,0.01622,0.01267,0.01012,0.01585,0.00726,75,0.18508,0.17683,0.30297,0.81449,1.0,borderline,33.8,False
+nt_promoter_no_tata,47767,5299,5299,full,0.01585,0.01246,0.0098,0.01581,0.00698,66,0.18394,0.17683,0.28539,0.78966,1.0,borderline,25.9,False
+nt_enhancers_types,14968,400,400,full,0.25,0.25,0.21008,0.29468,0.25,100,0.2837,0.03774,1.0,1.0,1.0,LEAKY,2.4,False
+nt_splice_sites_all,27000,3000,3000,full,0.14033,0.09767,0.08755,0.10881,0.07567,293,0.17451,0.03595,1.0,1.0,1.0,LEAKY,14.8,False

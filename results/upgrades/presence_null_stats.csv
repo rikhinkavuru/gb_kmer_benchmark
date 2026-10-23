@@ -1,0 +1,4 @@
+subset,n,rho,p,fisher_lo,fisher_hi,boot_lo,boot_hi,p_perm,p_perm_method,n_perm,fisher_bw_lo,fisher_bw_hi,pct_lo,pct_hi,bc_z0,bc_ok,boot_B,boot_valid,boot_degenerate,boot_mean,boot_sd,x,y
+GB_n9,9,-0.033333,0.932157,-0.68235,0.645069,-0.734513,0.684211,0.948391,exact_enumeration,362880,-0.682468,0.645198,-0.754386,0.669565,0.047904,1,10000,9998,2,-0.03651,0.370318,n_enriched_TFs,test_MCC
+NT_n6,6,-0.371429,0.468478,-0.908987,0.630054,-1.0,0.741935,0.497222,exact_enumeration,720,-0.915427,0.65264,-1.0,0.636364,0.054385,1,10000,9799,201,-0.356235,0.460298,n_enriched_TFs,test_MCC
+pooled_n15,15,-0.244862,0.379091,-0.67274,0.305753,-0.649186,0.302489,0.375193,monte_carlo,200000,-0.677323,0.313364,-0.650928,0.297164,0.008272,1,10000,10000,0,-0.231016,0.245556,n_enriched_TFs,test_MCC

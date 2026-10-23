@@ -1,0 +1,9 @@
+task,check,value,note
+nt_promoter_all,train_seq_label_multiset_equals_tata_plus_no_tata,1.0,"n 53276 = 5509 + 47767; exact (sequence, label) pairs"
+nt_promoter_all,train_tata_and_no_tata_sequence_sets_disjoint,1.0,exact strings
+nt_promoter_all,test_seq_label_multiset_equals_tata_plus_no_tata,1.0,"n 5920 = 621 + 5299; exact (sequence, label) pairs"
+nt_promoter_all,test_tata_and_no_tata_sequence_sets_disjoint,1.0,exact strings
+nt_enhancers_types,train_sequence_list_identical_to_nt_enhancers,1.0,same order; only the labels differ
+nt_enhancers_types,test_sequence_list_identical_to_nt_enhancers,1.0,same order; only the labels differ
+human_ensembl_regulatory,train_ocr_class_multiset_equals_human_ocr_ensembl_positives,1.0,"n 69902 = 69902 (69901 distinct); exact strings, same split"
+human_ensembl_regulatory,test_ocr_class_multiset_equals_human_ocr_ensembl_positives,1.0,"n 17476 = 17476 (17476 distinct); exact strings, same split"

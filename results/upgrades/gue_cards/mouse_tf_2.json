@@ -1,0 +1,169 @@
+{
+  "task": "mouse_tf_2",
+  "species": "mouse",
+  "family": "TF binding (101 bp)",
+  "neg_construction": "dinucleotide-shuffled positives (dinucleotide frequencies preserved)",
+  "n_classes": 2,
+  "binary": true,
+  "n_train": 2620,
+  "n_dev": 328,
+  "n_test": 328,
+  "pos_frac_test": 0.5,
+  "k": 5,
+  "val_mcc": {
+    "3": 0.496313,
+    "4": 0.656565,
+    "5": 0.763559,
+    "6": 0.760479
+  },
+  "learnability": {
+    "mcc": 0.7825855808712295,
+    "mcc_ci": [
+      0.7160437563052664,
+      0.8439785218462049
+    ],
+    "auroc": 0.9655339083878645,
+    "auroc_ci": [
+      0.9480010199092223,
+      0.9807640212519163
+    ],
+    "f1_macro": 0.8900967982129561,
+    "f1_macro_ci": [
+      0.8561145683652314,
+      0.9210935508489645
+    ],
+    "acc": 0.8902439024390244,
+    "n_test": 328
+  },
+  "composition_only": {
+    "mcc": -0.8051175601825399,
+    "mcc_ci": [
+      -0.8657459088904585,
+      -0.7378036825997901
+    ],
+    "auroc": 0.017772159428911364,
+    "auroc_ci": [
+      0.00975795589668501,
+      0.028090300419676292
+    ],
+    "f1_macro": 0.0974267440130894
+  },
+  "composition_fraction": {
+    "value": -1.0359,
+    "ci": [
+      -1.0768,
+      -0.9962
+    ],
+    "full_auroc": 0.9655,
+    "comp_only_auroc": 0.0178,
+    "definition": "(AUROC_comp_only-0.5)/(AUROC_full-0.5)"
+  },
+  "tier": "solved",
+  "route2_positional": {
+    "spectrum_mcc": 0.7826,
+    "positional_mcc": 0.8058,
+    "delta_mcc": 0.0233,
+    "delta_ci": [
+      -0.0245,
+      0.0702
+    ],
+    "significant": false,
+    "n_bins": 8,
+    "capped": false,
+    "n_train_used": 2620,
+    "n_test_used": 328
+  },
+  "route1_motif": {
+    "max_pos_motif_auroc": 0.6346,
+    "best_TF": "FOS",
+    "motif_richness": 0.129,
+    "per_TF_auroc": {
+      "SP1": 0.5126,
+      "SP2": 0.5169,
+      "SP3": 0.5076,
+      "SP4": 0.5046,
+      "KLF15": 0.5031,
+      "KLF5": 0.5238,
+      "ETS1": 0.5202,
+      "ETS2": 0.5147,
+      "ELF4": 0.504,
+      "ETV2": 0.5119,
+      "FLI1": 0.5095,
+      "TFAP4": 0.5034,
+      "HAND2": 0.4988,
+      "MYOD1": 0.5028,
+      "MYC": 0.5101,
+      "BATF3": 0.6067,
+      "FOS": 0.6346,
+      "Jun": 0.6211,
+      "BACH1": 0.6322,
+      "TBP": 0.5339,
+      "PBX1": 0.5018,
+      "PBX2": 0.5049,
+      "MEIS1": 0.4846,
+      "MEIS2": 0.4811,
+      "FOXC1": 0.5095,
+      "TGIF1": 0.5
+    },
+    "n_TFs": 26,
+    "panel": "curated vertebrate (diagnose default)",
+    "missing": []
+  },
+  "route3_negatives": {
+    "tata_pos_rate": 0.0415,
+    "tata_neg_rate": 0.025,
+    "tata_neg_excess": -0.0165,
+    "tata_motif_auroc": 0.5083,
+    "gc_auroc": 0.5,
+    "cleaned_tata_auroc": 0.5083,
+    "cleaning_moves_to_chance": false,
+    "frac_neg_removed": 0.0
+  },
+  "shuffled_negative_control": {
+    "tata_auroc_vs_shuffled": 0.511,
+    "gc_auroc_vs_shuffled": 0.5,
+    "dinuc_preserved_frac": 1.0,
+    "n_shuffled": 1638
+  },
+  "equalized_delta": {
+    "feasible": true,
+    "mcc_before": 0.782586,
+    "mcc_after": 0.750188,
+    "mcc_after_ci": [
+      0.6774,
+      0.8231
+    ],
+    "delta_mcc": -0.0324,
+    "auroc_before": 0.965534,
+    "auroc_after": 0.96436,
+    "comp_only_auroc_after": 0.092338,
+    "comp_only_mcc_after": -0.474286,
+    "n_test_after": 293,
+    "pos_frac_test_after": 0.5597,
+    "retained_neg_frac": 0.5295,
+    "max_abs_smd_before": 0.0175,
+    "max_abs_smd_after": 0.051
+  },
+  "redundancy": {
+    "frac_ge_0_7": 0.0,
+    "frac_verbatim": 0.0,
+    "median_max_jaccard": 0.0794,
+    "verdict": "clean",
+    "n_test": 328
+  },
+  "verdict": "SOLVED",
+  "composition_dominated": false,
+  "composition_flag_rule": "composition fraction >= 0.8 and full AUROC >= 0.6",
+  "timing_s": {
+    "select_k": 3.5,
+    "learn": 2.2,
+    "comp": 2.5,
+    "positional": 2.2,
+    "motif": 1.1,
+    "equalized": 3.9,
+    "redundancy": 0.1
+  },
+  "total_s": 15.6,
+  "n_jobs": 3,
+  "lightgbm_version": "4.6.0"
+}

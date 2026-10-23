@@ -1,0 +1,104 @@
+MULTIVAR PRE-REGISTRATION (verbatim docstring of src/upgrades/multivar/run_multivar.py)
+File mtime when frozen: 2026-09-23 21:44:29 EDT (before any new covariate was computed; the first
+covariate checkpoint external/multivar/taskstats/*.json was written 2026-09-24 11:12).
+sha256 of the 99-line docstring-only file: 7f5ba7bd09849799c25754f6d609167eec461035b25533fc2c627401d17f050f
+====================================================================================================
+#!/usr/bin/env python3
+"""Multivariate covariate analysis of real-task learnability (Reviewer 1, comment 1).
+
+Question: the synthetic discriminability dose-response is tight (Spearman +0.924, n=135), but on
+the real TF-motif tasks the univariate fit MCC ~ discriminability is loose (Spearman +0.74, n=11;
+leave-one-task-out R^2 +0.44 [-0.27,+0.70], MAE 0.14). Do sequence length, GC content variance,
+homology redundancy, or other measurable task properties explain the deviations, and does
+discriminability survive controlling for them?
+
+=====================================================================================================
+PRE-REGISTERED ANALYSIS PLAN  (written 2026-09-23, BEFORE any covariate below was computed and
+BEFORE any multivariate model was fit. The univariate discriminability LOTO result was already
+public in results/upgrades/route1_predict.csv; it is REPRODUCED here, not re-derived.)
+=====================================================================================================
+Units = tasks.  S11 = the 11 TF-motif tasks (results/cross_suite_summary.csv tf_motif_task==True),
+PRIMARY.  S15 = all 15 tasks, SECONDARY.
+
+Outcomes.  Y1 = benchmark MCC (cross_suite_summary.csv bench_mcc == Table 1: validation-selected k,
+LightGBM, seed 42) -- PRIMARY.  Y2 = benchmark AUROC (bench_auroc; macro one-vs-rest for 3-class).
+
+Covariates (fixed list and fixed transforms; every model z-scores its predictors with the mean/SD
+re-estimated inside each training fold / bootstrap resample):
+  disc        max positive-direction motif-only AUROC (cross_suite_summary max_pos_motif_auroc)
+  len_log     log10 mean sequence length (train+test, all classes)
+  len_sd_log  log10(1 + SD of sequence length in bp)            (many tasks are fixed-length: SD=0)
+  gc_mean     mean per-sequence GC fraction over A/C/G/T positions (train+test)
+  gc_sd       within-class pooled SD of per-sequence GC  (the GC variance NOT due to the class gap)
+  gc_gap      |Cohen's d| of per-sequence GC between classes (pooled SD; max over class pairs, 3-class)
+  homology    fraction of TEST sequences whose max exact 8-mer Jaccard to the whole TRAIN split is
+              >= 0.7 (method of src/upgrades/homology/measure_homology.py; its 4 existing rows are
+              reused, the other 11 are computed by measure_homology_all.py with the same functions)
+  ntrain_log  log10 n_train
+  multiclass  1 if the task has 3 classes else 0 (n_classes is 2 or 3, so this == n_classes - 2)
+  pos_delta   positional-rescue delta MCC at B=8 (results/upgrades/positional_sweep.csv delta_mcc)
+  comp        composition-only baseline: 20-d mono+dinucleotide signature (_common.comp_signature),
+              same fixed LightGBM config, original split. comp MCC for Y1, comp AUROC for Y2.
+Pool A (PRIMARY, "descriptive") = the first ten.  Pool B = Pool A + comp.  comp is a performance-
+derived covariate (a weaker classifier's score on the same test set), so a model containing it
+DECOMPOSES rather than explains the outcome; it is reported separately and never used for the
+decision rule.  Tasks lacking a covariate value would be dropped from models using it (none expected).
+
+Analyses
+  A0  Reproduce Y1 ~ disc on S11: LOTO R^2 and MAE must equal route1_predict.csv (0.439 / 0.140)
+      -- a hard sanity check; the script aborts if it fails.
+  A1  Robustness of disc to each covariate c (Pool B minus disc): (i) rank-based first-order partial
+      Spearman of (disc, Y | c), p from t with df = n-3, 95% task-bootstrap percentile CI (1000
+      resamples, seed 42); (ii) standardized OLS coefficient of disc in Y ~ disc + c, with task-
+      bootstrap CI and t-based CI.  Read-out: count of covariates for which the partial rho stays
+      > 0 with its bootstrap CI excluding 0.  Also done on S15 and for Y2 (secondary).
+  A2  Best-subset OLS: every subset of size 1-3 of Pool A (175 models; Pool B: 231) on S11/Y1
+      (primary; S11/Y2 and S15/Y1 secondary). Per model: in-sample R^2, adjusted R^2,
+      AICc = n ln(RSS/n) + 2K + 2K(K+1)/(n-K-1) with K = p + 2, LOTO predictions (standardization refit
+      inside each fold; a predictor constant within a training fold is dropped for that fold -- OLS
+      predictions are invariant to the affine standardization otherwise), LOTO R^2 (SS_tot about the
+      full-sample mean, exactly as route1_predict.py), LOTO MAE.  Ranked by AICc (primary) and by
+      LOTO MAE (secondary).  Top 5 of each ranking reported with standardized coefficients (X and Y
+      z-scored), raw per-SD coefficients, 95% task-bootstrap percentile CIs (resamples whose design
+      is singular or has a constant column are skipped and counted), t-based CIs, partial
+      correlations (Pearson, each predictor vs Y given the other predictors in the model), VIFs.
+      The "disc-anchored" family (disc + 0-2 Pool-A covariates, 46 models) is ranked the same way.
+  A3  Selection-honest performance (nested LOTO): for each held-out task, rerun the whole subset
+      search on the other n-1 tasks (select by min AICc; separately by min inner-LOTO MAE), refit the
+      selected model, predict the held-out task.  Nested-LOTO R^2 / MAE are the honest estimate of
+      what "best covariate model" buys out of sample.
+  A4  Selection-optimism nulls (1000 permutations each, seed 42):
+      A4a global -- permute Y across tasks, rerun the Pool-A search, record best LOTO R^2.
+      A4b incremental -- keep (Y, disc) fixed, permute the ROWS of the other nine Pool-A covariates
+          jointly (keeps their mutual correlation, breaks their link to Y and disc), rerun the
+          disc-anchored search, record the best LOTO MAE.  p = (1 + #{null best MAE <= observed})/1001.
+  A5  LMG / Shapley R^2 decomposition (mean incremental in-sample R^2 over all predictor orderings)
+      for the top-AICc model and the top disc-anchored model, with task-bootstrap CIs.
+  A6  Residual attribution: from the disc-only LOTO fit, flag tasks with |LOTO residual| > LOTO RMSE.
+      For each flagged task and each c in Pool B, refit Y ~ disc + c by LOTO and record the reduction
+      in |residual|; name the covariate with the largest reduction; call the deviation "explained" if
+      that reduction is >= 50% of the disc-only |residual|, else "not explained by any measured
+      covariate".  Also Spearman(disc-only LOTO residual, c) over tasks for every c.
+  A7  Noise ceiling: each task's test-set sampling SE from its Table-1 bootstrap CI,
+      se = (hi - lo)/3.92 (cross_suite_summary mcc_ci); report mean(se^2) / (disc-only LOTO MSE) =
+      the share of the misfit that test-set sampling noise could account for.
+  A8  Reviewer-specified model Y1 ~ disc + len_log + gc_sd + homology (4 predictors).  On S11 it is
+      over-parameterized (n/p < 3, residual df 6): coefficients + LOTO reported, flagged as such.
+      Also on S15.
+  A9  Synthetic-law transfer: predict real MCC from the pooled OLS line fitted to the synthetic
+      dose-response points (results/upgrades/disc_dose.csv; zero parameters fitted on real tasks);
+      report MAE, R^2 and mean signed residual on S11.
+
+DECISION RULE (fixed now).  "Measured covariates improve on discriminability alone" is declared only
+if ALL of: (a) the nested-LOTO MAE of the AICc-selected Pool-A model (A3) is below the disc-only LOTO
+MAE; (b) the paired task-bootstrap 95% CI of dMAE = MAE(nested) - MAE(disc-only) excludes 0 (same
+resample indices for both, 1000 resamples, seed 42); (c) the incremental permutation p (A4b) < 0.05.
+If any fails, the report states that n is too small to resolve covariate effects beyond
+discriminability -- whatever the in-sample AICc winner looks like -- and the in-sample winners are
+labelled exploratory.  Nothing in this plan is changed after seeing results; any post-hoc analysis
+is labelled POST-HOC in the output.
+
+Inputs: results/upgrades/multivar_covariates.csv (built by build_covariates.py), route1_predict.csv,
+cross_suite_summary.csv, disc_dose.csv.  CPU-only, torch-free, no model refitting here (OLS on <=15
+rows).  Writes results/upgrades/multivar_*.csv + multivar_interpretation.txt.
+"""

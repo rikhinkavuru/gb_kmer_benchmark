@@ -1,0 +1,11 @@
+rule,merged_regions,region_bp,n_200bp_fragments,regions_ge200bp,published_count,ratio_fragments_to_published
+state13_all9 (Heterochrom/lo in all nine),102009,1052083270,5260191,101968,5257994,1.0004178399594978
+nonenhancer_all9 (not states 4-7 in all nine),400402,2229763441,11148205,400284,5257994,2.12023920149015
+nonenh_nonprom_all9 (not states 1-7 in all nine),365052,2186770809,10933257,364937,5257994,2.079358972262045
+state13or12_all9 (Heterochrom/lo or Repressed in all nine),117746,1260614296,6302797,117688,5257994,1.1987075299058918
+state13to15_all9 (Heterochrom/lo or Repetitive/CNV in all nine),103082,1057466958,5287100,103042,5257994,1.005535571170298
+strongenh_all9 (states 4-5 in all nine),265,148400,742,265,742,1.0
+enhancer_all9 (states 4-7 in all nine),1762,844400,4222,1762,742,5.690026954177897
+weakenh_any (states 6-7 in >=1 of nine),519404,492132056,2460484,519347,370517,6.640677755676528
+enhancer_any (states 4-7 in >=1 of nine),399499,600984423,3004738,399451,370517,8.109582016479676
+"enhancer_any_not_strong_all9 (4-7 in >=1, not 4-5 in all nine)",399764,600836023,3003996,399716,370517,8.107579409311853

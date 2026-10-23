@@ -1,0 +1,169 @@
+{
+  "task": "prom_300_tata",
+  "species": "human",
+  "family": "promoter (300 bp)",
+  "neg_construction": "non-TATA: randomly substituted promoter sequences; TATA: random non-promoter genomic sequences carrying a TATA motif",
+  "n_classes": 2,
+  "binary": true,
+  "n_train": 4904,
+  "n_dev": 613,
+  "n_test": 613,
+  "pos_frac_test": 0.4861,
+  "k": 4,
+  "val_mcc": {
+    "3": 0.414917,
+    "4": 0.490521,
+    "5": 0.466242,
+    "6": 0.484222
+  },
+  "learnability": {
+    "mcc": 0.37069105512566997,
+    "mcc_ci": [
+      0.2962805559609318,
+      0.4385538044870475
+    ],
+    "auroc": 0.7583786087141792,
+    "auroc_ci": [
+      0.7191730735030711,
+      0.794651260963344
+    ],
+    "f1_macro": 0.685124809372613,
+    "f1_macro_ci": [
+      0.647471530936003,
+      0.7190830420325689
+    ],
+    "acc": 0.6851549755301795,
+    "n_test": 613
+  },
+  "composition_only": {
+    "mcc": 0.3155148069674027,
+    "mcc_ci": [
+      0.2411200236224829,
+      0.39326561841595636
+    ],
+    "auroc": 0.6908650260999254,
+    "auroc_ci": [
+      0.6506702597724141,
+      0.7323482254431591
+    ],
+    "f1_macro": 0.6574143070044709
+  },
+  "composition_fraction": {
+    "value": 0.7387,
+    "ci": [
+      0.6199,
+      0.8741
+    ],
+    "full_auroc": 0.7584,
+    "comp_only_auroc": 0.6909,
+    "definition": "(AUROC_comp_only-0.5)/(AUROC_full-0.5)"
+  },
+  "tier": "hard",
+  "route2_positional": {
+    "spectrum_mcc": 0.3707,
+    "positional_mcc": 0.6192,
+    "delta_mcc": 0.2485,
+    "delta_ci": [
+      0.1827,
+      0.317
+    ],
+    "significant": true,
+    "n_bins": 8,
+    "capped": false,
+    "n_train_used": 4904,
+    "n_test_used": 613
+  },
+  "route1_motif": {
+    "max_pos_motif_auroc": 0.6308,
+    "best_TF": "KLF5",
+    "motif_richness": 0.4,
+    "per_TF_auroc": {
+      "SP1": 0.5825,
+      "SP2": 0.6052,
+      "SP3": 0.5819,
+      "SP4": 0.5969,
+      "KLF15": 0.5744,
+      "KLF5": 0.6308,
+      "ETS1": 0.5274,
+      "ETS2": 0.5178,
+      "ELF4": 0.5023,
+      "ETV2": 0.5124,
+      "FLI1": 0.5146,
+      "TFAP4": 0.5043,
+      "HAND2": 0.4987,
+      "MYOD1": 0.5139,
+      "MYC": 0.5187,
+      "BATF3": 0.5137,
+      "FOS": 0.5244,
+      "Jun": 0.5283,
+      "BACH1": 0.5195,
+      "TBP": 0.5124,
+      "PBX1": 0.5109,
+      "PBX2": 0.4825,
+      "MEIS1": 0.5205,
+      "MEIS2": 0.5122,
+      "FOXC1": 0.4805,
+      "TGIF1": 0.5003
+    },
+    "n_TFs": 26,
+    "panel": "curated vertebrate (diagnose default)",
+    "missing": []
+  },
+  "route3_negatives": {
+    "tata_pos_rate": 0.4326,
+    "tata_neg_rate": 0.2858,
+    "tata_neg_excess": -0.1468,
+    "tata_motif_auroc": 0.5625,
+    "gc_auroc": 0.6026,
+    "cleaned_tata_auroc": 0.5625,
+    "cleaning_moves_to_chance": false,
+    "frac_neg_removed": 0.0
+  },
+  "shuffled_negative_control": {
+    "tata_auroc_vs_shuffled": 0.6697,
+    "gc_auroc_vs_shuffled": 0.5,
+    "dinuc_preserved_frac": 1.0,
+    "n_shuffled": 3065
+  },
+  "equalized_delta": {
+    "feasible": true,
+    "mcc_before": 0.370691,
+    "mcc_after": 0.15465,
+    "mcc_after_ci": [
+      -0.0011,
+      0.2974
+    ],
+    "delta_mcc": -0.216,
+    "auroc_before": 0.758379,
+    "auroc_after": 0.743374,
+    "comp_only_auroc_after": 0.622341,
+    "comp_only_mcc_after": 0.085867,
+    "n_test_after": 357,
+    "pos_frac_test_after": 0.8347,
+    "retained_neg_frac": 0.2195,
+    "max_abs_smd_before": 0.5371,
+    "max_abs_smd_after": 0.1159
+  },
+  "redundancy": {
+    "frac_ge_0_7": 0.0277,
+    "frac_verbatim": 0.0098,
+    "median_max_jaccard": 0.0321,
+    "verdict": "borderline",
+    "n_test": 613
+  },
+  "verdict": "ROUTE 2: POSITIONAL (fixed-position signal discarded by the position-blind spectrum)",
+  "composition_dominated": false,
+  "composition_flag_rule": "composition fraction >= 0.8 and full AUROC >= 0.6",
+  "timing_s": {
+    "select_k": 6.0,
+    "learn": 2.4,
+    "comp": 2.8,
+    "positional": 3.1,
+    "motif": 2.5,
+    "equalized": 4.3,
+    "redundancy": 0.2
+  },
+  "total_s": 21.3,
+  "n_jobs": 3,
+  "lightgbm_version": "4.6.0"
+}

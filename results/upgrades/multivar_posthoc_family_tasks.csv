@@ -1,0 +1,12 @@
+task,family,family_indicator,table1_route,bench_mcc,mcc_lo,mcc_hi,disc,gc_mean,homology,homology_clean,disc_only_loto_resid
+human_ensembl_regulatory,regulatory_mixed,1,solved,0.9067,0.904,0.91,0.6913,0.4610534430746322,0.0032,True,0.1203549762536702
+human_nontata_promoters,promoter,1,solved,0.8737,0.865,0.883,0.7513,0.560477724208753,0.40635,False,-0.15162503132316274
+human_enhancers_ensembl,enhancer_ocr,0,contamination (weak),0.5934,0.585,0.602,0.5902,0.4339875847111789,0.3852,False,0.05909218595697219
+human_enhancers_cohn,enhancer_ocr,0,contamination,0.4612,0.44,0.482,0.5948,0.4302829693066101,0.00115,True,-0.1073640119362948
+drosophila_enhancers_stark,enhancer_ocr,0,shared-motif,0.3983,0.352,0.441,0.5683,0.41853107956963,0.01561,True,-0.10874743890465921
+human_ocr_ensembl,enhancer_ocr,0,shared-motif,0.4213,0.412,0.43,0.5728,0.4166120898688896,0.0104,True,-0.09307131168478244
+nt_promoter_all,promoter,1,solved,0.8878,0.877,0.899,0.6756,0.5784407042854368,0.01267,True,0.1406985667698898
+nt_promoter_no_tata,promoter,1,solved,0.8867,0.873,0.899,0.6741,0.5830155390937206,0.01246,True,0.14346320360311493
+nt_promoter_tata,promoter,1,solved,0.8463,0.803,0.886,0.6512,0.5388374116367591,0.01449,True,0.1601268619709204
+nt_enhancers,enhancer_ocr,0,contamination,0.5137,0.431,0.595,0.5449,0.440116344999333,0.25,False,0.1252252486171911
+nt_enhancers_types,enhancer_ocr,0,shared-motif,0.4761,0.415,0.532,0.6749,0.440116344999333,0.25,False,-0.32969072639278724

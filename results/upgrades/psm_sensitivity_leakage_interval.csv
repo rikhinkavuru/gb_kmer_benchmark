@@ -1,0 +1,3 @@
+dataset,n_test,n_test_mapped,n_train_mapped,n_test_overlap_any,n_test_overlap_any_pos,n_test_overlap_any_neg,n_test_overlap_half,n_test_overlap_half_pos,n_test_overlap_half_neg,orig_auroc_full_test,orig_auroc_without_overlapping,n_overlap_any_in_F1a1_matched42_test,n_overlap_any_neg_in_F1a1_matched42_test,F1a1_matched42_test_n_neg
+human_enhancers_cohn,6948,6948,20843,47,0,47,21,0,21,0.8046487452310427,0.8040588815258423,1,1,228
+nt_enhancers,400,400,3933,100,100,0,100,100,0,0.849675,0.7346,100,0,36

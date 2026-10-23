@@ -1,0 +1,89 @@
+{
+ "model": "dnabert2",
+ "model_tag": "dnabert2-117m-lora",
+ "dataset": "nt_enhancers",
+ "train_arm": "random",
+ "seed": 44,
+ "n_fit": 7045,
+ "n_val": 782,
+ "n_fit_neg": 309,
+ "n_fit_pos": 6736,
+ "best_epoch": 2,
+ "best_val_auroc": 0.960955,
+ "epochs_run": 4,
+ "history": [
+  {
+   "epoch": 1,
+   "loss": 0.559732,
+   "val_auroc": 0.949591,
+   "secs": 235.3
+  },
+  {
+   "epoch": 2,
+   "loss": 0.330423,
+   "val_auroc": 0.960955,
+   "secs": 234.4
+  },
+  {
+   "epoch": 3,
+   "loss": 0.191698,
+   "val_auroc": 0.956472,
+   "secs": 243.3
+  },
+  {
+   "epoch": 4,
+   "loss": 0.129916,
+   "val_auroc": 0.955922,
+   "secs": 234.9
+  }
+ ],
+ "n_params_total": 118544642,
+ "n_params_trainable": 1476098,
+ "device": "mps",
+ "recipe": {
+  "tag": "dnabert2-117m-lora",
+  "epochs": 4,
+  "batch": 32,
+  "lr": 0.0003,
+  "weight_decay": 0.01,
+  "warmup_frac": 0.1,
+  "clip": 1.0,
+  "patience": 2,
+  "eval_batch": 32,
+  "finetune": "lora",
+  "lora_r": 8,
+  "lora_alpha": 16,
+  "lora_dropout": 0.05,
+  "lora_targets": [
+   "Wqkv",
+   "attention.output.dense",
+   "gated_layers",
+   "wo"
+  ],
+  "grad_ckpt": true
+ },
+ "train_secs": 949.2,
+ "torch": "2.12.0",
+ "predict_secs": 10.0,
+ "quick_test_auroc": {
+  "original": 0.7761,
+  "gc_match": 0.6782,
+  "comp_equalized": 0.6133,
+  "random": 0.8037
+ },
+ "max_rss_mb": 1491.2,
+ "mps_driver_mb_end": 1126.4,
+ "env": {
+  "OMP_NUM_THREADS": "2",
+  "LOWCPU_THREADS": null,
+  "PYTORCH_MPS_HIGH_WATERMARK_RATIO": "0.2",
+  "PYTORCH_MPS_LOW_WATERMARK_RATIO": "0.12"
+ },
+ "niceness": 20,
+ "max_steps": null,
+ "pad_multiple": 16,
+ "micro_batch": 0,
+ "eval_batch_used": 32,
+ "peak_footprint_mb": 3629.5,
+ "mem_cap_mb": 4000.0
+}

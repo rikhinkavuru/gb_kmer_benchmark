@@ -1,0 +1,353 @@
+==============================================================================================================
+MULTIVARIATE COVARIATE ANALYSIS OF REAL-TASK LEARNABILITY (Reviewer 1, comment 1) -- run_multivar.py
+Pre-registered plan: results/upgrades/multivar_preregistration.txt.  Seed 42; 1000 task-bootstrap
+resamples; 1000 permutations.  Units = tasks (S11 = 11 TF-motif tasks PRIMARY, S15 = all 15).
+==============================================================================================================
+A0 reproduction of route1_predict (S11, MCC ~ disc, LOTO): R^2 +0.4386 [-0.269,+0.701]  MAE 0.1400 [0.108,0.180]  max|pred - route1_predict.csv| 4.7e-05  -> REPRODUCED
+
+A1 robustness of discriminability: partial Spearman(disc, outcome | c) for each covariate c
+  S11/Y1_MCC: raw Spearman +0.736 (p=0.0098); partial rho stays >0 with bootstrap CI excluding 0 for 5/10 covariates; partial rho range [+0.390, +0.826]
+      | len_log     partial +0.730 [+0.252,+0.993] p=0.017   disc beta(std) +0.755 [+0.416,+1.025]   | POST-HOC reverse rho(c, Y | disc) -0.152 [-0.936,+0.828] p=0.67
+      | len_sd_log  partial +0.697 [-0.122,+0.986] p=0.025   disc beta(std) +0.766 [+0.248,+1.000]   | POST-HOC reverse rho(c, Y | disc) -0.076 [-0.837,+0.590] p=0.83
+      | gc_mean     partial +0.390 [-0.533,+0.977] p=0.26   disc beta(std) +0.334 [-0.138,+0.877]   | POST-HOC reverse rho(c, Y | disc) +0.722 [+0.160,+0.984] p=0.018
+      | gc_sd       partial +0.621 [-0.042,+0.993] p=0.055   disc beta(std) +0.565 [+0.103,+1.395]   | POST-HOC reverse rho(c, Y | disc) +0.449 [-0.532,+0.899] p=0.19
+      | gc_gap      partial +0.705 [+0.314,+0.989] p=0.023   disc beta(std) +0.850 [+0.574,+1.548]   | POST-HOC reverse rho(c, Y | disc) -0.002 [-0.759,+0.895] p=1
+      | homology    partial +0.737 [+0.286,+0.995] p=0.015   disc beta(std) +0.807 [+0.399,+1.380]   | POST-HOC reverse rho(c, Y | disc) -0.059 [-0.860,+0.798] p=0.87
+      | ntrain_log  partial +0.694 [-0.082,+0.989] p=0.026   disc beta(std) +0.757 [+0.382,+1.005]   | POST-HOC reverse rho(c, Y | disc) +0.342 [-0.318,+0.916] p=0.33
+      | multiclass  partial +0.730 [+0.336,+0.984] p=0.017   disc beta(std) +0.868 [+0.702,+1.197]   | POST-HOC reverse rho(c, Y | disc) -0.175 [-0.827,+0.665] p=0.63
+      | pos_delta   partial +0.826 [+0.415,+0.995] p=0.0032   disc beta(std) +0.992 [+0.709,+1.616]   | POST-HOC reverse rho(c, Y | disc) +0.554 [-0.218,+0.949] p=0.096
+      | comp_mcc    partial +0.506 [-0.388,+0.951] p=0.14   disc beta(std) +0.187 [-0.383,+0.490]   | POST-HOC reverse rho(c, Y | disc) +0.831 [+0.436,+1.000] p=0.0029
+  S15/Y1_MCC: raw Spearman +0.436 (p=0.1); partial rho stays >0 with bootstrap CI excluding 0 for 0/10 covariates; partial rho range [+0.149, +0.481]
+      | len_log     partial +0.481 [-0.087,+0.876] p=0.082   disc beta(std) +0.575 [+0.168,+0.950]   | POST-HOC reverse rho(c, Y | disc) -0.367 [-0.822,+0.366] p=0.2
+      | len_sd_log  partial +0.473 [-0.150,+0.854] p=0.088   disc beta(std) +0.553 [+0.109,+0.894]   | POST-HOC reverse rho(c, Y | disc) -0.348 [-0.779,+0.265] p=0.22
+      | gc_mean     partial +0.333 [-0.195,+0.835] p=0.24   disc beta(std) +0.369 [-0.168,+0.924]   | POST-HOC reverse rho(c, Y | disc) +0.243 [-0.407,+0.892] p=0.4
+      | gc_sd       partial +0.388 [-0.433,+0.845] p=0.17   disc beta(std) +0.461 [-0.270,+0.933]   | POST-HOC reverse rho(c, Y | disc) +0.249 [-0.360,+0.804] p=0.39
+      | gc_gap      partial +0.384 [-0.330,+0.825] p=0.18   disc beta(std) +0.625 [+0.067,+1.246]   | POST-HOC reverse rho(c, Y | disc) -0.053 [-0.594,+0.561] p=0.86
+      | homology    partial +0.423 [-0.183,+0.858] p=0.13   disc beta(std) +0.538 [+0.012,+0.948]   | POST-HOC reverse rho(c, Y | disc) -0.082 [-0.681,+0.548] p=0.78
+      | ntrain_log  partial +0.474 [-0.191,+0.844] p=0.087   disc beta(std) +0.609 [+0.188,+0.924]   | POST-HOC reverse rho(c, Y | disc) +0.466 [-0.093,+0.826] p=0.093
+      | multiclass  partial +0.435 [-0.238,+0.843] p=0.12   disc beta(std) +0.521 [+0.014,+0.893]   | POST-HOC reverse rho(c, Y | disc) -0.153 [-0.640,+0.464] p=0.6
+      | pos_delta   partial +0.381 [-0.273,+0.876] p=0.18   disc beta(std) +0.388 [-0.114,+0.959]   | POST-HOC reverse rho(c, Y | disc) -0.002 [-0.593,+0.676] p=1
+      | comp_mcc    partial +0.149 [-0.412,+0.641] p=0.61   disc beta(std) +0.033 [-0.199,+0.354]   | POST-HOC reverse rho(c, Y | disc) +0.931 [+0.686,+1.000] p=1.4e-06
+  S11/Y2_AUROC: raw Spearman +0.791 (p=0.0037); partial rho stays >0 with bootstrap CI excluding 0 for 7/10 covariates; partial rho range [+0.542, +0.833]
+      | len_log     partial +0.789 [+0.305,+1.000] p=0.0067   disc beta(std) +0.725 [+0.428,+1.021]   | POST-HOC reverse rho(c, Y | disc) -0.247 [-0.956,+0.779] p=0.49
+      | len_sd_log  partial +0.760 [+0.016,+1.000] p=0.011   disc beta(std) +0.744 [+0.276,+0.991]   | POST-HOC reverse rho(c, Y | disc) -0.046 [-0.826,+0.767] p=0.9
+      | gc_mean     partial +0.542 [-0.344,+1.000] p=0.11   disc beta(std) +0.353 [-0.114,+0.841]   | POST-HOC reverse rho(c, Y | disc) +0.652 [-0.168,+0.949] p=0.041
+      | gc_sd       partial +0.707 [-0.000,+1.000] p=0.022   disc beta(std) +0.562 [+0.124,+1.297]   | POST-HOC reverse rho(c, Y | disc) +0.565 [-0.573,+0.906] p=0.089
+      | gc_gap      partial +0.755 [+0.325,+1.000] p=0.012   disc beta(std) +0.816 [+0.560,+1.483]   | POST-HOC reverse rho(c, Y | disc) +0.072 [-0.759,+0.916] p=0.84
+      | homology    partial +0.794 [+0.303,+1.000] p=0.0061   disc beta(std) +0.798 [+0.442,+1.386]   | POST-HOC reverse rho(c, Y | disc) +0.129 [-0.778,+0.821] p=0.72
+      | ntrain_log  partial +0.759 [+0.038,+1.000] p=0.011   disc beta(std) +0.767 [+0.407,+0.995]   | POST-HOC reverse rho(c, Y | disc) +0.299 [-0.370,+0.888] p=0.4
+      | multiclass  partial +0.793 [+0.345,+0.996] p=0.0063   disc beta(std) +0.862 [+0.719,+1.194]   | POST-HOC reverse rho(c, Y | disc) -0.238 [-0.905,+0.884] p=0.51
+      | pos_delta   partial +0.833 [+0.405,+1.000] p=0.0028   disc beta(std) +0.991 [+0.717,+1.636]   | POST-HOC reverse rho(c, Y | disc) +0.442 [-0.383,+0.930] p=0.2
+      | comp_auroc  partial +0.660 [-0.107,+1.000] p=0.038   disc beta(std) +0.140 [-0.272,+0.372]   | POST-HOC reverse rho(c, Y | disc) +0.692 [+0.172,+0.968] p=0.027
+  S15/Y2_AUROC: raw Spearman +0.464 (p=0.081); partial rho stays >0 with bootstrap CI excluding 0 for 0/10 covariates; partial rho range [+0.261, +0.516]
+      | len_log     partial +0.516 [-0.046,+0.916] p=0.059   disc beta(std) +0.628 [+0.252,+0.967]   | POST-HOC reverse rho(c, Y | disc) -0.399 [-0.845,+0.337] p=0.16
+      | len_sd_log  partial +0.503 [-0.082,+0.896] p=0.067   disc beta(std) +0.604 [+0.197,+0.896]   | POST-HOC reverse rho(c, Y | disc) -0.355 [-0.789,+0.303] p=0.21
+      | gc_mean     partial +0.371 [-0.146,+0.873] p=0.19   disc beta(std) +0.437 [-0.089,+0.927]   | POST-HOC reverse rho(c, Y | disc) +0.219 [-0.416,+0.863] p=0.45
+      | gc_sd       partial +0.414 [-0.464,+0.884] p=0.14   disc beta(std) +0.517 [-0.182,+0.919]   | POST-HOC reverse rho(c, Y | disc) +0.308 [-0.289,+0.849] p=0.28
+      | gc_gap      partial +0.399 [-0.356,+0.866] p=0.16   disc beta(std) +0.622 [+0.092,+1.218]   | POST-HOC reverse rho(c, Y | disc) -0.033 [-0.590,+0.586] p=0.91
+      | homology    partial +0.459 [-0.148,+0.890] p=0.099   disc beta(std) +0.584 [+0.099,+0.938]   | POST-HOC reverse rho(c, Y | disc) -0.008 [-0.605,+0.633] p=0.98
+      | ntrain_log  partial +0.503 [-0.137,+0.882] p=0.067   disc beta(std) +0.652 [+0.250,+0.932]   | POST-HOC reverse rho(c, Y | disc) +0.461 [-0.138,+0.809] p=0.097
+      | multiclass  partial +0.464 [-0.191,+0.890] p=0.094   disc beta(std) +0.571 [+0.094,+0.885]   | POST-HOC reverse rho(c, Y | disc) -0.154 [-0.639,+0.471] p=0.6
+      | pos_delta   partial +0.380 [-0.274,+0.885] p=0.18   disc beta(std) +0.431 [-0.036,+0.936]   | POST-HOC reverse rho(c, Y | disc) -0.072 [-0.650,+0.643] p=0.81
+      | comp_auroc  partial +0.261 [-0.314,+0.757] p=0.37   disc beta(std) +0.005 [-0.219,+0.239]   | POST-HOC reverse rho(c, Y | disc) +0.880 [+0.545,+0.989] p=3.3e-05
+
+DECISION RULE (pre-registered; S11 / benchmark MCC / Pool A / AICc selection):
+  (a) nested-LOTO MAE 0.1430 < disc-only LOTO MAE 0.1400?  NO
+  (b) paired bootstrap dMAE +0.0030 [-0.0511,+0.0660] excludes 0 (and < 0)?  NO
+  (c) incremental permutation p (A4b) = 0.4306 < 0.05?  NO
+  VERDICT: n is too small to resolve covariate effects beyond discriminability; the in-sample AICc winners below are EXPLORATORY.
+
+A2 best-subset OLS -- S11/Y1_MCC
+  [poolA, 175 models; disc-only LOTO MAE 0.1400, R2 +0.439]
+     AICc #1: gc_mean                                    AICc  -40.11 (d 0.00, w 0.24)  R2 0.741 adj 0.712  LOTO R2 +0.663 MAE 0.0857
+     AICc #2: gc_mean + ntrain_log                       AICc  -38.84 (d 1.27, w 0.12)  R2 0.819 adj 0.774  LOTO R2 +0.597 MAE 0.0885
+     AICc #3: gc_mean + multiclass                       AICc  -38.64 (d 1.47, w 0.11)  R2 0.816 adj 0.770  LOTO R2 +0.351 MAE 0.1049
+     AICc #4: len_sd_log + gc_mean                       AICc  -37.81 (d 2.31, w 0.07)  R2 0.801 adj 0.752  LOTO R2 +0.603 MAE 0.0895
+     AICc #5: disc + gc_mean                             AICc  -37.48 (d 2.63, w 0.06)  R2 0.795 adj 0.744  LOTO R2 +0.548 MAE 0.1031
+     LOTO-MAE #1: gc_mean + gc_sd                        MAE 0.0726  LOTO R2 +0.700  AICc -37.32
+     LOTO-MAE #2: gc_mean + gc_sd + homology             MAE 0.0841  LOTO R2 +0.615  AICc -30.75
+     LOTO-MAE #3: gc_mean + gc_sd + gc_gap               MAE 0.0846  LOTO R2 +0.656  AICc -30.13
+  [disc_anchored, 46 models; disc-only LOTO MAE 0.1400, R2 +0.439]
+     AICc #1: disc + gc_mean                             AICc  -37.48 (d 0.00, w 0.38)  R2 0.795 adj 0.744  LOTO R2 +0.548 MAE 0.1031
+     AICc #2: disc                                       AICc  -35.52 (d 1.96, w 0.14)  R2 0.606 adj 0.562  LOTO R2 +0.439 MAE 0.1400
+     AICc #3: disc + pos_delta                           AICc  -35.08 (d 2.40, w 0.12)  R2 0.745 adj 0.682  LOTO R2 +0.499 MAE 0.1166
+     AICc #4: disc + gc_mean + ntrain_log                AICc  -33.42 (d 4.05, w 0.05)  R2 0.848 adj 0.783  LOTO R2 +0.534 MAE 0.1110
+     AICc #5: disc + len_sd_log + gc_mean                AICc  -33.27 (d 4.20, w 0.05)  R2 0.846 adj 0.780  LOTO R2 +0.507 MAE 0.1170
+     LOTO-MAE #1: disc + gc_mean + pos_delta             MAE 0.0981  LOTO R2 +0.546  AICc -32.27
+     LOTO-MAE #2: disc + gc_mean + gc_sd                 MAE 0.1022  LOTO R2 +0.512  AICc -31.52
+     LOTO-MAE #3: disc + gc_mean                         MAE 0.1031  LOTO R2 +0.548  AICc -37.48
+  [poolB, 231 models; disc-only LOTO MAE 0.1400, R2 +0.439]
+     AICc #1: len_sd_log + gc_sd + comp_mcc              AICc  -54.37 (d 0.00, w 0.36)  R2 0.977 adj 0.968  LOTO R2 +0.916 MAE 0.0448
+     AICc #2: len_log + gc_sd + comp_mcc                 AICc  -54.06 (d 0.31, w 0.31)  R2 0.977 adj 0.967  LOTO R2 +0.915 MAE 0.0430
+     AICc #3: gc_sd + comp_mcc                           AICc  -51.30 (d 3.07, w 0.08)  R2 0.942 adj 0.927  LOTO R2 +0.861 MAE 0.0582
+     AICc #4: len_sd_log + comp_mcc                      AICc  -50.55 (d 3.82, w 0.05)  R2 0.938 adj 0.922  LOTO R2 +0.900 MAE 0.0463
+     AICc #5: comp_mcc                                   AICc  -50.42 (d 3.95, w 0.05)  R2 0.898 adj 0.887  LOTO R2 +0.864 MAE 0.0654
+     LOTO-MAE #1: len_log + gc_sd + comp_mcc             MAE 0.0430  LOTO R2 +0.915  AICc -54.06
+     LOTO-MAE #2: len_sd_log + gc_sd + comp_mcc          MAE 0.0448  LOTO R2 +0.916  AICc -54.37
+     LOTO-MAE #3: len_sd_log + multiclass + comp_mcc     MAE 0.0455  LOTO R2 +0.922  AICc -46.22
+  A3 nested LOTO [poolA, select=aicc] (DECISION): MAE 0.1430 vs disc-only 0.1400  dMAE +0.0030 [-0.0511,+0.0660]  R2 +0.213; 5 distinct models selected across folds (disc in 0/11, gc_mean in 11/11)
+  A3 nested LOTO [poolA, select=loto_mae]: MAE 0.1413 vs disc-only 0.1400  dMAE +0.0014 [-0.0704,+0.0887]  R2 +0.101; 5 distinct models selected across folds (disc in 0/11, gc_mean in 11/11)
+  A3 nested LOTO [poolB, select=aicc]: MAE 0.1171 vs disc-only 0.1400  dMAE -0.0229 [-0.0755,+0.0471]  R2 +0.493; 7 distinct models selected across folds (disc in 1/11, gc_mean in 1/11)
+  A3 nested LOTO [poolB, select=loto_mae]: MAE 0.1133 vs disc-only 0.1400  dMAE -0.0266 [-0.0849,+0.0526]  R2 +0.422; 7 distinct models selected across folds (disc in 1/11, gc_mean in 1/11)
+  A3 nested LOTO [disc_anchored, select=aicc]: MAE 0.1813 vs disc-only 0.1400  dMAE +0.0413 [-0.0011,+0.0934]  R2 -0.004; 4 distinct models selected across folds (disc in 11/11, gc_mean in 6/11)
+  A3 nested LOTO [disc_anchored, select=loto_mae]: MAE 0.1658 vs disc-only 0.1400  dMAE +0.0258 [-0.0280,+0.0852]  R2 +0.065; 6 distinct models selected across folds (disc in 11/11, gc_mean in 10/11)
+  A4a_global_bestLOTO_R2_poolA: observed 0.7002  null mean 0.2771  null critical 0.7272  p = 0.0659
+  A4b_incremental_bestLOTO_MAE_disc_anchored: observed 0.0981  null mean 0.1006  null critical 0.0674  p = 0.4306
+
+A2 best-subset OLS -- S11/Y2_AUROC
+  [poolA, 175 models; disc-only LOTO MAE 0.0625, R2 +0.435]
+     AICc #1: gc_mean                                    AICc  -58.44 (d 0.00, w 0.23)  R2 0.731 adj 0.701  LOTO R2 +0.637 MAE 0.0400
+     AICc #2: gc_mean + multiclass                       AICc  -57.76 (d 0.68, w 0.16)  R2 0.822 adj 0.778  LOTO R2 +0.483 MAE 0.0491
+     AICc #3: gc_mean + ntrain_log                       AICc  -56.19 (d 2.26, w 0.07)  R2 0.795 adj 0.744  LOTO R2 +0.546 MAE 0.0466
+     AICc #4: disc + gc_mean                             AICc  -56.03 (d 2.41, w 0.07)  R2 0.792 adj 0.740  LOTO R2 +0.576 MAE 0.0494
+     AICc #5: gc_mean + gc_sd                            AICc  -56.00 (d 2.44, w 0.07)  R2 0.792 adj 0.739  LOTO R2 +0.684 MAE 0.0378
+     LOTO-MAE #1: gc_mean + gc_sd                        MAE 0.0378  LOTO R2 +0.684  AICc -56.00
+     LOTO-MAE #2: gc_mean + gc_sd + gc_gap               MAE 0.0386  LOTO R2 +0.667  AICc -49.60
+     LOTO-MAE #3: gc_mean                                MAE 0.0400  LOTO R2 +0.637  AICc -58.44
+  [disc_anchored, 46 models; disc-only LOTO MAE 0.0625, R2 +0.435]
+     AICc #1: disc + gc_mean                             AICc  -56.03 (d 0.00, w 0.37)  R2 0.792 adj 0.740  LOTO R2 +0.576 MAE 0.0494
+     AICc #2: disc                                       AICc  -54.47 (d 1.57, w 0.17)  R2 0.614 adj 0.571  LOTO R2 +0.435 MAE 0.0625
+     AICc #3: disc + pos_delta                           AICc  -53.83 (d 2.21, w 0.12)  R2 0.746 adj 0.683  LOTO R2 +0.473 MAE 0.0512
+     AICc #4: disc + gc_sd                               AICc  -51.70 (d 4.33, w 0.04)  R2 0.692 adj 0.615  LOTO R2 +0.386 MAE 0.0639
+     AICc #5: disc + gc_mean + ntrain_log                AICc  -51.00 (d 5.04, w 0.03)  R2 0.831 adj 0.759  LOTO R2 +0.529 MAE 0.0533
+     LOTO-MAE #1: disc + gc_mean + gc_sd                 MAE 0.0486  LOTO R2 +0.562  AICc -50.34
+     LOTO-MAE #2: disc + gc_mean + pos_delta             MAE 0.0494  LOTO R2 +0.514  AICc -50.68
+     LOTO-MAE #3: disc + gc_mean                         MAE 0.0494  LOTO R2 +0.576  AICc -56.03
+  [poolB, 231 models; disc-only LOTO MAE 0.0625, R2 +0.435]
+     AICc #1: len_sd_log + gc_sd + comp_auroc            AICc  -77.30 (d 0.00, w 0.31)  R2 0.985 adj 0.978  LOTO R2 +0.940 MAE 0.0158
+     AICc #2: gc_sd + comp_auroc                         AICc  -76.88 (d 0.42, w 0.25)  R2 0.969 adj 0.961  LOTO R2 +0.931 MAE 0.0171
+     AICc #3: comp_auroc                                 AICc  -74.43 (d 2.88, w 0.07)  R2 0.937 adj 0.930  LOTO R2 +0.916 MAE 0.0210
+     AICc #4: gc_gap + homology + comp_auroc             AICc  -74.22 (d 3.08, w 0.07)  R2 0.980 adj 0.971  LOTO R2 +0.950 MAE 0.0151
+     AICc #5: len_sd_log + homology + comp_auroc         AICc  -73.42 (d 3.88, w 0.04)  R2 0.978 adj 0.969  LOTO R2 +0.933 MAE 0.0176
+     LOTO-MAE #1: gc_gap + homology + comp_auroc         MAE 0.0151  LOTO R2 +0.950  AICc -74.22
+     LOTO-MAE #2: len_sd_log + gc_sd + comp_auroc        MAE 0.0158  LOTO R2 +0.940  AICc -77.30
+     LOTO-MAE #3: gc_sd + comp_auroc                     MAE 0.0171  LOTO R2 +0.931  AICc -76.88
+  A3 nested LOTO [poolA, select=aicc]: MAE 0.0734 vs disc-only 0.0625  dMAE +0.0109 [-0.0117,+0.0359]  R2 +0.039; 4 distinct models selected across folds (disc in 1/11, gc_mean in 10/11)
+  A3 nested LOTO [poolA, select=loto_mae]: MAE 0.0853 vs disc-only 0.0625  dMAE +0.0229 [-0.0030,+0.0544]  R2 -0.286; 7 distinct models selected across folds (disc in 1/11, gc_mean in 10/11)
+  A3 nested LOTO [poolB, select=aicc]: MAE 0.0364 vs disc-only 0.0625  dMAE -0.0261 [-0.0456,-0.0055]  R2 +0.756; 7 distinct models selected across folds (disc in 0/11, gc_mean in 0/11)
+  A3 nested LOTO [poolB, select=loto_mae]: MAE 0.0339 vs disc-only 0.0625  dMAE -0.0286 [-0.0423,-0.0151]  R2 +0.794; 8 distinct models selected across folds (disc in 1/11, gc_mean in 1/11)
+  A3 nested LOTO [disc_anchored, select=aicc]: MAE 0.0800 vs disc-only 0.0625  dMAE +0.0176 [+0.0019,+0.0391]  R2 +0.033; 3 distinct models selected across folds (disc in 11/11, gc_mean in 4/11)
+  A3 nested LOTO [disc_anchored, select=loto_mae]: MAE 0.0829 vs disc-only 0.0625  dMAE +0.0204 [+0.0002,+0.0494]  R2 -0.077; 9 distinct models selected across folds (disc in 11/11, gc_mean in 9/11)
+  A4a_global_bestLOTO_R2_poolA: observed 0.6837  null mean 0.2734  null critical 0.7342  p = 0.0809
+  A4b_incremental_bestLOTO_MAE_disc_anchored: observed 0.0486  null mean 0.0433  null critical 0.0270  p = 0.7043
+
+A2 best-subset OLS -- S15/Y1_MCC
+  [poolA, 175 models; disc-only LOTO MAE 0.1817, R2 -0.005]
+     AICc #1: gc_mean + gc_sd + pos_delta                AICc  -45.62 (d 0.00, w 0.14)  R2 0.682 adj 0.596  LOTO R2 -0.397 MAE 0.1779
+     AICc #2: gc_sd + pos_delta                          AICc  -45.38 (d 0.24, w 0.12)  R2 0.559 adj 0.486  LOTO R2 -0.130 MAE 0.1808
+     AICc #3: len_sd_log + gc_sd + pos_delta             AICc  -43.85 (d 1.77, w 0.06)  R2 0.642 adj 0.545  LOTO R2 +0.295 MAE 0.1643
+     AICc #4: gc_mean + pos_delta                        AICc  -43.77 (d 1.85, w 0.05)  R2 0.509 adj 0.428  LOTO R2 -0.689 MAE 0.1872
+     AICc #5: len_log + gc_sd + pos_delta                AICc  -42.80 (d 2.82, w 0.03)  R2 0.617 adj 0.512  LOTO R2 -0.445 MAE 0.2136
+     LOTO-MAE #1: disc + gc_mean + ntrain_log            MAE 0.1467  LOTO R2 +0.127  AICc -39.54
+     LOTO-MAE #2: disc + len_log + gc_gap                MAE 0.1572  LOTO R2 +0.245  AICc -41.93
+     LOTO-MAE #3: disc + len_sd_log + ntrain_log         MAE 0.1596  LOTO R2 +0.245  AICc -39.95
+  [disc_anchored, 46 models; disc-only LOTO MAE 0.1817, R2 -0.005]
+     AICc #1: disc + len_log                             AICc  -42.66 (d 0.00, w 0.11)  R2 0.472 adj 0.384  LOTO R2 +0.184 MAE 0.1712
+     AICc #2: disc + ntrain_log                          AICc  -42.57 (d 0.09, w 0.11)  R2 0.468 adj 0.380  LOTO R2 +0.191 MAE 0.1620
+     AICc #3: disc + len_log + gc_gap                    AICc  -41.93 (d 0.73, w 0.08)  R2 0.594 adj 0.483  LOTO R2 +0.245 MAE 0.1572
+     AICc #4: disc                                       AICc  -41.88 (d 0.78, w 0.08)  R2 0.282 adj 0.227  LOTO R2 -0.005 MAE 0.1817
+     AICc #5: disc + len_log + homology                  AICc  -40.92 (d 1.74, w 0.05)  R2 0.565 adj 0.447  LOTO R2 +0.170 MAE 0.1820
+     LOTO-MAE #1: disc + gc_mean + ntrain_log            MAE 0.1467  LOTO R2 +0.127  AICc -39.54
+     LOTO-MAE #2: disc + len_log + gc_gap                MAE 0.1572  LOTO R2 +0.245  AICc -41.93
+     LOTO-MAE #3: disc + len_sd_log + ntrain_log         MAE 0.1596  LOTO R2 +0.245  AICc -39.95
+  [poolB, 231 models; disc-only LOTO MAE 0.1817, R2 -0.005]
+     AICc #1: ntrain_log + comp_mcc                      AICc  -76.02 (d 0.00, w 0.20)  R2 0.943 adj 0.933  LOTO R2 +0.918 MAE 0.0483
+     AICc #2: len_log + ntrain_log + comp_mcc            AICc  -74.56 (d 1.46, w 0.10)  R2 0.954 adj 0.941  LOTO R2 +0.915 MAE 0.0550
+     AICc #3: ntrain_log + multiclass + comp_mcc         AICc  -74.42 (d 1.60, w 0.09)  R2 0.953 adj 0.941  LOTO R2 +0.916 MAE 0.0526
+     AICc #4: comp_mcc                                   AICc  -74.10 (d 1.92, w 0.08)  R2 0.916 adj 0.910  LOTO R2 +0.894 MAE 0.0627
+     AICc #5: len_sd_log + ntrain_log + comp_mcc         AICc  -73.93 (d 2.09, w 0.07)  R2 0.952 adj 0.939  LOTO R2 +0.903 MAE 0.0544
+     LOTO-MAE #1: ntrain_log + pos_delta + comp_mcc      MAE 0.0457  LOTO R2 +0.926  AICc -73.17
+     LOTO-MAE #2: ntrain_log + comp_mcc                  MAE 0.0483  LOTO R2 +0.918  AICc -76.02
+     LOTO-MAE #3: gc_mean + ntrain_log + comp_mcc        MAE 0.0511  LOTO R2 +0.909  AICc -71.94
+  A3 nested LOTO [poolA, select=aicc]: MAE 0.2666 vs disc-only 0.1817  dMAE +0.0849 [+0.0366,+0.1306]  R2 -0.876; 7 distinct models selected across folds (disc in 2/15, gc_mean in 4/15)
+  A3 nested LOTO [poolA, select=loto_mae]: MAE 0.2765 vs disc-only 0.1817  dMAE +0.0948 [+0.0272,+0.1778]  R2 -1.192; 11 distinct models selected across folds (disc in 7/15, gc_mean in 6/15)
+  A3 nested LOTO [poolB, select=aicc]: MAE 0.0805 vs disc-only 0.1817  dMAE -0.1012 [-0.1729,-0.0351]  R2 +0.762; 6 distinct models selected across folds (disc in 0/15, gc_mean in 0/15)
+  A3 nested LOTO [poolB, select=loto_mae]: MAE 0.0690 vs disc-only 0.1817  dMAE -0.1127 [-0.1796,-0.0511]  R2 +0.838; 6 distinct models selected across folds (disc in 2/15, gc_mean in 0/15)
+  A3 nested LOTO [disc_anchored, select=aicc]: MAE 0.2863 vs disc-only 0.1817  dMAE +0.1046 [+0.0388,+0.1828]  R2 -1.411; 7 distinct models selected across folds (disc in 15/15, gc_mean in 1/15)
+  A3 nested LOTO [disc_anchored, select=loto_mae]: MAE 0.2575 vs disc-only 0.1817  dMAE +0.0758 [+0.0083,+0.1663]  R2 -1.072; 7 distinct models selected across folds (disc in 15/15, gc_mean in 7/15)
+  A4a_global_bestLOTO_R2_poolA: observed 0.3206  null mean 0.1466  null critical 0.4969  p = 0.2078
+  A4b_incremental_bestLOTO_MAE_disc_anchored: observed 0.1467  null mean 0.1575  null critical 0.1228  p = 0.2657
+
+A5 LMG / Shapley R^2 decomposition (in-sample) of the top-AICc models
+  S11/Y1_MCC [poolA] gc_mean  (R2 0.741)
+      gc_mean     LMG R2 0.741 [0.415,0.991] share 1.00
+  S11/Y1_MCC [disc_anchored] disc + gc_mean  (R2 0.795)
+      disc        LMG R2 0.330 [0.131,0.652] share 0.42
+      gc_mean     LMG R2 0.465 [0.233,0.786] share 0.58
+  S11/Y2_AUROC [poolA] gc_mean  (R2 0.731)
+      gc_mean     LMG R2 0.731 [0.436,0.966] share 1.00
+  S11/Y2_AUROC [disc_anchored] disc + gc_mean  (R2 0.792)
+      disc        LMG R2 0.338 [0.157,0.601] share 0.43
+      gc_mean     LMG R2 0.455 [0.253,0.726] share 0.57
+  S15/Y1_MCC [poolA] gc_mean + gc_sd + pos_delta  (R2 0.682)
+      gc_mean     LMG R2 0.203 [0.013,0.653] share 0.30
+      gc_sd       LMG R2 0.163 [0.033,0.546] share 0.24
+      pos_delta   LMG R2 0.316 [0.005,0.616] share 0.46
+  S15/Y1_MCC [disc_anchored] disc + len_log  (R2 0.472)
+      disc        LMG R2 0.305 [0.023,0.751] share 0.65
+      len_log     LMG R2 0.167 [0.010,0.480] share 0.35
+
+A6 residual attribution: disc-only LOTO residuals; flagged = |resid| > LOTO RMSE; for each flagged task,
+   the covariate c whose LOTO model (disc + c) shrinks that task's |resid| most ('explained' if >= 50%)
+  S11/Y1_MCC (LOTO RMSE 0.1547)
+    FLAG nt_enhancers_types               actual 0.476 pred 0.806 resid -0.330  best c = comp_mcc    (+39% |resid|)  not explained by any measured covariate   [best descriptive: gc_mean +32%]
+    FLAG nt_promoter_tata                 actual 0.846 pred 0.686 resid +0.160  best c = comp_mcc    (+82% |resid|)  EXPLAINED   [best descriptive: pos_delta +61%]
+         human_nontata_promoters          actual 0.874 pred 1.025 resid -0.152  best c = pos_delta   (+59% |resid|)   [best descriptive: pos_delta +59%]
+         nt_promoter_no_tata              actual 0.887 pred 0.743 resid +0.143  best c = comp_mcc    (+99% |resid|)   [best descriptive: gc_mean +81%]
+         nt_promoter_all                  actual 0.888 pred 0.747 resid +0.141  best c = comp_mcc    (+100% |resid|)   [best descriptive: gc_mean +91%]
+         nt_enhancers                     actual 0.514 pred 0.388 resid +0.125  best c = gc_mean     (+56% |resid|)   [best descriptive: gc_mean +56%]
+         human_ensembl_regulatory         actual 0.907 pred 0.786 resid +0.120  best c = comp_mcc    (+48% |resid|)   [best descriptive: homology +27%]
+         drosophila_enhancers_stark       actual 0.398 pred 0.507 resid -0.109  best c = pos_delta   (+88% |resid|)   [best descriptive: pos_delta +88%]
+         human_enhancers_cohn             actual 0.461 pred 0.569 resid -0.107  best c = pos_delta   (+91% |resid|)   [best descriptive: pos_delta +91%]
+         human_ocr_ensembl                actual 0.421 pred 0.514 resid -0.093  best c = comp_mcc    (+68% |resid|)   [best descriptive: gc_mean +47%]
+         human_enhancers_ensembl          actual 0.593 pred 0.534 resid +0.059  best c = ntrain_log  (+64% |resid|)   [best descriptive: ntrain_log +64%]
+    Spearman(disc-only LOTO residual, c): comp_mcc +0.67 (p=0.023); pos_delta +0.63 (p=0.039); gc_mean +0.51 (p=0.11); gc_sd +0.35 (p=0.28); len_sd_log -0.31 (p=0.35); multiclass -0.30 (p=0.37); homology -0.30 (p=0.38); gc_gap -0.25 (p=0.45); ntrain_log +0.14 (p=0.68); len_log +0.03 (p=0.93)
+  S15/Y1_MCC (LOTO RMSE 0.2231)
+    FLAG demo_human_or_worm               actual 0.914 pred 0.453 resid +0.461  best c = comp_mcc    (+99% |resid|)  EXPLAINED   [best descriptive: len_log +14%]
+    FLAG dummy_mouse_enhancers_ensembl    actual 0.529 pred 0.943 resid -0.414  best c = comp_mcc    (+62% |resid|)  EXPLAINED   [best descriptive: len_log +46%]
+    FLAG nt_splice_sites_all              actual 0.243 pred 0.533 resid -0.290  best c = comp_mcc    (+78% |resid|)  EXPLAINED   [best descriptive: multiclass +14%]
+    FLAG nt_enhancers_types               actual 0.476 pred 0.734 resid -0.258  best c = comp_mcc    (+54% |resid|)  EXPLAINED   [best descriptive: gc_mean +19%]
+         nt_promoter_no_tata              actual 0.887 pred 0.695 resid +0.192  best c = comp_mcc    (+94% |resid|)   [best descriptive: gc_mean +56%]
+         nt_promoter_all                  actual 0.888 pred 0.697 resid +0.191  best c = comp_mcc    (+94% |resid|)   [best descriptive: gc_mean +54%]
+         human_ensembl_regulatory         actual 0.907 pred 0.719 resid +0.188  best c = ntrain_log  (+93% |resid|)   [best descriptive: ntrain_log +93%]
+         nt_promoter_tata                 actual 0.846 pred 0.661 resid +0.185  best c = comp_mcc    (+73% |resid|)   [best descriptive: gc_mean +38%]
+         drosophila_enhancers_stark       actual 0.398 pred 0.562 resid -0.164  best c = ntrain_log  (+91% |resid|)   [best descriptive: ntrain_log +91%]
+         human_ocr_ensembl                actual 0.421 pred 0.566 resid -0.145  best c = comp_mcc    (+62% |resid|)   [best descriptive: len_sd_log +59%]
+         human_enhancers_cohn             actual 0.461 pred 0.596 resid -0.135  best c = comp_mcc    (+81% |resid|)   [best descriptive: len_log +34%]
+         human_nontata_promoters          actual 0.874 pred 0.822 resid +0.052  best c = gc_mean     (+66% |resid|)   [best descriptive: gc_mean +66%]
+         demo_coding_vs_intergenomic_seqs actual 0.800 pred 0.777 resid +0.024  best c = multiclass  (+91% |resid|)   [best descriptive: multiclass +91%]
+         human_enhancers_ensembl          actual 0.593 pred 0.576 resid +0.018  best c = gc_gap      (+43% |resid|)   [best descriptive: gc_gap +43%]
+         nt_enhancers                     actual 0.514 pred 0.503 resid +0.010  best c = gc_mean     (+82% |resid|)   [best descriptive: gc_mean +82%]
+    Spearman(disc-only LOTO residual, c): comp_mcc +0.85 (p=6.9e-05); ntrain_log +0.51 (p=0.051); len_sd_log -0.49 (p=0.062); gc_mean +0.41 (p=0.13); len_log -0.34 (p=0.22); multiclass -0.27 (p=0.33); gc_sd +0.15 (p=0.59); pos_delta -0.07 (p=0.79); homology -0.06 (p=0.82); gc_gap -0.00 (p=0.99)
+
+A7 noise ceiling S11: mean test-set SE of MCC 0.0140; mean(se^2)/disc-only LOTO MSE = 0.015 -> test-set sampling noise accounts for 1.5% of the misfit
+A7 noise ceiling S15: mean test-set SE of MCC 0.0151; mean(se^2)/disc-only LOTO MSE = 0.009 -> test-set sampling noise accounts for 0.9% of the misfit
+
+A8 reviewer model S11: MCC ~ disc + len_log + gc_sd + homology  (n=11, resid df 6, OVER-PARAMETERIZED n/p<3): R2 0.751 adj 0.586 LOTO R2 -1.015 MAE 0.2334
+      disc      std beta +0.546  t-CI [-0.091,+1.184] p=0.081  boot [-0.097,+1.878]  partial r +0.650 VIF 1.64
+      len_log   std beta -0.074  t-CI [-0.700,+0.552] p=0.78  boot [-2.210,+1.786]  partial r -0.117 VIF 1.58
+      gc_sd     std beta +0.412  t-CI [-0.295,+1.119] p=0.2  boot [-1.940,+3.058]  partial r +0.503 VIF 2.02
+      homology  std beta -0.304  t-CI [-0.873,+0.264] p=0.24  boot [-1.798,+2.926]  partial r -0.472 VIF 1.30
+      -> coefficients whose t-CI excludes 0: none; whose task-bootstrap CI excludes 0: none
+A8 reviewer model S15: MCC ~ disc + len_log + gc_sd + homology  (n=15, resid df 10): R2 0.576 adj 0.407 LOTO R2 -0.401 MAE 0.2242
+      disc      std beta +0.571  t-CI [+0.076,+1.065] p=0.028  boot [+0.024,+1.130]  partial r +0.631 VIF 1.16
+      len_log   std beta -0.549  t-CI [-1.069,-0.028] p=0.041  boot [-1.170,+0.136]  partial r -0.596 VIF 1.29
+      gc_sd     std beta +0.116  t-CI [-0.388,+0.619] p=0.62  boot [-0.509,+0.847]  partial r +0.160 VIF 1.20
+      homology  std beta -0.341  t-CI [-0.846,+0.164] p=0.16  boot [-0.848,+0.058]  partial r -0.430 VIF 1.21
+      -> coefficients whose t-CI excludes 0: disc +0.571 t-CI [+0.076,+1.065] p=0.028; len_log -0.549 t-CI [-1.069,-0.028] p=0.041; whose task-bootstrap CI excludes 0: disc
+
+A9 synthetic-law transfer S11 (pooled synthetic OLS MCC = +1.994 d -1.050, n=135 synthetic points; 0 parameters fitted on real tasks): MAE 0.4440  R2 -4.049  mean signed resid +0.4440
+A9 synthetic-law transfer S15 (pooled synthetic OLS MCC = +1.994 d -1.050, n=135 synthetic points; 0 parameters fitted on real tasks): MAE 0.4324  R2 -3.513  mean signed resid +0.4324
+
+==============================================================================================================
+POST-HOC analyses (not pre-registered; see run_multivar.py comments)
+==============================================================================================================
+P1 residual-attribution null (max over the 10 Pool-B covariates of the LOTO |resid| reduction, rows permuted):
+    S11/Y1_MCC nt_promoter_tata               best comp_mcc   +82%  null P(max>=50%) 0.46  p_max 0.152 | best descriptive pos_delta +61% p 0.311
+    S11/Y1_MCC nt_enhancers_types             best comp_mcc   +39%  null P(max>=50%) 0.05  p_max 0.102 | best descriptive gc_mean +32% p 0.197
+    S15/Y1_MCC demo_human_or_worm             best comp_mcc   +99%  null P(max>=50%) 0.03  p_max 0.001 | best descriptive len_log +14% p 0.518
+    S15/Y1_MCC dummy_mouse_enhancers_ensembl  best comp_mcc   +62%  null P(max>=50%) 0.07  p_max 0.035 | best descriptive len_log +46% p 0.088
+    S15/Y1_MCC nt_enhancers_types             best comp_mcc   +54%  null P(max>=50%) 0.22  p_max 0.188 | best descriptive gc_mean +19% p 0.724
+    S15/Y1_MCC nt_splice_sites_all            best comp_mcc   +78%  null P(max>=50%) 0.20  p_max 0.058 | best descriptive multiclass +14% p 0.828
+P2 S11: real slope +2.608 (t-CI [+1.022,+4.195], boot [+1.681,+4.308]) vs synthetic +1.994 -> synthetic slope INSIDE the real-task CI; level offset (real - synthetic line) +0.444 MCC.  LOTO with slope fixed at synthetic: MAE 0.1284 R2 +0.483  vs free slope MAE 0.1400 R2 +0.439 (dMAE -0.0115 [-0.0449,+0.0172])
+P2 S15: real slope +1.592 (t-CI [+0.071,+3.113], boot [+0.120,+3.118]) vs synthetic +1.994 -> synthetic slope INSIDE the real-task CI; level offset (real - synthetic line) +0.432 MCC.  LOTO with slope fixed at synthetic: MAE 0.1625 R2 +0.155  vs free slope MAE 0.1817 R2 -0.005 (dMAE -0.0192 [-0.0349,-0.0053])
+P3 alternative homology (MMseqs2 id80, both strands) vs 8-mer Jaccard>=0.7: Spearman +0.764 (p=0.00092, n=15)
+P3 S11: partial Spearman(disc, MCC | homology_mm80) +0.739 [+0.278,+0.990];  reviewer model with homology_mm80: LOTO R2 -0.931 MAE 0.2211; disc +0.52 [-0.18,+1.80]; len_log -0.10 [-2.13,+0.95]; gc_sd +0.46 [-2.48,+2.39]; homology_mm80 -0.37 [-2.20,+0.70]
+P3 S15: partial Spearman(disc, MCC | homology_mm80) +0.434 [-0.167,+0.865];  reviewer model with homology_mm80: LOTO R2 -0.482 MAE 0.2219; disc +0.56 [+0.00,+1.11]; len_log -0.59 [-1.28,+0.05]; gc_sd +0.13 [-0.49,+0.91]; homology_mm80 -0.36 [-0.94,+0.00]
+P4 (results-motivated) nt_enhancers_types disc re-read in the functional-class orientation: KLF5 0.5400 instead of TBP (non-enhancer direction) 0.6749
+    S11/Y1_MCC as_published            Spearman +0.736 (p=0.0098)  LOTO R2 +0.439 [-0.269,+0.701]  MAE 0.1400 [0.108,0.180]  nt_enhancers_types resid -0.330
+    S11/Y1_MCC orientation_consistent  Spearman +0.782 (p=0.0045)  LOTO R2 +0.647 [+0.233,+0.815]  MAE 0.1092 [0.079,0.147]  nt_enhancers_types resid +0.064
+    S15/Y1_MCC as_published            Spearman +0.436 (p=0.1)  LOTO R2 -0.005 [-1.077,+0.493]  MAE 0.1817 [0.119,0.246]  nt_enhancers_types resid -0.258
+    S15/Y1_MCC orientation_consistent  Spearman +0.507 (p=0.054)  LOTO R2 +0.091 [-1.106,+0.622]  MAE 0.1585 [0.092,0.233]  nt_enhancers_types resid -0.027
+
+--------------------------------------------------------------------------------------------------------------
+POST-HOC round 2 (added after independent verification; results-motivated)
+--------------------------------------------------------------------------------------------------------------
+P5 'homology-clean' re-check (S11, MCC ~ disc).  S11 tasks with homology >= 0.05 (LEAKY): human_nontata_promoters 0.406 (verbatim 0.000), human_enhancers_ensembl 0.385 (verbatim 0.380), nt_enhancers 0.250 (verbatim 0.250), nt_enhancers_types 0.250 (verbatim 0.250)
+    S11_all                                n=11  Spearman +0.736 (t-approx p=0.0098; permutation p=0.013, exact (all 11! orderings))  jackknife [+0.685,+0.830] (11/11 p<0.05)  partial|suite +0.753  partial|GC mean +0.390 [-0.533,+0.977] p=0.26  rho(GC,Y|disc) +0.722 [+0.160,+0.984] p=0.018 (Spearman disc~GC +0.688; Spearman GC~MCC +0.861 (perm p=0.0012); LOTO MAE disc 0.1400 / GC 0.0857; 5 promoter/regulatory tasks)  LOTO R2 +0.439 [-0.269,+0.701] MAE 0.1400  still-LEAKY kept: human_nontata_promoters;human_enhancers_ensembl;nt_enhancers;nt_enhancers_types
+    paper_homology_clean_9                 n= 9  Spearman +0.867 (t-approx p=0.0025; permutation p=0.0045, exact (all 9! orderings))  jackknife [+0.810,+0.976] (9/9 p<0.05)  partial|suite +0.833  partial|GC mean +0.658 [-0.740,+1.000] p=0.076  rho(GC,Y|disc) +0.606 [+0.197,+1.000] p=0.11 (Spearman disc~GC +0.750; Spearman GC~MCC +0.850 (perm p=0.0061); LOTO MAE disc 0.1208 / GC 0.1064; 4 promoter/regulatory tasks)  LOTO R2 +0.415 [-1.305,+0.883] MAE 0.1208  still-LEAKY kept: human_enhancers_ensembl;nt_enhancers_types
+    paper9_minus_human_enhancers_ensembl   n= 8  Spearman +0.929 (t-approx p=0.00086; permutation p=0.0022, exact (all 8! orderings))  jackknife [+0.893,+1.000] (8/8 p<0.05)  partial|suite +0.912  partial|GC mean +0.889 [+0.476,+1.000] p=0.0075  rho(GC,Y|disc) +0.689 [+0.513,+1.000] p=0.087 (Spearman disc~GC +0.667; Spearman GC~MCC +0.810 (perm p=0.022); LOTO MAE disc 0.1127 / GC 0.1081; 4 promoter/regulatory tasks)  LOTO R2 +0.449 [-1.216,+0.923] MAE 0.1127  still-LEAKY kept: nt_enhancers_types
+    rule_clean_homology_lt_0.05            n= 7  Spearman +1.000 (t-approx p=nan; permutation p=0.0004, exact (all 7! orderings))  jackknife [+1.000,+1.000] (7/7 p<0.05)  partial|suite +1.000  partial|GC mean +1.000 [+nan,+nan] p=nan  rho(GC,Y|disc) +nan [+nan,+nan] p=nan (Spearman disc~GC +0.714; Spearman GC~MCC +0.714 (perm p=0.088); LOTO MAE disc 0.0392 / GC 0.1232; 4 promoter/regulatory tasks)  LOTO R2 +0.948 [+0.740,+0.986] MAE 0.0392  still-LEAKY kept: none
+P6 Table-1 model re-fit (val-selected k, models.LGBM_PARAMS, seed 42; cached predictions, full-test MCC asserted == Table 1) scored on near-duplicate-free vs near-duplicate test sequences (near-dup = max 8-mer Jaccard >= 0.7 or verbatim; full test split):
+    human_nontata_promoters    k=6 near-dup 0.406 (verbatim 0.000) | all: MCC 0.8737 (Table 1 0.8737) AUROC 0.9891 | clean (n=5363): MCC 0.5871, prevalence-std MCC 0.7925, AUROC 0.9611 | recall per class all 0.984/0.893, clean 0.901/0.893, near-dup 0.995/0.947  AUROC(subset positives vs all negatives): clean 0.9891, near-dup 0.9956
+    human_enhancers_ensembl    k=6 near-dup 0.384 (verbatim 0.380) | all: MCC 0.5934 (Table 1 0.5934) AUROC 0.8748 | clean (n=19045): MCC 0.4170, prevalence-std MCC 0.4910, AUROC 0.8180 | recall per class all 0.783/0.810, clean 0.782/0.707, near-dup 0.898/0.842  AUROC(subset positives vs all negatives): clean 0.8187, near-dup 0.8923
+    nt_enhancers               k=4 near-dup 0.250 (verbatim 0.250) | all: MCC 0.5137 (Table 1 0.5137) AUROC 0.8497 | clean (n=300): MCC 0.3111, prevalence-std MCC 0.3257, AUROC 0.7346 | recall per class all 0.695/0.815, clean 0.695/0.630, near-dup -/1.000  AUROC(subset positives vs all negatives): clean 0.7346, near-dup 0.9647
+    nt_enhancers_types         k=6 near-dup 0.250 (verbatim 0.250) | all: MCC 0.4761 (Table 1 0.4761) AUROC 0.8367 | clean (n=300): MCC 0.1710, prevalence-std MCC nan, AUROC nan | recall per class all 0.765/0.050/1.000, clean 0.765/0.050/-, near-dup -/-/1.000
+P7 discriminability vs GC mean (head to head):
+    S11/Y1_MCC as_published               Spearman(disc,GC) +0.688 | LOTO MAE GC-only 0.0857 vs disc-only 0.1400 (dMAE -0.0542 [-0.1104,+0.0198]) | rho(disc,Y|GC) +0.390 [-0.533,+0.977] p=0.26; rho(GC,Y|disc) +0.722 [+0.160,+0.984] p=0.018 | LMG share disc 0.42 [0.16,0.72] of R2 0.795
+    S11/Y1_MCC P4_orientation_consistent  Spearman(disc,GC) +0.651 | LOTO MAE GC-only 0.0857 vs disc-only 0.1092 (dMAE -0.0235 [-0.0908,+0.0569]) | rho(disc,Y|GC) +0.572 [+0.184,+0.986] p=0.084; rho(GC,Y|disc) +0.744 [+0.138,+0.981] p=0.014 | LMG share disc 0.54 [0.38,0.76] of R2 0.864
+    S15/Y1_MCC as_published               Spearman(disc,GC) +0.408 | LOTO MAE GC-only 0.1625 vs disc-only 0.1817 (dMAE -0.0192 [-0.0879,+0.0441]) | rho(disc,Y|GC) +0.333 [-0.195,+0.835] p=0.24; rho(GC,Y|disc) +0.243 [-0.407,+0.892] p=0.4 | LMG share disc 0.52 [0.07,0.92] of R2 0.369
+    S15/Y1_MCC P4_orientation_consistent  Spearman(disc,GC) +0.377 | LOTO MAE GC-only 0.1625 vs disc-only 0.1585 (dMAE +0.0040 [-0.0753,+0.0717]) | rho(disc,Y|GC) +0.425 [-0.087,+0.864] p=0.13; rho(GC,Y|disc) +0.233 [-0.423,+0.907] p=0.42 | LMG share disc 0.62 [0.11,0.92] of R2 0.420
+P8 robustness of the P4 re-reading + uniform functional-class rules (disc-only LOTO):
+    S11/Y1_MCC as_published                    LOTO R2 +0.439 [-0.269,+0.701] MAE 0.1400  Spearman +0.736  changed: none
+    S15/Y1_MCC as_published                    LOTO R2 -0.005 [-1.077,+0.493] MAE 0.1817  Spearman +0.436  changed: none
+    S11/Y1_MCC P4_0_vs_rest_reversed           LOTO R2 +0.647 [+0.233,+0.815] MAE 0.1092  Spearman +0.782  changed: nt_enhancers_types=0.5400 (0_vs_rest reversed:KLF5)
+    S15/Y1_MCC P4_0_vs_rest_reversed           LOTO R2 +0.091 [-1.106,+0.622] MAE 0.1585  Spearman +0.507  changed: nt_enhancers_types=0.5400 (0_vs_rest reversed:KLF5)
+    S11/Y1_MCC 1_vs_rest                       LOTO R2 +0.628 [+0.287,+0.759] MAE 0.1149  Spearman +0.782  changed: nt_enhancers_types=0.5105 (1_vs_rest:SP2)
+    S15/Y1_MCC 1_vs_rest                       LOTO R2 +0.105 [-1.027,+0.610] MAE 0.1577  Spearman +0.493  changed: nt_enhancers_types=0.5105 (1_vs_rest:SP2)
+    S11/Y1_MCC 2_vs_rest                       LOTO R2 +0.645 [+0.204,+0.823] MAE 0.1080  Spearman +0.773  changed: nt_enhancers_types=0.5465 (2_vs_rest:KLF5)
+    S15/Y1_MCC 2_vs_rest                       LOTO R2 +0.087 [-1.118,+0.623] MAE 0.1594  Spearman +0.504  changed: nt_enhancers_types=0.5465 (2_vs_rest:KLF5)
+    S11/Y1_MCC U1_functional_representative    LOTO R2 +0.645 [+0.204,+0.823] MAE 0.1080  Spearman +0.773  changed: nt_enhancers_types=0.5465 (2_vs_rest:KLF5)
+    S15/Y1_MCC U1_functional_representative    LOTO R2 +0.087 [-1.118,+0.623] MAE 0.1594  Spearman +0.504  changed: nt_enhancers_types=0.5465 (2_vs_rest:KLF5)
+    S11/Y1_MCC U2_max_over_functional_classes  LOTO R2 +0.645 [+0.204,+0.823] MAE 0.1080  Spearman +0.773  changed: nt_enhancers_types=0.5465 (2_vs_rest:KLF5)
+    S15/Y1_MCC U2_max_over_functional_classes  LOTO R2 +0.078 [-1.124,+0.612] MAE 0.1603  Spearman +0.504  changed: nt_enhancers_types=0.5465 (2_vs_rest:KLF5); nt_splice_sites_all=0.5279 (1_vs_rest:KLF5)
+P9 bounded-outcome sensitivity (disc-only LOTO):
+    S11/Y1_MCC linear_published    LOTO R2 +0.439 MAE 0.1400 (dMAE vs linear +0.0000 [+0.0000,+0.0000])  human_nontata pred 1.025 resid -0.152
+    S11/Y1_MCC linear_capped_at_1  LOTO R2 +0.454 MAE 0.1376 (dMAE vs linear -0.0023 [-0.0069,+0.0000])  human_nontata pred 1.000 resid -0.126
+    S11/Y1_MCC fisher_z            LOTO R2 +0.465 MAE 0.1236 (dMAE vs linear -0.0164 [-0.0437,+0.0100])  human_nontata pred 0.937 resid -0.063
+    S15/Y1_MCC linear_published    LOTO R2 -0.005 MAE 0.1817 (dMAE vs linear +0.0000 [+0.0000,+0.0000])  human_nontata pred 0.822 resid +0.052
+    S15/Y1_MCC linear_capped_at_1  LOTO R2 -0.005 MAE 0.1817 (dMAE vs linear +0.0000 [+0.0000,+0.0000])  human_nontata pred 0.822 resid +0.052
+    S15/Y1_MCC fisher_z            LOTO R2 -0.036 MAE 0.1894 (dMAE vs linear +0.0077 [-0.0177,+0.0338])  human_nontata pred 0.831 resid +0.042
+P10 synthetic range restriction + level-offset correlates:
+    real_S11_disc_range                      [0.5449,0.7513]  
+    synthetic_n_in_range                     57  of 135; motifs: TBP 22, MYC 20, SP1 15; seeds 5 (points clustered by motif and seed)
+    synthetic_in_range_spearman              +0.9360  p=1.3e-26
+    synthetic_in_range_ols_R2                +0.8878  
+    synthetic_in_range_resid_sd              +0.0419  OLS residual SD, df n-2
+    real_S11_ols_R2                          +0.6060  
+    real_S11_resid_sd                        +0.1433  OLS residual SD, df n-2
+    resid_sd_ratio_real_over_synthetic       +3.4219  
+    synthetic_n_train_n_test                 [1600] / [400]  every synthetic point
+    real_S11_n_train_range                   [5184,231348]  
+    level_offset_mean                        +0.4440  real MCC minus pooled synthetic line (as A9/P2)
+    spearman_level_offset_vs_comp_mcc        +0.8273  p=0.00168, n=11
+    spearman_level_offset_vs_gc_mean         +0.7107  p=0.0142, n=11
+    spearman_level_offset_vs_ntrain_log      +0.2278  p=0.501, n=11
+    spearman_level_offset_vs_len_log         -0.0828  p=0.809, n=11
+P11 task family (results-motivated, descriptive): promoter (4) / enhancer-OCR (6) / regulatory (mixed)
+    as_published               within_promoter_n4                   n=4  disc [0.651,0.751] MCC [0.846,0.888] GC [0.539,0.583]  Spearman(disc,MCC) +0.400 (p=0.6, exact 0.750)  Spearman(GC,MCC) +0.800 (p=0.2)  MCC range 0.041 vs mean CI half-width 0.019
+    as_published               within_promoter_plus_regulatory_n5   n=5  disc [0.651,0.751] MCC [0.846,0.907] GC [0.461,0.583]  Spearman(disc,MCC) +0.400 (p=0.5, exact 0.517)  Spearman(GC,MCC) -0.100 (p=0.87)  MCC range 0.060 vs mean CI half-width 0.016
+    as_published               within_enhancer_ocr_n6               n=6  disc [0.545,0.675] MCC [0.398,0.593] GC [0.417,0.440]  Spearman(disc,MCC) +0.143 (p=0.79, exact 0.803)  Spearman(GC,MCC) +0.754 (p=0.084)  MCC range 0.195 vs mean CI half-width 0.037
+    as_published               within_homology_clean_promoter_plus_regulatory n=4  disc [0.651,0.691] MCC [0.846,0.907] GC [0.461,0.583]  Spearman(disc,MCC) +1.000 (p=nan, exact 0.083)  Spearman(GC,MCC) -0.400 (p=0.6)  MCC range 0.060 vs mean CI half-width 0.017
+    as_published               within_homology_clean_enhancer_ocr   n=3  disc [0.568,0.595] MCC [0.398,0.461] GC [0.417,0.430]  Spearman(disc,MCC) +1.000 (p=nan, exact 0.333)  Spearman(GC,MCC) +0.500 (p=0.67)  MCC range 0.063 vs mean CI half-width 0.025
+    as_published               between_family_S11 (n=11): GC separates promoter (min 0.539) from enhancer/OCR (max 0.440): True; Spearman(GC, indicator) +0.868, (disc, indicator) +0.751 | LOTO MAE indicator-only 0.0425 (R2 +0.918) vs disc-only 0.1400 (dMAE -0.0975 [-0.1500,-0.0436]), GC-only 0.0857, disc+indicator 0.0478 | rho(disc,Y|family) +0.261 [-0.528,+0.977] p=0.47; rho(family,Y|disc) +0.701 [+0.225,+0.890] p=0.024; rho(GC,Y|family) +0.440 [-0.551,+0.962]
+    as_published               between_family_S10_excl_regulatory (n=10): GC separates promoter (min 0.539) from enhancer/OCR (max 0.440): True; Spearman(GC, indicator) +0.855, (disc, indicator) +0.711 | LOTO MAE indicator-only 0.0439 (R2 +0.908) vs disc-only 0.1433 (dMAE -0.0994 [-0.1609,-0.0428]), GC-only 0.0437, disc+indicator 0.0493 | rho(disc,Y|family) +0.214 [-0.611,+0.974] p=0.58; rho(family,Y|disc) +0.714 [+0.264,+0.936] p=0.031; rho(GC,Y|family) +0.764 [-0.078,+1.000]
+    as_published               between_family_S7_homology_clean (n=7): GC separates promoter (min 0.539) from enhancer/OCR (max 0.430): True; Spearman(GC, indicator) +0.866, (disc, indicator) +0.866 | LOTO MAE indicator-only 0.0282 (R2 +0.978) vs disc-only 0.0392 (dMAE -0.0110 [-0.0293,+0.0064]), GC-only 0.1232, disc+indicator 0.0095 | rho(disc,Y|family) +1.000 [+nan,+nan] p=nan; rho(family,Y|disc) +nan [+nan,+nan] p=nan; rho(GC,Y|family) -0.143 [-1.000,+1.000]
+    P4_orientation_consistent  within_promoter_n4                   n=4  disc [0.651,0.751] MCC [0.846,0.888] GC [0.539,0.583]  Spearman(disc,MCC) +0.400 (p=0.6, exact 0.750)  Spearman(GC,MCC) +0.800 (p=0.2)  MCC range 0.041 vs mean CI half-width 0.019
+    P4_orientation_consistent  within_promoter_plus_regulatory_n5   n=5  disc [0.651,0.751] MCC [0.846,0.907] GC [0.461,0.583]  Spearman(disc,MCC) +0.400 (p=0.5, exact 0.517)  Spearman(GC,MCC) -0.100 (p=0.87)  MCC range 0.060 vs mean CI half-width 0.016
+    P4_orientation_consistent  within_enhancer_ocr_n6               n=6  disc [0.540,0.595] MCC [0.398,0.593] GC [0.417,0.440]  Spearman(disc,MCC) -0.029 (p=0.96, exact 1.000)  Spearman(GC,MCC) +0.754 (p=0.084)  MCC range 0.195 vs mean CI half-width 0.037
+    P4_orientation_consistent  within_homology_clean_promoter_plus_regulatory n=4  disc [0.651,0.691] MCC [0.846,0.907] GC [0.461,0.583]  Spearman(disc,MCC) +1.000 (p=nan, exact 0.083)  Spearman(GC,MCC) -0.400 (p=0.6)  MCC range 0.060 vs mean CI half-width 0.017
+    P4_orientation_consistent  within_homology_clean_enhancer_ocr   n=3  disc [0.568,0.595] MCC [0.398,0.461] GC [0.417,0.430]  Spearman(disc,MCC) +1.000 (p=nan, exact 0.333)  Spearman(GC,MCC) +0.500 (p=0.67)  MCC range 0.063 vs mean CI half-width 0.025
+    P4_orientation_consistent  between_family_S11 (n=11): GC separates promoter (min 0.539) from enhancer/OCR (max 0.440): True; Spearman(GC, indicator) +0.868, (disc, indicator) +0.866 | LOTO MAE indicator-only 0.0425 (R2 +0.918) vs disc-only 0.1092 (dMAE -0.0667 [-0.1139,-0.0184]), GC-only 0.0857, disc+indicator 0.0507 | rho(disc,Y|family) +0.127 [-0.609,+0.975] p=0.73; rho(family,Y|disc) +0.606 [+0.214,+0.868] p=0.063; rho(GC,Y|family) +0.440 [-0.551,+0.962]
+    P4_orientation_consistent  between_family_S10_excl_regulatory (n=10): GC separates promoter (min 0.539) from enhancer/OCR (max 0.440): True; Spearman(GC, indicator) +0.855, (disc, indicator) +0.853 | LOTO MAE indicator-only 0.0439 (R2 +0.908) vs disc-only 0.1187 (dMAE -0.0748 [-0.1312,-0.0194]), GC-only 0.0437, disc+indicator 0.0523 | rho(disc,Y|family) +0.067 [-0.695,+0.888] p=0.86; rho(family,Y|disc) +0.624 [+0.251,+0.894] p=0.073; rho(GC,Y|family) +0.764 [-0.078,+1.000]
+    P4_orientation_consistent  between_family_S7_homology_clean (n=7): GC separates promoter (min 0.539) from enhancer/OCR (max 0.430): True; Spearman(GC, indicator) +0.866, (disc, indicator) +0.866 | LOTO MAE indicator-only 0.0282 (R2 +0.978) vs disc-only 0.0392 (dMAE -0.0110 [-0.0293,+0.0064]), GC-only 0.1232, disc+indicator 0.0095 | rho(disc,Y|family) +1.000 [+nan,+nan] p=nan; rho(family,Y|disc) +nan [+nan,+nan] p=nan; rho(GC,Y|family) -0.143 [-1.000,+1.000]
+P12 exact-duplicate sensitivity (tasks sharing exact sequences collapsed; results-motivated, descriptive):
+    S11_all                                    n=11 (max shared 1.000; clean False)  rho +0.736 (perm p=0.013)  rho(GC,MCC) +0.861 (perm p=0.0012; GC-disc [-0.32,+0.53])  lower MAE: gc (reversed by dropping: none; without regulatory: gc)  jackknife [+0.685,+0.830]  LOTO MAE disc 0.1400 GC 0.0857 family 0.0425  rho(disc|GC) +0.390 (t p=0.26, perm 0.24)  rho(GC|disc) +0.722 (t p=0.018, perm 0.017)  within promoter +0.40 (n=5, exact p=0.517), enhancer +0.14 (n=6, exact p=0.803)
+    S11_minus_union                            n=10 (max shared 1.000; clean False)  rho +0.685 (perm p=0.035)  rho(GC,MCC) +0.875 (perm p=0.0016; GC-disc [-0.26,+0.71])  lower MAE: gc (reversed by dropping: none; without regulatory: gc)  jackknife [+0.600,+0.817]  LOTO MAE disc 0.1408 GC 0.0938 family 0.0464  rho(disc|GC) +0.251 (t p=0.51, perm 0.48)  rho(GC|disc) +0.767 (t p=0.016, perm 0.013)  within promoter +0.40 (n=4, exact p=0.750), enhancer +0.14 (n=6, exact p=0.803)
+    dupfree9_keep_nt_enhancers                 n= 9 (max shared 0.500; clean False)  rho +0.817 (perm p=0.011)  rho(GC,MCC) +0.867 (perm p=0.0045; GC-disc [-0.43,+0.55])  lower MAE: gc (reversed by dropping: human_nontata_promoters; without regulatory: gc)  jackknife [+0.738,+0.905]  LOTO MAE disc 0.1260 GC 0.1005 family 0.0531  rho(disc|GC) +0.562 (t p=0.15, perm 0.12)  rho(GC|disc) +0.699 (t p=0.054, perm 0.043)  within promoter +0.40 (n=4, exact p=0.750), enhancer +0.20 (n=5, exact p=0.783)
+    dupfree9_keep_nt_enhancers_types           n= 9 (max shared 0.500; clean False)  rho +0.800 (perm p=0.014)  rho(GC,MCC) +0.867 (perm p=0.0045; GC-disc [-0.35,+0.58])  lower MAE: gc (reversed by dropping: none; without regulatory: gc)  jackknife [+0.714,+0.905]  LOTO MAE disc 0.1430 GC 0.1035 family 0.0468  rho(disc|GC) +0.391 (t p=0.34, perm 0.32)  rho(GC|disc) +0.643 (t p=0.085, perm 0.064)  within promoter +0.40 (n=4, exact p=0.750), enhancer +0.70 (n=5, exact p=0.233)
+    noshare8_drop_ocr                          n= 8 (max shared 0.000; clean False)  rho +0.810 (perm p=0.022)  rho(GC,MCC) +0.833 (perm p=0.015; GC-disc [-0.61,+0.63])  lower MAE: gc (reversed by dropping: human_nontata_promoters; without regulatory: gc)  jackknife [+0.714,+0.857]  LOTO MAE disc 0.1275 GC 0.1076 family 0.0535  rho(disc|GC) +0.554 (t p=0.2, perm 0.16)  rho(GC|disc) +0.621 (t p=0.14, perm 0.11)  within promoter +0.40 (n=4, exact p=0.750), enhancer +0.00 (n=4, exact p=1.000)
+    noshare8_drop_regulatory                   n= 8 (max shared 0.000; clean False)  rho +0.786 (perm p=0.028)  rho(GC,MCC) +0.952 (perm p=0.0011; GC-disc [-0.20,+0.76])  lower MAE: gc (reversed by dropping: none; without regulatory: gc)  jackknife [+0.679,+0.929]  LOTO MAE disc 0.1394 GC 0.0498 family 0.0560  rho(disc|GC) +0.581 (t p=0.17, perm 0.14)  rho(GC|disc) +0.916 (t p=0.0038, perm 0.0014)  within promoter +0.50 (n=3, exact p=1.000), enhancer +0.20 (n=5, exact p=0.783)
+    n8_minus_union                             n= 7 (max shared 0.500; clean False)  rho +0.893 (perm p=0.012)  rho(GC,MCC) +0.857 (perm p=0.024; GC-disc [-0.63,+0.59])  lower MAE: disc (reversed by dropping: human_ensembl_regulatory;drosophila_enhancers_stark; without regulatory: gc)  jackknife [+0.829,+1.000]  LOTO MAE disc 0.1283 GC 0.1290 family 0.0368  rho(disc|GC) +0.823 (t p=0.044, perm 0.013)  rho(GC|disc) +0.760 (t p=0.08, perm 0.043)  within promoter +1.00 (n=3, exact p=0.333), enhancer +1.00 (n=4, exact p=0.083)
+    homology_clean7_minus_union                n= 6 (max shared 0.500; clean True)  rho +1.000 (perm p=0.0028)  rho(GC,MCC) +0.771 (perm p=0.1; GC-disc [-1.00,+0.00])  lower MAE: disc (reversed by dropping: human_ensembl_regulatory; without regulatory: gc)  jackknife [+1.000,+1.000]  LOTO MAE disc 0.0490 GC 0.1498 family 0.0339  rho(disc|GC) +1.000 (t p=nan, perm nan)  rho(GC|disc) +nan (t p=nan, perm nan)  within promoter +1.00 (n=3, exact p=0.333), enhancer +1.00 (n=3, exact p=0.333)
+    homology_clean_noshare5_drop_ocr           n= 5 (max shared 0.000; clean True)  rho +1.000 (perm p=0.017)  rho(GC,MCC) +0.700 (perm p=0.23; GC-disc [-1.87,+0.00])  lower MAE: disc (reversed by dropping: human_ensembl_regulatory; without regulatory: gc)  jackknife [+1.000,+1.000]  LOTO MAE disc 0.0624 GC 0.1840 family 0.0453  rho(disc|GC) +1.000 (t p=nan, perm nan)  rho(GC|disc) +nan (t p=nan, perm nan)  within promoter +1.00 (n=3, exact p=0.333), enhancer +nan (n=2, exact p=nan)
+    homology_clean_noshare5_drop_regulatory    n= 5 (max shared 0.000; clean True)  rho +1.000 (perm p=0.017)  rho(GC,MCC) +0.900 (perm p=0.083; GC-disc [-0.89,+0.00])  lower MAE: gc (reversed by dropping: human_enhancers_cohn; without regulatory: gc)  jackknife [+1.000,+1.000]  LOTO MAE disc 0.0530 GC 0.0504 family 0.0367  rho(disc|GC) +1.000 (t p=nan, perm nan)  rho(GC|disc) +nan (t p=nan, perm nan)  within promoter +nan (n=2, exact p=nan), enhancer +1.00 (n=3, exact p=0.333)
+    S11_minus_regulatory                       n=10 (max shared 1.000; clean False)  rho +0.685 (perm p=0.035)  rho(GC,MCC) +0.936 (perm p=0.00021; GC-disc [-0.11,+0.76])  lower MAE: gc (reversed by dropping: none; without regulatory: gc)  jackknife [+0.600,+0.817]  LOTO MAE disc 0.1433 GC 0.0437 family 0.0439  rho(disc|GC) +0.099 (t p=0.8, perm 0.79)  rho(GC|disc) +0.877 (t p=0.0019, perm 0.00094)  within promoter +0.40 (n=4, exact p=0.750), enhancer +0.14 (n=6, exact p=0.803)
+    homology_clean7_minus_regulatory           n= 6 (max shared 1.000; clean True)  rho +1.000 (perm p=0.0028)  rho(GC,MCC) +0.886 (perm p=0.033; GC-disc [-0.80,+0.00])  lower MAE: gc (reversed by dropping: human_enhancers_cohn; without regulatory: gc)  jackknife [+1.000,+1.000]  LOTO MAE disc 0.0402 GC 0.0342 family 0.0308  rho(disc|GC) +1.000 (t p=nan, perm nan)  rho(GC|disc) +nan (t p=nan, perm nan)  within promoter +1.00 (n=3, exact p=0.333), enhancer +1.00 (n=3, exact p=0.333)
+    suite_GB_only                              n= 6 (max shared 0.500; clean False)  rho +0.886 (perm p=0.033)  rho(GC,MCC) +0.886 (perm p=0.033; GC-disc [-0.48,+0.48])  lower MAE: disc (reversed by dropping: none; without regulatory: disc)  jackknife [+0.800,+0.900]  LOTO MAE disc 0.1230 GC 0.3105 family 0.0665  rho(disc|GC) +0.470 (t p=0.42, perm 0.34)  rho(GC|disc) +0.470 (t p=0.42, perm 0.34)  within promoter +nan (n=2, exact p=nan), enhancer +0.80 (n=4, exact p=0.333)
+    suite_NT_only                              n= 5 (max shared 1.000; clean False)  rho +0.400 (perm p=0.52)  rho(GC,MCC) +0.872 (perm p=0.1; GC-disc [-0.75,+1.67])  lower MAE: gc (reversed by dropping: nt_enhancers_types; without regulatory: gc)  jackknife [-0.200,+1.000]  LOTO MAE disc 0.3240 GC 0.0437 family 0.0314  rho(disc|GC) +0.190 (t p=0.81, perm 0.82)  rho(GC|disc) +0.852 (t p=0.15, perm 0.075)  within promoter +1.00 (n=3, exact p=0.333), enhancer +nan (n=2, exact p=nan)
+P13 locus-level sharing (audit_locus_overlap.py; results-motivated, descriptive):
+    task pairs with locus link >= 0.10: nt_enhancers~nt_enhancers_types 1.00; nt_promoter_all~nt_promoter_tata 1.00; nt_promoter_all~nt_promoter_no_tata 1.00; human_ensembl_regulatory~human_ocr_ensembl 1.00; human_nontata_promoters~nt_promoter_all 0.73; human_nontata_promoters~nt_promoter_no_tata 0.71; human_ensembl_regulatory~human_nontata_promoters 0.64; human_ensembl_regulatory~nt_promoter_no_tata 0.62; human_ensembl_regulatory~nt_promoter_all 0.58; human_ensembl_regulatory~nt_promoter_tata 0.43; human_ensembl_regulatory~human_enhancers_cohn 0.15; human_ensembl_regulatory~nt_enhancers_types 0.14; human_ensembl_regulatory~human_enhancers_ensembl 0.12; human_nontata_promoters~nt_promoter_tata 0.11
+    tau 0.50: 9 links, 5 linked groups (human_ensembl_regulatory+human_nontata_promoters+human_ocr_ensembl+nt_promoter_all+nt_promoter_no_tata+nt_promoter_tata | nt_enhancers+nt_enhancers_types | drosophila_enhancers_stark | human_enhancers_cohn | human_enhancers_ensembl); largest mutually unlinked sets: n = 7 (4 sets; 2-2 solved tasks each): rho(disc, MCC) +0.714 to +0.821 (perm p 0.034-0.088); rho(GC, MCC) +0.929 to +0.929
+    tau 0.25: 10 links, 5 linked groups (human_ensembl_regulatory+human_nontata_promoters+human_ocr_ensembl+nt_promoter_all+nt_promoter_no_tata+nt_promoter_tata | nt_enhancers+nt_enhancers_types | drosophila_enhancers_stark | human_enhancers_cohn | human_enhancers_ensembl); largest mutually unlinked sets: n = 7 (4 sets; 2-2 solved tasks each): rho(disc, MCC) +0.714 to +0.821 (perm p 0.034-0.088); rho(GC, MCC) +0.929 to +0.929
+    tau 0.10: 14 links, 2 linked groups (human_enhancers_cohn+human_enhancers_ensembl+human_ensembl_regulatory+human_nontata_promoters+human_ocr_ensembl+nt_enhancers+nt_enhancers_types+nt_promoter_all+nt_promoter_no_tata+nt_promoter_tata | drosophila_enhancers_stark); largest mutually unlinked sets: n = 7 (2 sets; 2-2 solved tasks each): rho(disc, MCC) +0.714 to +0.714 (perm p 0.088-0.088); rho(GC, MCC) +0.929 to +0.929

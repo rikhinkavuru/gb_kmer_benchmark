@@ -1,0 +1,28 @@
+====================================================================================================
+UPGRADE 2 -- COMPOSITION-EQUALIZED CLEANING: causal test of the compositional shortcut
+====================================================================================================
+dataset                     arm               kept%  TATA AUROC  GC AUROC  compMCC  kmerMCC residual
+----------------------------------------------------------------------------------------------------
+human_ocr_ensembl           original        100.0%       0.453     0.569    0.296    0.421   +0.125
+human_ocr_ensembl           comp_equalized   24.9%       0.486     0.496    0.134    0.237   +0.103
+human_ocr_ensembl           gc_match         86.5%       0.475     0.515    0.253    0.396   +0.143
+human_enhancers_ensembl     original        100.0%       0.432     0.663    0.420    0.593   +0.174
+human_enhancers_ensembl     comp_equalized   19.4%       0.526     0.459    0.200    0.373   +0.174
+human_enhancers_ensembl     gc_match         73.6%       0.468     0.577    0.338    0.548   +0.210
+
+TATA/GC AUROC = does the motif/GC measure separate pos>neg (0.5 = no separation).
+compMCC = composition-only baseline (LightGBM on 4 mono + 16 dinuc freqs); kmerMCC = the
+k-mer+LightGBM benchmark; residual = kmerMCC - compMCC (signal beyond composition).
+
+Balance (comp_equalized arm), standardized mean diff over the 20 composition features:
+  human_ocr_ensembl            max|SMD| 0.228 -> 0.033   mean|SMD| 0.129 -> 0.015
+  human_enhancers_ensembl      max|SMD| 0.690 -> 0.139   mean|SMD| 0.254 -> 0.085
+
+Verdict (per contaminated dataset):
+  human_ocr_ensembl [unlabelled]: TATA 0.453->0.486 (collapses), GC 0.569->0.496 (collapses); residual MCC on equalized split = +0.103 (signal survives composition).
+  human_enhancers_ensembl [unlabelled]: TATA 0.432->0.526 (collapses), GC 0.663->0.459 (collapses); residual MCC on equalized split = +0.174 (signal survives composition).
+
+CAVEAT: equalized cleaning changes the test set, so the benchmark MCC is NOT a paired
+comparison across arms; the TATA/GC AUROC collapse (and the residual-vs-composition gap on
+the equalized split) are the causal readouts. Positives are identical across all arms.
+Method: LR propensity on 20-d composition, 20-bin proportional match, seed 42.

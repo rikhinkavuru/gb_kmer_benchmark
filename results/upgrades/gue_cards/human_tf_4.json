@@ -1,0 +1,169 @@
+{
+  "task": "human_tf_4",
+  "species": "human",
+  "family": "TF binding (101 bp)",
+  "neg_construction": "non-overlapping genomic sequences of the same length and GC content (GC-matched)",
+  "n_classes": 2,
+  "binary": true,
+  "n_train": 19000,
+  "n_dev": 1000,
+  "n_test": 1000,
+  "pos_frac_test": 0.5,
+  "k": 6,
+  "val_mcc": {
+    "3": 0.653905,
+    "4": 0.717831,
+    "5": 0.74391,
+    "6": 0.74483
+  },
+  "learnability": {
+    "mcc": 0.758681366162897,
+    "mcc_ci": [
+      0.7175998723783384,
+      0.7961100497718043
+    ],
+    "auroc": 0.951688,
+    "auroc_ci": [
+      0.9369703733360023,
+      0.9633083049743744
+    ],
+    "f1_macro": 0.8777844117022428,
+    "f1_macro_ci": [
+      0.8560045954801021,
+      0.8969491143912579
+    ],
+    "acc": 0.878,
+    "n_test": 1000
+  },
+  "composition_only": {
+    "mcc": 0.5841168350516841,
+    "mcc_ci": [
+      0.5300495715016097,
+      0.6363426767548648
+    ],
+    "auroc": 0.8620559999999998,
+    "auroc_ci": [
+      0.8370652752527991,
+      0.8844009748050801
+    ],
+    "f1_macro": 0.791979197919792
+  },
+  "composition_fraction": {
+    "value": 0.8016,
+    "ci": [
+      0.7536,
+      0.8464
+    ],
+    "full_auroc": 0.9517,
+    "comp_only_auroc": 0.8621,
+    "definition": "(AUROC_comp_only-0.5)/(AUROC_full-0.5)"
+  },
+  "tier": "solved",
+  "route2_positional": {
+    "spectrum_mcc": 0.7587,
+    "positional_mcc": 0.7624,
+    "delta_mcc": 0.0038,
+    "delta_ci": [
+      -0.0196,
+      0.0265
+    ],
+    "significant": false,
+    "n_bins": 8,
+    "capped": false,
+    "n_train_used": 19000,
+    "n_test_used": 1000
+  },
+  "route1_motif": {
+    "max_pos_motif_auroc": 0.6019,
+    "best_TF": "MYC",
+    "motif_richness": 0.125,
+    "per_TF_auroc": {
+      "SP1": 0.5117,
+      "SP2": 0.502,
+      "SP3": 0.5191,
+      "SP4": 0.4981,
+      "KLF15": 0.5373,
+      "KLF5": 0.4868,
+      "ETS1": 0.5413,
+      "ETS2": 0.5366,
+      "ELF4": 0.5118,
+      "ETV2": 0.5256,
+      "FLI1": 0.5338,
+      "TFAP4": 0.5055,
+      "HAND2": 0.5021,
+      "MYOD1": 0.4947,
+      "MYC": 0.6019,
+      "BATF3": 0.5048,
+      "FOS": 0.5032,
+      "Jun": 0.4968,
+      "BACH1": 0.5071,
+      "TBP": 0.504,
+      "PBX1": 0.4984,
+      "PBX2": 0.4999,
+      "MEIS1": 0.6003,
+      "MEIS2": 0.5643,
+      "FOXC1": 0.499,
+      "TGIF1": 0.5014
+    },
+    "n_TFs": 26,
+    "panel": "curated vertebrate (diagnose default)",
+    "missing": []
+  },
+  "route3_negatives": {
+    "tata_pos_rate": 0.011,
+    "tata_neg_rate": 0.0138,
+    "tata_neg_excess": 0.0028,
+    "tata_motif_auroc": 0.4986,
+    "gc_auroc": 0.5033,
+    "cleaned_tata_auroc": 0.5,
+    "cleaning_moves_to_chance": true,
+    "frac_neg_removed": 0.0028
+  },
+  "shuffled_negative_control": {
+    "tata_auroc_vs_shuffled": 0.5012,
+    "gc_auroc_vs_shuffled": 0.5,
+    "dinuc_preserved_frac": 1.0,
+    "n_shuffled": 4000
+  },
+  "equalized_delta": {
+    "feasible": true,
+    "mcc_before": 0.758681,
+    "mcc_after": 0.36833,
+    "mcc_after_ci": [
+      0.2269,
+      0.4767
+    ],
+    "delta_mcc": -0.3904,
+    "auroc_before": 0.951688,
+    "auroc_after": 0.909074,
+    "comp_only_auroc_after": 0.53863,
+    "comp_only_mcc_after": 0.161691,
+    "n_test_after": 554,
+    "pos_frac_test_after": 0.9025,
+    "retained_neg_frac": 0.1018,
+    "max_abs_smd_before": 0.7102,
+    "max_abs_smd_after": 0.058
+  },
+  "redundancy": {
+    "frac_ge_0_7": 0.009,
+    "frac_verbatim": 0.0,
+    "median_max_jaccard": 0.0526,
+    "verdict": "clean",
+    "n_test": 1000
+  },
+  "verdict": "SOLVED",
+  "composition_dominated": true,
+  "composition_flag_rule": "composition fraction >= 0.8 and full AUROC >= 0.6",
+  "timing_s": {
+    "select_k": 6.3,
+    "learn": 3.7,
+    "comp": 3.2,
+    "positional": 7.9,
+    "motif": 1.5,
+    "equalized": 5.7,
+    "redundancy": 0.5
+  },
+  "total_s": 28.8,
+  "n_jobs": 3,
+  "lightgbm_version": "4.6.0"
+}

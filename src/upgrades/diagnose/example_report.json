@@ -12,6 +12,28 @@
     "auroc": 1.0,
     "n_test": 75
   },
+  "composition_fraction": {
+    "value": 0.8336,
+    "ci": [
+      0.6984,
+      0.9402
+    ],
+    "full_auroc": 1.0,
+    "comp_only_auroc": 0.9168,
+    "definition": "(AUROC_comp_only-0.5)/(AUROC_full-0.5)"
+  },
+  "equalized_delta": {
+    "feasible": false,
+    "reason": "fewer than 10 negatives survive equalization in a split",
+    "retained_neg_frac": 0.04
+  },
+  "redundancy": {
+    "frac_ge_0_7": 0.0,
+    "frac_verbatim": 0.0,
+    "median_max_jaccard": 0.0215,
+    "verdict": "clean",
+    "n_test": 75
+  },
   "route2_positional": {
     "delta_mcc": 0.0,
     "delta_ci": [
@@ -34,6 +56,12 @@
     "cleaned_tata_auroc": 0.4998,
     "cleaning_moves_to_chance": true,
     "frac_neg_removed": 0.0133
+  },
+  "shuffled_negative_control": {
+    "tata_auroc_vs_shuffled": 0.4825,
+    "gc_auroc_vs_shuffled": 0.5,
+    "dinuc_preserved_frac": 1.0,
+    "n_shuffled": 150
   },
   "verdict": "SOLVED (class-specific motif discriminability)"
 }

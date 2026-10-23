@@ -1,0 +1,4 @@
+dataset,n_train,n_test,n_test_verbatim_in_train,n_test_verbatim_pos,n_test_verbatim_neg,n_train_rows_equal_a_test_seq,n_train_rows_equal_a_test_seq_pos,n_test_revcomp_in_train_not_verbatim,dup_labels_consistent,orig_mean_score_dup_pos,orig_mean_score_other_pos,orig_auroc_full_test,orig_auroc_leakfree_test,n_test_pos_leakfree,n_test_neg_leakfree
+drosophila_enhancers_stark,5184,1730,0,0,0,0,0,0,True,,0.6666049992576843,0.763135420495172,0.763135420495172,865,865
+human_enhancers_cohn,20843,6948,0,0,0,0,0,0,True,,0.650245955340419,0.8046487452310427,0.8046487452310427,3474,3474
+nt_enhancers,14968,400,100,100,0,107,107,0,True,0.9575196735865832,0.6241695371076862,0.849675,0.7346,100,200

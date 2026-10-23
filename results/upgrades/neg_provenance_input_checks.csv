@@ -1,0 +1,40 @@
+check,status,evidence
+gzip_integrity:gencode.v44.annotation.gtf.gz,PASS,49721965 B -> 1568837472 B
+gzip_integrity:rmsk.txt.gz,PASS,155633856 B -> 491811719 B
+gzip_integrity:gap.txt.gz,PASS,12368 B -> 43599 B
+gzip_integrity:hg38ToHg19.over.chain.gz,PASS,1246411 B -> 3915120 B
+gzip_integrity:hg19ToHg38.over.chain.gz,PASS,227698 B -> 606773 B
+gzip_integrity:wgEncodeBroadHmmGm12878HMM.bed.gz,PASS,5540331 B -> 41658756 B
+gzip_integrity:wgEncodeBroadHmmH1hescHMM.bed.gz,PASS,5974589 B -> 44888944 B
+gzip_integrity:wgEncodeBroadHmmHepg2HMM.bed.gz,PASS,5322650 B -> 39792578 B
+gzip_integrity:wgEncodeBroadHmmHmecHMM.bed.gz,PASS,5913029 B -> 44399843 B
+gzip_integrity:wgEncodeBroadHmmHsmmHMM.bed.gz,PASS,6217966 B -> 46555514 B
+gzip_integrity:wgEncodeBroadHmmHuvecHMM.bed.gz,PASS,5368299 B -> 40120579 B
+gzip_integrity:wgEncodeBroadHmmK562HMM.bed.gz,PASS,6040576 B -> 45273743 B
+gzip_integrity:wgEncodeBroadHmmNhekHMM.bed.gz,PASS,6116986 B -> 45784409 B
+gzip_integrity:wgEncodeBroadHmmNhlfHMM.bed.gz,PASS,6234632 B -> 46612864 B
+gencode_header,PASS,"##description: evidence-based annotation of the human genome (GRCh38), version 44 (Ensembl 110)"
+chain_header:hg38ToHg19.over.chain.gz,PASS,chain 20849626768 chr1 248956422 + 10000 248946422 chr1 249250621
+chain_header:hg19ToHg38.over.chain.gz,PASS,chain 20851231461 chr1 249250621 + 10000 249240621 chr1 248956422
+hg38_fai_vs_chrom_sizes,PASS,24 primary chromosomes; chr1=248956422
+chromhmm_hg19:Gm12878,PASS,"rows=571339 states=15 chr1_max_end=249232977 (hg19 chr1=249250621, hg38=248956422) covered_bp=2830747864"
+chromhmm_hg19:H1hesc,PASS,"rows=619061 states=15 chr1_max_end=249232977 (hg19 chr1=249250621, hg38=248956422) covered_bp=2830747864"
+chromhmm_hg19:Hepg2,PASS,"rows=546343 states=15 chr1_max_end=249232977 (hg19 chr1=249250621, hg38=248956422) covered_bp=2830747864"
+chromhmm_hg19:Hmec,PASS,"rows=609251 states=15 chr1_max_end=249232977 (hg19 chr1=249250621, hg38=248956422) covered_bp=2830747864"
+chromhmm_hg19:Hsmm,PASS,"rows=638969 states=15 chr1_max_end=249232977 (hg19 chr1=249250621, hg38=248956422) covered_bp=2830747864"
+chromhmm_hg19:Huvec,PASS,"rows=549915 states=15 chr1_max_end=249232977 (hg19 chr1=249250621, hg38=248956422) covered_bp=2830747864"
+chromhmm_hg19:K562,PASS,"rows=622257 states=15 chr1_max_end=249232977 (hg19 chr1=249250621, hg38=248956422) covered_bp=2830747864"
+chromhmm_hg19:Nhek,PASS,"rows=628266 states=15 chr1_max_end=249232977 (hg19 chr1=249250621, hg38=248956422) covered_bp=2830747864"
+chromhmm_hg19:Nhlf,PASS,"rows=641016 states=15 chr1_max_end=249232977 (hg19 chr1=249250621, hg38=248956422) covered_bp=2830747864"
+chromhmm_15_states,PASS,"[np.int64(1), np.int64(2), np.int64(3), np.int64(4), np.int64(5), np.int64(6), np.int64(7), np.int64(8), np.int64(9), np.int64(10), np.int64(11), np.int64(12), np.int64(13), np.int64(14), np.int64(15)]"
+gap_table_matches_hg38_N_content,PASS,mismatching chromosomes: []
+genome_gc,PASS,GC=0.4087 over 2.9376e+09 ACGT bases
+rmsk_is_hg38_softmask_concordance,PASS,1.0000 of bases in 2000 random rmsk intervals are soft-masked in hg38.fa; intervals past hg38 chromosome end=0
+cache_rmsk_rowcount,PASS,cache=5317286 source(primary)=5317286
+cache_gencode_counts,PASS,genes 62663/62663; unique TSS 219266/219266; unique exons 668251/668251
+cache_ccre_rowcount_and_version,PASS,"cache=2348854 source(primary)=2348854 (SCREEN Registry V4 GRCh38 lists 2,348,854 cCREs); EH38E accessions=2348854; source=/Users/rikhinkavuru/gbkb_release/external/neg_provenance/GRCh38-cCREs.bed"
+ccre_source_in_repo_md5,PASS,source=/Users/rikhinkavuru/gbkb_release/external/neg_provenance/GRCh38-cCREs.bed; md5=60c14d9f4903a7bd13b3db4f290ace48 (downloads.wenglab.org/Registry-V4/GRCh38-cCREs.bed)
+cohn_counts_vs_results_csv,PASS,loaded 20843/6948; results.csv 20843/6948
+cohn_hg38_sequence_equals_benchmark_all,PASS,27791/27791 intervals reproduce the benchmark sequence exactly
+nt_counts_vs_results_nt_csv,PASS,nt_map train/test 14968/400; results_nt.csv 14968/400
+nt_genomic_call_equals_iEnhancer_original,PASS,"15368/15368 rows agree; genomic=4333, iEnhancer-original=4333"

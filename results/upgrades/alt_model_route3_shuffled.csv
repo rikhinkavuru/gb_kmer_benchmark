@@ -1,0 +1,16 @@
+task,model,shuf_kmer_mcc,shuf_kmer_auroc,shuf_comp_mcc,shuf_comp_auroc,shuf_comp_auroc_lo,shuf_comp_auroc_hi,shuf_comp_at_chance,comp_fraction_orig,comp_fraction_orig_lo,comp_fraction_orig_hi,comp_fraction_shuf,comp_fraction_shuf_lo,comp_fraction_shuf_hi,lr_comp_degenerate
+human_enhancers_cohn,lgbm,0.765619,0.954463,0.0,0.5,0.5,0.5,True,0.914807,0.891857,0.937275,0.0,0.0,0.0,
+human_enhancers_cohn,lr,0.766861,0.952343,0.0,0.5,0.5,0.5,True,0.862475,0.838555,0.886112,0.0,0.0,0.0,True
+human_enhancers_cohn,ebm,0.743821,0.944262,0.0,0.5,0.487333,0.513151,True,0.970759,0.956611,0.983045,0.0,-0.028714,0.029487,
+human_enhancers_cohn,lrx,0.766861,0.952343,0.0,0.5,0.5,0.5,True,0.862526,0.83839,0.886375,0.0,0.0,0.0,True
+human_enhancers_cohn,lra,0.770891,0.952522,0.0,0.5,0.5,0.5,True,0.855209,0.833579,0.876059,0.0,0.0,0.0,True
+nt_enhancers,lgbm,0.561011,0.843725,0.0,0.5,0.5,0.5,True,0.927933,0.860415,0.991761,0.0,0.0,0.0,
+nt_enhancers,lr,0.376059,0.7371,0.0,0.5,0.5,0.5,True,0.957246,0.881479,1.034445,0.0,0.0,0.0,True
+nt_enhancers,ebm,0.360162,0.729425,0.0,0.5,0.441021,0.556134,True,1.00484,0.915425,1.096902,0.0,-0.245184,0.253565,
+nt_enhancers,lrx,0.376059,0.736825,0.0,0.5,0.5,0.5,True,0.951413,0.871058,1.029875,0.0,0.0,0.0,True
+nt_enhancers,lra,0.367438,0.73675,0.0,0.5,0.5,0.5,True,0.990172,0.888023,1.09184,0.0,0.0,0.0,True
+drosophila_enhancers_stark,lgbm,0.92496,0.991696,0.0,0.5,0.5,0.5,True,0.695486,0.609578,0.775615,0.0,0.0,0.0,
+drosophila_enhancers_stark,lr,0.943535,0.994317,0.0,0.5,0.5,0.5,True,0.731358,0.650714,0.8081,0.0,0.0,0.0,True
+drosophila_enhancers_stark,ebm,0.942207,0.994724,0.0,0.5,0.472615,0.527269,True,0.829357,0.758873,0.899232,0.0,-0.055251,0.055229,
+drosophila_enhancers_stark,lrx,0.943535,0.994317,0.0,0.5,0.5,0.5,True,0.89379,0.804158,0.986491,0.0,0.0,0.0,True
+drosophila_enhancers_stark,lra,0.95378,0.995236,0.0,0.5,0.5,0.5,True,0.728047,0.652187,0.80007,0.0,0.0,0.0,True

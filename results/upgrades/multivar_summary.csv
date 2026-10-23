@@ -1,0 +1,158 @@
+key,value,source,note
+A0_disc_only_S11_MCC_loto_r2,0.4386,"multivar_models.csv (S11/Y1_MCC poolA, model=disc)",
+A0_disc_only_S11_MCC_loto_mae,0.14,"multivar_models.csv (S11/Y1_MCC poolA, model=disc)",
+A0_disc_only_S11_MCC_loto_r2_ci,"[-0.269,+0.701]",task bootstrap of LOTO residuals (route1_predict recipe),
+A1_S11/Y1_MCC_n_covariates_partial_rho_CI_excl_0,5/10,multivar_partial.csv,
+A1_S11/Y1_MCC_partial_rho_min,0.39,multivar_partial.csv,covariate=gc_mean
+A1_S11/Y1_MCC_n_covariates_partial_rho_t_p_lt_0.05,7/10,"multivar_partial.csv (partial_p, t with df=n-3)",parametric companion to the bootstrap count (percentile CIs can hit 1.000 at n=11)
+POSTHOC_A1_S11/Y1_MCC_n_covariates_partial_rho_holm_p_lt_0.05,1/10,multivar_partial.csv posthoc_partial_p_holm,"Holm-adjusted over the covariates of this configuration: len_log 0.136, len_sd_log 0.137, gc_mean 0.271, gc_sd 0.166, gc_gap 0.137, homology 0.136, ntrain_log 0.137, multiclass 0.136, pos_delta 0.032, comp_mcc 0.271"
+POSTHOC_A1_S11/Y1_MCC_n_covariates_reverse_partial_CI_excl_0,2/10,multivar_partial.csv posthoc_rev_partial_*,"rho(c, outcome | disc)"
+A1_S15/Y1_MCC_n_covariates_partial_rho_CI_excl_0,0/10,multivar_partial.csv,
+A1_S15/Y1_MCC_partial_rho_min,0.149,multivar_partial.csv,covariate=comp_mcc
+A1_S15/Y1_MCC_n_covariates_partial_rho_t_p_lt_0.05,0/10,"multivar_partial.csv (partial_p, t with df=n-3)",parametric companion to the bootstrap count (percentile CIs can hit 1.000 at n=11)
+POSTHOC_A1_S15/Y1_MCC_n_covariates_partial_rho_holm_p_lt_0.05,0/10,multivar_partial.csv posthoc_partial_p_holm,"Holm-adjusted over the covariates of this configuration: len_log 0.817, len_sd_log 0.817, gc_mean 0.852, gc_sd 0.852, gc_gap 0.852, homology 0.839, ntrain_log 0.817, multiclass 0.839, pos_delta 0.852, comp_mcc 0.852"
+POSTHOC_A1_S15/Y1_MCC_n_covariates_reverse_partial_CI_excl_0,1/10,multivar_partial.csv posthoc_rev_partial_*,"rho(c, outcome | disc)"
+A1_S11/Y2_AUROC_n_covariates_partial_rho_CI_excl_0,7/10,multivar_partial.csv,
+A1_S11/Y2_AUROC_partial_rho_min,0.542,multivar_partial.csv,covariate=gc_mean
+A1_S11/Y2_AUROC_n_covariates_partial_rho_t_p_lt_0.05,9/10,"multivar_partial.csv (partial_p, t with df=n-3)",parametric companion to the bootstrap count (percentile CIs can hit 1.000 at n=11)
+POSTHOC_A1_S11/Y2_AUROC_n_covariates_partial_rho_holm_p_lt_0.05,1/10,multivar_partial.csv posthoc_partial_p_holm,"Holm-adjusted over the covariates of this configuration: len_log 0.055, len_sd_log 0.064, gc_mean 0.105, gc_sd 0.067, gc_gap 0.064, homology 0.055, ntrain_log 0.064, multiclass 0.055, pos_delta 0.028, comp_auroc 0.076"
+POSTHOC_A1_S11/Y2_AUROC_n_covariates_reverse_partial_CI_excl_0,1/10,multivar_partial.csv posthoc_rev_partial_*,"rho(c, outcome | disc)"
+A1_S15/Y2_AUROC_n_covariates_partial_rho_CI_excl_0,0/10,multivar_partial.csv,
+A1_S15/Y2_AUROC_partial_rho_min,0.261,multivar_partial.csv,covariate=comp_auroc
+A1_S15/Y2_AUROC_n_covariates_partial_rho_t_p_lt_0.05,0/10,"multivar_partial.csv (partial_p, t with df=n-3)",parametric companion to the bootstrap count (percentile CIs can hit 1.000 at n=11)
+POSTHOC_A1_S15/Y2_AUROC_n_covariates_partial_rho_holm_p_lt_0.05,0/10,multivar_partial.csv posthoc_partial_p_holm,"Holm-adjusted over the covariates of this configuration: len_log 0.587, len_sd_log 0.601, gc_mean 0.708, gc_sd 0.708, gc_gap 0.708, homology 0.661, ntrain_log 0.601, multiclass 0.661, pos_delta 0.708, comp_auroc 0.708"
+POSTHOC_A1_S15/Y2_AUROC_n_covariates_reverse_partial_CI_excl_0,1/10,multivar_partial.csv posthoc_rev_partial_*,"rho(c, outcome | disc)"
+DECISION_covariates_improve_on_disc,NO,multivar_nested.csv + multivar_permutation.csv,
+A3_primary_nested_loto_MAE,0.143,multivar_nested.csv in_decision_rule==True,
+A3_primary_nested_loto_R2,0.2129,multivar_nested.csv in_decision_rule==True,
+A3_primary_dMAE_vs_disc_only,"+0.0030 [-0.0511,+0.0660]",multivar_nested.csv in_decision_rule==True,
+A3_primary_folds_selected_model_with_disc,0/11,multivar_nested.csv in_decision_rule==True (n_folds_selected_with_disc),selected: gc_mean x6; gc_mean + ntrain_log x2; gc_mean + gc_sd x1; len_sd_log + gc_mean x1; gc_mean + multiclass x1
+A3_primary_folds_selected_model_with_gc_mean,11/11,multivar_nested.csv in_decision_rule==True (n_folds_selected_with_gc_mean),
+A4b_primary_incremental_perm_p,0.4306,multivar_permutation.csv,"A4b = incremental test: disc-anchored family (46 models), rows of the other 9 Pool-A covariates permuted"
+A4a_primary_global_perm_p,0.0659,multivar_permutation.csv,"observed best LOTO R2 0.700; null mean 0.277, 95th pct 0.727"
+A2_S11_MCC_poolA_top_AICc_model,gc_mean,multivar_models.csv,"AICc -40.11, R2 0.741, LOTO R2 +0.663, LOTO MAE 0.0857"
+A2_S11_MCC_poolA_top_lotoMAE_model,gc_mean + gc_sd,multivar_models.csv,"LOTO MAE 0.0726, LOTO R2 +0.700, AICc -37.32"
+A2_S11_MCC_disc_anchored_top_AICc_model,disc + gc_mean,multivar_models.csv,"AICc -37.48, R2 0.795, LOTO R2 +0.548, LOTO MAE 0.1031"
+A2_S11_MCC_disc_anchored_top_lotoMAE_model,disc + gc_mean + pos_delta,multivar_models.csv,"LOTO MAE 0.0981, LOTO R2 +0.546, AICc -32.27"
+A2_S11_MCC_poolB_top_AICc_model,len_sd_log + gc_sd + comp_mcc,multivar_models.csv,"AICc -54.37, R2 0.977, LOTO R2 +0.916, LOTO MAE 0.0448"
+A2_S11_MCC_poolB_top_lotoMAE_model,len_log + gc_sd + comp_mcc,multivar_models.csv,"LOTO MAE 0.0430, LOTO R2 +0.915, AICc -54.06"
+A6_S11/Y1_MCC_nt_promoter_tata,resid +0.160; best comp_mcc +82%; explained,multivar_residuals.csv,
+A6_S11/Y1_MCC_nt_enhancers_types,resid -0.330; best comp_mcc +39%; not explained,multivar_residuals.csv,
+A6_S15/Y1_MCC_demo_human_or_worm,resid +0.461; best comp_mcc +99%; explained,multivar_residuals.csv,
+A6_S15/Y1_MCC_dummy_mouse_enhancers_ensembl,resid -0.414; best comp_mcc +62%; explained,multivar_residuals.csv,
+A6_S15/Y1_MCC_nt_enhancers_types,resid -0.258; best comp_mcc +54%; explained,multivar_residuals.csv,
+A6_S15/Y1_MCC_nt_splice_sites_all,resid -0.290; best comp_mcc +78%; explained,multivar_residuals.csv,
+A7_S11_noise_share_of_disc_only_misfit,0.0147,multivar_noise.csv,
+A7_S15_noise_share_of_disc_only_misfit,0.0093,multivar_noise.csv,
+A8_S11_reviewer_model_loto_MAE,0.2334,multivar_reviewer_model.csv,
+A8_S11_reviewer_model_loto_R2,-1.0147,multivar_reviewer_model.csv,
+A8_S11_reviewer_model_t_significant,none,multivar_reviewer_model.csv,
+A8_S11_reviewer_model_boot_significant,none,multivar_reviewer_model.csv,
+A8_S11_reviewer_model_in_sample_R2_adjR2,0.751 / 0.586,"multivar_reviewer_model.csv (R2, adjR2)",
+A8_S15_reviewer_model_loto_MAE,0.2242,multivar_reviewer_model.csv,
+A8_S15_reviewer_model_loto_R2,-0.4006,multivar_reviewer_model.csv,
+A8_S15_reviewer_model_t_significant,"disc +0.571 t-CI [+0.076,+1.065] p=0.028; len_log -0.549 t-CI [-1.069,-0.028] p=0.041",multivar_reviewer_model.csv,
+A8_S15_reviewer_model_boot_significant,disc,multivar_reviewer_model.csv,
+A8_S15_reviewer_model_in_sample_R2_adjR2,0.576 / 0.407,"multivar_reviewer_model.csv (R2, adjR2)",
+A9_S11_synthetic_law_MAE,0.444,multivar_synthetic_transfer.csv,
+A9_S11_synthetic_law_mean_signed_resid,0.444,multivar_synthetic_transfer.csv,
+A9_S15_synthetic_law_MAE,0.4324,multivar_synthetic_transfer.csv,
+A9_S15_synthetic_law_mean_signed_resid,0.4324,multivar_synthetic_transfer.csv,
+P1_S11/Y1_MCC_nt_promoter_tata_p_max,0.1518,multivar_posthoc_residual_null.csv,best comp_mcc +82%; null P(max>=50%) 0.46
+P1_S11/Y1_MCC_nt_enhancers_types_p_max,0.1019,multivar_posthoc_residual_null.csv,best comp_mcc +39%; null P(max>=50%) 0.05
+P1_S15/Y1_MCC_demo_human_or_worm_p_max,0.001,multivar_posthoc_residual_null.csv,best comp_mcc +99%; null P(max>=50%) 0.03
+P1_S15/Y1_MCC_dummy_mouse_enhancers_ensembl_p_max,0.035,multivar_posthoc_residual_null.csv,best comp_mcc +62%; null P(max>=50%) 0.07
+P1_S15/Y1_MCC_nt_enhancers_types_p_max,0.1878,multivar_posthoc_residual_null.csv,best comp_mcc +54%; null P(max>=50%) 0.22
+P1_S15/Y1_MCC_nt_splice_sites_all_p_max,0.0579,multivar_posthoc_residual_null.csv,best comp_mcc +78%; null P(max>=50%) 0.20
+P2_S11_real_slope,"+2.608 boot [+1.681,+4.308]",multivar_posthoc_slope_transfer.csv,synthetic pooled slope +1.994
+P2_S11_slope_fixed_loto_MAE,0.1284,multivar_posthoc_slope_transfer.csv,free-slope LOTO MAE 0.1400
+P2_S15_real_slope,"+1.592 boot [+0.120,+3.118]",multivar_posthoc_slope_transfer.csv,synthetic pooled slope +1.994
+P2_S15_slope_fixed_loto_MAE,0.1625,multivar_posthoc_slope_transfer.csv,free-slope LOTO MAE 0.1817
+P4_S11/Y1_MCC_as_published_loto,"R2 +0.439 [-0.269,+0.701]; MAE 0.1400 [0.108,0.180]; Spearman +0.736",multivar_posthoc_orientation.csv,
+P4_S11/Y1_MCC_orientation_consistent_loto,"R2 +0.647 [+0.233,+0.815]; MAE 0.1092 [0.079,0.147]; Spearman +0.782",multivar_posthoc_orientation.csv,
+P4_S15/Y1_MCC_as_published_loto,"R2 -0.005 [-1.077,+0.493]; MAE 0.1817 [0.119,0.246]; Spearman +0.436",multivar_posthoc_orientation.csv,
+P4_S15/Y1_MCC_orientation_consistent_loto,"R2 +0.091 [-1.106,+0.622]; MAE 0.1585 [0.092,0.233]; Spearman +0.507",multivar_posthoc_orientation.csv,
+P5_subsets7_n_with_disc_rho_1,2/330,multivar_posthoc_subsets7.csv,"7-task subsets of S11 with Spearman(disc, MCC) = +1.00; dropped: human_nontata_promoters;human_enhancers_cohn;nt_enhancers;nt_enhancers_types | human_nontata_promoters;human_enhancers_ensembl;nt_enhancers;nt_enhancers_types"
+P5_subsets7_median_disc_rho,0.7143,multivar_posthoc_subsets7.csv,median over 330 subsets; GC median 0.8469
+P5_S11_all,"n=11; Spearman +0.736 (t-approx p=0.0098; permutation p=0.013); homology_clean=False; jackknife [+0.685,+0.830]; partial|suite +0.753; partial|GC mean +0.390 [-0.533,+0.977] p=0.265; LOTO R2 +0.439 [-0.269,+0.701], MAE 0.1400; Spearman(GC mean, MCC) +0.861 (perm p=0.0012); LOTO MAE GC-only 0.0857",multivar_posthoc_homology_clean.csv,LEAKY tasks kept: human_nontata_promoters;human_enhancers_ensembl;nt_enhancers;nt_enhancers_types
+P5_paper_homology_clean_9,"n=9; Spearman +0.867 (t-approx p=0.0025; permutation p=0.0045); homology_clean=False; jackknife [+0.810,+0.976]; partial|suite +0.833; partial|GC mean +0.658 [-0.740,+1.000] p=0.076; LOTO R2 +0.415 [-1.305,+0.883], MAE 0.1208; Spearman(GC mean, MCC) +0.850 (perm p=0.0061); LOTO MAE GC-only 0.1064",multivar_posthoc_homology_clean.csv,LEAKY tasks kept: human_enhancers_ensembl;nt_enhancers_types
+P5_paper9_minus_human_enhancers_ensembl,"n=8; Spearman +0.929 (t-approx p=0.00086; permutation p=0.0022); homology_clean=False; jackknife [+0.893,+1.000]; partial|suite +0.912; partial|GC mean +0.889 [+0.476,+1.000] p=0.007; LOTO R2 +0.449 [-1.216,+0.923], MAE 0.1127; Spearman(GC mean, MCC) +0.810 (perm p=0.022); LOTO MAE GC-only 0.1081",multivar_posthoc_homology_clean.csv,LEAKY tasks kept: nt_enhancers_types
+P5_rule_clean_homology_lt_0.05,"n=7; Spearman +1.000 (t-approx p=nan; permutation p=0.0004); homology_clean=True; jackknife [+1.000,+1.000]; partial|suite +1.000; partial|GC mean +1.000 [+nan,+nan] p=nan; LOTO R2 +0.948 [+0.740,+0.986], MAE 0.0392; Spearman(GC mean, MCC) +0.714 (perm p=0.088); LOTO MAE GC-only 0.1232",multivar_posthoc_homology_clean.csv,LEAKY tasks kept: none
+P6_human_nontata_promoters,all MCC 0.8737 (Table 1 0.8737); near-dup-free MCC 0.5871 (prevalence-std 0.7925); AUROC 0.9891 -> 0.9611; recall all 0.984/0.893 clean 0.901/0.893 near-dup 0.995/0.947,multivar_posthoc_dedup_eval.csv,"near-dup 0.406, verbatim 0.000 of test"
+P6_human_enhancers_ensembl,all MCC 0.5934 (Table 1 0.5934); near-dup-free MCC 0.4170 (prevalence-std 0.4910); AUROC 0.8748 -> 0.8180; recall all 0.783/0.810 clean 0.782/0.707 near-dup 0.898/0.842,multivar_posthoc_dedup_eval.csv,"near-dup 0.384, verbatim 0.380 of test"
+P6_nt_enhancers,all MCC 0.5137 (Table 1 0.5137); near-dup-free MCC 0.3111 (prevalence-std 0.3257); AUROC 0.8497 -> 0.7346; recall all 0.695/0.815 clean 0.695/0.630 near-dup -/1.000,multivar_posthoc_dedup_eval.csv,"near-dup 0.250, verbatim 0.250 of test"
+P6_nt_enhancers_types,all MCC 0.4761 (Table 1 0.4761); near-dup-free MCC 0.1710 (prevalence-std nan); AUROC 0.8367 -> nan; recall all 0.765/0.050/1.000 clean 0.765/0.050/- near-dup -/-/1.000,multivar_posthoc_dedup_eval.csv,"near-dup 0.250, verbatim 0.250 of test"
+P7_S11_nested_vs_gc_only_per_fold,nested search added a 2nd covariate in 5/11 folds; worse than GC-only in 4 of them; same model as GC-only in 6 folds,multivar_posthoc_gc_vs_disc_per_task.csv,
+P7_S11/Y1_MCC_as_published,"GC-only LOTO MAE 0.0857 vs disc 0.1400, dMAE -0.0542 [-0.1104,+0.0198]; rho(disc|GC) +0.390 [-0.533,+0.977] p=0.265; rho(GC|disc) +0.722 [+0.160,+0.984] p=0.018; LMG disc share 0.42",multivar_posthoc_gc_vs_disc.csv,
+P7_S11/Y1_MCC_P4_orientation_consistent,"GC-only LOTO MAE 0.0857 vs disc 0.1092, dMAE -0.0235 [-0.0908,+0.0569]; rho(disc|GC) +0.572 [+0.184,+0.986] p=0.084; rho(GC|disc) +0.744 [+0.138,+0.981] p=0.014; LMG disc share 0.54",multivar_posthoc_gc_vs_disc.csv,
+P7_S15/Y1_MCC_as_published,"GC-only LOTO MAE 0.1625 vs disc 0.1817, dMAE -0.0192 [-0.0879,+0.0441]; rho(disc|GC) +0.333 [-0.195,+0.835] p=0.244; rho(GC|disc) +0.243 [-0.407,+0.892] p=0.403; LMG disc share 0.52",multivar_posthoc_gc_vs_disc.csv,
+P7_S15/Y1_MCC_P4_orientation_consistent,"GC-only LOTO MAE 0.1625 vs disc 0.1585, dMAE +0.0040 [-0.0753,+0.0717]; rho(disc|GC) +0.425 [-0.087,+0.864] p=0.129; rho(GC|disc) +0.233 [-0.423,+0.907] p=0.423; LMG disc share 0.62",multivar_posthoc_gc_vs_disc.csv,
+P8_S11/Y1_MCC_as_published,"LOTO R2 +0.439 [-0.269,+0.701]; MAE 0.1400; Spearman +0.736; changed: none",multivar_posthoc_orientation_robustness.csv,
+P8_S15/Y1_MCC_as_published,"LOTO R2 -0.005 [-1.077,+0.493]; MAE 0.1817; Spearman +0.436; changed: none",multivar_posthoc_orientation_robustness.csv,
+P8_S11/Y1_MCC_P4_0_vs_rest_reversed,"LOTO R2 +0.647 [+0.233,+0.815]; MAE 0.1092; Spearman +0.782; changed: nt_enhancers_types=0.5400 (0_vs_rest reversed:KLF5)",multivar_posthoc_orientation_robustness.csv,
+P8_S15/Y1_MCC_P4_0_vs_rest_reversed,"LOTO R2 +0.091 [-1.106,+0.622]; MAE 0.1585; Spearman +0.507; changed: nt_enhancers_types=0.5400 (0_vs_rest reversed:KLF5)",multivar_posthoc_orientation_robustness.csv,
+P8_S11/Y1_MCC_1_vs_rest,"LOTO R2 +0.628 [+0.287,+0.759]; MAE 0.1149; Spearman +0.782; changed: nt_enhancers_types=0.5105 (1_vs_rest:SP2)",multivar_posthoc_orientation_robustness.csv,
+P8_S15/Y1_MCC_1_vs_rest,"LOTO R2 +0.105 [-1.027,+0.610]; MAE 0.1577; Spearman +0.493; changed: nt_enhancers_types=0.5105 (1_vs_rest:SP2)",multivar_posthoc_orientation_robustness.csv,
+P8_S11/Y1_MCC_2_vs_rest,"LOTO R2 +0.645 [+0.204,+0.823]; MAE 0.1080; Spearman +0.773; changed: nt_enhancers_types=0.5465 (2_vs_rest:KLF5)",multivar_posthoc_orientation_robustness.csv,
+P8_S15/Y1_MCC_2_vs_rest,"LOTO R2 +0.087 [-1.118,+0.623]; MAE 0.1594; Spearman +0.504; changed: nt_enhancers_types=0.5465 (2_vs_rest:KLF5)",multivar_posthoc_orientation_robustness.csv,
+P8_S11/Y1_MCC_U1_functional_representative,"LOTO R2 +0.645 [+0.204,+0.823]; MAE 0.1080; Spearman +0.773; changed: nt_enhancers_types=0.5465 (2_vs_rest:KLF5)",multivar_posthoc_orientation_robustness.csv,
+P8_S15/Y1_MCC_U1_functional_representative,"LOTO R2 +0.087 [-1.118,+0.623]; MAE 0.1594; Spearman +0.504; changed: nt_enhancers_types=0.5465 (2_vs_rest:KLF5)",multivar_posthoc_orientation_robustness.csv,
+P8_S11/Y1_MCC_U2_max_over_functional_classes,"LOTO R2 +0.645 [+0.204,+0.823]; MAE 0.1080; Spearman +0.773; changed: nt_enhancers_types=0.5465 (2_vs_rest:KLF5)",multivar_posthoc_orientation_robustness.csv,
+P8_S15/Y1_MCC_U2_max_over_functional_classes,"LOTO R2 +0.078 [-1.124,+0.612]; MAE 0.1603; Spearman +0.504; changed: nt_enhancers_types=0.5465 (2_vs_rest:KLF5); nt_splice_sites_all=0.5279 (1_vs_rest:KLF5)",multivar_posthoc_orientation_robustness.csv,
+P9_S11/Y1_MCC_linear_published,"LOTO R2 +0.439, MAE 0.1400; human_nontata pred 1.025, resid -0.152",multivar_posthoc_bounded.csv,
+P9_S11/Y1_MCC_linear_capped_at_1,"LOTO R2 +0.454, MAE 0.1376; human_nontata pred 1.000, resid -0.126",multivar_posthoc_bounded.csv,
+P9_S11/Y1_MCC_fisher_z,"LOTO R2 +0.465, MAE 0.1236; human_nontata pred 0.937, resid -0.063",multivar_posthoc_bounded.csv,
+P9_S15/Y1_MCC_linear_published,"LOTO R2 -0.005, MAE 0.1817; human_nontata pred 0.822, resid +0.052",multivar_posthoc_bounded.csv,
+P9_S15/Y1_MCC_linear_capped_at_1,"LOTO R2 -0.005, MAE 0.1817; human_nontata pred 0.822, resid +0.052",multivar_posthoc_bounded.csv,
+P9_S15/Y1_MCC_fisher_z,"LOTO R2 -0.036, MAE 0.1894; human_nontata pred 0.831, resid +0.042",multivar_posthoc_bounded.csv,
+P10_real_S11_disc_range,"[0.5449,0.7513]",multivar_posthoc_synthetic_range.csv,
+P10_synthetic_n_in_range,57,multivar_posthoc_synthetic_range.csv,"of 135; motifs: TBP 22, MYC 20, SP1 15; seeds 5 (points clustered by motif and seed)"
+P10_synthetic_in_range_spearman,0.936,multivar_posthoc_synthetic_range.csv,p=1.3e-26
+P10_synthetic_in_range_ols_R2,0.8878,multivar_posthoc_synthetic_range.csv,
+P10_synthetic_in_range_resid_sd,0.0419,multivar_posthoc_synthetic_range.csv,"OLS residual SD, df n-2"
+P10_real_S11_ols_R2,0.606,multivar_posthoc_synthetic_range.csv,
+P10_real_S11_resid_sd,0.1433,multivar_posthoc_synthetic_range.csv,"OLS residual SD, df n-2"
+P10_resid_sd_ratio_real_over_synthetic,3.4219,multivar_posthoc_synthetic_range.csv,
+P10_synthetic_n_train_n_test,[1600] / [400],multivar_posthoc_synthetic_range.csv,every synthetic point
+P10_real_S11_n_train_range,"[5184,231348]",multivar_posthoc_synthetic_range.csv,
+P10_level_offset_mean,0.444,multivar_posthoc_synthetic_range.csv,real MCC minus pooled synthetic line (as A9/P2)
+P10_spearman_level_offset_vs_comp_mcc,0.8273,multivar_posthoc_synthetic_range.csv,"p=0.00168, n=11"
+P10_spearman_level_offset_vs_gc_mean,0.7107,multivar_posthoc_synthetic_range.csv,"p=0.0142, n=11"
+P10_spearman_level_offset_vs_ntrain_log,0.2278,multivar_posthoc_synthetic_range.csv,"p=0.501, n=11"
+P10_spearman_level_offset_vs_len_log,-0.0828,multivar_posthoc_synthetic_range.csv,"p=0.809, n=11"
+P11_S11_failing_contamination_disc_only_loto_resid,human_enhancers_ensembl=+0.059; human_enhancers_cohn=-0.107; nt_enhancers=+0.125,multivar_posthoc_family_tasks.csv,descriptive pointer only (n = 3 per label); not a test
+P11_S11_failing_shared-motif_disc_only_loto_resid,drosophila_enhancers_stark=-0.109; human_ocr_ensembl=-0.093; nt_enhancers_types=-0.330,multivar_posthoc_family_tasks.csv,descriptive pointer only (n = 3 per label); not a test
+P11_as_published_within_promoter_n4,"n=4; Spearman(disc,MCC) +0.400 (exact p=0.750); Spearman(GC,MCC) +0.800 (p=0.200); disc range [0.651,0.751]",multivar_posthoc_family.csv,
+P11_as_published_within_promoter_plus_regulatory_n5,"n=5; Spearman(disc,MCC) +0.400 (exact p=0.517); Spearman(GC,MCC) -0.100 (p=0.873); disc range [0.651,0.751]",multivar_posthoc_family.csv,
+P11_as_published_within_enhancer_ocr_n6,"n=6; Spearman(disc,MCC) +0.143 (exact p=0.803); Spearman(GC,MCC) +0.754 (p=0.084); disc range [0.545,0.675]",multivar_posthoc_family.csv,
+P11_as_published_within_homology_clean_promoter_plus_regulatory,"n=4; Spearman(disc,MCC) +1.000 (exact p=0.083); Spearman(GC,MCC) -0.400 (p=0.600); disc range [0.651,0.691]",multivar_posthoc_family.csv,
+P11_as_published_within_homology_clean_enhancer_ocr,"n=3; Spearman(disc,MCC) +1.000 (exact p=0.333); Spearman(GC,MCC) +0.500 (p=0.667); disc range [0.568,0.595]",multivar_posthoc_family.csv,
+P11_as_published_between_family_S11,"LOTO MAE family-indicator-only 0.0425 vs disc-only 0.1400 (dMAE -0.0975 [-0.1500,-0.0436]); rho(disc,Y|family) +0.261 [-0.528,+0.977]; rho(family,Y|disc) +0.701 [+0.225,+0.890]; GC separates families: True",multivar_posthoc_family.csv,
+P11_as_published_between_family_S10_excl_regulatory,"LOTO MAE family-indicator-only 0.0439 vs disc-only 0.1433 (dMAE -0.0994 [-0.1609,-0.0428]); rho(disc,Y|family) +0.214 [-0.611,+0.974]; rho(family,Y|disc) +0.714 [+0.264,+0.936]; GC separates families: True",multivar_posthoc_family.csv,
+P11_as_published_between_family_S7_homology_clean,"LOTO MAE family-indicator-only 0.0282 vs disc-only 0.0392 (dMAE -0.0110 [-0.0293,+0.0064]); rho(disc,Y|family) +1.000 [+nan,+nan]; rho(family,Y|disc) +nan [+nan,+nan]; GC separates families: True",multivar_posthoc_family.csv,
+P11_P4_orientation_consistent_within_promoter_n4,"n=4; Spearman(disc,MCC) +0.400 (exact p=0.750); Spearman(GC,MCC) +0.800 (p=0.200); disc range [0.651,0.751]",multivar_posthoc_family.csv,
+P11_P4_orientation_consistent_within_promoter_plus_regulatory_n5,"n=5; Spearman(disc,MCC) +0.400 (exact p=0.517); Spearman(GC,MCC) -0.100 (p=0.873); disc range [0.651,0.751]",multivar_posthoc_family.csv,
+P11_P4_orientation_consistent_within_enhancer_ocr_n6,"n=6; Spearman(disc,MCC) -0.029 (exact p=1.000); Spearman(GC,MCC) +0.754 (p=0.084); disc range [0.540,0.595]",multivar_posthoc_family.csv,
+P11_P4_orientation_consistent_within_homology_clean_promoter_plus_regulatory,"n=4; Spearman(disc,MCC) +1.000 (exact p=0.083); Spearman(GC,MCC) -0.400 (p=0.600); disc range [0.651,0.691]",multivar_posthoc_family.csv,
+P11_P4_orientation_consistent_within_homology_clean_enhancer_ocr,"n=3; Spearman(disc,MCC) +1.000 (exact p=0.333); Spearman(GC,MCC) +0.500 (p=0.667); disc range [0.568,0.595]",multivar_posthoc_family.csv,
+P11_P4_orientation_consistent_between_family_S11,"LOTO MAE family-indicator-only 0.0425 vs disc-only 0.1092 (dMAE -0.0667 [-0.1139,-0.0184]); rho(disc,Y|family) +0.127 [-0.609,+0.975]; rho(family,Y|disc) +0.606 [+0.214,+0.868]; GC separates families: True",multivar_posthoc_family.csv,
+P11_P4_orientation_consistent_between_family_S10_excl_regulatory,"LOTO MAE family-indicator-only 0.0439 vs disc-only 0.1187 (dMAE -0.0748 [-0.1312,-0.0194]); rho(disc,Y|family) +0.067 [-0.695,+0.888]; rho(family,Y|disc) +0.624 [+0.251,+0.894]; GC separates families: True",multivar_posthoc_family.csv,
+P11_P4_orientation_consistent_between_family_S7_homology_clean,"LOTO MAE family-indicator-only 0.0282 vs disc-only 0.0392 (dMAE -0.0110 [-0.0293,+0.0064]); rho(disc,Y|family) +1.000 [+nan,+nan]; rho(family,Y|disc) +nan [+nan,+nan]; GC separates families: True",multivar_posthoc_family.csv,
+P12_S11_all,"n=11; Spearman +0.736 (perm p=0.013); Spearman(GC, MCC) +0.861 (perm p=0.0012); LOTO MAE disc 0.1400 / GC 0.0857 / family 0.0425; rho(disc|GC) +0.390 (t p=0.265); rho(GC|disc) +0.722 (t p=0.018)",multivar_posthoc_distinct_datasets.csv,all 11 TF-motif tasks
+P12_S11_minus_union,"n=10; Spearman +0.685 (perm p=0.035); Spearman(GC, MCC) +0.875 (perm p=0.0016); LOTO MAE disc 0.1408 / GC 0.0938 / family 0.0464; rho(disc|GC) +0.251 (t p=0.515); rho(GC|disc) +0.767 (t p=0.016)",multivar_posthoc_distinct_datasets.csv,drop nt_promoter_all (= nt_promoter_tata + nt_promoter_no_tata)
+P12_dupfree9_keep_nt_enhancers,"n=9; Spearman +0.817 (perm p=0.011); Spearman(GC, MCC) +0.867 (perm p=0.0045); LOTO MAE disc 0.1260 / GC 0.1005 / family 0.0531; rho(disc|GC) +0.562 (t p=0.147); rho(GC|disc) +0.699 (t p=0.054)",multivar_posthoc_distinct_datasets.csv,and drop nt_enhancers_types (re-labels the nt_enhancers sequences)
+P12_dupfree9_keep_nt_enhancers_types,"n=9; Spearman +0.800 (perm p=0.014); Spearman(GC, MCC) +0.867 (perm p=0.0045); LOTO MAE disc 0.1430 / GC 0.1035 / family 0.0468; rho(disc|GC) +0.391 (t p=0.339); rho(GC|disc) +0.643 (t p=0.085)",multivar_posthoc_distinct_datasets.csv,and drop nt_enhancers instead
+P12_noshare8_drop_ocr,"n=8; Spearman +0.810 (perm p=0.022); Spearman(GC, MCC) +0.833 (perm p=0.015); LOTO MAE disc 0.1275 / GC 0.1076 / family 0.0535; rho(disc|GC) +0.554 (t p=0.197); rho(GC|disc) +0.621 (t p=0.137)",multivar_posthoc_distinct_datasets.csv,dupfree9_keep_nt_enhancers and drop human_ocr_ensembl (its positives = the OCR class of human_ensembl_regulatory): no exact sequence sharing >= 0.1%
+P12_noshare8_drop_regulatory,"n=8; Spearman +0.786 (perm p=0.028); Spearman(GC, MCC) +0.952 (perm p=0.0011); LOTO MAE disc 0.1394 / GC 0.0498 / family 0.0560; rho(disc|GC) +0.581 (t p=0.171); rho(GC|disc) +0.916 (t p=0.004)",multivar_posthoc_distinct_datasets.csv,dupfree9_keep_nt_enhancers and drop human_ensembl_regulatory instead
+P12_n8_minus_union,"n=7; Spearman +0.893 (perm p=0.012); Spearman(GC, MCC) +0.857 (perm p=0.024); LOTO MAE disc 0.1283 / GC 0.1290 / family 0.0368; rho(disc|GC) +0.823 (t p=0.044); rho(GC|disc) +0.760 (t p=0.080)",multivar_posthoc_distinct_datasets.csv,"paper's 9 minus human_enhancers_ensembl (P5 n=8), and drop nt_promoter_all"
+P12_homology_clean7_minus_union,"n=6; Spearman +1.000 (perm p=0.0028); Spearman(GC, MCC) +0.771 (perm p=0.1); LOTO MAE disc 0.0490 / GC 0.1498 / family 0.0339; rho(disc|GC) +1.000 (t p=nan); rho(GC|disc) +nan (t p=nan)",multivar_posthoc_distinct_datasets.csv,"homology-clean 7 (P5), and drop nt_promoter_all"
+P12_homology_clean_noshare5_drop_ocr,"n=5; Spearman +1.000 (perm p=0.017); Spearman(GC, MCC) +0.700 (perm p=0.23); LOTO MAE disc 0.0624 / GC 0.1840 / family 0.0453; rho(disc|GC) +1.000 (t p=nan); rho(GC|disc) +nan (t p=nan)",multivar_posthoc_distinct_datasets.csv,"homology-clean 7, drop nt_promoter_all and human_ocr_ensembl"
+P12_homology_clean_noshare5_drop_regulatory,"n=5; Spearman +1.000 (perm p=0.017); Spearman(GC, MCC) +0.900 (perm p=0.083); LOTO MAE disc 0.0530 / GC 0.0504 / family 0.0367; rho(disc|GC) +1.000 (t p=nan); rho(GC|disc) +nan (t p=nan)",multivar_posthoc_distinct_datasets.csv,"homology-clean 7, drop nt_promoter_all and human_ensembl_regulatory"
+P12_S11_minus_regulatory,"n=10; Spearman +0.685 (perm p=0.035); Spearman(GC, MCC) +0.936 (perm p=0.00021); LOTO MAE disc 0.1433 / GC 0.0437 / family 0.0439; rho(disc|GC) +0.099 (t p=0.800); rho(GC|disc) +0.877 (t p=0.002)",multivar_posthoc_distinct_datasets.csv,all 11 minus human_ensembl_regulatory (3-class; GC mean pools 3 classes)
+P12_homology_clean7_minus_regulatory,"n=6; Spearman +1.000 (perm p=0.0028); Spearman(GC, MCC) +0.886 (perm p=0.033); LOTO MAE disc 0.0402 / GC 0.0342 / family 0.0308; rho(disc|GC) +1.000 (t p=nan); rho(GC|disc) +nan (t p=nan)",multivar_posthoc_distinct_datasets.csv,homology-clean 7 (P5) minus human_ensembl_regulatory
+P12_suite_GB_only,"n=6; Spearman +0.886 (perm p=0.033); Spearman(GC, MCC) +0.886 (perm p=0.033); LOTO MAE disc 0.1230 / GC 0.3105 / family 0.0665; rho(disc|GC) +0.470 (t p=0.425); rho(GC|disc) +0.470 (t p=0.425)",multivar_posthoc_distinct_datasets.csv,Genomic-Benchmarks TF-motif tasks only (Table II row 'GB-only')
+P12_suite_NT_only,"n=5; Spearman +0.400 (perm p=0.52); Spearman(GC, MCC) +0.872 (perm p=0.1); LOTO MAE disc 0.3240 / GC 0.0437 / family 0.0314; rho(disc|GC) +0.190 (t p=0.810); rho(GC|disc) +0.852 (t p=0.148)",multivar_posthoc_distinct_datasets.csv,Nucleotide-Transformer TF-motif tasks only (Table II row 'NT-only')
+P13_tau_0.50,"5 linked groups; max unlinked n = 7 (4 sets); rho(disc, MCC) +0.714 to +0.821 (perm p <= 0.088); rho(GC, MCC) +0.929 to +0.929",multivar_posthoc_locus_independent.csv,human_ensembl_regulatory+human_nontata_promoters+human_ocr_ensembl+nt_promoter_all+nt_promoter_no_tata+nt_promoter_tata | nt_enhancers+nt_enhancers_types | drosophila_enhancers_stark | human_enhancers_cohn | human_enhancers_ensembl
+P13_tau_0.25,"5 linked groups; max unlinked n = 7 (4 sets); rho(disc, MCC) +0.714 to +0.821 (perm p <= 0.088); rho(GC, MCC) +0.929 to +0.929",multivar_posthoc_locus_independent.csv,human_ensembl_regulatory+human_nontata_promoters+human_ocr_ensembl+nt_promoter_all+nt_promoter_no_tata+nt_promoter_tata | nt_enhancers+nt_enhancers_types | drosophila_enhancers_stark | human_enhancers_cohn | human_enhancers_ensembl
+P13_tau_0.10,"2 linked groups; max unlinked n = 7 (2 sets); rho(disc, MCC) +0.714 to +0.714 (perm p <= 0.088); rho(GC, MCC) +0.929 to +0.929",multivar_posthoc_locus_independent.csv,human_enhancers_cohn+human_enhancers_ensembl+human_ensembl_regulatory+human_nontata_promoters+human_ocr_ensembl+nt_enhancers+nt_enhancers_types+nt_promoter_all+nt_promoter_no_tata+nt_promoter_tata | drosophila_enhancers_stark
+A2_S11_MCC_disc_only_in_sample_R2_adjR2,0.606 / 0.562,"multivar_models.csv (S11/Y1_MCC, poolA, model=disc)",

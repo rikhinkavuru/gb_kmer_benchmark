@@ -1,0 +1,13 @@
+task_a,task_b,split_label_in_a,split_label_in_b,n_shared,frac_of_shared
+human_ensembl_regulatory,human_ocr_ensembl,train:1,train:1,69901,0.7999931332043901
+human_ensembl_regulatory,human_ocr_ensembl,test:1,test:1,17476,0.20000686679560983
+human_ensembl_regulatory,(class sizes),train:0,class name: enhancer,85512,
+human_ensembl_regulatory,(class sizes),train:1,class name: ocr,69902,
+human_ensembl_regulatory,(class sizes),train:2,class name: promoter,75934,
+human_ensembl_regulatory,(class sizes),test:0,class name: enhancer,21378,
+human_ensembl_regulatory,(class sizes),test:1,class name: ocr,17476,
+human_ensembl_regulatory,(class sizes),test:2,class name: promoter,18859,
+human_ocr_ensembl,(class sizes),train:0,class name: negative,69902,
+human_ocr_ensembl,(class sizes),train:1,class name: positive,69902,
+human_ocr_ensembl,(class sizes),test:0,class name: negative,17476,
+human_ocr_ensembl,(class sizes),test:1,class name: positive,17476,

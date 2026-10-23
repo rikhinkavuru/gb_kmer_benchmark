@@ -1,0 +1,439 @@
+{
+ "task": "prom_300_tata",
+ "k": 4,
+ "reference": {
+  "k": 4,
+  "spectrum_mcc": 0.3707,
+  "positional_mcc": 0.6192,
+  "delta": 0.2485,
+  "source": "gue_cards"
+ },
+ "capped": false,
+ "n_train_used": 4904,
+ "n_test_used": 613,
+ "bin_edges_bp": [
+  0,
+  37,
+  75,
+  112,
+  150,
+  187,
+  225,
+  262,
+  300
+ ],
+ "spectrum_mcc": 0.3707,
+ "positional_mcc": 0.6192,
+ "full_delta": 0.2485,
+ "per_bin": [
+  {
+   "bin": 0,
+   "add_mcc": 0.4396,
+   "gain": 0.0689,
+   "gain_lo": 0.006,
+   "gain_hi": 0.1301,
+   "gain_share_of_full": 0.2771,
+   "drop_mcc": 0.6093,
+   "loss": 0.0099,
+   "loss_lo": -0.0247,
+   "loss_hi": 0.0459
+  },
+  {
+   "bin": 1,
+   "add_mcc": 0.4352,
+   "gain": 0.0645,
+   "gain_lo": 0.0096,
+   "gain_hi": 0.1233,
+   "gain_share_of_full": 0.2595,
+   "drop_mcc": 0.6018,
+   "loss": 0.0174,
+   "loss_lo": -0.0183,
+   "loss_hi": 0.0485
+  },
+  {
+   "bin": 2,
+   "add_mcc": 0.4285,
+   "gain": 0.0579,
+   "gain_lo": 0.0089,
+   "gain_hi": 0.1112,
+   "gain_share_of_full": 0.2328,
+   "drop_mcc": 0.5903,
+   "loss": 0.029,
+   "loss_lo": -0.0094,
+   "loss_hi": 0.0673
+  },
+  {
+   "bin": 3,
+   "add_mcc": 0.3896,
+   "gain": 0.0189,
+   "gain_lo": -0.0361,
+   "gain_hi": 0.0736,
+   "gain_share_of_full": 0.0761,
+   "drop_mcc": 0.6255,
+   "loss": -0.0063,
+   "loss_lo": -0.0367,
+   "loss_hi": 0.0231
+  },
+  {
+   "bin": 4,
+   "add_mcc": 0.416,
+   "gain": 0.0453,
+   "gain_lo": -0.0075,
+   "gain_hi": 0.1014,
+   "gain_share_of_full": 0.1824,
+   "drop_mcc": 0.5857,
+   "loss": 0.0335,
+   "loss_lo": -0.0052,
+   "loss_hi": 0.0718
+  },
+  {
+   "bin": 5,
+   "add_mcc": 0.4678,
+   "gain": 0.0971,
+   "gain_lo": 0.033,
+   "gain_hi": 0.1578,
+   "gain_share_of_full": 0.3908,
+   "drop_mcc": 0.5923,
+   "loss": 0.027,
+   "loss_lo": -0.0208,
+   "loss_hi": 0.0752
+  },
+  {
+   "bin": 6,
+   "add_mcc": 0.4554,
+   "gain": 0.0847,
+   "gain_lo": 0.0213,
+   "gain_hi": 0.1477,
+   "gain_share_of_full": 0.3407,
+   "drop_mcc": 0.6017,
+   "loss": 0.0175,
+   "loss_lo": -0.0347,
+   "loss_hi": 0.0686
+  },
+  {
+   "bin": 7,
+   "add_mcc": 0.4821,
+   "gain": 0.1114,
+   "gain_lo": 0.0469,
+   "gain_hi": 0.1797,
+   "gain_share_of_full": 0.4483,
+   "drop_mcc": 0.5983,
+   "loss": 0.0209,
+   "loss_lo": -0.0278,
+   "loss_hi": 0.0695
+  }
+ ],
+ "block_gain_share": {
+  "global": 0.2814,
+  "bin0": 0.0683,
+  "bin1": 0.0509,
+  "bin2": 0.0415,
+  "bin3": 0.0337,
+  "bin4": 0.0465,
+  "bin5": 0.1634,
+  "bin6": 0.1568,
+  "bin7": 0.1574
+ },
+ "top_features": [
+  {
+   "block": "bin7",
+   "kmer": "ATTT",
+   "gain_share": 0.0206,
+   "class_means": {
+    "0": 0.00756,
+    "1": 0.00229
+   }
+  },
+  {
+   "block": "bin7",
+   "kmer": "TAAT",
+   "gain_share": 0.0143,
+   "class_means": {
+    "0": 0.00443,
+    "1": 0.00082
+   }
+  },
+  {
+   "block": "bin5",
+   "kmer": "AAAA",
+   "gain_share": 0.0134,
+   "class_means": {
+    "0": 0.01726,
+    "1": 0.0087
+   }
+  },
+  {
+   "block": "bin6",
+   "kmer": "AAAT",
+   "gain_share": 0.0127,
+   "class_means": {
+    "0": 0.0068,
+    "1": 0.00202
+   }
+  },
+  {
+   "block": "bin5",
+   "kmer": "TATA",
+   "gain_share": 0.0127,
+   "class_means": {
+    "0": 0.01352,
+    "1": 0.01612
+   }
+  },
+  {
+   "block": "bin5",
+   "kmer": "AAAT",
+   "gain_share": 0.0122,
+   "class_means": {
+    "0": 0.01125,
+    "1": 0.0054
+   }
+  },
+  {
+   "block": "global",
+   "kmer": "ATAA",
+   "gain_share": 0.0115,
+   "class_means": {
+    "0": 0.00417,
+    "1": 0.00434
+   }
+  },
+  {
+   "block": "bin7",
+   "kmer": "CAGC",
+   "gain_share": 0.011,
+   "class_means": {
+    "0": 0.00524,
+    "1": 0.01169
+   }
+  },
+  {
+   "block": "bin6",
+   "kmer": "CAGC",
+   "gain_share": 0.0096,
+   "class_means": {
+    "0": 0.00471,
+    "1": 0.01085
+   }
+  },
+  {
+   "block": "bin7",
+   "kmer": "CTGC",
+   "gain_share": 0.0089,
+   "class_means": {
+    "0": 0.00528,
+    "1": 0.0115
+   }
+  },
+  {
+   "block": "global",
+   "kmer": "TTTT",
+   "gain_share": 0.0088,
+   "class_means": {
+    "0": 0.0113,
+    "1": 0.00628
+   }
+  },
+  {
+   "block": "bin6",
+   "kmer": "GCTC",
+   "gain_share": 0.0088,
+   "class_means": {
+    "0": 0.00384,
+    "1": 0.00869
+   }
+  },
+  {
+   "block": "bin6",
+   "kmer": "TAAT",
+   "gain_share": 0.0085,
+   "class_means": {
+    "0": 0.00412,
+    "1": 0.00093
+   }
+  },
+  {
+   "block": "bin5",
+   "kmer": "ATAA",
+   "gain_share": 0.0068,
+   "class_means": {
+    "0": 0.01333,
+    "1": 0.01664
+   }
+  },
+  {
+   "block": "bin5",
+   "kmer": "GGGC",
+   "gain_share": 0.0068,
+   "class_means": {
+    "0": 0.00472,
+    "1": 0.01133
+   }
+  }
+ ],
+ "top5_by_bin": {
+  "0": [
+   "AAAT",
+   "CGGG",
+   "CGGC",
+   "GCGG",
+   "AAAA"
+  ],
+  "1": [
+   "AAAT",
+   "AAAA",
+   "AATA",
+   "CAAA",
+   "TGAG"
+  ],
+  "2": [
+   "AAAT",
+   "CAAA",
+   "CTGG",
+   "CCAA",
+   "GAGG"
+  ],
+  "3": [
+   "GTCA",
+   "CCGA",
+   "GAAT",
+   "AGAA",
+   "CAAT"
+  ],
+  "4": [
+   "CAAT",
+   "TGAC",
+   "GGCG",
+   "GCGG",
+   "TGTC"
+  ],
+  "5": [
+   "AAAA",
+   "TATA",
+   "AAAT",
+   "ATAA",
+   "GGGC"
+  ],
+  "6": [
+   "AAAT",
+   "CAGC",
+   "GCTC",
+   "TAAT",
+   "GCGC"
+  ],
+  "7": [
+   "ATTT",
+   "TAAT",
+   "CAGC",
+   "CTGC",
+   "GGGG"
+  ]
+ },
+ "profiles": {
+  "0": {
+   "n": 3065,
+   "tbp_hit_rate_by_bin": [
+    0.0134,
+    0.0206,
+    0.0202,
+    0.0199,
+    0.0196,
+    0.2186,
+    0.0281,
+    0.031
+   ],
+   "tata_4mer_rate_by_bin": [
+    0.0405,
+    0.0509,
+    0.0558,
+    0.0519,
+    0.0636,
+    0.3344,
+    0.0741,
+    0.078
+   ],
+   "gc_by_bin": [
+    0.5536,
+    0.5447,
+    0.5367,
+    0.5249,
+    0.5072,
+    0.4143,
+    0.4968,
+    0.491
+   ],
+   "cpg_count_by_bin": [
+    1.648,
+    1.6408,
+    1.5122,
+    1.4499,
+    1.2303,
+    0.9615,
+    1.1847,
+    1.1579
+   ],
+   "tbp_any_hit": 0.2858
+  },
+  "1": {
+   "n": 3065,
+   "tbp_hit_rate_by_bin": [
+    0.0235,
+    0.0245,
+    0.015,
+    0.0196,
+    0.0144,
+    0.3752,
+    0.0117,
+    0.0055
+   ],
+   "tata_4mer_rate_by_bin": [
+    0.0581,
+    0.0493,
+    0.0359,
+    0.0382,
+    0.0359,
+    0.4675,
+    0.0235,
+    0.0209
+   ],
+   "gc_by_bin": [
+    0.53,
+    0.5383,
+    0.5498,
+    0.5602,
+    0.5728,
+    0.5101,
+    0.5929,
+    0.5891
+   ],
+   "cpg_count_by_bin": [
+    1.3119,
+    1.4682,
+    1.555,
+    1.706,
+    1.7259,
+    1.6427,
+    1.9873,
+    2.0111
+   ],
+   "tbp_any_hit": 0.4326
+  }
+ },
+ "carrier_bins": [],
+ "necessary_bins": [],
+ "reading": "distributed (no single carrier bin)",
+ "tata_placement_is_mechanism": false,
+ "tata_check": {
+  "class1_tbp_peak_bin": 5,
+  "tbp_rate_diff_at_peak": 0.1566,
+  "peak_bin_top5": [
+   "AAAA",
+   "TATA",
+   "AAAT",
+   "ATAA",
+   "GGGC"
+  ]
+ },
+ "seconds": 34.9,
+ "posthoc": "PH3 (fix round 1)"
+}

@@ -1,0 +1,63 @@
+# Environment for the deferred GPU runs = the laptop's .venv-ft (the env of every local fine-tuning
+# unit), frozen 2026-09-24 with `uv pip freeze`. lightgbm and pypdf are dropped (unused here, and
+# lightgbm must never be imported next to torch).
+# Python: 3.14.5 on the laptop. torch 2.12.0 CUDA wheels exist for cp310-cp314, so use 3.14 if
+# you can (3.12 is fine too).
+#
+# 1) torch FIRST, from the PyTorch index that matches your NVIDIA driver:
+#      cu126 (driver >= 525; A100 / L4 / H100):
+#        pip install torch==2.12.0 --index-url https://download.pytorch.org/whl/cu126
+#      cu130 (driver >= 580; this is also what plain `pip install torch==2.12.0` from PyPI gives):
+#        pip install torch==2.12.0 --index-url https://download.pytorch.org/whl/cu130
+# 2) then:  pip install -r requirements-gpu.txt
+#
+# triton comes with Linux torch. run_gpu.py blocks it for DNABERT-2 so that DNABERT-2 runs its
+# PyTorch attention, as every laptop run did; nothing else here uses triton.
+torch==2.12.0
+transformers==5.9.0
+peft==0.21.0
+tokenizers==0.22.2
+huggingface-hub==1.26.0
+hf-xet==1.6.0
+safetensors==0.8.0
+accelerate==1.15.0
+einops==0.8.2
+numpy==2.5.1
+pandas==3.0.5
+scikit-learn==1.9.0
+scipy==1.18.0
+joblib==1.5.3
+threadpoolctl==3.6.0
+regex==2026.7.19
+pyyaml==6.0.3
+packaging==26.2
+filelock==3.32.2
+fsspec==2026.7.0
+tqdm==4.70.0
+psutil==7.2.2
+typing-extensions==4.16.0
+jinja2==3.1.6
+markupsafe==3.0.3
+networkx==3.6.1
+sympy==1.14.0
+mpmath==1.3.0
+python-dateutil==2.9.0.post0
+six==1.17.0
+httpx==0.28.1
+httpcore==1.0.9
+h11==0.16.0
+anyio==4.14.2
+idna==3.18
+certifi==2026.7.22
+annotated-doc==0.0.5
+click==8.4.2
+markdown-it-py==4.2.0
+mdurl==0.1.2
+narwhals==2.24.0
+pygments==2.20.0
+rich==15.0.0
+setuptools==81.0.0
+shellingham==1.5.4
+typer==0.27.1
+# (the nvidia-* / cuda-* / triton wheels are pulled in by torch; not pinned here so that either
+#  the cu126 or the cu130 build of torch 2.12.0 can be used)

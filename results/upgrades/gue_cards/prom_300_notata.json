@@ -1,0 +1,155 @@
+{
+  "task": "prom_300_notata",
+  "species": "human",
+  "family": "promoter (300 bp)",
+  "neg_construction": "non-TATA: randomly substituted promoter sequences; TATA: random non-promoter genomic sequences carrying a TATA motif",
+  "n_classes": 2,
+  "binary": true,
+  "n_train": 42452,
+  "n_dev": 5307,
+  "n_test": 5307,
+  "pos_frac_test": 0.5054,
+  "k": 4,
+  "val_mcc": {
+    "3": 0.879343,
+    "4": 0.888173,
+    "5": 0.883228,
+    "6": 0.855741
+  },
+  "learnability": {
+    "mcc": 0.8671231580871939,
+    "mcc_ci": [
+      0.8542556950027237,
+      0.8796488525729916
+    ],
+    "auroc": 0.9826158161997086,
+    "auroc_ci": [
+      0.9798296190743007,
+      0.9852150704153815
+    ],
+    "f1_macro": 0.9332930679653846,
+    "f1_macro_ci": [
+      0.9266984095311139,
+      0.9397000053943086
+    ],
+    "acc": 0.933295647258338,
+    "n_test": 5307
+  },
+  "composition_only": {
+    "mcc": 0.833558431019453,
+    "mcc_ci": [
+      0.8188764867054583,
+      0.8483241851204916
+    ],
+    "auroc": 0.9727955683391925,
+    "auroc_ci": [
+      0.9687314455913208,
+      0.9764726509496242
+    ],
+    "f1_macro": 0.9163258586628773
+  },
+  "composition_fraction": {
+    "value": 0.9797,
+    "ci": [
+      0.9737,
+      0.9851
+    ],
+    "full_auroc": 0.9826,
+    "comp_only_auroc": 0.9728,
+    "definition": "(AUROC_comp_only-0.5)/(AUROC_full-0.5)"
+  },
+  "tier": "solved",
+  "route2_positional": {
+    "spectrum_mcc": 0.8631,
+    "positional_mcc": 0.8658,
+    "delta_mcc": 0.0028,
+    "delta_ci": [
+      -0.0051,
+      0.0104
+    ],
+    "significant": false,
+    "n_bins": 8,
+    "capped": true,
+    "n_train_used": 20000,
+    "n_test_used": 5307
+  },
+  "route1_motif": {
+    "max_pos_motif_auroc": 0.6834,
+    "best_TF": "KLF5",
+    "motif_richness": 0.407,
+    "per_TF_auroc": {
+      "SP1": 0.6515,
+      "SP2": 0.677,
+      "SP3": 0.612,
+      "SP4": 0.6531,
+      "KLF15": 0.6352,
+      "KLF5": 0.6834,
+      "ETS1": 0.53,
+      "ETS2": 0.5311,
+      "ELF4": 0.5141,
+      "ETV2": 0.5175,
+      "FLI1": 0.5261,
+      "TFAP4": 0.504,
+      "HAND2": 0.468,
+      "MYOD1": 0.529,
+      "MYC": 0.5117,
+      "BATF3": 0.4655,
+      "FOS": 0.4936,
+      "Jun": 0.4845,
+      "BACH1": 0.4998,
+      "TBP": 0.4409,
+      "PBX1": 0.4825,
+      "PBX2": 0.4882,
+      "MEIS1": 0.3961,
+      "MEIS2": 0.4945,
+      "FOXC1": 0.5023,
+      "TGIF1": 0.5005
+    },
+    "n_TFs": 26,
+    "panel": "curated vertebrate (diagnose default)",
+    "missing": []
+  },
+  "route3_negatives": {
+    "tata_pos_rate": 0.0785,
+    "tata_neg_rate": 0.1245,
+    "tata_neg_excess": 0.046,
+    "tata_motif_auroc": 0.4775,
+    "gc_auroc": 0.7113,
+    "cleaned_tata_auroc": 0.4984,
+    "cleaning_moves_to_chance": true,
+    "frac_neg_removed": 0.046
+  },
+  "shuffled_negative_control": {
+    "tata_auroc_vs_shuffled": 0.5139,
+    "gc_auroc_vs_shuffled": 0.5,
+    "dinuc_preserved_frac": 1.0,
+    "n_shuffled": 4000
+  },
+  "equalized_delta": {
+    "feasible": false,
+    "reason": "fewer than 10 negatives survive equalization in a split",
+    "retained_neg_frac": 0.006
+  },
+  "redundancy": {
+    "frac_ge_0_7": 0.0111,
+    "frac_verbatim": 0.0021,
+    "median_max_jaccard": 0.17,
+    "verdict": "borderline",
+    "n_test": 5307
+  },
+  "verdict": "SOLVED (class-specific motif discriminability)",
+  "composition_dominated": true,
+  "composition_flag_rule": "composition fraction >= 0.8 and full AUROC >= 0.6",
+  "timing_s": {
+    "select_k": 18.5,
+    "learn": 6.6,
+    "comp": 7.1,
+    "positional": 9.6,
+    "motif": 3.0,
+    "equalized": 2.0,
+    "redundancy": 6.5
+  },
+  "total_s": 53.4,
+  "n_jobs": 3,
+  "lightgbm_version": "4.6.0"
+}

@@ -1,0 +1,4 @@
+experiment,task,data,n_neg,n_flagged,flagged_tss_rate,unflagged_tss_rate,rate_ratio,fisher_odds_ratio,fisher_p,n_pos,pos_tss_rate,labels_consistent
+X10_coords,human_enhancers_cohn,original,13896,7977,0.0182,0.0329,0.5517,0.5434509310913805,3.237754358189968e-08,13895,0.156,True
+X10_coords,human_enhancers_cohn,id80,12932,7432,0.0191,0.0349,0.5473,0.5385059442158208,3.1458602469053524e-08,13848,0.1562,True
+X10_coords,human_enhancers_cohn,id50,12176,6963,0.02,0.0366,0.5448,0.535573553150875,2.6778458249686232e-08,13744,0.1572,True

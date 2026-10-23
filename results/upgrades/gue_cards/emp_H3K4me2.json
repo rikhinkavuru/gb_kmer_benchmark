@@ -1,0 +1,194 @@
+{
+  "task": "emp_H3K4me2",
+  "species": "yeast",
+  "family": "epigenetic mark (500 bp)",
+  "neg_construction": "Pokholok et al. yeast ChIP-chip windows split 8:1:1 (both classes from the genome)",
+  "n_classes": 2,
+  "binary": true,
+  "n_train": 24545,
+  "n_dev": 3069,
+  "n_test": 3069,
+  "pos_frac_test": 0.5849,
+  "k": 6,
+  "val_mcc": {
+    "3": 0.273618,
+    "4": 0.288708,
+    "5": 0.312591,
+    "6": 0.327574
+  },
+  "learnability": {
+    "mcc": 0.34175010369333486,
+    "mcc_ci": [
+      0.3085994931386759,
+      0.3747126770140686
+    ],
+    "auroc": 0.7443063104821959,
+    "auroc_ci": [
+      0.7260354424683539,
+      0.761015122108956
+    ],
+    "f1_macro": 0.6583981073113482,
+    "f1_macro_ci": [
+      0.6405218095619981,
+      0.6755965235866624
+    ],
+    "acc": 0.6884978820462692,
+    "n_test": 3069
+  },
+  "composition_only": {
+    "mcc": 0.2735086259582247,
+    "mcc_ci": [
+      0.24094531682903297,
+      0.30463747942393427
+    ],
+    "auroc": 0.6798878797287075,
+    "auroc_ci": [
+      0.6617046876217509,
+      0.6986522035265512
+    ],
+    "f1_macro": 0.6242849392035666
+  },
+  "composition_fraction": {
+    "value": 0.7363,
+    "ci": [
+      0.6753,
+      0.7955
+    ],
+    "full_auroc": 0.7443,
+    "comp_only_auroc": 0.6799,
+    "definition": "(AUROC_comp_only-0.5)/(AUROC_full-0.5)"
+  },
+  "tier": "hard",
+  "route2_positional": {
+    "spectrum_mcc": 0.3285,
+    "positional_mcc": 0.2962,
+    "delta_mcc": -0.0323,
+    "delta_ci": [
+      -0.0626,
+      -0.003
+    ],
+    "significant": true,
+    "n_bins": 8,
+    "capped": true,
+    "n_train_used": 20000,
+    "n_test_used": 3069
+  },
+  "route1_motif_vertebrate_panel": {
+    "max_pos_motif_auroc": 0.538,
+    "best_TF": "MEIS1",
+    "motif_richness": 0.497,
+    "per_TF_auroc": {
+      "SP1": 0.5026,
+      "SP2": 0.5045,
+      "SP3": 0.502,
+      "SP4": 0.5041,
+      "KLF15": 0.5078,
+      "KLF5": 0.5066,
+      "ETS1": 0.5095,
+      "ETS2": 0.5128,
+      "ELF4": 0.5031,
+      "ETV2": 0.5054,
+      "FLI1": 0.5078,
+      "TFAP4": 0.5027,
+      "HAND2": 0.5273,
+      "MYOD1": 0.5084,
+      "MYC": 0.513,
+      "BATF3": 0.4853,
+      "FOS": 0.4949,
+      "Jun": 0.4932,
+      "BACH1": 0.4962,
+      "TBP": 0.3967,
+      "PBX1": 0.4665,
+      "PBX2": 0.4588,
+      "MEIS1": 0.538,
+      "MEIS2": 0.5094,
+      "FOXC1": 0.4678,
+      "TGIF1": 0.5004
+    },
+    "n_TFs": 26,
+    "panel": "curated vertebrate (diagnose default)"
+  },
+  "route1_motif": {
+    "max_pos_motif_auroc": 0.5358,
+    "best_TF": "MBP1",
+    "motif_richness": 0.329,
+    "per_TF_auroc": {
+      "REB1": 0.4959,
+      "ABF1": 0.4996,
+      "RAP1": 0.5029,
+      "TBF1": 0.5032,
+      "RSC3": 0.5145,
+      "RSC30": 0.5099,
+      "CBF1": 0.5026,
+      "PHO4": 0.515,
+      "MCM1": 0.5044,
+      "MBP1": 0.5358,
+      "SWI4": 0.5023,
+      "GCN4": 0.4971,
+      "MSN2": 0.5342,
+      "YAP1": 0.4973,
+      "SPT15": 0.4692
+    },
+    "n_TFs": 15,
+    "panel": "curated fungi (JASPAR2024 CORE fungi)",
+    "missing": []
+  },
+  "route3_negatives": {
+    "tata_pos_rate": 0.5075,
+    "tata_neg_rate": 0.594,
+    "tata_neg_excess": 0.0865,
+    "tata_motif_auroc": 0.4424,
+    "gc_auroc": 0.675,
+    "cleaned_tata_auroc": 0.4635,
+    "cleaning_moves_to_chance": true,
+    "frac_neg_removed": 0.0865
+  },
+  "shuffled_negative_control": {
+    "tata_auroc_vs_shuffled": 0.5227,
+    "gc_auroc_vs_shuffled": 0.5,
+    "dinuc_preserved_frac": 1.0,
+    "n_shuffled": 4000
+  },
+  "equalized_delta": {
+    "feasible": true,
+    "mcc_before": 0.34175,
+    "mcc_after": 0.06839,
+    "mcc_after_ci": [
+      0.0,
+      0.1116
+    ],
+    "delta_mcc": -0.2734,
+    "auroc_before": 0.744306,
+    "auroc_after": 0.644771,
+    "comp_only_auroc_after": 0.52035,
+    "comp_only_mcc_after": 0.00011,
+    "n_test_after": 2152,
+    "pos_frac_test_after": 0.8341,
+    "retained_neg_frac": 0.2819,
+    "max_abs_smd_before": 0.5263,
+    "max_abs_smd_after": 0.0282
+  },
+  "redundancy": {
+    "frac_ge_0_7": 0.013,
+    "frac_verbatim": 0.0,
+    "median_max_jaccard": 0.3149,
+    "verdict": "borderline",
+    "n_test": 3069
+  },
+  "verdict": "ROUTE 1: SHARED-MOTIF (motif-rich but non-discriminative; motifs shared across classes)",
+  "verdict_vertebrate_panel": "ROUTE 1: SHARED-MOTIF (motif-rich but non-discriminative; motifs shared across classes)",
+  "composition_dominated": false,
+  "composition_flag_rule": "composition fraction >= 0.8 and full AUROC >= 0.6",
+  "timing_s": {
+    "select_k": 18.1,
+    "learn": 11.4,
+    "comp": 6.9,
+    "positional": 28.1,
+    "motif": 9.7,
+    "equalized": 22.2,
+    "redundancy": 7.1
+  },
+  "total_s": 103.5,
+  "n_jobs": 3,
+  "lightgbm_version": "4.6.0"
+}

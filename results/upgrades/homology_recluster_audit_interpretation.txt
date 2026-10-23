@@ -1,0 +1,94 @@
+==============================================================================================================
+HOMOLOGY RE-CLUSTERING -- VERIFICATION AUDIT (POST HOC; added 2026-09-24 after independent verification).
+Every number below is read from results/upgrades/homology_recluster_{audit_*,e1_*,calibration*,covmode}.csv.
+==============================================================================================================
+A. WHAT THE id80 PURGE REMOVES, PER CLASS (audit_class.csv): n test, fraction removed, fraction that are exact
+   (either-strand) copies of a SAME-label train sequence, and the ORIGINAL model's accuracy (= class recall) on
+   removed vs kept test sequences. Tasks where the purge removes >= 5 % of the test set:
+   demo_human_or_worm                 class 0: n= 12500 removed  14.7%  exact same-label copy   5.2%  acc removed 0.986 vs kept 0.952
+   demo_human_or_worm                 class 1: n= 12500 removed   7.7%  exact same-label copy   0.0%  acc removed 0.972 vs kept 0.955
+   human_ensembl_regulatory           class 0: n= 21378 removed   4.1%  exact same-label copy   0.0%  acc removed 0.952 vs kept 0.950
+   human_ensembl_regulatory           class 1: n= 17476 removed  10.2%  exact same-label copy   0.0%  acc removed 0.976 vs kept 0.971
+   human_ensembl_regulatory           class 2: n= 18859 removed   4.4%  exact same-label copy   0.0%  acc removed 0.910 vs kept 0.893
+   human_nontata_promoters            class 0: n=  4119 removed  94.1%  exact same-label copy   0.0%  acc removed 0.991 vs kept 0.876
+   human_nontata_promoters            class 1: n=  4915 removed   3.6%  exact same-label copy   0.0%  acc removed 0.888 vs kept 0.893
+   demo_coding_vs_intergenomic_seqs   class 0: n= 12500 removed  16.7%  exact same-label copy   0.2%  acc removed 0.943 vs kept 0.889
+   demo_coding_vs_intergenomic_seqs   class 1: n= 12500 removed  20.9%  exact same-label copy   0.0%  acc removed 0.954 vs kept 0.889
+   human_enhancers_ensembl            class 0: n= 15485 removed  10.9%  exact same-label copy   0.0%  acc removed 0.943 vs kept 0.763
+   human_enhancers_ensembl            class 1: n= 15485 removed  74.8%  exact same-label copy  76.0%  acc removed 0.838 vs kept 0.726
+   nt_enhancers                       class 0: n=   200 removed   2.5%  exact same-label copy   0.0%  acc removed 0.600 vs kept 0.697
+   nt_enhancers                       class 1: n=   200 removed  51.5%  exact same-label copy  50.0%  acc removed 1.000 vs kept 0.619
+   nt_enhancers_types                 class 0: n=   200 removed   2.5%  exact same-label copy   0.0%  acc removed 0.800 vs kept 0.764
+   nt_enhancers_types                 class 1: n=   100 removed   3.0%  exact same-label copy   0.0%  acc removed 0.000 vs kept 0.052
+   nt_enhancers_types                 class 2: n=   100 removed 100.0%  exact same-label copy 100.0%  acc removed 1.000 vs kept n/a
+   human_ocr_ensembl                  class 0: n= 17476 removed  11.9%  exact same-label copy   0.0%  acc removed 0.826 vs kept 0.670
+   human_ocr_ensembl                  class 1: n= 17476 removed  10.6%  exact same-label copy   0.0%  acc removed 0.754 vs kept 0.729
+   nt_splice_sites_all                class 0: n=  1000 removed  15.1%  exact same-label copy  11.0%  acc removed 0.781 vs kept 0.395
+   nt_splice_sites_all                class 1: n=  1000 removed  13.9%  exact same-label copy   9.9%  acc removed 0.763 vs kept 0.408
+   nt_splice_sites_all                class 2: n=  1000 removed   7.8%  exact same-label copy   1.2%  acc removed 0.795 vs kept 0.559
+
+B. PURGE EVALUABILITY (a class keeping < 10 test sequences = class eliminated; audit_task.csv):
+   id80: nt_enhancers_types kept {0: 195, 1: 97, 2: 0}
+   id50: nt_enhancers_types kept {0: 188, 1: 94, 2: 0}
+
+C. EXACT (either-strand) TEST/TRAIN DUPLICATES THAT MMseqs2 DID NOT PUT IN A TRAIN COMPONENT (audit_task.csv)
+   and the purge MCC when they are also removed ('purge+exact'); exact twins straddling the seed-42 cluster re-split.
+   id80 demo_human_or_worm                 missed  644 of 650 exact test dups (median len 200 bp, max 200); purge MCC 0.908 -> purge+exact 0.905 (d -0.0031); re-split test seqs with an exact twin in re-split train: 716
+   id80 human_enhancers_ensembl            missed  316 of 11784 exact test dups (median len 16 bp, max 451); purge MCC 0.427 -> purge+exact 0.411 (d -0.0159); re-split test seqs with an exact twin in re-split train: 314
+   id80 human_ocr_ensembl                  missed    2 of 2 exact test dups (median len 258 bp, max 268); purge MCC 0.400 -> purge+exact 0.400 (d -0.0000); re-split test seqs with an exact twin in re-split train: 3
+   id50 demo_human_or_worm                 missed  644 of 650 exact test dups (median len 200 bp, max 200); purge MCC 0.907 -> purge+exact 0.903 (d -0.0034); re-split test seqs with an exact twin in re-split train: 782
+   id50 human_enhancers_ensembl            missed  313 of 11784 exact test dups (median len 15 bp, max 451); purge MCC 0.427 -> purge+exact 0.411 (d -0.0163); re-split test seqs with an exact twin in re-split train: 318
+   id50 human_ocr_ensembl                  missed    2 of 2 exact test dups (median len 258 bp, max 268); purge MCC 0.398 -> purge+exact 0.398 (d -0.0000); re-split test seqs with an exact twin in re-split train: 2
+   pooled sequences shorter than 11 bp (cannot be seeded by MMseqs2, k = 11): human_enhancers_ensembl 832; test sequences < 50 bp: human_enhancers_ensembl 1226 (min 2 bp)
+   sequences that are >= 50 % N (unalignable; identical copies are trivially 'duplicates'): demo_human_or_worm 2528 pooled (per label {0: 2528, 1: 0}), of them 644 missed exact test dups; human_enhancers_ensembl 76 pooled (per label {0: 76, 1: 0}), of them 2 missed exact test dups; dummy_mouse_enhancers_ensembl 217 pooled (per label {0: 210, 1: 7}), of them 0 missed exact test dups; human_ocr_ensembl 73 pooled (per label {0: 73, 1: 0}), of them 2 missed exact test dups; nt_splice_sites_all 1 pooled (per label {0: 0, 1: 0, 2: 1}), of them 0 missed exact test dups
+
+D. KIND OF HOMOLOGY (id80; purged test sequences with a direct train edge; best train identity)
+   demo_human_or_worm                 n=  2727  median best identity 0.908  >= 0.99:  18.5%  < 0.90:  45.4%  exact same-label test copies: 650
+   human_ensembl_regulatory           n=  3427  median best identity 0.894  >= 0.99:   8.2%  < 0.90:  52.3%  exact same-label test copies: 0
+   nt_promoter_all                    n=   232  median best identity 1.000  >= 0.99:  68.1%  < 0.90:  18.1%  exact same-label test copies: 21
+   nt_promoter_no_tata                n=   196  median best identity 1.000  >= 0.99:  74.0%  < 0.90:  12.8%  exact same-label test copies: 15
+   human_nontata_promoters            n=  3947  median best identity 1.000  >= 0.99:  97.9%  < 0.90:   1.3%  exact same-label test copies: 0
+   nt_promoter_tata                   n=    29  median best identity 0.890  >= 0.99:  31.0%  < 0.90:  58.6%  exact same-label test copies: 6
+   demo_coding_vs_intergenomic_seqs   n=  4586  median best identity 0.981  >= 0.99:  44.7%  < 0.90:  28.5%  exact same-label test copies: 34
+   human_enhancers_ensembl            n= 13237  median best identity 1.000  >= 0.99:  87.1%  < 0.90:   8.0%  exact same-label test copies: 11783
+   nt_enhancers                       n=   108  median best identity 1.000  >= 0.99:  92.6%  < 0.90:   5.6%  exact same-label test copies: 100
+   nt_enhancers_types                 n=   108  median best identity 1.000  >= 0.99:  92.6%  < 0.90:   5.6%  exact same-label test copies: 100
+   human_enhancers_cohn               n=   288  median best identity 0.902  >= 0.99:   3.8%  < 0.90:  48.3%  exact same-label test copies: 0
+   human_ocr_ensembl                  n=  3863  median best identity 0.894  >= 0.99:   6.3%  < 0.90:  51.9%  exact same-label test copies: 2
+   drosophila_enhancers_stark         n=    35  median best identity 1.000  >= 0.99:  74.3%  < 0.90:   5.7%  exact same-label test copies: 0
+   nt_splice_sites_all                n=   368  median best identity 1.000  >= 0.99:  83.2%  < 0.90:  12.8%  exact same-label test copies: 221
+
+E. COMPONENT-LEVEL vs SEQUENCE-LEVEL 95 % CIs (audit_clusterboot.csv; whole id80 components resampled)
+   purge_mcc: median width ratio component/sequence 1.01 (max 1.15, human_enhancers_ensembl)
+   resplit_cluster_mcc: median width ratio component/sequence 1.09 (max 14.96, demo_coding_vs_intergenomic_seqs)
+   cluster_minus_random: median width ratio component/sequence 1.11 (max 11.49, demo_coding_vs_intergenomic_seqs)
+   cluster - random: CI excludes 0 at sequence level but not at component level (or vice versa): demo_human_or_worm seq [-0.017,-0.002] comp [-0.020,0.000]
+
+F. WHY SEARCH + COMPONENTS AND NOT linclust (synthetic calibration; recall of planted pairs, + / - strand)
+   id80, 95% identity: search+components 1.00/1.00; linclust (kmer-per-seq 100) 0.97/0.90; linclust (kmer-per-seq 21) 0.97/0.90
+   id80, 90% identity: search+components 1.00/1.00; linclust (kmer-per-seq 100) 0.80/0.82; linclust (kmer-per-seq 21) 0.78/0.80
+   id80, 85% identity: search+components 1.00/1.00; linclust (kmer-per-seq 100) 0.65/0.72; linclust (kmer-per-seq 21) 0.57/0.68
+   id80, 80% identity: search+components 0.68/0.68; linclust (kmer-per-seq 100) 0.28/0.23; linclust (kmer-per-seq 21) 0.25/0.20
+   decoys falsely merged: search 0/400; linclust 0/400
+
+G. COVERAGE-RULE SENSITIVITY (variable-length tasks; covmode.csv): shorter sequence >= 80 % covered (cov-mode 1)
+   vs both sequences >= 80 % covered (primary, cov-mode 0); same cached predictions and purge null
+   dummy_mouse_enhancers_ensembl     id80  test-with-train-homolog 0.000 -> 0.004; purge effect -0.000 -> -0.002 (robust |d| <= 0.02: True)
+   dummy_mouse_enhancers_ensembl     id50  test-with-train-homolog 0.000 -> 0.004; purge effect -0.000 -> -0.002 (robust |d| <= 0.02: True)
+   drosophila_enhancers_stark        id80  test-with-train-homolog 0.021 -> 0.034; purge effect -0.010 -> -0.013 (robust |d| <= 0.02: True)
+   drosophila_enhancers_stark        id50  test-with-train-homolog 0.022 -> 0.035; purge effect -0.011 -> -0.014 (robust |d| <= 0.02: True)
+   human_enhancers_ensembl           id80  test-with-train-homolog 0.429 -> 0.526; purge effect -0.089 -> -0.108 (robust |d| <= 0.02: True)
+   human_enhancers_ensembl           id50  test-with-train-homolog 0.455 -> 0.558; purge effect -0.092 -> -0.112 (robust |d| <= 0.02: False)
+   human_ocr_ensembl                 id80  test-with-train-homolog 0.112 -> 0.237; purge effect -0.021 -> -0.036 (robust |d| <= 0.02: True)
+   human_ocr_ensembl                 id50  test-with-train-homolog 0.167 -> 0.318; purge effect -0.024 -> -0.039 (robust |d| <= 0.02: True)
+   human_ensembl_regulatory          id80  test-with-train-homolog 0.061 -> 0.163; purge effect -0.001 -> -0.001 (robust |d| <= 0.02: True)
+   human_ensembl_regulatory          id50  test-with-train-homolog 0.092 -> 0.227; purge effect -0.001 -> -0.000 (robust |d| <= 0.02: True)
+
+H. COMPOSITION EQUALIZATION (E1) RECONCILED WITH composition_clean.csv (human_enhancers_cohn, original data)
+   original        k-mer MCC: replay 0.4612 | published 0.4612 | this module 0.4612;  comp-only MCC replay/published/module 0.4105/0.4105/0.4105;  k-mer AUROC 0.805/0.805/0.805;  replay == published: True
+   comp_equalized  k-mer MCC: replay 0.0642 | published 0.0642 | this module 0.0000;  comp-only MCC replay/published/module 0.0000/0.0000/0.0642;  k-mer AUROC 0.613/0.613/0.629;  replay == published: True
+   20 matching draws of the same equalization (e1_draws_summary.csv): median [min, max]
+   original  test negatives kept 228; frac predicted positive 1.0000 [0.9997,1.0000] -> MCC-degenerate: True; k-mer MCC 0.000 [0.000,0.064]; k-mer AUROC 0.636 [0.602,0.683]; TATA AUROC 0.494 [0.474,0.513]; GC AUROC 0.508 [0.500,0.519]
+   id80      test negatives kept 176; frac predicted positive 1.0000 [0.9997,1.0000] -> MCC-degenerate: True; k-mer MCC 0.000 [0.000,0.074]; k-mer AUROC 0.606 [0.551,0.633]; TATA AUROC 0.498 [0.474,0.518]; GC AUROC 0.502 [0.491,0.519]
+   id50      test negatives kept 199; frac predicted positive 1.0000 [0.9997,1.0000] -> MCC-degenerate: True; k-mer MCC 0.000 [0.000,0.069]; k-mer AUROC 0.607 [0.562,0.643]; TATA AUROC 0.497 [0.482,0.516]; GC AUROC 0.505 [0.497,0.514]
+

@@ -1,0 +1,6 @@
+model,dataset,rule1_rides_shortcut,rule2_drop_not_test_imbalance,rule3_collapse_cause,rule5_aligned_control_not_destroyed,rule5_compared_to
+dnabert2,human_enhancers_cohn,False,True,composition removal (random arm preserves signal),,
+dnabert2,nt_enhancers,False,True,composition removal (random arm preserves signal),,
+hyenadna,drosophila_enhancers_stark,False,True,composition removal (random arm preserves signal),False,"human_enhancers_cohn,nt_enhancers"
+hyenadna,human_enhancers_cohn,True,True,composition removal (random arm preserves signal),,
+hyenadna,nt_enhancers,True,True,composition removal (random arm preserves signal),,

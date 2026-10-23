@@ -1,0 +1,91 @@
+{
+ "model": "hyenadna",
+ "model_tag": "hyenadna-tiny-16k-d128",
+ "dataset": "drosophila_enhancers_stark",
+ "train_arm": "comp_equalized",
+ "seed": 42,
+ "n_fit": 3265,
+ "n_val": 363,
+ "n_fit_neg": 932,
+ "n_fit_pos": 2333,
+ "best_epoch": 6,
+ "best_val_auroc": 0.756051,
+ "epochs_run": 6,
+ "history": [
+  {
+   "epoch": 1,
+   "loss": 0.692095,
+   "val_auroc": 0.494988,
+   "secs": 119.9
+  },
+  {
+   "epoch": 2,
+   "loss": 0.67777,
+   "val_auroc": 0.646607,
+   "secs": 126.2
+  },
+  {
+   "epoch": 3,
+   "loss": 0.674109,
+   "val_auroc": 0.61984,
+   "secs": 126.7
+  },
+  {
+   "epoch": 4,
+   "loss": 0.65949,
+   "val_auroc": 0.69357,
+   "secs": 129.4
+  },
+  {
+   "epoch": 5,
+   "loss": 0.620137,
+   "val_auroc": 0.741684,
+   "secs": 132.2
+  },
+  {
+   "epoch": 6,
+   "loss": 0.58941,
+   "val_auroc": 0.756051,
+   "secs": 133.9
+  }
+ ],
+ "n_params_total": 436354,
+ "n_params_trainable": 436354,
+ "device": "mps",
+ "recipe": {
+  "tag": "hyenadna-tiny-16k-d128",
+  "epochs": 6,
+  "batch": 32,
+  "lr": 0.0006,
+  "weight_decay": 0.1,
+  "warmup_frac": 0.1,
+  "clip": 1.0,
+  "patience": null,
+  "eval_batch": 64,
+  "finetune": "full"
+ },
+ "train_secs": 768.5,
+ "torch": "2.12.0",
+ "predict_secs": 44.0,
+ "quick_test_auroc": {
+  "original": 0.7593,
+  "gc_match": 0.7282,
+  "comp_equalized": 0.7296,
+  "random": 0.7655
+ },
+ "max_rss_mb": 721.5,
+ "mps_driver_mb_end": 1529.4,
+ "env": {
+  "OMP_NUM_THREADS": "2",
+  "LOWCPU_THREADS": "2",
+  "PYTORCH_MPS_HIGH_WATERMARK_RATIO": "0.2",
+  "PYTORCH_MPS_LOW_WATERMARK_RATIO": "0.12"
+ },
+ "niceness": 20,
+ "max_steps": null,
+ "pad_multiple": 512,
+ "micro_batch": 4,
+ "eval_batch_used": 8,
+ "peak_footprint_mb": 2496.0,
+ "mem_cap_mb": 3000.0
+}

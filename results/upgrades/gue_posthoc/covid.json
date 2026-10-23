@@ -1,0 +1,13 @@
+{
+  "task": "covid",
+  "posthoc": true,
+  "written": "2026-09-27",
+  "n_jobs": 3,
+  "PH2_twins": {
+    "n_test": 9168,
+    "frac_test_twin_in_train": 0.134053,
+    "frac_test_crosslabel_twin_in_train": 0.085297,
+    "frac_test_samelabel_twin_in_train": 0.063045
+  },
+  "total_s": 0.5
+}

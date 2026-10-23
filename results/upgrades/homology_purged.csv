@@ -1,0 +1,7 @@
+task,protocol,k,n_train,n_test,frac_test_kept,removed_frac,pos_frac,mcc,mcc_lo,mcc_hi,auroc,auroc_lo,auroc_hi,delta_mcc_vs_all
+nt_enhancers,all,4,14968,400,1.0,0.0,0.5,0.5137,0.4284,0.5935,0.8497,0.8119,0.889,0.0
+nt_enhancers,no_verbatim,4,14968,300,0.75,0.25,0.3333,0.3111,0.1964,0.417,0.7346,0.6699,0.7903,-0.2026
+nt_enhancers,no_near_dup,4,14968,300,0.75,0.25,0.3333,0.3111,0.1964,0.417,0.7346,0.6699,0.7903,-0.2026
+human_nontata_promoters,all,6,27097,9034,1.0,0.0,0.5441,0.8737,0.8645,0.8826,0.9891,0.9875,0.9906,0.0
+human_nontata_promoters,no_verbatim,6,27097,9033,0.9999,0.0001,0.5441,0.8737,0.8642,0.8835,0.9891,0.9874,0.9907,0.0
+human_nontata_promoters,no_near_dup,6,27097,5363,0.5936,0.4064,0.9129,0.5871,0.5597,0.6155,0.9611,0.9552,0.9674,-0.2866

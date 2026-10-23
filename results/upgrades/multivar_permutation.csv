@@ -1,0 +1,7 @@
+config,role,test,observed,null_mean,null_critical,p,n_perm,note
+S11/Y1_MCC,PRIMARY,A4a_global_bestLOTO_R2_poolA,0.7002046088643732,0.27709918004035866,0.7272426471659942,0.06593406593406594,1000,null_critical = 95th percentile of the null best LOTO R2 (higher = better)
+S11/Y1_MCC,PRIMARY,A4b_incremental_bestLOTO_MAE_disc_anchored,0.09811862547038876,0.10062261113711364,0.06741154245706014,0.4305694305694306,1000,disc-only LOTO MAE 0.1400; null_critical = 5th percentile of the null best MAE (lower = better)
+S11/Y2_AUROC,secondary,A4a_global_bestLOTO_R2_poolA,0.6837362773838618,0.2734233076891026,0.7342180100769854,0.08091908091908091,1000,null_critical = 95th percentile of the null best LOTO R2 (higher = better)
+S11/Y2_AUROC,secondary,A4b_incremental_bestLOTO_MAE_disc_anchored,0.04861564499227362,0.04328663790068965,0.026956159473307748,0.7042957042957043,1000,disc-only LOTO MAE 0.0625; null_critical = 5th percentile of the null best MAE (lower = better)
+S15/Y1_MCC,secondary,A4a_global_bestLOTO_R2_poolA,0.3205784301005862,0.14658024452209922,0.4969437793434252,0.2077922077922078,1000,null_critical = 95th percentile of the null best LOTO R2 (higher = better)
+S15/Y1_MCC,secondary,A4b_incremental_bestLOTO_MAE_disc_anchored,0.1467092664522945,0.1574528587515619,0.12277168661865276,0.26573426573426573,1000,disc-only LOTO MAE 0.1817; null_critical = 5th percentile of the null best MAE (lower = better)

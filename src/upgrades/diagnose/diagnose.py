@@ -10,6 +10,17 @@ card (JSON + human-readable Markdown) covering:
                            negatives, re-measure the TATA motif-only AUROC);
   * a single ROUTE VERDICT per dataset.
 
+It also emits the four checks the paper recommends every regulatory benchmark ship with:
+  1. COMPOSITION FRACTION       -- the share of above-chance AUROC a 20-d composition signature
+                                   (4 mono + 16 dinucleotide frequencies) reaches on its own;
+  2. SHUFFLED-NEGATIVE CONTROL  -- the same motif/GC measures against dinucleotide-preserving
+                                   shuffles of the positives, which have no composition gap by
+                                   construction (the control that behaves *differently* on clean
+                                   and contaminated data);
+  3. EQUALIZED-SPLIT DELTA      -- the score lost when the negatives' joint GC + 16-dinucleotide
+                                   distribution is matched to the positives' (positives untouched);
+  4. TRAIN/TEST REDUNDANCY      -- the >=0.7 8-mer-Jaccard near-duplicate rate across the split.
+
 Packaging mirrors the companion homology-leakage splitter: standalone, numpy/scipy/scikit-learn/
 LightGBM + pyjaspar core, DETERMINISTIC (seed 42), CPU-only, documented thresholds. No torch.
 
@@ -31,7 +42,11 @@ import sys
 
 import numpy as np
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+_UP = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+for _d in (_UP, os.path.join(_UP, "shuffled_neg"), os.path.join(_UP, "composition_clean"),
+           os.path.join(_UP, "homology")):
+    if _d not in sys.path:
+        sys.path.insert(0, _d)
 import _common as C
 import featurize
 from scipy import sparse
@@ -42,6 +57,8 @@ SEED = 42
 TATA_BITS = 1.3
 THR_BITS = 1.0
 N_BINS = 8
+PROP_BINS = 20          # propensity histogram bins, matching run_composition_clean.py
+JACCARD_THR = 0.7       # 8-mer-Jaccard near-duplicate threshold, matching measure_homology.py
 KS = (3, 4, 5, 6)
 
 
@@ -106,6 +123,74 @@ def _composition_fraction(tr_seqs, ytr, te_seqs, yte, k, seed, boot):
                 full_auroc=round(float(full_pt), 4), comp_auroc=round(float(comp_pt), 4))
 
 
+def _shuffled_negative_control(pos_seqs, tbp, seed):
+    """Control negatives with NO composition gap: dinucleotide-preserving shuffles of the positives.
+
+    If the real negatives give a TATA/GC AUROC far from 0.5 but these give ~0.5, the class skew is
+    compositional and comes from how the negatives were sampled. On a genuinely clean set, where the
+    motif belongs to the positive class, the shuffled-negative AUROC instead moves AWAY from 0.5.
+    This is the one control that behaves *differently* on clean and contaminated data.
+    """
+    import dinuc_shuffle as D
+    r = np.random.RandomState(seed)
+    sh = [D.dinuc_shuffle(s, r) for s in pos_seqs]
+    preserved = float(np.mean([D.verify_dinuc_preserved(a, b) for a, b in zip(pos_seqs, sh)]))
+    tata = C.motif_only_auroc(C.tata_hit_counts(pos_seqs, tbp, TATA_BITS),
+                              C.tata_hit_counts(sh, tbp, TATA_BITS))
+    gc = C.auc_float(C.gc_content(pos_seqs), C.gc_content(sh))
+    return dict(tata_auroc_vs_shuffled=round(float(tata), 4),
+                gc_auroc_vs_shuffled=round(float(gc), 4),
+                dinuc_preserved_frac=round(preserved, 4), n_shuffled=len(sh))
+
+
+def _equalized_delta(tr_seqs, ytr, te_seqs, yte, k, seed, boot, rng):
+    """Composition-equalize the NEGATIVES within each split, refit, and report the score delta.
+
+    Identical procedure to run_composition_clean.py's `comp_equalized` arm: one LR propensity
+    p = P(positive | 4 mono + 16 dinucleotide frequencies) fit on the pooled splits, then negatives
+    resampled per split so their propensity histogram matches the positives'. Positives are never
+    dropped. The delta is the part of the score that the negative set's composition was supplying.
+    """
+    import run_composition_clean as CC
+    comp_tr = C.comp_signature(tr_seqs, ks=(1, 2))
+    comp_te = C.comp_signature(te_seqs, ks=(1, 2))
+    prop = CC.fit_propensity(np.vstack([comp_tr, comp_te]), np.concatenate([ytr, yte]), seed)
+    p_tr = prop.predict_proba(comp_tr)[:, 1]
+    p_te = prop.predict_proba(comp_te)[:, 1]
+    keep_tr = CC.match_proportional(p_tr[ytr == 1], p_tr[ytr == 0], PROP_BINS, rng)
+    keep_te = CC.match_proportional(p_te[yte == 1], p_te[yte == 0], PROP_BINS, rng)
+    if len(keep_tr) < 10 or len(keep_te) < 10:
+        return dict(feasible=False, reason="fewer than 10 negatives survive equalization in a split",
+                    retained_neg_frac=round(float((len(keep_tr) + len(keep_te)) /
+                                                  max(int((ytr == 0).sum() + (yte == 0).sum()), 1)), 4))
+    ce_tr, ce_ytr = CC.negatives_kept_split(tr_seqs, ytr, keep_tr)
+    ce_te, ce_yte = CC.negatives_kept_split(te_seqs, yte, keep_te)
+    before = C.kmer_fit_eval_boot(tr_seqs, ytr, te_seqs, yte, k, "lgbm", seed, boot, rng)
+    after = C.kmer_fit_eval_boot(ce_tr, ce_ytr, ce_te, ce_yte, k, "lgbm", seed, boot, rng)
+    neg_before = np.vstack([comp_tr[ytr == 0], comp_te[yte == 0]])
+    neg_after = np.vstack([comp_tr[ytr == 0][keep_tr], comp_te[yte == 0][keep_te]])
+    pos_all = np.vstack([comp_tr[ytr == 1], comp_te[yte == 1]])
+    return dict(feasible=True,
+                mcc_before=before["mcc"], mcc_after=after["mcc"],
+                delta_mcc=round(after["mcc"] - before["mcc"], 4),
+                auroc_before=before["auroc"], auroc_after=after["auroc"],
+                retained_neg_frac=round(float((len(keep_tr) + len(keep_te)) /
+                                              max(int((ytr == 0).sum() + (yte == 0).sum()), 1)), 4),
+                max_abs_smd_before=round(float(np.nanmax(np.abs(CC.smd(pos_all, neg_before)))), 4),
+                max_abs_smd_after=round(float(np.nanmax(np.abs(CC.smd(pos_all, neg_after)))), 4))
+
+
+def _redundancy(tr_seqs, te_seqs):
+    """Train/test near-duplicate rate: fraction of test sequences with a >=0.7 8-mer Jaccard
+    neighbour in train (the audit run in measure_homology.py, applied to this split)."""
+    import measure_homology as H
+    jac = H.max_jaccard_to_train(H.presence_matrix(te_seqs), H.presence_matrix(tr_seqs))
+    return dict(frac_ge_0_7=round(float((jac >= JACCARD_THR).mean()), 4),
+                frac_verbatim=round(float((jac >= 0.999).mean()), 4),
+                median_max_jaccard=round(float(np.median(jac)), 4),
+                verdict=H.verdict({0.7: float((jac >= JACCARD_THR).mean())}), n_test=len(te_seqs))
+
+
 def diagnose(seqs, y, coords=None, seed=SEED, boot=1000, verbose=False):
     """Return the three-route report-card dict for one (sequences, labels) dataset."""
     seqs = [s.strip().upper() for s in seqs]
@@ -135,6 +220,13 @@ def diagnose(seqs, y, coords=None, seed=SEED, boot=1000, verbose=False):
             value=cf["frac"], ci=[cf["frac_lo"], cf["frac_hi"]],
             full_auroc=cf["full_auroc"], comp_only_auroc=cf["comp_auroc"],
             definition="(AUROC_comp_only-0.5)/(AUROC_full-0.5)")
+        # EQUALIZED-SPLIT DELTA: what the score loses once the negatives' joint GC + 16-dinucleotide
+        # distribution is matched to the positives'.
+        card["equalized_delta"] = _equalized_delta(tr_seqs, y[tr], te_seqs, y[te], k, seed, boot,
+                                                   np.random.RandomState(seed))
+
+    # TRAIN/TEST REDUNDANCY: 8-mer-Jaccard near-duplicate rate across this split.
+    card["redundancy"] = _redundancy(tr_seqs, te_seqs)
 
     # ROUTE 2 positional (B=1 vs B=8), paired bootstrap on the held-out test set
     from sklearn.metrics import matthews_corrcoef
@@ -201,6 +293,8 @@ def diagnose(seqs, y, coords=None, seed=SEED, boot=1000, verbose=False):
             cleaned_tata_auroc=round(float(cleaned_tata_auc), 4),
             cleaning_moves_to_chance=bool(abs(cleaned_tata_auc - 0.5) < abs(tata_auc - 0.5)),
             frac_neg_removed=round(1 - len(keep) / max(len(neg), 1), 4))
+        # SHUFFLED-NEGATIVE CONTROL: the same two measures against composition-matched negatives.
+        card["shuffled_negative_control"] = _shuffled_negative_control(list(pos), tbp, seed)
         # optional coordinate hook (Route 3 localization) -- only summarized if coords given
         if coords is not None:
             mapped = sum(1 for c in coords if c and c[0])
@@ -262,6 +356,30 @@ def _to_markdown(card, name):
         L.append(f"- **Route 3 (negatives)**: TATA neg-excess = **{r3['tata_neg_excess']:+.3f}**, "
                  f"TATA motif AUROC = {r3['tata_motif_auroc']:.3f} -> cleaned {r3['cleaned_tata_auroc']:.3f}, "
                  f"GC AUROC = {r3['gc_auroc']:.3f}")
+    if "shuffled_negative_control" in card:
+        sc = card["shuffled_negative_control"]
+        L.append(f"- **Shuffled-negative control** (dinucleotide-preserving shuffles of the positives, "
+                 f"no composition gap by construction): TATA AUROC = **{sc['tata_auroc_vs_shuffled']:.3f}**, "
+                 f"GC AUROC = {sc['gc_auroc_vs_shuffled']:.3f}. Near 0.5 => the real-negative skew was "
+                 f"compositional; away from 0.5 => the motif genuinely belongs to the positive class.")
+    if "equalized_delta" in card:
+        ed = card["equalized_delta"]
+        if ed.get("feasible"):
+            L.append(f"- **Equalized-split delta**: MCC {ed['mcc_before']:.3f} -> "
+                     f"**{ed['mcc_after']:.3f}** (**{ed['delta_mcc']:+.3f}**) after matching the "
+                     f"negatives' joint GC + 16-dinucleotide distribution to the positives'; "
+                     f"{ed['retained_neg_frac']:.1%} of negatives retained, max|SMD| "
+                     f"{ed['max_abs_smd_before']:.3f} -> {ed['max_abs_smd_after']:.3f}")
+        else:
+            L.append(f"- **Equalized-split delta**: not computable ({ed.get('reason')}; "
+                     f"{ed.get('retained_neg_frac', 0):.1%} of negatives would survive) — itself a "
+                     f"strong contamination signal, since almost no negative matches any positive's "
+                     f"composition")
+    if "redundancy" in card:
+        rd = card["redundancy"]
+        L.append(f"- **Train/test redundancy**: {rd['frac_ge_0_7']:.1%} of test sequences have a "
+                 f">=0.7 8-mer-Jaccard near-duplicate in train "
+                 f"({rd['frac_verbatim']:.1%} verbatim) — {rd['verdict']}")
     L += ["", f"## VERDICT: {card['verdict']}", "",
           "_Thresholds: TATA>=1.3 bits/pos, curated-TF>=1.0 bits/pos, B=8, k by validation MCC, "
           "1000-resample bootstrap, seed 42. CPU-only; no PyTorch._"]

@@ -1,0 +1,16 @@
+task,homology_jaccard07,homology_mm80,source
+demo_human_or_worm,0.012,0.11172,homology_recluster_redundancy.csv (id80) mtime 2026-09-24 01:43
+human_ensembl_regulatory,0.0032,0.06051,homology_recluster_redundancy.csv (id80) mtime 2026-09-24 01:43
+human_nontata_promoters,0.40635,0.44908,homology_recluster_redundancy.csv (id80) mtime 2026-09-24 01:43
+demo_coding_vs_intergenomic_seqs,0.0786,0.18796,homology_recluster_redundancy.csv (id80) mtime 2026-09-24 01:43
+dummy_mouse_enhancers_ensembl,0.0,0.0,homology_recluster_redundancy.csv (id80) mtime 2026-09-24 01:43
+human_enhancers_ensembl,0.3852,0.42854,homology_recluster_redundancy.csv (id80) mtime 2026-09-24 01:43
+human_enhancers_cohn,0.00115,0.04303,homology_recluster_redundancy.csv (id80) mtime 2026-09-24 01:43
+drosophila_enhancers_stark,0.01561,0.02139,homology_recluster_redundancy.csv (id80) mtime 2026-09-24 01:43
+human_ocr_ensembl,0.0104,0.11227,homology_recluster_redundancy.csv (id80) mtime 2026-09-24 01:43
+nt_promoter_all,0.01267,0.03919,homology_recluster_redundancy.csv (id80) mtime 2026-09-24 01:43
+nt_promoter_no_tata,0.01246,0.03699,homology_recluster_redundancy.csv (id80) mtime 2026-09-24 01:43
+nt_promoter_tata,0.01449,0.0467,homology_recluster_redundancy.csv (id80) mtime 2026-09-24 01:43
+nt_enhancers,0.25,0.27,homology_recluster_redundancy.csv (id80) mtime 2026-09-24 01:43
+nt_enhancers_types,0.25,0.27,homology_recluster_redundancy.csv (id80) mtime 2026-09-24 01:43
+nt_splice_sites_all,0.09767,0.12267,homology_recluster_redundancy.csv (id80) mtime 2026-09-24 01:43

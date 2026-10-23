@@ -1,0 +1,71 @@
+model,dataset,train_arm,r2_pooled_mean,r2_within_pos_mean,r2_within_neg_mean,r2_label_only_mean,r2_label_plus_comp_mean,partial_gain_mean,r2_pooled_sd,r2_within_pos_sd,r2_within_neg_sd,r2_label_only_sd,r2_label_plus_comp_sd,partial_gain_sd,n_seeds,family
+dnabert2,human_enhancers_cohn,comp_equalized,0.0444,0.013021,0.044224,0.129843,0.150046,0.020203,0.012078,0.010467,0.014403,0.019977,0.017376,0.005596,3,fine-tuned
+dnabert2,human_enhancers_cohn,original,0.518937,0.500606,0.348882,0.356734,0.61453,0.257796,0.060066,0.085527,0.062425,0.006214,0.046811,0.047111,3,fine-tuned
+dnabert2,human_enhancers_cohn,random,0.447921,0.373605,0.391403,0.236225,0.498,0.261775,0.07653,0.084843,0.123434,0.03476,0.049134,0.081627,3,fine-tuned
+dnabert2,nt_enhancers,comp_equalized,0.068715,-0.19078,-0.068984,0.115822,0.106805,-0.009017,0.028391,0.030928,0.090222,0.021171,0.026287,0.013135,3,fine-tuned
+dnabert2,nt_enhancers,original,0.530096,0.367433,0.309209,0.30594,0.570177,0.264236,0.035169,0.035164,0.041839,0.010267,0.029047,0.030081,3,fine-tuned
+dnabert2,nt_enhancers,random,0.510409,0.320846,0.412452,0.217962,0.531997,0.314035,0.069824,0.092947,0.056482,0.014046,0.062774,0.070742,3,fine-tuned
+dnabert2_frozen_cls,human_enhancers_cohn,comp_equalized,0.044888,0.011991,0.032049,0.083981,0.102051,0.01807,,,,,,,1,frozen probe
+dnabert2_frozen_cls,human_enhancers_cohn,gc_match,0.408511,0.467414,0.176148,0.238145,0.468813,0.230667,,,,,,,1,frozen probe
+dnabert2_frozen_cls,human_enhancers_cohn,original,0.543616,0.578685,0.32799,0.269939,0.59211,0.322171,,,,,,,1,frozen probe
+dnabert2_frozen_cls,human_enhancers_cohn,random,0.376821,0.375722,0.225855,0.202942,0.41757,0.214628,,,,,,,1,frozen probe
+dnabert2_frozen_cls,nt_enhancers,comp_equalized,0.086472,0.000549,-0.216303,0.116934,0.126644,0.00971,,,,,,,1,frozen probe
+dnabert2_frozen_cls,nt_enhancers,gc_match,0.541827,0.375132,0.379313,0.298817,0.584157,0.28534,,,,,,,1,frozen probe
+dnabert2_frozen_cls,nt_enhancers,original,0.647718,0.484753,0.524617,0.339427,0.684691,0.345264,,,,,,,1,frozen probe
+dnabert2_frozen_cls,nt_enhancers,random,0.561099,0.409183,0.381612,0.275244,0.585448,0.310204,,,,,,,1,frozen probe
+dnabert2_frozen_mean,human_enhancers_cohn,comp_equalized,0.042335,0.010789,0.053635,0.112143,0.134713,0.02257,,,,,,,1,frozen probe
+dnabert2_frozen_mean,human_enhancers_cohn,gc_match,0.408706,0.517806,0.167252,0.274331,0.491057,0.216727,,,,,,,1,frozen probe
+dnabert2_frozen_mean,human_enhancers_cohn,original,0.562994,0.638512,0.333623,0.30993,0.626761,0.316831,,,,,,,1,frozen probe
+dnabert2_frozen_mean,human_enhancers_cohn,random,0.373902,0.430731,0.256115,0.235125,0.432221,0.197096,,,,,,,1,frozen probe
+dnabert2_frozen_mean,nt_enhancers,comp_equalized,0.03009,-0.119394,-0.168357,0.150316,0.128525,-0.021791,,,,,,,1,frozen probe
+dnabert2_frozen_mean,nt_enhancers,gc_match,0.646791,0.535209,0.433726,0.332977,0.695079,0.362102,,,,,,,1,frozen probe
+dnabert2_frozen_mean,nt_enhancers,original,0.783981,0.658728,0.717002,0.368816,0.815044,0.446228,,,,,,,1,frozen probe
+dnabert2_frozen_mean,nt_enhancers,random,0.740329,0.603717,0.680151,0.245134,0.745807,0.500672,,,,,,,1,frozen probe
+hyenadna,drosophila_enhancers_stark,comp_equalized,0.159394,0.044984,0.135497,0.225801,0.300417,0.074615,0.010674,0.02882,0.017916,0.02713,0.01607,0.01925,3,fine-tuned
+hyenadna,drosophila_enhancers_stark,gc_match,0.280446,0.072925,0.25773,0.323771,0.44359,0.11982,0.016317,0.019605,0.026871,0.002179,0.01265,0.011414,3,fine-tuned
+hyenadna,drosophila_enhancers_stark,original,0.30204,0.078901,0.278505,0.333279,0.465231,0.131952,0.011394,0.00953,0.022575,0.005453,0.007132,0.009404,3,fine-tuned
+hyenadna,drosophila_enhancers_stark,random,0.337629,0.135597,0.328525,0.297261,0.47015,0.172889,0.03535,0.070334,0.050173,0.031509,0.013702,0.038913,3,fine-tuned
+hyenadna,human_enhancers_cohn,comp_equalized,0.552421,0.559132,0.533218,0.015221,0.552576,0.537355,0.287128,0.331675,0.240944,0.012792,0.287515,0.277243,3,fine-tuned
+hyenadna,human_enhancers_cohn,gc_match,0.629673,0.665824,0.446905,0.216183,0.652708,0.436525,0.091898,0.140137,0.075394,0.017369,0.077938,0.095227,3,fine-tuned
+hyenadna,human_enhancers_cohn,original,0.764452,0.765223,0.666722,0.255628,0.781504,0.525875,0.025873,0.038118,0.027595,0.007346,0.021931,0.029031,3,fine-tuned
+hyenadna,human_enhancers_cohn,random,0.823983,0.786044,0.796692,0.199552,0.827185,0.627633,0.072744,0.118963,0.055182,0.011489,0.071648,0.060395,3,fine-tuned
+hyenadna,nt_enhancers,comp_equalized,0.165667,-0.031015,0.071447,0.071894,0.178929,0.107036,0.063932,0.111138,0.032743,0.022301,0.063257,0.041078,3,fine-tuned
+hyenadna,nt_enhancers,gc_match,0.286106,0.188881,0.063015,0.097785,0.292549,0.194764,0.01163,0.032714,0.010347,0.010006,0.012094,0.005821,3,fine-tuned
+hyenadna,nt_enhancers,original,0.580109,0.460974,0.406906,0.190995,0.579618,0.388623,0.053501,0.064441,0.081668,0.016845,0.05335,0.038727,3,fine-tuned
+hyenadna,nt_enhancers,random,0.737969,0.659665,0.650658,0.195205,0.738521,0.543315,0.015954,0.022083,0.024561,0.031417,0.016264,0.0243,3,fine-tuned
+hyenadna_frozen_mean,drosophila_enhancers_stark,comp_equalized,0.035465,0.048518,0.016202,0.101093,0.107411,0.006318,,,,,,,1,frozen probe
+hyenadna_frozen_mean,drosophila_enhancers_stark,gc_match,0.181625,0.095409,0.176244,0.13981,0.248373,0.108564,,,,,,,1,frozen probe
+hyenadna_frozen_mean,drosophila_enhancers_stark,original,0.192241,0.145615,0.17824,0.16771,0.277523,0.109812,,,,,,,1,frozen probe
+hyenadna_frozen_mean,drosophila_enhancers_stark,random,0.197264,0.104255,0.191337,0.151332,0.267271,0.115938,,,,,,,1,frozen probe
+hyenadna_frozen_mean,human_enhancers_cohn,comp_equalized,0.033729,0.002073,0.052878,0.042783,0.063525,0.020742,,,,,,,1,frozen probe
+hyenadna_frozen_mean,human_enhancers_cohn,gc_match,0.408167,0.586783,0.169519,0.195737,0.447478,0.251741,,,,,,,1,frozen probe
+hyenadna_frozen_mean,human_enhancers_cohn,original,0.581017,0.695379,0.37908,0.237172,0.610165,0.372994,,,,,,,1,frozen probe
+hyenadna_frozen_mean,human_enhancers_cohn,random,0.433637,0.487832,0.304186,0.184714,0.458927,0.274214,,,,,,,1,frozen probe
+hyenadna_frozen_mean,nt_enhancers,comp_equalized,-0.016083,-0.129157,0.006073,0.027661,0.03722,0.009559,,,,,,,1,frozen probe
+hyenadna_frozen_mean,nt_enhancers,gc_match,0.434052,0.415901,0.155855,0.218425,0.455409,0.236984,,,,,,,1,frozen probe
+hyenadna_frozen_mean,nt_enhancers,original,0.676238,0.596149,0.540536,0.298127,0.694373,0.396245,,,,,,,1,frozen probe
+hyenadna_frozen_mean,nt_enhancers,random,0.590025,0.542588,0.45085,0.223549,0.599263,0.375714,,,,,,,1,frozen probe
+hyenadna_frozen_sep,drosophila_enhancers_stark,comp_equalized,0.080424,0.007838,0.085391,0.080607,0.14487,0.064263,,,,,,,1,frozen probe
+hyenadna_frozen_sep,drosophila_enhancers_stark,gc_match,0.103219,0.008887,0.115606,0.093581,0.16971,0.076129,,,,,,,1,frozen probe
+hyenadna_frozen_sep,drosophila_enhancers_stark,original,0.106502,0.021345,0.099503,0.104086,0.17924,0.075154,,,,,,,1,frozen probe
+hyenadna_frozen_sep,drosophila_enhancers_stark,random,0.075522,0.028605,0.068954,0.087826,0.141336,0.05351,,,,,,,1,frozen probe
+hyenadna_frozen_sep,human_enhancers_cohn,comp_equalized,0.013501,0.01247,0.005389,0.007726,0.015533,0.007808,,,,,,,1,frozen probe
+hyenadna_frozen_sep,human_enhancers_cohn,gc_match,0.370786,0.458408,0.147241,0.122058,0.384421,0.262363,,,,,,,1,frozen probe
+hyenadna_frozen_sep,human_enhancers_cohn,original,0.483578,0.528292,0.26798,0.152512,0.496222,0.34371,,,,,,,1,frozen probe
+hyenadna_frozen_sep,human_enhancers_cohn,random,0.329929,0.36035,0.1761,0.099866,0.338235,0.238369,,,,,,,1,frozen probe
+hyenadna_frozen_sep,nt_enhancers,comp_equalized,0.05925,-0.102039,0.0495,0.074696,0.080601,0.005905,,,,,,,1,frozen probe
+hyenadna_frozen_sep,nt_enhancers,gc_match,0.496335,0.331151,0.272922,0.215436,0.509491,0.294055,,,,,,,1,frozen probe
+hyenadna_frozen_sep,nt_enhancers,original,0.651961,0.495318,0.556766,0.255616,0.661744,0.406128,,,,,,,1,frozen probe
+hyenadna_frozen_sep,nt_enhancers,random,0.524742,0.410996,0.428414,0.141083,0.523798,0.382714,,,,,,,1,frozen probe
+kmer_lgbm,drosophila_enhancers_stark,comp_equalized,0.039247,0.073154,0.017538,0.140844,0.147558,0.006714,,,,,,,1,k-mer
+kmer_lgbm,drosophila_enhancers_stark,gc_match,0.370456,0.212189,0.38159,0.212712,0.450533,0.23782,,,,,,,1,k-mer
+kmer_lgbm,drosophila_enhancers_stark,original,0.362992,0.21506,0.366849,0.222963,0.451769,0.228806,,,,,,,1,k-mer
+kmer_lgbm,drosophila_enhancers_stark,random,0.390194,0.237984,0.396224,0.211154,0.466081,0.254926,,,,,,,1,k-mer
+kmer_lgbm,human_enhancers_cohn,comp_equalized,0.007315,0.008112,0.019888,0.028927,0.039192,0.010265,,,,,,,1,k-mer
+kmer_lgbm,human_enhancers_cohn,gc_match,0.56565,0.621988,0.320393,0.234291,0.600689,0.366397,,,,,,,1,k-mer
+kmer_lgbm,human_enhancers_cohn,original,0.730626,0.745666,0.583711,0.266376,0.754542,0.488167,,,,,,,1,k-mer
+kmer_lgbm,human_enhancers_cohn,random,0.641305,0.609896,0.535409,0.209381,0.654328,0.444947,,,,,,,1,k-mer
+kmer_lgbm,nt_enhancers,comp_equalized,0.132106,-0.087782,0.038516,0.058859,0.166622,0.107763,,,,,,,1,k-mer
+kmer_lgbm,nt_enhancers,gc_match,0.556369,0.470576,0.253639,0.302061,0.599771,0.29771,,,,,,,1,k-mer
+kmer_lgbm,nt_enhancers,original,0.791728,0.663592,0.743657,0.34693,0.81319,0.466259,,,,,,,1,k-mer
+kmer_lgbm,nt_enhancers,random,0.735512,0.607369,0.683787,0.215475,0.73731,0.521835,,,,,,,1,k-mer

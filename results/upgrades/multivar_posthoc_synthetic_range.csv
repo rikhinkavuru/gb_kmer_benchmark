@@ -1,0 +1,16 @@
+quantity,value,note
+real_S11_disc_range,"[0.5449,0.7513]",
+synthetic_n_in_range,57,"of 135; motifs: TBP 22, MYC 20, SP1 15; seeds 5 (points clustered by motif and seed)"
+synthetic_in_range_spearman,0.9360233349538162,p=1.3e-26
+synthetic_in_range_ols_R2,0.887773618470472,
+synthetic_in_range_resid_sd,0.0418826387341585,"OLS residual SD, df n-2"
+real_S11_ols_R2,0.6059865595318592,
+real_S11_resid_sd,0.1433166387100999,"OLS residual SD, df n-2"
+resid_sd_ratio_real_over_synthetic,3.4218626868228865,
+synthetic_n_train_n_test,[1600] / [400],every synthetic point
+real_S11_n_train_range,"[5184,231348]",
+level_offset_mean,0.4439530957922504,real MCC minus pooled synthetic line (as A9/P2)
+spearman_level_offset_vs_comp_mcc,0.8272727272727273,"p=0.00168, n=11"
+spearman_level_offset_vs_gc_mean,0.7107079942220003,"p=0.0142, n=11"
+spearman_level_offset_vs_ntrain_log,0.2277910237891026,"p=0.501, n=11"
+spearman_level_offset_vs_len_log,-0.08276408817690652,"p=0.809, n=11"
